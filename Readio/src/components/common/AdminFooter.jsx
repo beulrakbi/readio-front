@@ -1,6 +1,6 @@
-import FooterCSS from './Footer.module.css'
+import FooterCSS from './AdminFooter.module.css';
 
-function Footer () {
+function AdminFooter () {
     return (
         <div className={FooterCSS.footerDiv}>
             <h1 style={{color: 'rgb(97,97,97)',fontWeight: '900'}}>READIO</h1>

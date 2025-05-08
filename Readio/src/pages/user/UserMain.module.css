@@ -5,7 +5,7 @@
 
 .mainImgBox {
     width:100vw;
-    height:650px;
+    height:500px;
     overflow: hidden;
 }
 
@@ -17,6 +17,11 @@
 }
 
 .backgroundTexture{
+
+    justify-content: center;
+    /* align-items: center; */
+    display: flex;
+
     width:100vw;
     height:100vw;
     background-image: url('../../assets/texture.png');
