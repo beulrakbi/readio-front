@@ -1,0 +1,862 @@
+{
+    "kind": "youtube#searchListResponse",
+    "etag": "mxxTWE4JRWhHFt_TQoqKTTDri7I",
+    "nextPageToken": "CBkQAA",
+    "regionCode": "KR",
+    "pageInfo": {
+      "totalResults": 1000000,
+      "resultsPerPage": 25
+    },
+    "items": [
+      {
+        "kind": "youtube#searchResult",
+        "etag": "VrTeWy3IEQy6_oqeIz8JpltyKPQ",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "xRo27Q3mvto"
+        },
+        "snippet": {
+          "publishedAt": "2025-04-24T13:01:47Z",
+          "channelId": "UC9Hi4tqF70iHYVPytN6WPoQ",
+          "title": "몰래 지켜보는 집사를 발견한 고양이 반응 #동물 #고양이",
+          "description": "몰래 지켜보는 집사를 발견한 고양이 반응 #유머 #재밌는동영상 #shorts #해외반응 #귀여운 #동물 #힐링 #브이로그 #황당사건 #황당 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/xRo27Q3mvto/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/xRo27Q3mvto/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/xRo27Q3mvto/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "1분라쿤맨",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-04-24T13:01:47Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "0nPCEShN0ZYCMVRnYAlU7JpziOw",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "xOkhqESCXAA"
+        },
+        "snippet": {
+          "publishedAt": "2025-04-27T13:01:39Z",
+          "channelId": "UC9Hi4tqF70iHYVPytN6WPoQ",
+          "title": "반응이 좀 많이 느린 고양이 #동물 #고양이",
+          "description": "반응이 좀 많이 느린 고양이 #유머 #재밌는동영상 #shorts #해외반응 #귀여운 #동물 #힐링 #브이로그 #황당사건 #황당 #신기한 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/xOkhqESCXAA/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/xOkhqESCXAA/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/xOkhqESCXAA/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "1분라쿤맨",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-04-27T13:01:39Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "9Rvu_l1XMGDb2qks8eoEicD6XhE",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "6ldNn3p2ZMo"
+        },
+        "snippet": {
+          "publishedAt": "2025-04-02T07:56:47Z",
+          "channelId": "UCRurOHA5yFXHDSfDO_M94nQ",
+          "title": "고양이만 할 수 있는 기술",
+          "description": "고양이가 가진 사기적인 능력에 대해 알아보는 동영상입니다. #고양이 #shorts.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/6ldNn3p2ZMo/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/6ldNn3p2ZMo/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/6ldNn3p2ZMo/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "올스토리",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-04-02T07:56:47Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "nr9NJhWot-lD4BTmrSbKwN2KM6o",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "hsXHn7f5wTE"
+        },
+        "snippet": {
+          "publishedAt": "2024-07-23T06:09:00Z",
+          "channelId": "UCFOBVsJZKDzVMqchsRcubfQ",
+          "title": "망고양이",
+          "description": "shorts.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/hsXHn7f5wTE/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/hsXHn7f5wTE/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/hsXHn7f5wTE/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "짧플러스",
+          "liveBroadcastContent": "none",
+          "publishTime": "2024-07-23T06:09:00Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "R3Rpp1-jQGULq9P7k_5qQqqLgv4",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "Je9uaUOaxso"
+        },
+        "snippet": {
+          "publishedAt": "2024-11-13T08:30:06Z",
+          "channelId": "UCNuV0xlRxpCGUjc0RYUg_iA",
+          "title": "❤️900만❤️자신의 새끼를 맡기는 어미 고양이",
+          "description": "shorts #동물 #힐링동물 #고양이 출처: 도우인 @两只圆圆猪 (중국)",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/Je9uaUOaxso/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/Je9uaUOaxso/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/Je9uaUOaxso/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "킥맨",
+          "liveBroadcastContent": "none",
+          "publishTime": "2024-11-13T08:30:06Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "kvMlpGQTp7z-UkrVszrfCflU8xM",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "zMRxx9Y9mLo"
+        },
+        "snippet": {
+          "publishedAt": "2025-04-03T13:01:34Z",
+          "channelId": "UCiwOpeJkSnRLbBGuI0AcCiQ",
+          "title": "고양이에게 고양이 가면을 씌웠더니",
+          "description": "고양이 #cat #pets.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/zMRxx9Y9mLo/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/zMRxx9Y9mLo/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/zMRxx9Y9mLo/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "Love 동물의 짤",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-04-03T13:01:34Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "BoyohZ2h2IBxEezQJWFsHrCJLZs",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "_BT-1XVmYU4"
+        },
+        "snippet": {
+          "publishedAt": "2025-04-08T12:00:16Z",
+          "channelId": "UChBRTHSyiah6poSscWqptBg",
+          "title": "큰고양이가 댕청해지는 순간 #동물 #호랑이",
+          "description": "큰고양이가 댕청해지는 순간 #힐링 #유머 #재밌는동영상 #shorts #shortsvideo #해외반응 #귀여운 #동물 #브이로그 #행복 #지능 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/_BT-1XVmYU4/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/_BT-1XVmYU4/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/_BT-1XVmYU4/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "숏여우",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-04-08T12:00:16Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "En210vu6SqG6JBnx24CoVQ8jUQ4",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "hTfrSJ_iCQo"
+        },
+        "snippet": {
+          "publishedAt": "2025-03-20T09:01:00Z",
+          "channelId": "UCxi1nZTIB7Tl0SmvHwAlBHw",
+          "title": "새끼 과보호하는 엄마 고양이",
+          "description": "고양이 #cat #육아.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/hTfrSJ_iCQo/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/hTfrSJ_iCQo/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/hTfrSJ_iCQo/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "신기한 비디오",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-03-20T09:01:00Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "wcmH_aML3Zxh9ZD3clsuGZuTU48",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "hqJvxe6SDzg"
+        },
+        "snippet": {
+          "publishedAt": "2024-06-13T10:00:46Z",
+          "channelId": "UCCEAcIh4u-3Bj1CG_VMQdaA",
+          "title": "일회용 고양이 물침대",
+          "description": "동물 #animals #고양이 #cat #냥이 #집사 #물침대 #고양이장난감.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/hqJvxe6SDzg/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/hqJvxe6SDzg/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/hqJvxe6SDzg/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "애니멀ZIP",
+          "liveBroadcastContent": "none",
+          "publishTime": "2024-06-13T10:00:46Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "9Ad5sJwFlYzMj899BziVdd3kWAg",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "S0Ho1Jx8S7Y"
+        },
+        "snippet": {
+          "publishedAt": "2025-01-31T06:58:20Z",
+          "channelId": "UCxN2xLVEEPZHVSBSzF6JH5A",
+          "title": "고양이가 모여서 무서운짓을",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/S0Ho1Jx8S7Y/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/S0Ho1Jx8S7Y/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/S0Ho1Jx8S7Y/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "댕기냥",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-01-31T06:58:20Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "l8xbeqhh_ID3EPINrLcEAbKKmgE",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "sm7s06YOQOA"
+        },
+        "snippet": {
+          "publishedAt": "2024-11-22T12:50:00Z",
+          "channelId": "UC-L3U9w8FigpReGfYGytvdw",
+          "title": "아기 냥이의 귀를 깨물자.. 녀석이 보인 반응",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/sm7s06YOQOA/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/sm7s06YOQOA/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/sm7s06YOQOA/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "개블리",
+          "liveBroadcastContent": "none",
+          "publishTime": "2024-11-22T12:50:00Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "cQkGdjSBXYxAG8o-Ijr5UCvl70E",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "oBUuJNk_rPg"
+        },
+        "snippet": {
+          "publishedAt": "2025-03-29T08:00:42Z",
+          "channelId": "UCh9NbJ01ridVmWmJQEMA0-g",
+          "title": "고양이 발바닥을 만지면 영상이 끝납니다.",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/oBUuJNk_rPg/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/oBUuJNk_rPg/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/oBUuJNk_rPg/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "치푸동생",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-03-29T08:00:42Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "FrrLHB_oCr_HOvPbSiGVjFt0yK8",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "NDEOYv47dYM"
+        },
+        "snippet": {
+          "publishedAt": "2024-12-23T08:00:24Z",
+          "channelId": "UC9e0vn-wrYw0faqn7ZpKtHQ",
+          "title": "집사들이 무조건 키우고 싶은 고양이",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/NDEOYv47dYM/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/NDEOYv47dYM/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/NDEOYv47dYM/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "동물극장",
+          "liveBroadcastContent": "none",
+          "publishTime": "2024-12-23T08:00:24Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "AcaAsVuYeoUnstqeBuvR5y25K0I",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "c_jB3oNO-W4"
+        },
+        "snippet": {
+          "publishedAt": "2024-11-15T08:30:14Z",
+          "channelId": "UCNuV0xlRxpCGUjc0RYUg_iA",
+          "title": "슬픔에 빠진 고양이",
+          "description": "shorts #동물 #힐링동물 #고양이.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/c_jB3oNO-W4/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/c_jB3oNO-W4/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/c_jB3oNO-W4/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "킥맨",
+          "liveBroadcastContent": "none",
+          "publishTime": "2024-11-15T08:30:14Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "xs_kOSaUWCUSSZvEt0uLniGSCAs",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "qx-mXeu2Ui4"
+        },
+        "snippet": {
+          "publishedAt": "2025-05-06T13:05:26Z",
+          "channelId": "UC9Hi4tqF70iHYVPytN6WPoQ",
+          "title": "소리가 조금 특이한 고양이들 #동물 #고양이",
+          "description": "소리가 조금 특이한 고양이들 #유머 #재밌는동영상 #shorts #해외반응 #귀여운 #동물 #힐링 #브이로그 #황당사건 #황당 #신기한 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/qx-mXeu2Ui4/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/qx-mXeu2Ui4/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/qx-mXeu2Ui4/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "1분라쿤맨",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-05-06T13:05:26Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "dHsSsxXZpadknO8NZlhMKCPyO0U",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "YzMULxa-y18"
+        },
+        "snippet": {
+          "publishedAt": "2025-04-30T12:01:08Z",
+          "channelId": "UChBRTHSyiah6poSscWqptBg",
+          "title": "얼굴로 말하는 고양이들 #동물 #고양이",
+          "description": "얼굴로 말하는 고양이들 #힐링 #유머 #재밌는동영상 #shorts #shortsvideo #해외반응 #귀여운 #동물 #브이로그 #행복 #지능 #장난 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/YzMULxa-y18/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/YzMULxa-y18/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/YzMULxa-y18/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "숏여우",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-04-30T12:01:08Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "JoYNzfbc4X33M9flpfzFvRhTe6M",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "ZhLNU_0FsZU"
+        },
+        "snippet": {
+          "publishedAt": "2024-11-04T08:00:26Z",
+          "channelId": "UCRWxH4fGhuNsh0klWnDbt0w",
+          "title": "가성비 좋은 고양이",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/ZhLNU_0FsZU/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/ZhLNU_0FsZU/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/ZhLNU_0FsZU/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "언더월드 UNDER WORLD",
+          "liveBroadcastContent": "none",
+          "publishTime": "2024-11-04T08:00:26Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "gsWsURL5YolTY-TCpsNIu0O5z6U",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "vU3hWuwiphg"
+        },
+        "snippet": {
+          "publishedAt": "2025-04-27T03:01:00Z",
+          "channelId": "UCRTwx67LEjux_k1NzpxYpWQ",
+          "title": "0원으로 만든 택배상자 스크레처, 고양이들 난리남 😂👍 #동물 #고양이",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/vU3hWuwiphg/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/vU3hWuwiphg/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/vU3hWuwiphg/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "으냥냥",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-04-27T03:01:00Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "YQgbh-zAO8rX_SAE8EnMRkd1kcA",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "b_eP3oR2h9o"
+        },
+        "snippet": {
+          "publishedAt": "2025-05-01T12:00:56Z",
+          "channelId": "UChBRTHSyiah6poSscWqptBg",
+          "title": "일주일 만에 집사를 만난 고양이 반응 #동물 #고양이 #서벌 #사바나",
+          "description": "일주일 만에 집사를 만난 고양이 반응. 서벌캣. 사바나캣. #힐링 #유머 #재밌는동영상 #shorts #shortsvideo #해외반응 #귀여운 #동물 ...",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/b_eP3oR2h9o/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/b_eP3oR2h9o/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/b_eP3oR2h9o/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "숏여우",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-05-01T12:00:56Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "tqeBBaFqfbKzwteTdfNZjhwDD6I",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "S94FoiHxqMM"
+        },
+        "snippet": {
+          "publishedAt": "2025-04-30T03:40:21Z",
+          "channelId": "UCRTwx67LEjux_k1NzpxYpWQ",
+          "title": "드디어 고양이랑 텐션이 맞는 집사 등장😂 #동물 #고양이",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/S94FoiHxqMM/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/S94FoiHxqMM/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/S94FoiHxqMM/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "으냥냥",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-04-30T03:40:21Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "vbz60K0_MBa9SoF7A22RBxRUUr4",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "YWjsMskX4W4"
+        },
+        "snippet": {
+          "publishedAt": "2025-05-01T12:04:00Z",
+          "channelId": "UCr4CatqympoNVEzGirUSgfg",
+          "title": "금기의 땅을 밟은 고양이는 결국…",
+          "description": "shorts #고양이 #cat.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/YWjsMskX4W4/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/YWjsMskX4W4/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/YWjsMskX4W4/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "톡톡 동물 지식",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-05-01T12:04:00Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "q9cC4UHOHSbfnHioAY_cMD_AQ1Q",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "OtvZx0kSWL0"
+        },
+        "snippet": {
+          "publishedAt": "2025-05-07T12:53:50Z",
+          "channelId": "UCRTwx67LEjux_k1NzpxYpWQ",
+          "title": "게임에 푹빠진 주인앞에서 시위하는 고양이 #동물 #고양이",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/OtvZx0kSWL0/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/OtvZx0kSWL0/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/OtvZx0kSWL0/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "으냥냥",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-05-07T12:53:50Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "sdgigEK1Ii0njBF4sntiFEAzUFQ",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "I9PgytovmIE"
+        },
+        "snippet": {
+          "publishedAt": "2025-05-02T12:02:45Z",
+          "channelId": "UCsR2bJpWMgO5dQQN2EPpl_A",
+          "title": "대역 배우와 사랑에 빠진 고양이 #고양이 #cat #고양이영상  #캣드라마 #고양이사랑 #고양이일상",
+          "description": "아내 고양이가 잠시 한 눈을 판 사이, 남편 고양이는 그녀와 똑 닮은 레고에 빠져버렸습니다.. 눈치 채버린 아내 고양이의 반응은 과연?",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/I9PgytovmIE/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/I9PgytovmIE/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/I9PgytovmIE/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "소곤냥냥",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-05-02T12:02:45Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "oq8ycGEebJjDLOv3_W6w0LqOit4",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "QPARDRZA4VQ"
+        },
+        "snippet": {
+          "publishedAt": "2024-10-11T09:00:32Z",
+          "channelId": "UCEK_PAgyI7zWAqFuDK4rZ8g",
+          "title": "고양이에게 간택 받는 방법",
+          "description": "고양이에게 간택 받는 방법.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/QPARDRZA4VQ/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/QPARDRZA4VQ/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/QPARDRZA4VQ/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "애니멀 팜 Animal Farm",
+          "liveBroadcastContent": "none",
+          "publishTime": "2024-10-11T09:00:32Z"
+        }
+      },
+      {
+        "kind": "youtube#searchResult",
+        "etag": "MljNJa6YfcNwum5GuNRd_9ESKyg",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "IQ4ILvNaCq4"
+        },
+        "snippet": {
+          "publishedAt": "2025-05-05T02:51:25Z",
+          "channelId": "UC3yZh2MOR_vhXpVk1Xzn1Vw",
+          "title": "위험한 세상 속 아기냥이를 끝까지 믿어주는  어미냥이 #고양이 #cat",
+          "description": "",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/IQ4ILvNaCq4/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/IQ4ILvNaCq4/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/IQ4ILvNaCq4/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "설명왕리뷰어",
+          "liveBroadcastContent": "none",
+          "publishTime": "2025-05-05T02:51:25Z"
+        }
+      }
+    ]
+  }

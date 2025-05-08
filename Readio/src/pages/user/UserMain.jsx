@@ -1,4 +1,5 @@
 import bgimg from '../../assets/bgimg.png';
+import VideoList from '../../components/video/VideoLIst';
 import UserMainCSS from './UserMain.module.css';
 
 function UserMain()
@@ -11,7 +12,7 @@ function UserMain()
                 </div>
             </div>
             <div className={UserMainCSS.backgroundTexture}>
-                test
+                <VideoList />
             </div>
             
         </>
