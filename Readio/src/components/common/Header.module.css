@@ -1,0 +1,85 @@
+
+html, body, #root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.headerDiv {
+    width: 100%;
+    height: 60px;
+    background-color: rgb(77,84,67);
+    justify-content: space-between; /* 좌-우 정렬 */
+    align-items: center;
+    display: flex;
+    position: relative;
+    margin: 0;
+}
+
+.headerNav {
+    border-style: none;
+    background-color: transparent;
+    text-align: left;
+}
+
+.headerLogo {
+    border-style: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 43%;
+}
+.headerSearchDiv {
+    margin-left: 16%;
+    width: 100%;
+    display: flex;
+}
+
+.headerSearch {
+    text-align: right;
+    padding: 0;
+    margin-right: 0%;
+    background-color: transparent;
+    border-width: 0 0 2px;
+    border-color: #F6EEB6;
+    outline: none;
+    color: #F6EEB6;
+}
+.headerSearchOption {
+    outline: none;
+    background-color: transparent;
+    border-style: none;
+    color: #F6EEB6;
+}
+
+.headerAlarm {
+    border-style: none;
+    background-color: transparent;
+    margin: 0%;
+    display: flex;
+}
+
+.headerLogin {
+    width: 100%;
+    display: flex;
+}
+
+.headerLoginBt {
+    border-style: none;
+    background-color: #d9d9d93e;
+    color: #F6EEB6;
+    height: 35px;
+    width: 70px;
+    border-radius: 5px;
+}
+
+.headerlibraryBt {
+    border-style: none;
+    background-color: #af4c3fa3;
+    color: #F6EEB6;
+    height: 35px;
+    width: 70px;
+    border-radius: 5px;
+}

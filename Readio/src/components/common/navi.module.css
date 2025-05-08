@@ -1,0 +1,149 @@
+
+.navi{
+    position: fixed;
+    top: 60px;
+    left: 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    z-index: 999;
+}
+
+.navi.open {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+.naviContainer {
+
+    width:500px;
+    height:930px;
+    background-color: #AD9286;
+    color: #F6EEB6;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    padding:30px;
+    
+    /* display: flex; */
+    /* flex-direction: column; */
+    
+}
+
+.naviLogo{
+    margin-top:100px;
+    margin-bottom:0px;
+}
+
+.naviLogoFont {
+    font-size: 45px;
+    font-family: 'Javanese Text';
+    line-height: 0.8;
+    margin: 0;
+    padding: 0;
+    font-weight: 100;
+    display: block;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+  }
+  
+.naviLine {
+    margin:0px;
+    width:140px;
+    border:1px solid #F6EEB6;
+}
+
+.naviLink {
+    margin-top:60px;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.naviLinkText {
+    padding-inline-start:0px;
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #F6EEB6;
+    text-decoration: none;
+}
+
+.naviLinkText:hover {
+    padding-inline-start:0px;
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #F6EEB6;
+    text-decoration: underline;
+}
+
+.naviBannerContainer {
+    margin-top:20px;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+}
+
+.naviBanner{
+    width:385px;
+    height:130px;
+    border-radius: 10px;
+    background-color: aqua;
+}
+
+.naviBannerText {
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    padding-inline-start:0px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #F6EEB6;
+}
+
+.naviButtonBox {
+    display: flex;
+}
+.naviButton1 {
+    margin-top: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width:8px;
+    height:8px;
+    border-radius: 50%;
+    background-color: #F6EEB6;
+    cursor: pointer;
+    padding: initial;
+    border: initial;
+    appearance: none;
+
+}
+
+.naviButton1:checked
+{
+    background-color: #AF4C3F;
+    margin-top: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    width:8px;
+    height:8px;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: initial;
+    border: initial;
+    appearance: none;
+}

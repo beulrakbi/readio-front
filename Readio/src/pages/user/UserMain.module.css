@@ -1,0 +1,24 @@
+.main{
+    width:100%;
+    height:100%;
+}
+
+.mainImgBox {
+    width:100vw;
+    height:650px;
+    overflow: hidden;
+}
+
+.mainImg{
+    width: 100vw;      /* 뷰포트 너비 100% */
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.backgroundTexture{
+    width:100vw;
+    height:100vw;
+    background-image: url('../../assets/texture.png');
+    background-repeat: repeat;  /* 이미지를 반복 */  
+}
