@@ -1,4 +1,5 @@
 import bgimg from '../../assets/bgimg.png';
+import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoLIst';
 import UserMainCSS from './UserMain.module.css';
 
@@ -9,7 +10,10 @@ function UserMain()
             <div className={UserMainCSS.main}>
                 <div className={UserMainCSS.mainImgBox}>
                     <div className={UserMainCSS.mainSearch}>
-                    <input className={UserMainCSS.mainSearchInput} type="text" name="search"/>
+                        <div className={UserMainCSS.buttonBox}>
+                            <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
+                            <button className={UserMainCSS.buttonNone}><img src={search}/></button>
+                        </div>
                         <div className={UserMainCSS.buttonBox}>
                             <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
                             <button className={UserMainCSS.mainKeywordButton}>#키워드</button>

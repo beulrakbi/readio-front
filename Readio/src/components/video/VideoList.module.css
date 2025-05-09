@@ -36,7 +36,7 @@
 
 .video {
     border-radius: 10px;
-    margin-top: 5px;
+    margin: 5px;
 }
 
 .videoFont {
@@ -55,9 +55,9 @@
 .scrollButton {
     all: unset;
     margin:20px;
+    cursor: pointer;
 }
 
 .scrollButton :hover {
-    /* filter: hue-rotate(200deg); */
     filter: brightness(2.0);
 }
