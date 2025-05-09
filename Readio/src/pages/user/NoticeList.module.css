@@ -91,13 +91,13 @@ body {
     text-align: right;    
 }
 .textbox{
-    border:2px solid gray;
-    height: 21px;
+    border:1px solid gray;
+    height: 22px;
 }
 .btn{
-    height: 27px;
+    height: 100%;
     background-color: #808467;
-    border:2px solid gray;
+    border:1px solid gray;
     vertical-align: middle;
 }
 .titlecolor{
