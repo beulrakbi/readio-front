@@ -19,7 +19,7 @@ function UserNav({isOpen})
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>피드</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>소식</NavLink>
                         <ul style={{fontSize:'20px', paddingInlineStart:'0px'}}>고객센터
-                            <li className={UserNavCSS.naviLinkText}><NavLink to="/" className={UserNavCSS.naviLinkText}>공지사항</NavLink></li>
+                            <li className={UserNavCSS.naviLinkText}><NavLink to="/notice" className={UserNavCSS.naviLinkText}>공지사항</NavLink></li>
                             <li className={UserNavCSS.naviLinkText}><NavLink to="/" className={UserNavCSS.naviLinkText} >FAQ</NavLink></li>
                             <li className={UserNavCSS.naviLinkText}><NavLink to="/" className={UserNavCSS.naviLinkText}>Q&A</NavLink></li>
                         </ul>
