@@ -1,5 +1,4 @@
 import styles from './NoticeDetail.module.css';
-
 function NoticeDetail() {
     return (
         <>

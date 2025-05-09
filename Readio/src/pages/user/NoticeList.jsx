@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import styles from './NoticeList.module.css'; // .module.css로 변경
+import styles from './NoticeList.module.css';
 
 function NoticeList() {
   return (
@@ -7,11 +7,6 @@ function NoticeList() {
       <div className={styles.bigContainer}>
         <div className={styles.smallHeader}>
           <span className={styles.smallHeaderElement}>공지사항 게시판</span>
-          <div>
-            <button className={styles.writing}>글쓰기</button>
-            <span className={styles.slash}>/</span>
-            <button className={styles.writing}>내가 쓴 글</button>
-          </div>
         </div>
         <div className={styles.line}></div>
         <ul className={styles.board}>
