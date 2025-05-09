@@ -4,7 +4,6 @@ import UserNavCSS from './navi.module.css';
 
 function UserNav({isOpen})
 {
-    // if (!isOpen) return null;
 
     return (
         <>
@@ -29,7 +28,7 @@ function UserNav({isOpen})
                         <p className={UserNavCSS.naviBannerText}>오늘의 소식</p>
                         <NavLink to="/">
                             <div className={UserNavCSS.naviBanner}>
-                                <img src/>
+                                <img/>
                             </div>
                         </NavLink>
                         <div className={UserNavCSS.naviButtonBox}>

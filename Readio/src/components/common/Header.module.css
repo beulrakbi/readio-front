@@ -73,6 +73,7 @@ html, body, #root {
     height: 35px;
     width: 70px;
     border-radius: 5px;
+    margin-left: 10px;
 }
 
 .headerlibraryBt {

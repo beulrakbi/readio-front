@@ -1,6 +1,6 @@
 
 .navi{
-    position: fixed;
+    position: absolute;
     top: 60px;
     left: 0;
     transform: translateX(-100%);
@@ -16,7 +16,7 @@
   
 .naviContainer {
 
-    width:500px;
+    width:350px;
     height:930px;
     background-color: #AD9286;
     color: #F6EEB6;
@@ -24,10 +24,7 @@
     justify-content: center;
     justify-items: center;
     padding:30px;
-    
-    /* display: flex; */
-    /* flex-direction: column; */
-    
+   
 }
 
 .naviLogo{
