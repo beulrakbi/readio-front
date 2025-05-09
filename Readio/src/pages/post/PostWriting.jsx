@@ -36,6 +36,12 @@ function PostWriting() {
                 className={PostWritingCSS.postContent}
             >
             </textarea>
+            {/* {selectedBook && (
+            <div style={{ marginTop: "20px" }}>
+                <h3>📚 선택한 책</h3>
+            <BookInfo book={selectedBook} />
+            </div>
+            )} */}
         </div>
     )
 }
