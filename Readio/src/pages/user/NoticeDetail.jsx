@@ -20,28 +20,44 @@ function NoticeDetail() {
                 <div className={styles.line2}></div>
                 <div className={styles.contentBox}>
                     <p>안녕하시렵니까?</p>
-                    <p>저는 황재용입니다.</p>
-                    <p>일단은 지금 테스트중입니다.</p>
-                    <p>아오 귀찮다?</p>
-                    <p>안녕하시렵니까?</p>
-                    <p>저는 황재용입니다.</p>
-                    <p>일단은 지금 테스트중입니다.</p>
-                    <p>아오 귀찮다?</p>
-                    <p>안녕하시렵니까?</p>
-                    <p>저는 황재용입니다.</p>
-                    <p>일단은 지금 테스트중입니다.</p>
-                    <p>아오 귀찮다?</p>
-                    <p>안녕하시렵니까?</p>
-                    <p>저는 황재용입니다.</p>
-                    <p>일단은 지금 테스트중입니다.</p>
-                    <p>아오 귀찮다?</p>
-                    <p>안녕하시렵니까?</p>
-                    <p>저는 황재용입니다.</p>
-                    <p>일단은 지금 테스트중입니다.</p>
-                    <p>아오 귀찮다?</p>
                 </div>
                 <div className={styles.copyLink}>
-                    <button>링크 복사</button>
+                    <button className={styles.btn}>링크 복사</button>
+                </div>
+                <div className={styles.line2}></div>
+                <div className={styles.listBox}>
+                    <div>
+                        <p>공지사항 게시판</p>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>
+                                <span>[단기]</span>
+                                <span>공지사항 테스트중입니다.1</span>
+                                <span>admin1</span>
+                                <span>2025.04.25</span>
+                            </li>
+                            <li>
+                                <span>[단기]</span>
+                                <span>공지사항 테스트중입니다.2/</span>
+                                <span>admin1</span>
+                                <span>2025.04.25</span>
+                            </li>
+                            <li>
+                                <span>[단기]</span>
+                                <span>공지사항 테스트중입니다.3</span>
+                                <span>admin1</span>
+                                <span>2025.04.25</span>
+                            </li>
+                            <li>
+                                <span>[긴급]</span>
+                                <span>공지사항 테스트중입니다.4</span>
+                                <span>admin1</span>
+                                <span>2025.04.25</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>1 2 3 4 5</div>
                 </div>
             </div>
         </>

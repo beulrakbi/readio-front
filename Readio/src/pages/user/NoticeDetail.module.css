@@ -59,3 +59,12 @@ body {
     display: flex;
     justify-content: flex-end;
 }
+.btn{
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    color: #676767;
+}
+.listBox{
+    
+}
