@@ -18,7 +18,7 @@
 
 .backgroundTexture{
     width:100vw;
-    height:100vw;
+    height: auto;
     background-image: url('../../assets/texture.png');
     background-repeat: repeat;  /* 이미지를 반복 */  
 }
