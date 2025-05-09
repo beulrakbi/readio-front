@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import styles from './NoticeList.module.css'; // .module.css로 변경
 
 function NoticeList() {
@@ -26,40 +27,7 @@ function NoticeList() {
           <li className={styles.postLi}>
             <span>0001</span>
             <div className={styles.postContext}>
-              <span>공지사항 테스트중입니다.1</span>
-            </div>
-            <div className={styles.postLi2}>
-              <span>admin1</span>
-              <span>2025/05/03</span>
-              <span>1</span>
-            </div>
-          </li>
-          <li className={styles.postLi}>
-            <span>0001</span>
-            <div className={styles.postContext}>
-              <span>공지사항 테스트중입니다.1</span>
-            </div>
-            <div className={styles.postLi2}>
-              <span>admin1</span>
-              <span>2025/05/03</span>
-              <span>1</span>
-            </div>
-          </li>
-          <li className={styles.postLi}>
-            <span>0001</span>
-            <div className={styles.postContext}>
-              <span>공지사항 테스트중입니다.1</span>
-            </div>
-            <div className={styles.postLi2}>
-              <span>admin1</span>
-              <span>2025/05/03</span>
-              <span>1</span>
-            </div>
-          </li>
-          <li className={styles.postLi}>
-            <span>0001</span>
-            <div className={styles.postContext}>
-              <span>공지사항 테스트중입니다.1</span>
+              <span><NavLink to="/notice/detail" className={styles.titlecolor}>공지사항 테스트중입니다.1</NavLink></span>
             </div>
             <div className={styles.postLi2}>
               <span>admin1</span>
@@ -81,5 +49,4 @@ function NoticeList() {
     </>
   );
 }
-// 아
 export default NoticeList;
