@@ -3,7 +3,6 @@ import styles from './NoticeList.module.css'; // .module.css로 변경
 function NoticeList() {
   return (
     <>
-    <div className={styles.backgroundTexture}>
       <div className={styles.bigContainer}>
         <div className={styles.smallHeader}>
           <span className={styles.smallHeaderElement}>공지사항 게시판</span>
@@ -79,7 +78,6 @@ function NoticeList() {
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

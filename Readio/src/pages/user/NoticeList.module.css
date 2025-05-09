@@ -1,8 +1,8 @@
-.backgroundTexture{
-    width:100vw;
-    height:100vw;
+body {
     background-image: url('../../assets/texture.png');
-    background-repeat: repeat;  /* 이미지를 반복 */  
+    background-repeat: repeat;
+    background-size: auto;
+    font-family: 'Pretendard Variable', sans-serif;
 }
 .bigContainer{
     padding-top: 4%;
