@@ -1,4 +1,4 @@
-import logo from "../../assets/img/userFooterLogo.png";
+import logo from "../../assets/userFooterLogo.png";
 import styles from '../common/UserFooter.module.css';
 
 
