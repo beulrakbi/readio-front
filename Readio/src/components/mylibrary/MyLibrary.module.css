@@ -6,8 +6,10 @@ body {
     background-size: auto;
     font-family: 'Pretendard Variable', sans-serif;
 }
-:global(body) {
-    font-family: 'Pretendard Variable', sans-serif;
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /*ProfileSection*/
@@ -134,36 +136,64 @@ body {
 
 /*CalendarSection*/
 
-.calendarGrid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    margin-top: 30px;
-}
-
-.dayHeader {
-    font-weight: bold;
-    text-align: center;
-    background-color: #F6EEB6;
-    padding: 15px 0;
-    /*border-radius: 6px;*/
-    color: #AF4C3F;
-}
-
 .dayCell {
     height: 50px;
     text-align: center;
     line-height: 50px;
     font-size: 15px;
-    color: #676767;
+    /*color: #676767;*/
+    color: black;
     border-bottom: 1px solid #F6EEB6;
 }
-.dayHeader:first-child {
-    border-top-left-radius: 10px;
+.calendarHeaderRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #F6EEB6;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.dayHeader:last-child {
-    border-top-right-radius: 10px;
+.dayHeader {
+    text-align: center;
+    font-weight: bold;
+    color: #AF4C3F;
+    padding: 15px 0;
 }
+
+.calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+/*ReportSection*/
+.reportBox {
+    margin: 30px 150px 0 150px;
+
+}
+
+.reportHeadline {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #222;
+    text-align: center;
+    text-shadow: 1px 1px 0px #e1dfc2;
+}
+
+.reportList {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    line-height: 2;
+}
+
+.reportNote {
+    color: #aa3b2f;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
 /*통일 내용 제목, 상세(전체보기, 리포트 상세)*/
 .section{
     margin: 30px 150px 0 150px;
