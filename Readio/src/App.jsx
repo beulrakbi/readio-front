@@ -1,9 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from './layouts/Layout';
 import UserMain from "./pages/user/UserMain";
-import NoticeList from "./pages/user/NoticeList";
-import NoticeDetail from "./pages/user/NoticeDetail";
-
+import PostWriting from "./pages/post/PostWriting";
 
 function App() {
 
@@ -13,9 +11,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout/>}>
           <Route index element={<UserMain/>}/>
-          <Route path="/notice" element={<NoticeList/>}/>
-          <Route path="/notice/detail" element={<NoticeDetail/>}/>
-          </Route>
+          <Route path="post/writing" element={<PostWriting/>}/>
+        </Route>
         </Routes>
       </BrowserRouter>
     </>
