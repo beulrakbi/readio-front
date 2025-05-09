@@ -12,10 +12,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout/>}>
           <Route index element={<UserMain/>}/>
-          </Route>
-
-
         <Route path="/login" element={<Login />} /> {/* 로그인 */}
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
