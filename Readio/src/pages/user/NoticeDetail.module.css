@@ -50,11 +50,12 @@ body {
 }
 .contentBox{
     width: 50%;
-    height: 70vh;
+    height: 100%;
     margin:auto;
     margin-top: 5%;
     text-align: center;
 }
-.contentBox p{
-    white-space: pre-wrap;
+.copyLink{
+    display: flex;
+    justify-content: flex-end;
 }
