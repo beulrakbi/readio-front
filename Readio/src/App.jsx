@@ -1,6 +1,7 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from './layouts/Layout';
+import Join from "./pages/user/Join";
 import Login from "./pages/user/Login";
 import UserMain from "./pages/user/UserMain";
 
@@ -16,6 +17,7 @@ function App() {
 
 
         <Route path="/login" element={<Login />} /> {/* 로그인 */}
+        <Route path="/join" element={<Join />} /> {/* 로그인 */}
         </Routes>
       </BrowserRouter>
     </>

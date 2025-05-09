@@ -1,22 +1,17 @@
 .main{
     width:100%;
-    height:150%;
+    height:auto;
     overflow: hidden;
-    /* background-image: url('../../assets/texture.png');
-    background-repeat: repeat;*/
 }
 
 .mainImgBox {
     width:100vw;
     height:500px;
     overflow: hidden;
-}
+    background-image: url('../../assets/bgimg.png');
+    background-size: cover;
+    background-position: center 30%; /* 좌우 중앙, 상단에서 40% 위치 */
 
-.mainImg{
-    width: 100vw;      /* 뷰포트 너비 100% */
-    height: auto;
-    display: block;
-    object-fit: cover;
 }
 
 .backgroundTexture{
@@ -64,9 +59,8 @@
     justify-content: center;
     justify-items:center;
     margin:auto;
-    position: absolute;
-    top:25%;
-    left:36%;
+    position: relative;
+    top:30%;
 }
 
 .mainSearchInput{
@@ -89,6 +83,7 @@
     padding: 3px;
     margin-right: 32px;
     cursor: pointer;
+
 }
 
 .videoSection {
