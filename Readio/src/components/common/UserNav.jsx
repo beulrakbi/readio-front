@@ -4,7 +4,6 @@ import UserNavCSS from './navi.module.css';
 
 function UserNav({isOpen})
 {
-    // if (!isOpen) return null;
 
     return (
         <>

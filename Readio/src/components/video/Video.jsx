@@ -2,8 +2,8 @@ import VideoCSS from "./videoList.module.css";
 
 
 function Video({ video }) {
-    // const videoSrc = 'https://www.youtube.com/embed/' + video.id.videoId;
-    const videoSrc = 'https://www.youtube.com/embed/xRo27Q3mvto';
+    const videoSrc = 'https://www.youtube.com/embed/' + video.id.videoId;
+    // const videoSrc = 'https://www.youtube.com/embed/xRo27Q3mvto';
 
     return (
         <div className={VideoCSS.video}>

@@ -1,11 +1,21 @@
-
-
 .videoContainer {
     max-width: 1200px;
     height: 300px;
     display: flex;
+    flex-direction: row;
+    margin-top: 80px;
+    align-items: center;
+}
+
+.videoInnerContainer
+{
     flex-direction: column;
-    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.videoInnerContainer > div:hover{
+    background-color: RGB(0,0,0,0.2);
 }
 
 .line {
@@ -43,5 +53,11 @@
 }
 
 .scrollButton {
-    all: unset; /* 모든 기본 스타일 제거 */
+    all: unset;
+    margin:20px;
+}
+
+.scrollButton :hover {
+    /* filter: hue-rotate(200deg); */
+    filter: brightness(2.0);
 }

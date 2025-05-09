@@ -1,6 +1,9 @@
 .main{
     width:100%;
-    height:100%;
+    height:150%;
+    overflow: hidden;
+    /* background-image: url('../../assets/texture.png');
+    background-repeat: repeat;*/
 }
 
 .mainImgBox {
@@ -19,11 +22,78 @@
 .backgroundTexture{
 
     justify-content: center;
-    /* align-items: center; */
+    align-items: center;
     display: flex;
-
+    flex-direction: column;
     width:100vw;
-    height:100vw;
     background-image: url('../../assets/texture.png');
-    background-repeat: repeat;  /* 이미지를 반복 */  
+    background-repeat: repeat;
+}
+
+.readio {
+    color:#AF4C3F;
+    font-size:140px;
+    font-weight: 900;
+    position: absolute;
+    left:100px;
+    top:340px;
+    font-family: 'Pretendard';
+}
+
+.mainTextBox{
+
+    margin-top:80px;
+    width:560px;
+    height:90px;
+
+}
+
+.mainText{
+    justify-content: center;
+    font-size:24px;
+    font-family: 'Pretendard';
+    font-weight: 500;
+    text-align: center;
+}
+
+.mainSearch{
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    align-content: center;
+    justify-content: center;
+    justify-items:center;
+    margin:auto;
+    position: absolute;
+    top:25%;
+    left:36%;
+}
+
+.mainSearchInput{
+    width: 500px;
+    height: 35px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 10px;
+    opacity: 0.8;
+    padding: 3px;
+}
+
+.mainKeywordButton{
+    width: 150px;
+    height: 41px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 10px;
+    opacity: 0.8;
+    padding: 3px;
+    margin: 14px;
+}
+
+.videoSection {
+    margin-bottom:100px;
+}
+
+.buttonBox {
+    margin: 10px;
 }
