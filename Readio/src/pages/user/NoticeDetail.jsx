@@ -57,7 +57,7 @@ function NoticeDetail() {
                             </li>
                         </ul>
                     </div>
-                    <div>1 2 3 4 5</div>
+                    <div>1 2 3 4 5 6</div>
                 </div>
             </div>
         </>
