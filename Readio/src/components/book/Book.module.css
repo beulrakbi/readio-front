@@ -1,0 +1,102 @@
+p {
+    display: flex;
+    align-items: center;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    /* unicode-bidi: isolate; */
+}
+
+.bookPage {
+    width:100vw;
+    height: auto;
+    background-image: url('../../assets/texture.png');
+    background-repeat: repeat;
+    font-family: 'Pretendard';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.bookSection {
+    display: flex;
+    flex-direction: row;
+}
+
+.aladin
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 85px;
+    margin-left: 145px;
+}
+
+.bookCover {
+    border-radius: 10px;
+    width:368px;
+    height:524px;
+}
+
+.bookInfo {
+    display: flex;
+    flex-direction: column;
+    margin-top:85px;
+    margin-left:30px;
+}
+
+.bookTitle {
+    font-size:25px;
+    font-weight: 800;
+}
+
+.reviewAndBookmark {
+    font-size:15px;
+    font-weight:300;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.infoBold {
+    font-size: 18px;
+    font-weight: 600;
+    gap:5px;
+}
+
+.infoLight {
+    font-size: 18px;
+    font-weight: 200;
+}
+
+.infoLight2 {
+    font-size: 12px;
+    font-weight: 200;
+}
+
+.buttonNone {
+    all: unset;
+    cursor: pointer;
+}
+
+.bookmarkImg {
+    width:15px;
+    height: auto;
+}
+
+.bookDescription {
+    width:840px;
+    height:100px;
+}
+
+.more {
+    width:840px;
+    height:50px;
+    background-color: #808467;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
