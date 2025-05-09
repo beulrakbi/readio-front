@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import bell from '../../assets/alarm.png';
 import logo from '../../assets/Logo.png';
 import navBar from '../../assets/NavBar.png';
+import searchIcon from '../../assets/search2.png';
 import HeaderCSS from './Header.module.css';
 
 function Header({toggleNav}) {
@@ -63,7 +64,7 @@ function Header({toggleNav}) {
         return (
             <div className={HeaderCSS.headerLogin}>
                 <button className={HeaderCSS.headerLoginBt}>로그인</button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;
                 <button className={HeaderCSS.headerLoginBt}>회원가입</button>
             </div>
         );
@@ -99,6 +100,7 @@ function Header({toggleNav}) {
                 >
                     <img src={logo}/>
                 </button>
+                <div className={HeaderCSS.rightButtons}>
                 <div className={HeaderCSS.headerSearchDiv}>
                     <select className={HeaderCSS.headerSearchOption}>
                         <option value={"video"} style={{background: 'rgb(77,84,67)'}}>영상</option>
@@ -112,6 +114,7 @@ function Header({toggleNav}) {
                         onChange={onSearchChangeHandler}
                         className={HeaderCSS.headerSearch}
                     />
+                    <button className={HeaderCSS.buttonNone}><img src={searchIcon}/></button>
                 </div>
                 <button className={HeaderCSS.headerAlarm}>
                     <img src={bell} />
@@ -121,6 +124,7 @@ function Header({toggleNav}) {
                 ) : (
                     <AfterLogin />
                 )}
+                </div>
             </div>
         </>
     )

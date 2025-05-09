@@ -9,7 +9,7 @@ html, body, #root {
 .headerDiv {
     width: 100%;
     height: 60px;
-    background-color: rgb(77,84,67);
+    background-color: #808467;
     justify-content: space-between; /* 좌-우 정렬 */
     align-items: center;
     display: flex;
@@ -20,7 +20,7 @@ html, body, #root {
 .headerNav {
     border-style: none;
     background-color: transparent;
-    text-align: left;
+    cursor: pointer;
 }
 
 .headerLogo {
@@ -29,7 +29,8 @@ html, body, #root {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 43%;
+    margin:auto;
+    cursor: pointer;
 }
 .headerSearchDiv {
     margin-left: 16%;
@@ -38,8 +39,7 @@ html, body, #root {
 }
 
 .headerSearch {
-    text-align: right;
-    padding: 0;
+    padding: 3px;
     margin-right: 0%;
     background-color: transparent;
     border-width: 0 0 2px;
@@ -47,6 +47,11 @@ html, body, #root {
     outline: none;
     color: #F6EEB6;
 }
+
+.headerSearch::placeholder {
+    color: #F6EEB6;
+}
+
 .headerSearchOption {
     outline: none;
     background-color: transparent;
@@ -59,6 +64,7 @@ html, body, #root {
     background-color: transparent;
     margin: 0%;
     display: flex;
+    cursor: pointer;
 }
 
 .headerLogin {
@@ -74,6 +80,7 @@ html, body, #root {
     width: 70px;
     border-radius: 5px;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .headerlibraryBt {
@@ -83,4 +90,17 @@ html, body, #root {
     height: 35px;
     width: 70px;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonNone {
+    all: unset;
+    cursor: pointer;
+}
+
+.rightButtons {
+    display: flex;
+    flex-direction: row;
+    position:absolute;
+    left:71%;
 }
