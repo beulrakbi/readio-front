@@ -1,3 +1,9 @@
+.backgroundTexture{
+    width:100vw;
+    height:100vw;
+    background-image: url('../../assets/texture.png');
+    background-repeat: repeat;  /* 이미지를 반복 */  
+}
 .bigContainer{
     padding-top: 4%;
     margin:auto;

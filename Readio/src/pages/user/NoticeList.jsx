@@ -3,6 +3,7 @@ import styles from './NoticeList.module.css'; // .module.css로 변경
 function NoticeList() {
   return (
     <>
+    <div className={styles.backgroundTexture}>
       <div className={styles.bigContainer}>
         <div className={styles.smallHeader}>
           <span className={styles.smallHeaderElement}>공지사항 게시판</span>
@@ -29,7 +30,7 @@ function NoticeList() {
               <span>공지사항 테스트중입니다.1</span>
             </div>
             <div className={styles.postLi2}>
-              <span>user1</span>
+              <span>admin1</span>
               <span>2025/05/03</span>
               <span>1</span>
             </div>
@@ -40,7 +41,7 @@ function NoticeList() {
               <span>공지사항 테스트중입니다.1</span>
             </div>
             <div className={styles.postLi2}>
-              <span>user1</span>
+              <span>admin1</span>
               <span>2025/05/03</span>
               <span>1</span>
             </div>
@@ -51,7 +52,7 @@ function NoticeList() {
               <span>공지사항 테스트중입니다.1</span>
             </div>
             <div className={styles.postLi2}>
-              <span>user1</span>
+              <span>admin1</span>
               <span>2025/05/03</span>
               <span>1</span>
             </div>
@@ -62,7 +63,7 @@ function NoticeList() {
               <span>공지사항 테스트중입니다.1</span>
             </div>
             <div className={styles.postLi2}>
-              <span>user1</span>
+              <span>admin1</span>
               <span>2025/05/03</span>
               <span>1</span>
             </div>
@@ -78,6 +79,7 @@ function NoticeList() {
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 }
