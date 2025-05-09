@@ -1,4 +1,3 @@
-
 html, body, #root {
     width: 100%;
     height: 100%;
@@ -9,8 +8,8 @@ html, body, #root {
 .headerDiv {
     width: 100%;
     height: 60px;
-    background-color: rgb(77,84,67);
-    justify-content: space-between; /* 좌-우 정렬 */
+    background-color: #808467;
+    justify-content: space-between;
     align-items: center;
     display: flex;
     position: relative;
@@ -20,33 +19,36 @@ html, body, #root {
 .headerNav {
     border-style: none;
     background-color: transparent;
-    text-align: left;
+    cursor: pointer;
 }
 
 .headerLogo {
-    border-style: none;
+    border: none;
     background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 43%;
+    margin: auto;
+    cursor: pointer;
+    position:relative;
+    left:9%;
 }
+
 .headerSearchDiv {
-    margin-left: 16%;
-    width: 100%;
     display: flex;
 }
 
 .headerSearch {
-    text-align: right;
-    padding: 0;
-    margin-right: 0%;
+    padding: 3px;
     background-color: transparent;
     border-width: 0 0 2px;
     border-color: #F6EEB6;
     outline: none;
     color: #F6EEB6;
+    width: 100%; /* 부모 컨테이너를 채우도록 설정 */
 }
+
+.headerSearch::placeholder {
+    color: #F6EEB6;
+}
+
 .headerSearchOption {
     outline: none;
     background-color: transparent;
@@ -57,12 +59,11 @@ html, body, #root {
 .headerAlarm {
     border-style: none;
     background-color: transparent;
-    margin: 0%;
-    display: flex;
+    cursor: pointer;
 }
 
 .headerLogin {
-    width: 100%;
+    width: auto; /* 고정 너비 대신 내용에 맞게 조정 */
     display: flex;
 }
 
@@ -73,6 +74,7 @@ html, body, #root {
     height: 35px;
     width: 70px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .headerlibraryBt {
@@ -82,4 +84,17 @@ html, body, #root {
     height: 35px;
     width: 70px;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonNone {
+    all: unset;
+    cursor: pointer;
+}
+
+.rightButtons {
+    display: flex;
+    flex-direction: row;
+    position: relative; /* absolute 대신 relative로 변경 */
+    margin-right: 2%; /* 오른쪽 여백 추가 */
 }
