@@ -26,10 +26,10 @@ function NoticeDetail() {
                 </div>
                 <div className={styles.line2}></div>
                 <div className={styles.listBox}>
-                    <div>
+                    <div className={styles.noticeBoard}>
                         <p>공지사항 게시판</p>
                     </div>
-                    <div>
+                    <div className={styles.list}>
                         <ul>
                             <li>
                                 <span>[단기]</span>
@@ -39,7 +39,7 @@ function NoticeDetail() {
                             </li>
                             <li>
                                 <span>[단기]</span>
-                                <span>공지사항 테스트중입니다.2/</span>
+                                <span>공지사항 테스트중입니다.2</span>
                                 <span>admin1</span>
                                 <span>2025.04.25</span>
                             </li>
@@ -57,7 +57,7 @@ function NoticeDetail() {
                             </li>
                         </ul>
                     </div>
-                    <div>1 2 3 4 5 6</div>
+                    <div className={styles.num}>1 2 3 4 5 6</div>
                 </div>
             </div>
         </>
