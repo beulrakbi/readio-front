@@ -1,4 +1,4 @@
-import './NoticeDetail.css';
+import './NoticeList.css';
 
 function NoticeList(){
     return(
