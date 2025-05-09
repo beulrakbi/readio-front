@@ -1,4 +1,3 @@
-import bgimg from '../../assets/bgimg.png';
 import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoLIst';
 import UserMainCSS from './UserMain.module.css';
@@ -20,7 +19,7 @@ function UserMain()
                             <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
                         </div>
                     </div>
-                    <img className={UserMainCSS.mainImg} src={bgimg} alt={"배경"}/>
+                    {/* <img className={UserMainCSS.mainImg} src={bgimg} alt={"배경"}/> */}
                 </div>
                 <p className={UserMainCSS.readio}>READIO</p>
             <div className={UserMainCSS.backgroundTexture}>
