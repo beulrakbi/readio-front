@@ -1,4 +1,3 @@
-
 html, body, #root {
     width: 100%;
     height: 100%;
@@ -10,7 +9,7 @@ html, body, #root {
     width: 100%;
     height: 60px;
     background-color: #808467;
-    justify-content: space-between; /* 좌-우 정렬 */
+    justify-content: space-between;
     align-items: center;
     display: flex;
     position: relative;
@@ -24,28 +23,26 @@ html, body, #root {
 }
 
 .headerLogo {
-    border-style: none;
+    border: none;
     background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin:auto;
+    margin: auto;
     cursor: pointer;
+    position:relative;
+    left:9%;
 }
+
 .headerSearchDiv {
-    margin-left: 16%;
-    width: 100%;
     display: flex;
 }
 
 .headerSearch {
     padding: 3px;
-    margin-right: 0%;
     background-color: transparent;
     border-width: 0 0 2px;
     border-color: #F6EEB6;
     outline: none;
     color: #F6EEB6;
+    width: 100%; /* 부모 컨테이너를 채우도록 설정 */
 }
 
 .headerSearch::placeholder {
@@ -62,41 +59,29 @@ html, body, #root {
 .headerAlarm {
     border-style: none;
     background-color: transparent;
-    margin: 0%;
-    display: flex;
     cursor: pointer;
 }
 
 .headerLogin {
-    width: 100%;
+    width: auto; /* 고정 너비 대신 내용에 맞게 조정 */
     display: flex;
 }
 
-/* .headerLoginBt {
+.headerLoginBt {
     border-style: none;
     background-color: #d9d9d93e;
     color: #F6EEB6;
     height: 35px;
     width: 70px;
     border-radius: 5px;
-    margin-left: 10px;
     cursor: pointer;
-} */
 
-.headerLoginBt {
-    display: inline-flex;         /* 버튼처럼 정렬 */
-    justify-content: center;     /* 텍스트 중앙 정렬 */
+    /* 헤더 버튼->NavLink 변경으로 인해 스타일 추가 */
+    display: inline-flex;        /* 버튼처럼 정렬 */
     align-items: center;         /* 텍스트 수직 중앙 정렬 */
-    border: none;                /* 기본 border 제거 */
-    background-color: #d9d9d93e;
-    color: #F6EEB6;
-    height: 35px;
-    width: 70px;
-    border-radius: 5px;
+    justify-content: center;     /* 텍스트 중앙 정렬 */
     text-decoration: none;       /* 밑줄 제거 */
     cursor: pointer;             /* 손가락 커서 */
-    font-family: inherit;        /* 폰트 통일 */
-    font-size: 14px;             /* 필요시 조정 */
 }
 
 .headerlibraryBt {
@@ -117,6 +102,6 @@ html, body, #root {
 .rightButtons {
     display: flex;
     flex-direction: row;
-    position:absolute;
-    left:71%;
+    position: relative; /* absolute 대신 relative로 변경 */
+    margin-right: 2%; /* 오른쪽 여백 추가 */
 }

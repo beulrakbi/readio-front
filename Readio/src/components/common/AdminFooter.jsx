@@ -15,4 +15,4 @@ function AdminFooter () {
     )
 }
 
-export default Footer;
+export default AdminFooter;
