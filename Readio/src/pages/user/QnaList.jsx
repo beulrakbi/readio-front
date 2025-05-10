@@ -1,5 +1,5 @@
 import styles from './QnaList.module.css';
-
+import { NavLink } from 'react-router-dom';
 function QnaList() {
     return (
         <>
@@ -26,7 +26,7 @@ function QnaList() {
                     <li className={styles.postLi}> 
                         <span>0001</span>
                         <div className={styles.postContext}>
-                            <span>질문 게시판 테스트중입니다.1</span>
+                            <span><NavLink to="/qna/detail" className={styles.titlecolor}>질문 게시판 테스트중입니다.1</NavLink></span>
                         </div>
                         <div className={styles.postLi2}>
                             <span>admin1</span>

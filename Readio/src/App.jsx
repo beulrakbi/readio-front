@@ -5,6 +5,7 @@ import NoticeDetail from './pages/user/NoticeDetail';
 import NoticeList from './pages/user/NoticeList';
 import UserMain from "./pages/user/UserMain";
 import QnaList from "./pages/user/QnaLIst";
+import QnaDetail from "./pages/user/QnaDetail";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/notice" element={<NoticeList/>}/>
           <Route path="/notice/detail" element={<NoticeDetail/>}/>
           <Route path="/qna" element={<QnaList/>}/>
+          <Route path="/qna/detail" element={<QnaDetail/>}/>
         </Route>
         </Routes>
       </BrowserRouter>

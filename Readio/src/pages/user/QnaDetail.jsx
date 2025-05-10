@@ -1,16 +1,17 @@
-import styles from './NoticeDetail.module.css';
-function NoticeDetail() {
+import styles from './QnaDetail.module.css';
+
+function QnaDetail() {
     return (
         <>
             <div className={styles.bigContainer}>
                 <div>
-                    <p className={styles.sort}>공지사항</p>
-                    <p className={styles.title}>공지사항 테스트중입니다.1</p>
+                    <p className={styles.sort}>Q&A 게시판</p>
+                    <p className={styles.title}>질문 게시판 테스트중입니다.1</p>
                 </div>
                 <div className={styles.line}></div>
                 <div className={styles.nameBox}>
-                    <span className={styles.userId}>admin1</span>
-                    <span className={styles.role}>관리자</span>
+                    <span className={styles.userId}>User4</span>
+                    <span className={styles.role}>일반 회원</span>
                 </div>
                 <div>
                     <span className={styles.date}>2025.04.25 13:23</span>
@@ -20,6 +21,12 @@ function NoticeDetail() {
                 <div className={styles.contentBox}>
                     <p>안녕하시렵니까?</p>
                 </div>
+                <p className={styles.sort}>답변</p>
+                <div className={styles.line2}></div>
+                <div className={styles.qnaAnswer}>
+                    <p>처리중입니다.</p>
+                </div>
+                <div></div>
                 <div className={styles.copyLink}>
                     <button className={styles.btn}>링크 복사</button>
                 </div>
@@ -60,7 +67,6 @@ function NoticeDetail() {
                 </div>
             </div>
         </>
-    )
+    );
 }
-export default NoticeDetail;
-
+export default QnaDetail;
