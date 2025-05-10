@@ -4,9 +4,10 @@ import PostWriting from "./pages/post/PostWriting";
 import NoticeDetail from './pages/user/NoticeDetail';
 import NoticeList from './pages/user/NoticeList';
 import UserMain from "./pages/user/UserMain";
-import QnaList from "./pages/user/QnaLIst";
+import QnaList from "./pages/user/QnaList";
 import QnaDetail from "./pages/user/QnaDetail";
 import QnaWriting from "./pages/user/QnaWriting";
+import Faq from "./pages/user/Faq";
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/qna" element={<QnaList/>}/>
           <Route path="/qna/detail" element={<QnaDetail/>}/>
           <Route path="/qna/writing" element={<QnaWriting/>}/>
+          <Route path="/faq" element={<Faq/>}/>
         </Route>
         </Routes>
       </BrowserRouter>
