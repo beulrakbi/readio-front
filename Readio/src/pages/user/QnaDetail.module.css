@@ -110,3 +110,19 @@ body {
     align-items: center;
     justify-content: center;
 }
+.updateAndDelete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btnBox{
+    display: flex;
+    height: 60px;
+}
+.updateBtn, .slash, .deleteBtn {
+    margin-left: 5px; 
+    cursor: pointer;
+    color: #676767;
+    font-size: 14px;
+    margin-top:auto;
+}

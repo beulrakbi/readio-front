@@ -6,7 +6,14 @@ function QnaDetail() {
             <div className={styles.bigContainer}>
                 <div>
                     <p className={styles.sort}>Q&A 게시판</p>
-                    <p className={styles.title}>질문 게시판 테스트중입니다.1</p>
+                    <div className={styles.updateAndDelete}>
+                        <p className={styles.title}>질문 게시판 테스트중입니다.1</p>
+                        <div className={styles.btnBox}>
+                            <span className={styles.updateBtn}>수정</span>
+                            <span className={styles.slash}>/</span>
+                            <span className={styles.deleteBtn}>삭제</span>
+                        </div>
+                    </div>
                 </div>
                 <div className={styles.line}></div>
                 <div className={styles.nameBox}>
