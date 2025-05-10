@@ -7,7 +7,7 @@ function QnaList() {
                 <div className={styles.smallHeader}>
                     <span className={styles.smallHeaderElement}>Q&A 게시판</span>
                     <div>
-                        <button className={styles.writing}>글쓰기</button>
+                        <button className={styles.writing}><NavLink to="/qna/writing" className={styles.writing}>글쓰기</NavLink></button>
                         <span className={styles.slash}>/</span>
                         <button className={styles.writing}>내가 쓴 글</button>
                     </div>
