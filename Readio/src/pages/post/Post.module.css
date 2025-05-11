@@ -11,7 +11,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    
 }
 
 .iconDiv {
@@ -132,6 +131,7 @@ body {
     align-items: center;
     margin-top: 50px;
     border-bottom: solid 1px #808467;
+    padding-bottom: 20px;
 }
 
 .postProfileIcon {
@@ -190,25 +190,35 @@ body {
 }
 
 .postDetailContent {
-    width: 100%;
+    width: 90%;
     height: auto;
-    padding-left: 100px;
+    white-space: pre-line;
+    word-break: break-all;
 }
 
 .postContentImg {
-    width: 200px;
-    height: 200px;
+    /* width: 200px; */
+    height: 250px;
     margin-left: auto;
+    margin-top: 20px;
 }
 
 .postDetailHeartDiv {
     width: 100%;
     height: 30px;
     padding-left: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.postDetailHeartSpan {
+    display: flex;
+    align-items: center;
 }
 
 .postDetailHeart {
     height: 20px;
+    margin-right: 5px;
 }
 
 .postDetailReview {
@@ -216,4 +226,28 @@ body {
     margin-left: 20px;
     border-style: none;
     background-color: transparent;
+    margin-right: 5px;
 }
+
+.postDetailBookDiv {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #808467;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.postDetailBook {
+    height: 200px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.postDetailBookTitle {
+    list-style: none;
+}
+
+.postDetailReviewDiv {}
+
