@@ -119,6 +119,9 @@ body {
 .postDetailDiv {
     width: 60%;
     height: 1000px;
+        display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .postProfileDiv {
@@ -178,4 +181,39 @@ body {
 
 .postDetailOption {
     height: 25px;
+}
+
+.postDetailTitle {
+    width: 80%;
+    height: 50px;
+    margin-top: 50px;
+}
+
+.postDetailContent {
+    width: 100%;
+    height: auto;
+    padding-left: 100px;
+}
+
+.postContentImg {
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+}
+
+.postDetailHeartDiv {
+    width: 100%;
+    height: 30px;
+    padding-left: 100px;
+}
+
+.postDetailHeart {
+    height: 20px;
+}
+
+.postDetailReview {
+    height: 20px;
+    margin-left: 20px;
+    border-style: none;
+    background-color: transparent;
 }
