@@ -18,17 +18,19 @@
 
 .Title {
      font-size: 20px;
+     font-weight: 500;
      color : #808467;
 }
 
 .videoList {
      display: flex;
-     margin : 20px;
+     margin : 40px 0 40px 20px;
 }
 
 .Info {
      margin : 0 0 0 10px ;
      text-align: left;
+     cursor: pointer;
 }
 
 .videoBox {
@@ -40,7 +42,8 @@
 
 .videoTitle {
      margin : 0 0 10px 0;
-     font-size : 13px;
+     font-size : 14px;
+     font-weight: 700;
 }
 
 .videoinfo {

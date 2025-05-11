@@ -37,14 +37,14 @@
 
 .videoTitle {
      width: 70vh;
-     font-size: 15px;
+     font-size: 18px;
      font-weight: 800;
      margin: 10px auto;
 }
 
 .channelNameBookMark {
      width: 70vh;
-     font-size: 12px;
+     font-size: 13px;
      margin: 10px auto;
      display: flex;
 }

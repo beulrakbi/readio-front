@@ -1,11 +1,9 @@
-import UserFooter from './../../components/common/UserFooter';
 import PlayVideo from './PlayVideo';
 
 function VideoPage() {
      return(
           <>
                <PlayVideo />
-               <UserFooter />
           </>
      ) 
      

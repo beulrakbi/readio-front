@@ -1,8 +1,9 @@
-import styles from './SearchList.module.css';
+import styles from './SearchVideoList.module.css';
 
-function SearchList() {
+function SearchVideoList() {
      return (
           <>
+
                <div className={styles.container}>
                     <div className={styles.SearchListTitle}># 키워드에 대한 검색 결과</div>
                     <hr />
@@ -16,6 +17,7 @@ function SearchList() {
                                    <div className={styles.videoDetail}>이적의 단어들 📚 은 싱어송라이터 이적이 시의 형식으로 쓴 에세이입니다. 짧게 단편으로 ...</div>
                               </div>
                          </div>
+                         <hr />
 
                          <div className={styles.videoList}>
                               <div className={styles.video}></div>
@@ -25,6 +27,7 @@ function SearchList() {
                                    <div className={styles.videoDetail}>이적의 단어들 📚 은 싱어송라이터 이적이 시의 형식으로 쓴 에세이입니다. 짧게 단편으로 ...</div>
                               </div>
                          </div>
+                         <hr />
 
                          <div className={styles.videoList}>
                               <div className={styles.video}></div>
@@ -34,17 +37,12 @@ function SearchList() {
                                    <div className={styles.videoDetail}>이적의 단어들 📚 은 싱어송라이터 이적이 시의 형식으로 쓴 에세이입니다. 짧게 단편으로 ...</div>
                               </div>
                          </div>
-
-                         
-                         
-
-                         
 
                     </div>
-                    {/* <hr /> */}
+                    <hr />
                </div>
           </>
      )
 }
 
-export default SearchList;
+export default SearchVideoList;

@@ -10,7 +10,7 @@
 .container {
      width: 80vh;
      height : 100vh;
-     margin: 0 auto;
+     margin: 40px auto;
 }
 
 .SearchListTitle {
@@ -28,32 +28,34 @@ hr {
 }
 
 .videoList {
-     padding : 20px 0;
+     padding : 20px;
      display:  flex;
-     border-bottom: 1px solid #4f4f4f;
+     /* border-bottom: 1px solid #4f4f4f; */
 }
 
 .video {
      width : 210px;
-     height : 120px;
+     height : 130px;
      background-color: #4f4f4f;
      border-radius: 3px;
 }
 
 .videoInfo {
      margin: 0 0 0 20px;
+     cursor: pointer;
 }
 
 .videoTitle {
-     font-size : 13px;
+     font-size : 15px;
+     font-weight: 700;
 }
 
 .videoDate {
       margin : 20px 0;
-     font-size : 13px;
+      font-size : 13px;
 }
 
 .videoDetail {
      margin : 20px 0;
-     font-size : 10px;
+     font-size : 12px;
 }

@@ -19,9 +19,9 @@ import RecommandedVideoList from './RecommandedVideoList';
                     console.log('북마크 버튼 활성화');
 
                     if (isBookmarked) {
-                         setBookmarkCount(prev => prev - 1); // 북마크 해제 시 -1
+                         setBookmarkCount(prev => prev - 1); // 북마크 비활성화화
                     } else {
-                         setBookmarkCount(prev => prev + 1); // 북마크 설정 시 +1
+                         setBookmarkCount(prev => prev + 1); // 북마크 활성화
                     }
 
 
