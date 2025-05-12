@@ -43,26 +43,61 @@ function PostDetail () {
                     <p className={PostCSS.postDetailBookTitle}>김종원 글 • 윌마</p>
                 </div>
             </div>
-            <div>
+            <div className={PostCSS.postDetailReviewDiv}>
                 <div>
-                    <p>댓글 3</p>
+                    <p className={PostCSS.postDetailReviews}>댓글 3</p>
                 </div>
-                <div>
-                    <img src={profileImg2}/>
-                    <div>
+                <div className={PostCSS.postDetailReviewProDiv}>
+                    <img src={profileImg2} className={PostCSS.postDetailReviewIcon}/>
+                    <div className={PostCSS.postDetailReviewProfile}>
                         <li>산과들</li>
                         <li>2025.4.29</li>
                     </div>
-                    <p>최태성 선생님의 [최소한의 한국사] 추천합니다. 우리 역사를 쉽고 유익하게 접근해 볼 수 있어서 좋았습니다.</p>
-                    <div>
-                        <p>좋아요 5</p>
-                        <button>수정</button>
-                        <button>삭제</button>
+                </div>
+                <p className={PostCSS.postDetailReviewcon}>최태성 선생님의 [최소한의 한국사] 추천합니다. 우리 역사를 쉽고 유익하게 접근해 볼 수 있어서 좋았습니다.</p>
+                <div className={PostCSS.postDetailReviewLikeDiv}>
+                    <p className={PostCSS.postDetailReviewLike}>좋아요 5</p>
+                    <div className={PostCSS.postDetailReviewBtDiv}>
+                        <button className={PostCSS.postDetailReviewBt}>수정</button>
+                        <button className={PostCSS.postDetailReviewBt}>삭제</button>
                     </div>
-                    <div>
-                        <input type="text" name="postReview" placeholder='댓글 입력'/>
-                        <button>등록</button>
+                </div>
+                                <div className={PostCSS.postDetailReviewProDiv}>
+                    <img src={profileImg2} className={PostCSS.postDetailReviewIcon}/>
+                    <div className={PostCSS.postDetailReviewProfile}>
+                        <li>채길짜</li>
+                        <li>2025.4.29</li>
                     </div>
+                </div>
+                <p className={PostCSS.postDetailReviewcon}>&lt;인생이라는 이름의 영화관&gt; 토론하기 좋은 인생책 추천합니다!'</p>
+                <div className={PostCSS.postDetailReviewLikeDiv}>
+                    <p className={PostCSS.postDetailReviewLike}>좋아요 5</p>
+                    <div className={PostCSS.postDetailReviewBtDiv}>
+
+                    </div>
+                </div>
+                                <div className={PostCSS.postDetailReviewProDiv}>
+                    <img src={profileImg2} className={PostCSS.postDetailReviewIcon}/>
+                    <div className={PostCSS.postDetailReviewProfile}>
+                        <li>seohk322</li>
+                        <li>2025.4.20</li>
+                    </div>
+                </div>
+                <p className={PostCSS.postDetailReviewcon}>찬란한 멸종이라는 이정모 관장님이 쓰신 책이 있습니다. 늦었다고 생각할 대가 사실 제일 빠른법! 우리가 누리는 이 찬란함이 누군가의 찬란함으로 바뀌기 전에 지금 눈앞으로 다가온 무시무시한 기후변화에 대비할 마음가짐을 이책을 통해 길러보는 것은 어떨까여?</p>
+                <div className={PostCSS.postDetailReviewLikeDiv}>
+                    <p className={PostCSS.postDetailReviewLike}>좋아요 5</p>
+                    <div className={PostCSS.postDetailReviewBtDiv}>
+                    </div>
+                </div>
+                <div style={{textAlign : 'center'}}>
+                    <p style={{fontSize : '15px'}}>1 | 2 | 3</p>
+                </div>
+                <div className={PostCSS.postDetailReviewReDiv}>
+                    <input type="text"
+                           name="postReview"
+                           placeholder='댓글 입력'
+                           className={PostCSS.postDetailReviewRe}/>
+                    <button className={PostCSS.postDetailReviewReBt}>등록</button>
                 </div>
             </div>
         </div>

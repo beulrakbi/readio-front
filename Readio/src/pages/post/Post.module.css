@@ -117,7 +117,7 @@ body {
 
 .postDetailDiv {
     width: 60%;
-    height: 1000px;
+    height: 2000px;
         display: flex;
     align-items: center;
     flex-direction: column;
@@ -131,11 +131,10 @@ body {
     align-items: center;
     margin-top: 50px;
     border-bottom: solid 1px #808467;
-    padding-bottom: 20px;
+    padding-left: 100px;
 }
 
 .postProfileIcon {
-    width: 60px;
     height: 60px;
 }
 
@@ -145,6 +144,7 @@ body {
     flex-direction: column;
     margin-left: 20px;
     list-style-type: none;
+    font-size: 15px;
 }
 
 .postDetailBtDiv {
@@ -247,7 +247,101 @@ body {
 
 .postDetailBookTitle {
     list-style: none;
+    font-size: 17px;
 }
 
-.postDetailReviewDiv {}
+.postDetailReviewDiv {
+    width: 100%;
+    height: auto;
+    border: 1px solid #808467;
+    border-radius: 10px;
+    margin-top: 30px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.postDetailReviews {
+    margin-left: 10px;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.postDetailReviewProDiv {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.postDetailReviewIcon {
+    height: 60px;
+}
+
+.postDetailReviewProfile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 20px;
+    list-style-type: none;
+    font-size: 15px;
+}
+
+.postDetailReviewcon {
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.postDetailReviewLikeDiv {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #808467;
+    padding-bottom: 10px;
+}
+
+.postDetailReviewLike {
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.postDetailReviewBtDiv {
+    margin-left: auto;
+}
+
+.postDetailReviewBt {
+    border-style: none;
+    background-color: transparent;
+}
+
+.postDetailReviewReDiv {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #808467;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+
+.postDetailReviewRe {
+    border-style: none;
+    width: 90%;
+    height: auto;
+    outline: none;
+}
+
+.postDetailReviewReBt {
+    width: 50px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: 10px;
+    border-style: none;
+    border-radius: 15px;
+    background-color: #DBDBDB;
+}
 
