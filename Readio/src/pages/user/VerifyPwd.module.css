@@ -24,29 +24,19 @@
     border-top: 2px solid #B4B4B4;
     width: 45vw;
     position: relative;
-    /* left: 0%; */
-    /* transform: translateX(-50%); */
     margin: 20px 0;
 }
 
 .formGroup {
-    /* display: flex; */
-    /* justify-content: center;
-    align-items: center; */
     margin-bottom: 20px;
 }
 
 .formGroup label {
-    width: 100px;
-    /* 레이블 크기 고정 */
+    width: 100px;       /* 레이블 크기 고정 */
     margin-right: 30px;
-    /* 레이블과 입력란 간 간격 */
-    /* text-align: right;        레이블 오른쪽 정렬 */
 }
 
 .formGroup input {
-    /* flex: 1; */
-    /* 입력란이 나머지 공간 차지 */
     padding: 10px;
     width: 40%;
 }
