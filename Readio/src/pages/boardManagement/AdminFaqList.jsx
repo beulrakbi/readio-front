@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import styles from './AdminNoticeList.module.css';
+import styles from './AdminFaqList.module.css';
 
 function AdminFaqList() {
     return (
@@ -8,7 +8,7 @@ function AdminFaqList() {
                 <div className={styles.smallHeader}>
                     <span className={styles.smallHeaderElement}>FAQ</span>
                     <div>
-                        <button className={styles.writing}><NavLink to="/admin/notice/writing" className={styles.titlecolor}>글쓰기</NavLink></button>
+                        <button className={styles.writing}><NavLink to="/admin/faq/writing" className={styles.titlecolor}>글쓰기</NavLink></button>
                         <span className={styles.slash}>/</span>
                         <button className={styles.delete}>삭제</button>
                     </div>
