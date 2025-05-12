@@ -16,8 +16,9 @@ html, body, #root{
      align-items: center;
      margin: 0 auto;
      bottom : 0;
-     position: static; /* 그냥 이걸로 결정 땅땅 */
+     /* position: static; 그냥 이걸로 결정 땅땅 */
      /* position: absolute; */
+     position: fixed;
 }
 
 .Logo {
