@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './MyLibrary.module.css';
+import styles from './MyLibrary.module.css'
 
 const BookmarkSection = () => {
     return (

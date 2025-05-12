@@ -1,14 +1,16 @@
 import React from 'react';
 import styles from './MyLibrary.module.css';
-import profileImg from '../../assets/images/cat1.jpg'
-
+import profileImg from '../../../assets/images/cat1.jpg'
+import pencilIcon from '../../../assets/images/pencil.png'
 
 const ProfileSection = () => {
     return (
         <>
         <div className={styles.profileCard}>
-            <img src={profileImg} alt="프로필 이미지" className={styles.profileImage} />
-
+            <div className={styles.profileImageWrapper}>
+                <img src={profileImg} alt="프로필 이미지" className={styles.profileImage} />
+                <img src={pencilIcon} alt="수정 아이콘" className={styles.editIcon} />
+            </div>
             <div className={styles.profileInfo}>
                 <h2 className={styles.nickname}>c0wsun</h2>
                 <p> 등급 : 재미있는 활동가</p>
