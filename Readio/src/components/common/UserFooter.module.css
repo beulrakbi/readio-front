@@ -15,8 +15,9 @@ html, body, #root{
      text-align: center;
      align-items: center;
      margin: 0 auto;
-     bottom : 0;
-     position: static;
+     /* bottom : 0; */
+     /* position: static; */
+     position: absolute;
 }
 
 .Logo {

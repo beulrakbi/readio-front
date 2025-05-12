@@ -1,11 +1,28 @@
+import search from '../../assets/search.png';
+import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchBookList.module.css';
 
 function SearchBookList() {
     return (
               <>
+                    <div className={UserMainCSS.mainImgBox}>
+                                   <div className={UserMainCSS.mainSearch}>
+                                        <div className={UserMainCSS.buttonBox}>
+                                             <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
+                                             <button className={UserMainCSS.buttonNone}><img src={search}/></button>
+                                        </div>
+                                        <div className={UserMainCSS.buttonBox}>
+                                           <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
+                                           <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
+                                           <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
+                                        </div>
+                                   </div>
+                              {/* <img className={UserMainCSS.mainImg} src={bgimg} alt={"배경"}/> */}
+                    </div>
 
-    
+
                    <div className={styles.container}>
+
                         <div className={styles.SearchListTitle}># 키워드에 대한 검색 결과</div>
                         <hr />
                         <div className={styles.SearchBookList}>

@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from './layouts/Layout';
 import PostWriting from "./pages/post/PostWriting";
+import SearchBookList from './pages/searchList/SearchBookList';
+import SearchVideoList from './pages/searchList/SearchVideoList';
 import UserMain from "./pages/user/UserMain";
-import SearchBookList from "./pages/videoDetail/SearchBookList";
-import SearchVideoList from "./pages/videoDetail/SearchVIdeoList";
 import VideoPage from "./pages/videoDetail/VideoPage";
 
 
