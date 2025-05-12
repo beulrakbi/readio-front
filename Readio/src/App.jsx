@@ -31,7 +31,7 @@ function App() {
         </Route>
           {/* 어드민 페이지 */}
           <Route path="/admin/notice" element={<AdminNoticeList/>}/>
-          
+
         </Routes>
       </BrowserRouter>
     </>

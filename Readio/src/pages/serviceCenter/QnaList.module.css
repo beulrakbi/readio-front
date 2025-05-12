@@ -89,18 +89,30 @@ body {
 .pagingbox{
     text-align: center;
 }
-.textcontainer{
-    text-align: right;    
+.textcontainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 16px;
 }
-.textbox{
-    border:1px solid gray;
-    height: 22px;
+.textbox {
+    border: 1px solid gray;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 12px;
 }
-.btn{
-    height: 100%;
+
+.btn {
+    height: 36px;
     background-color: #808467;
-    border:1px solid gray;
-    vertical-align: middle;
+    border: 1px solid gray;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+}
+.titlecolor{
+    color: black;
+    text-decoration: none;
 }
 .titlecolor{
     color: black;
