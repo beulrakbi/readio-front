@@ -1,13 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from './layouts/Layout';
+import AdminNoticeList from "./pages/boardManagement/adminNoticeList";
 import PostWriting from "./pages/post/PostWriting";
-import NoticeDetail from './pages/user/NoticeDetail';
-import NoticeList from './pages/user/NoticeList';
+import Faq from "./pages/serviceCenter/Faq";
+import NoticeDetail from "./pages/serviceCenter/NoticeDetail";
+import NoticeList from "./pages/serviceCenter/NoticeList";
+import QnaDetail from "./pages/serviceCenter/QnaDetail";
+import QnaList from "./pages/serviceCenter/QnaList";
+import QnaWriting from "./pages/serviceCenter/QnaWriting";
 import UserMain from "./pages/user/UserMain";
-import QnaList from "./pages/user/QnaList";
-import QnaDetail from "./pages/user/QnaDetail";
-import QnaWriting from "./pages/user/QnaWriting";
-import Faq from "./pages/user/Faq";
 
 
 
@@ -17,6 +18,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          {/* 메인페이지 */}
           <Route path="/" element={<Layout/>}>
           <Route index element={<UserMain/>}/>
           <Route path="post/writing" element={<PostWriting/>}/>
@@ -27,6 +29,9 @@ function App() {
           <Route path="/qna/writing" element={<QnaWriting/>}/>
           <Route path="/faq" element={<Faq/>}/>
         </Route>
+          {/* 어드민 페이지 */}
+          <Route path="/admin/notice" element={<AdminNoticeList/>}/>
+          
         </Routes>
       </BrowserRouter>
     </>

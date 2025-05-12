@@ -1,5 +1,5 @@
-import logo from "../../assets/img/MainPageNavLogo.png";
-import styles from '../common/AdminNavbar.module.css';
+import logo from "../../assets/MainPageNavLogo.png";
+import styles from './AdminNavbar.module.css';
 
 function AdminNavbar() {
      return (
