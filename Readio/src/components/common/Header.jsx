@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import bell from '../../assets/alarm.png';
 import logo from '../../assets/Logo.png';
 import navBar from '../../assets/NavBar.png';
@@ -63,9 +63,9 @@ function Header({toggleNav}) {
     function BeforeLogin() {
         return (
             <div className={HeaderCSS.headerLogin}>
-                <button className={HeaderCSS.headerLoginBt}>로그인</button>
+                <NavLink to="/login" className={HeaderCSS.headerLoginBt}>로그인</NavLink>
                 &nbsp;
-                <button className={HeaderCSS.headerLoginBt}>회원가입</button>
+                <NavLink to="/join" className={HeaderCSS.headerLoginBt}>회원가입</NavLink>
             </div>
         );
     }
