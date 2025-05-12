@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
 import styles from './AdminNoticeList.module.css';
 
-function AdminNoticeList() {
+function AdminFaqList() {
     return (
         <>
             <div className={styles.bigContainer}>
                 <div className={styles.smallHeader}>
-                    <span className={styles.smallHeaderElement}>공지사항</span>
+                    <span className={styles.smallHeaderElement}>FAQ</span>
                     <div>
                         <button className={styles.writing}><NavLink to="/admin/notice/writing" className={styles.titlecolor}>글쓰기</NavLink></button>
                         <span className={styles.slash}>/</span>
@@ -23,17 +23,15 @@ function AdminNoticeList() {
                                 <th>제목</th>
                                 <th>작성자</th>
                                 <th>작성일</th>
-                                <th>조회수</th>
                             </tr>
                         </thead>
                         <tbody>
                                 <tr>
                                     <td><input type="checkbox" /></td>
                                     <td>0001</td>
-                                    <td>[단기]공지사항 테스트입니다.1</td>
+                                    <td>Q1.알고리즘이 이상해요.</td>
                                     <td>Admin1</td>
                                     <td>2025-05-12</td>
-                                    <td>55</td>
                                     <td>삭제</td>
                                 </tr>
                         </tbody>
@@ -53,4 +51,4 @@ function AdminNoticeList() {
     );
 }
 
-export default AdminNoticeList;
+export default AdminFaqList;
