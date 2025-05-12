@@ -30,7 +30,7 @@ function AdminNoticeList() {
                                 <tr>
                                     <td><input type="checkbox" /></td>
                                     <td>0001</td>
-                                    <td>공지사항 테스트입니다.1</td>
+                                    <td>[단기]공지사항 테스트입니다.1</td>
                                     <td>Admin1</td>
                                     <td>2025-05-12</td>
                                     <td>55</td>

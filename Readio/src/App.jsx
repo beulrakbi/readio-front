@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from './layouts/Layout';
 import AdminNoticeList from "./pages/boardManagement/adminNoticeList";
+import AdminNoticeWriting from "./pages/boardManagement/AdminNoticeWriting";
 import PostWriting from "./pages/post/PostWriting";
 import Faq from "./pages/serviceCenter/Faq";
 import NoticeDetail from "./pages/serviceCenter/NoticeDetail";
@@ -31,7 +32,7 @@ function App() {
         </Route>
           {/* 어드민 페이지 */}
           <Route path="/admin/notice" element={<AdminNoticeList/>}/>
-
+          <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
         </Routes>
       </BrowserRouter>
     </>
