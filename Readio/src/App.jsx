@@ -4,6 +4,7 @@ import UserMain from "./pages/user/UserMain";
 import PostWriting from "./pages/post/PostWriting";
 import PostWritingBook from "./pages/post/PostWritingBook";
 import PostDetail from "./pages/post/PostDetail";
+import FeedMain from "./pages/Feed/FeedMain";
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
             <Route path="post/writing" element={<PostWriting/>}/>
             <Route path="post/writing/book" element={<PostWritingBook/>}/>
             <Route path="post" element={<PostDetail/>}/>
-        </Route>
+            <Route path="feed" element={<FeedMain/>}/>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

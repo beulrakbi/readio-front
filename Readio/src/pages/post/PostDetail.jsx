@@ -1,5 +1,6 @@
 import profileImg1 from '../../assets/profileImg1.png';
 import profileImg2 from '../../assets/profileImg2.png';
+import profileImg3 from '../../assets/profileImg3.png';
 import postDetailOption from '../../assets/postDetailOption.png';
 import postLike from '../../assets/postLike.png';
 import postContentImg from '../../assets/postContentImg.png';
@@ -63,7 +64,7 @@ function PostDetail () {
                     </div>
                 </div>
                                 <div className={PostCSS.postDetailReviewProDiv}>
-                    <img src={profileImg2} className={PostCSS.postDetailReviewIcon}/>
+                    <img src={profileImg1} className={PostCSS.postDetailReviewIcon}/>
                     <div className={PostCSS.postDetailReviewProfile}>
                         <li>채길짜</li>
                         <li>2025.4.29</li>
@@ -77,7 +78,7 @@ function PostDetail () {
                     </div>
                 </div>
                                 <div className={PostCSS.postDetailReviewProDiv}>
-                    <img src={profileImg2} className={PostCSS.postDetailReviewIcon}/>
+                    <img src={profileImg3} className={PostCSS.postDetailReviewIcon}/>
                     <div className={PostCSS.postDetailReviewProfile}>
                         <li>seohk322</li>
                         <li>2025.4.20</li>
