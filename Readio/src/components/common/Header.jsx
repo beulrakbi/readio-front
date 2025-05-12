@@ -42,7 +42,7 @@ function Header({toggleNav}) {
         }
     };
 
-    const onSearchClickHandler = () => { // 함수 추가 !!!!
+    const onSearchClickHandler = () => { // 함수 추가함
         navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
 
         // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
