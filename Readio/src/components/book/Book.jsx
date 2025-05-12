@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { testBook } from "../../apis/BookAPI";
 import bookmark2 from "../../assets/bookmark2.png";
 import BookCSS from "./Book.module.css";
+import VideosInBook from "./VideosInBook";
 
 function Book()
 {
@@ -37,6 +38,8 @@ function Book()
                             <p className={BookCSS.infoLight}>{book.description}</p>
                             <button className={BookCSS.more}>더보기</button>
                         </div>
+                        <p className={BookCSS.infoBold}>관련 영상</p>
+                        <VideosInBook />
                     </div>
                 </div>
             </div>

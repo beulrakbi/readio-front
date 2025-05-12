@@ -11,18 +11,16 @@ p {
 .bookPage {
     width:100vw;
     height: auto;
-    background-image: url('../../assets/texture.png');
-    background-repeat: repeat;
     font-family: 'Pretendard';
-    display: flex;
+    display: inline-block;
     align-items: center;
     justify-content: center;
-
 }
 
 .bookSection {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .aladin
@@ -30,8 +28,10 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 85px;
-    margin-left: 145px;
+    /* margin-top: 85px; */
+    /* margin-left: 145px; */
+        justify-content: center;
+
 }
 
 .bookCover {
@@ -87,16 +87,67 @@ p {
 }
 
 .bookDescription {
-    width:840px;
+    width:700px;
     height:100px;
+    margin-bottom:50px;
 }
 
 .more {
-    width:840px;
+    width:700px;
     height:50px;
     background-color: #808467;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+}
+
+/* 비디오부분 */
+
+.videoContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top:10px;
+    margin-bottom:10px;
+    align-items: center;
+}
+
+.videoInnerContainer
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.videoInnerContainer > div:hover{
+    background-color: RGB(0,0,0,0.2);
+}
+
+.line {
+    width:800px;
+    height:1px;
+    background-color: #808467;
+}
+
+.videoList {
+    max-width:650px;
+    height:200px;
+    display:flex;
+    gap: 15px;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.video {
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.scrollButton {
+    all: unset;
+    margin:5px;
+    cursor: pointer;
+}
+
+.scrollButton :hover {
+    filter: brightness(2.0);
 }
