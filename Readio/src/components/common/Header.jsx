@@ -10,7 +10,7 @@ import HeaderCSS from './Header.module.css';
 function Header({toggleNav}) {
     const navigate = useNavigate();
 
-    const dispatch = useDispatch(); // 이거 왜 괄호가 빠져있었을까요...?
+    const dispatch = useDispatch; 
     // const loginMember = useEslector((state) => state.memberReducer);
     const isLogin = window.localStorage.getItem('accessToken');
     const [search, setSearch] = useState('');
@@ -46,7 +46,7 @@ function Header({toggleNav}) {
         navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
 
         // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
-        
+
         window.location.reload();
     }
 
