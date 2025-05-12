@@ -1,9 +1,11 @@
+import AdminMainCSS from './AdminMain.module.css';
+
 function AdminMain()
 {
     return (
         <>
-            <div>
-                
+            <div className={AdminMainCSS.main}>
+                asdasdasdad
             </div>
         </>
     )

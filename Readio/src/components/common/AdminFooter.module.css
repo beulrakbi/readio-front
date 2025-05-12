@@ -4,6 +4,7 @@
     border-left: 1px solid #383838;
     height: 171px;
     position: absolute;
+    bottom: 0px;
     width: 100%;
     flex-direction: row;
 }
@@ -35,8 +36,8 @@
 }
 
 .line {
+    border: 0.5px solid #383838;
     width: 545px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    color:#383838;
+    /* margin-top: 10px; */
+    /* margin-bottom: 10px; */
 }
