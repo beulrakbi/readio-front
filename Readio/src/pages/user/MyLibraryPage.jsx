@@ -1,7 +1,7 @@
-import ProfileSection from '../../components/mylibrary/mainpage/ProfileSection.jsx';
-import BookmarkSection from "../../components/mylibrary/mainpage/BookmarkSection.jsx";
-import CalendarSection from "../../components/mylibrary/mainpage/CalendarSection.jsx";
-import ReportSection from "../../components/mylibrary/mainpage/ReportSection.jsx"
+import ProfileSection from '../mylibrary/mainpage/ProfileSection.jsx';
+import BookmarkSection from "../mylibrary/mainpage/BookmarkSection.jsx";
+import CalendarSection from "../mylibrary/mainpage/CalendarSection.jsx";
+import ReportSection from "../mylibrary/mainpage/ReportSection.jsx"
 const MyLibraryPage = () => {
     return (
         <div>

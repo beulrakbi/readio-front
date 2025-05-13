@@ -4,11 +4,12 @@ import UserMain from "./pages/user/UserMain";
 import MyLibraryPage from './pages/user/MyLibraryPage';
 import NoticeList from "./pages/user/NoticeList";
 import NoticeDetail from "./pages/user/NoticeDetail";
-import MyLibraryGuestPage from "./components/mylibrary/mainpage/MyLibraryGuestPage.jsx";
-import EditProfilePage from "./components/mylibrary/profile/EditProfilePage.jsx";
+import MyLibraryGuestPage from "./pages/mylibrary/mainpage/MyLibraryGuestPage.jsx";
+import EditProfilePage from "./pages/mylibrary/profile/EditProfilePage.jsx";
 import PostWriting from "./pages/post/PostWriting.jsx";
-import InterestViewPage from "./components/mylibrary/interest/InterestView.jsx";
-import InterestEditPage from "./components/mylibrary/interest/InterestEdit.jsx";
+import InterestViewPage from "./pages/mylibrary/interest/InterestView.jsx";
+import InterestEditPage from "./pages/mylibrary/interest/InterestEdit.jsx";
+import CalendarPage from "./pages/mylibrary/calendar/CalendarPage.jsx";
 function App() {
 
     return (
@@ -25,6 +26,7 @@ function App() {
                         <Route path="post/writing" element={<PostWriting/>}/>
                         <Route path="mylibrary/interest" element={<InterestViewPage/>}/>
                         <Route path="mylibrary/interest/edit" element={<InterestEditPage/>}/>
+                        <Route path="mylibrary/calendar" element={<CalendarPage/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>
