@@ -35,7 +35,8 @@ function App() {
           <Route path="/qna/detail" element={<QnaDetail/>}/>
           <Route path="/qna/writing" element={<QnaWriting/>}/>
           <Route path="/faq" element={<Faq/>}/>
-          <Route path="bookmark" element={<Bookmark/>}/>
+          <Route path="/bookmark" element={<Bookmark/>}/>
+
         </Route>
           {/* 어드민 페이지 */}
           <Route path="/admin/notice" element={<AdminNoticeList/>}/>
