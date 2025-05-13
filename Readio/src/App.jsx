@@ -4,7 +4,8 @@ import UserMain from "./pages/user/UserMain";
 import PostWriting from "./pages/post/PostWriting";
 import PostWritingBook from "./pages/post/PostWritingBook";
 import PostDetail from "./pages/post/PostDetail";
-import FeedMain from "./pages/Feed/FeedMain";
+import FeedMain from "./pages/feed/FeedMain";
+import FollowList from "./pages/mylibrary/follow/FollowList"
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             <Route path="post/writing/book" element={<PostWritingBook/>}/>
             <Route path="post" element={<PostDetail/>}/>
             <Route path="feed" element={<FeedMain/>}/>
+            <Route path="mylibrary/follow" element={<FollowList/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

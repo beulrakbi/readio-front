@@ -27,6 +27,7 @@
     margin-left: 3%;
     border-style: none;
     background-color: transparent;
+    cursor: pointer;
 }
 
 .postbt {
@@ -39,6 +40,7 @@
     margin-left: auto;
     margin-right: 2%;
     font-size: 15px;
+    cursor: pointer;
 }
 
 .icon {
@@ -157,7 +159,8 @@ body {
     margin-right: 20px;
     border-style: none;
     background-color: transparent;
-        display: flex;
+    display: flex;
+    cursor: pointer;
 }
 
 .postDetailLike {
@@ -172,6 +175,7 @@ body {
     height: 35px;
     width: 65px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .postDetailOptionbt {
@@ -179,6 +183,7 @@ body {
     border-style: none;
     background-color: transparent;
     display: flex;
+    cursor: pointer;
 }
 
 .postDetailOption {
@@ -318,6 +323,7 @@ body {
 .postDetailReviewBt {
     border-style: none;
     background-color: transparent;
+    cursor: pointer;
 }
 
 .postDetailReviewReDiv {
@@ -345,5 +351,6 @@ body {
     border-style: none;
     border-radius: 15px;
     background-color: #DBDBDB;
+    cursor: pointer;
 }
 
