@@ -13,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout/>}>
           <Route index element={<UserMain/>}/>
+          
         <Route path="/login" element={<Login />} /> {/* 로그인 */}
         <Route path="/join" element={<Join />} /> {/* 회원가입 */}
           </Route>
