@@ -37,9 +37,11 @@
 
 .termGroup {
     border: 1px solid #B4B4B4;
+    border-radius: 5px;
     /* width: auto; */
     margin-bottom: 20px;
-    padding: 0px 10px 0px 10px;
+    padding: 0px 25px 0px 25px;
+    margin: 0px 15px 70px 15px;
 }
 
 .terms {

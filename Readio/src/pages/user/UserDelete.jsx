@@ -6,10 +6,10 @@ function UserDelete() {
             <div className={styles.UserDeletePage}>
                 <div className={styles.contentBox}>
 
-                    <p className={styles.title}>회원 탈퇴</p>
+                    <p className={styles.title}>&nbsp;&nbsp;&nbsp;회원 탈퇴</p>
                     <hr className={styles.hr} />
                     <p className={styles.description}>
-                        회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.                    </p>
+                        &nbsp;&nbsp;&nbsp;회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.                    </p>
 
                     <div className={styles.termGroup}>
                         <p className={styles.terms}>
@@ -43,7 +43,6 @@ function UserDelete() {
 
                         <p className={styles.terms}>
                             <a>✓</a>  탈퇴 후에는 아이디 (user01) 로 다시 가입할 수 없으며, 아이디와 데이터는 복구할 수 없습니다. <br />
-
                         </p>
 
                     </div>
