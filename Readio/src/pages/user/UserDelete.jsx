@@ -44,7 +44,10 @@ function UserDelete() {
                         <p className={styles.terms}>
                             <a>✓</a>  탈퇴 후에는 아이디 (user01) 로 다시 가입할 수 없으며, 아이디와 데이터는 복구할 수 없습니다. <br />
                         </p>
-
+                    </div> 
+                    <div className={styles.checkBox}>
+                        <input type="checkbox" id="agree" />
+                        <label htmlFor="agree">위 안내 사항을 모두 확인하였으며, 이에 동의합니다.</label>
                     </div>
                 </div>
             </div>

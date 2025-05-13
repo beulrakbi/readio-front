@@ -9,8 +9,8 @@
 }
 
 .contentBox {
-    margin: 100px 0px 30px 0px;
-    border-top: 2px solid #000000;
+    margin: 100px 0px 60px 0px;
+    border-top: 3px solid #000000;
     border-bottom: 2px solid #000000;
 }
 
@@ -41,7 +41,7 @@
     /* width: auto; */
     margin-bottom: 20px;
     padding: 0px 25px 0px 25px;
-    margin: 0px 15px 70px 15px;
+    margin: 0px 15px 20px 15px;
 }
 
 .terms {
@@ -57,20 +57,29 @@
     line-height: 2;
 }
 
+.checkBox {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 30px;
+    margin: 0px 15px 20px 15px;
+}
+
 .submitBtnWrap {
     text-align: center;
     margin-top: 10px;
 }
 
 .submitBtn {
-    padding: 5px 20px;
+    padding: 5px 40px;
     background-color: #808467;
     color: white;
     border: none;
     /* border-radius: 5px; */
     font-size: 1.1rem;
     cursor: pointer;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
+    max-width: 600px;
 }
 
 .submitBtn:hover {
