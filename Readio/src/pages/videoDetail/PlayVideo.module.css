@@ -1,20 +1,4 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
-
 /* 영상 상세페이지 - 영상 재생 / 영상 상세 글 부분 */
-#root {
-     width: 100%;
-     height: 100%;
-     margin: 0;
-     padding: 0;
-     position: static;
-}
-
-.backgroundTexture{
-     width:100vw;
-     height:100vw;
-     background-image: url('../assets/img/texture.png');
-     background-repeat: repeat;  /*이미지를 반복*/  
- }
 
 .container{
      width: 100vh;
