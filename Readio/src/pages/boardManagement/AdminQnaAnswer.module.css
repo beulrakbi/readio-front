@@ -11,10 +11,12 @@ body {
 }
 
 .bigContainer{
-    padding-top: 4%;
-    margin:auto;
+    padding-top: 3%;
+    /* margin:auto; */
+    margin-left: 2%;
     width: 80%;
-    /*height: 80vh;*/
+    height: 60vh;
+    /* overflow-y: auto; */
 }
 .line{
     margin-top: 2px;

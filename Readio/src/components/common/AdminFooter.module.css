@@ -1,4 +1,43 @@
+.adminFooter {
+    display: flex;
+    border-top: 1px solid #383838;
+    border-left: 1px solid #383838;
+    height: 171px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    flex-direction: row;
+}
+
+.redBox {
+    background-color: #AF4C3F;
+    width:285px;
+    height:171px;
+}
+
 .footerDiv {
-    margin-left: 3%;
+    padding: 20px;
     font-family: 'Pretendard';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.readio {
+    color: #383838;
+    font-weight: 900;
+    font-size: 30px;
+}
+
+.info {
+    color: #383838;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.line {
+    border: 0.5px solid #383838;
+    width: 545px;
+    /* margin-top: 10px; */
+    /* margin-bottom: 10px; */
 }

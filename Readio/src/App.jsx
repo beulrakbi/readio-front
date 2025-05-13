@@ -1,5 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
+import AdminMain from './pages/admin/AdminMain';
 import AdminFaqList from "./pages/boardManagement/AdminFaqList";
 import AdminFaqWriting from "./pages/boardManagement/AdminFaqWriting";
 import AdminNoticeList from "./pages/boardManagement/adminNoticeList";
@@ -39,6 +41,8 @@ function App() {
 
         </Route>
           {/* 어드민 페이지 */}
+          <Route path="/admin" element={<AdminLayout/>}>
+          <Route index element={<AdminMain/>}/>
           <Route path="/admin/notice" element={<AdminNoticeList/>}/>
           <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
           <Route path="/admin/faq" element={<AdminFaqList/>}/>
@@ -46,6 +50,7 @@ function App() {
           <Route path="/admin/qna" element={<AdminQnaList/>}/>
           <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
           <Route path="/admin/qna/detail" element={<AdminQnaDetail/>}/>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

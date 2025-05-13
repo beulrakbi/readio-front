@@ -11,8 +11,9 @@ body {
 }
 
 .bigContainer{
-    padding-top: 4%;
-    margin:auto;
+    padding-top: 3%;
+    /* margin:auto; */
+    margin-left: 2%;
     width: 80%;
     /*height: 80vh;*/
 }
