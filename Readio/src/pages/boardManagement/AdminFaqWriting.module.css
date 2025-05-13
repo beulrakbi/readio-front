@@ -84,6 +84,6 @@ body {
     color: #333;
 }
 .actionButtons{
-    margin-left: auto;
+    margin-left: auto; /* 이걸 추가하면 오른쪽 정렬됨 */
     display: flex;
 }

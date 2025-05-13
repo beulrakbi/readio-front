@@ -32,35 +32,10 @@ body {
     color: #383838;
     font-weight: 600;
 }
-.inputGroup {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 12px;
-}
-
-.titleInput {
-    flex: 1;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.categoryButtons button {
-    margin-left: 4px;
-    padding: 6px 12px;
-    font-size: 12px;
-    background-color: #e8e8e3;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
 .textarea {
     width: 100%;
-    height: 500px;
+    height: 300px;
     padding: 12px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -84,6 +59,7 @@ body {
     border: 1px solid gray;
     cursor: pointer;
 }
+
 .submit {
     background-color: #808467;
     color: white;
@@ -93,31 +69,31 @@ body {
     background-color: #f1f1f1;
     color: #333;
 }
-.imageUploadBox {
+.actionButtons{
+    margin-left: auto; /* 이걸 추가하면 오른쪽 정렬됨 */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    width: 50px;
-    height: 30px;
-    cursor: pointer;
-    background-color: #fdfdfd;
 }
-
-.uploadLabel {
+.line2{
+    border: 0.3px solid #676767;
+    width: 100%;
+    margin-top: 5px;
+}
+.userName, .createdAt{
+    font-size: 12px;
+    color: #676767;
+}
+.whoWhen{
+    display: flex;
+    gap: 10px;
+}
+.question{
+    width: 100%;
+    height: 30vh;
+}
+.answerTitle{
+    color: #AF4C3F;
     font-size: 14px;
-    color: #777;
-    cursor: pointer;
-    text-align: center;
 }
-
-.uploadInput {
-    display: none;
-}
-.previewImage {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
+.answerBox{
+    height: 5vh;
 }
