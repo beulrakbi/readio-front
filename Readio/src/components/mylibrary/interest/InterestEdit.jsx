@@ -25,7 +25,7 @@ const InterestEditPage = () => {
         setTimeout(() => {
             setShowPopup(false);
             navigate('/mylibrary/interest');
-        }, 2000);
+        }, 1500);
     };
 
 
