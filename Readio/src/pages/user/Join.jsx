@@ -23,8 +23,13 @@ function Join() {
         <div className={JoinCSS.joinPage}>
             {/* 회원정보 입력 */}
             <section className={JoinCSS.formSection}>
-                <h2 className={JoinCSS.sectionTitle}>회원정보 입력 <span className={JoinCSS.required}>(필수)</span></h2>
-                <hr className={JoinCSS.divider} />
+                <hr className={JoinCSS.line1} />
+                <h2 className={JoinCSS.sectionTitle}>&nbsp;&nbsp;
+                    회원정보 입력
+                    <span className={JoinCSS.required}>(필수)</span>
+                </h2>
+                <hr className={JoinCSS.line2} />
+
 
                 <div className={JoinCSS.formGroup}>
                     <label>이름</label>
@@ -59,13 +64,16 @@ function Join() {
                 </div>
             </section>
 
-            <hr className={JoinCSS.divider} />
             {/* 약관동의 */}
+            <hr className={JoinCSS.line1} />
             <section className={JoinCSS.termsSection}>
-                <h2 className={JoinCSS.sectionTitle}>약관동의</h2>
+                <h2 className={JoinCSS.sectionTitle}>&nbsp;&nbsp;
+                    약관동의
+                </h2>
+                <hr className={JoinCSS.line2} />
 
 
-                <div className={JoinCSS.checkboxRow}>
+                <div className={JoinCSS.checkboxGroup}>
                     <label><input type="checkbox" /> [필수] 사이트 이용약관 동의</label>
                     <button type="button" onClick={openTermsModal} className={JoinCSS.modalBtn}>
                         자세히보기
@@ -118,6 +126,7 @@ function Join() {
                 </div>
             </section>
 
+            <hr className={JoinCSS.line1} />
             <div className={JoinCSS.submitBtnWrap}>
                 <button type="submit" className={JoinCSS.submitBtn}>동의하고 가입하기</button>
             </div>
