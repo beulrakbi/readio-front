@@ -6,8 +6,9 @@ import NoticeList from "./pages/user/NoticeList";
 import NoticeDetail from "./pages/user/NoticeDetail";
 import MyLibraryGuestPage from "./components/mylibrary/mainpage/MyLibraryGuestPage.jsx";
 import EditProfilePage from "./components/mylibrary/profile/EditProfilePage.jsx";
-
-
+import PostWriting from "./pages/post/PostWriting.jsx";
+import InterestViewPage from "./components/mylibrary/interest/InterestView.jsx";
+import InterestEditPage from "./components/mylibrary/interest/InterestEdit.jsx";
 function App() {
 
     return (
@@ -18,10 +19,12 @@ function App() {
                         <Route index element={<UserMain />} />
                         <Route path="mylibrary" element={<MyLibraryPage />} />
                         <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
-                        <Route path="mylibrary/editprofile" element={<EditProfilePage />} />
+                        <Route path="mylibrary/profile" element={<EditProfilePage />} />
                         <Route path="notice" element={<NoticeList />} />
                         <Route path="notice/detail" element={<NoticeDetail />} />
                         <Route path="post/writing" element={<PostWriting/>}/>
+                        <Route path="mylibrary/interest" element={<InterestViewPage/>}/>
+                        <Route path="mylibrary/interest/edit" element={<InterestEditPage/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

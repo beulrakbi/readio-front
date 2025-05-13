@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styles from './EditProfilePage.module.css';
-import xIcon from '../../../assets/images/x.png';
+import xIcon from '../../../assets/x.png';
 const EditProfilePage = () => {
     const [previewImg, setPreviewImg] = useState(null);
     const fileInputRef = useRef(null);

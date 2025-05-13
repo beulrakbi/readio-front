@@ -11,8 +11,8 @@ body {
     overflow-x: hidden;
 }
 .profileCard{
-    margin: 0 250px 20px 250px;
     padding: 0;
+    margin: 0 150px 20px 150px;
 }
 .sectionTitle{
     font-size: 25px;
@@ -20,7 +20,7 @@ body {
     color: #676767;
     text-align: left;
     width: 100%;
-    margin: 0 100px 20px 100px;
+    /*margin: 0 100px 20px 100px;*/
 }
 .profileImageWrapper {
     display: flex;

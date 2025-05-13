@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './MyLibrary.module.css';
-import profileImg from '../../../assets/images/cat1.jpg'
-import pencilIcon from '../../../assets/images/pencil.png'
+import profileImg from '../../../assets/cat1.jpg'
+import pencilIcon from '../../../assets/pencil.png'
 
 const ProfileSection = () => {
     return (
