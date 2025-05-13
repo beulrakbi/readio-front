@@ -11,7 +11,7 @@
 .contentBox {
     margin: 100px 0px 60px 0px;
     border-top: 3px solid #000000;
-    border-bottom: 2px solid #000000;
+    border-bottom: 3px solid #000000;
 }
 
 .title {
@@ -40,7 +40,7 @@
     border-radius: 5px;
     /* width: auto; */
     margin-bottom: 20px;
-    padding: 0px 25px 0px 25px;
+    padding: 15px 30px 15px 30px;
     margin: 0px 15px 20px 15px;
 }
 
@@ -49,7 +49,9 @@
     font-size: 11pt;
 }
 
+/* 약관 앞 체크표시 */
 .terms a {
+    font-weight: bold;
     color: #3FBE48;
 }
 
@@ -57,13 +59,28 @@
     line-height: 2;
 }
 
+.checkBoxWrap {
+    margin:  0px 0px 40px 0px;
+
+}
+
 .checkBox {
     display: flex;
     justify-content: left;
     align-items: center;
     margin-bottom: 30px;
-    margin: 0px 15px 20px 15px;
+    margin: 0px 15px 0px 15px;
 }
+
+.error {
+    justify-content: left;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    color: red;
+    font-size: 11pt;
+     margin-left: 35px;
+}
+
 
 .submitBtnWrap {
     text-align: center;
