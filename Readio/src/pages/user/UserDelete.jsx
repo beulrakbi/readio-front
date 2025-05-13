@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import styles from './UserDelete.module.css';
+import eraserImg from '../../assets/UserDelete-eraser.png'; // 지우개 이미지 경로
 
 function UserDelete() {
     const [agreed, setAgreed] = useState(false);
     const [showError, setShowError] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -11,11 +13,21 @@ function UserDelete() {
             setShowError(true);
         } else {
             setShowError(false);
+            setShowModal(true);
             // 탈퇴 요청 처리 로직 추가하기
-
-            alert('탈퇴 요청이 완료되었습니다.');   // 이거 삭제예정
             console.log('Form submitted');
         }
+    };
+
+    const handleConfirmDelete = () => {
+        setShowModal(false);
+        // 탈퇴 버튼 누르면 비밀번호 확인 페이지로 가야됨
+        console.log('탈퇴 요청이 완료되었습니다.');
+    };
+
+    const handleCancel = () => {
+        setShowModal(false);
+        console.log('탈퇴 요청이 취소되었습니다.');
     };
 
 
@@ -84,6 +96,20 @@ function UserDelete() {
             <div className={styles.submitBtnWrap}>
                 <button type="submit" className={styles.submitBtn} onClick={handleSubmit}>탈퇴</button>
             </div>
+
+            {showModal && (
+                <div className={styles.modalWrap}>
+                    <div className={styles.modalContent}>
+                        <img src={eraserImg} alt="지우개" className={styles.eraserImg} />
+                        <p className={styles.modalTitle}>정말 탈퇴하시겠습니까?</p>
+                        <p className={styles.modalDescription}>탈퇴 후에는 계정이 삭제되며, <br/>복구가 불가합니다.</p>
+                        <div className={styles.modalBtnWrap}>
+                            <button className={styles.cancelBtn} onClick={handleCancel}>취소</button>
+                            <button className={styles.confirmBtn} onClick={handleConfirmDelete}>탈퇴</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
