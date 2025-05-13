@@ -3,6 +3,7 @@ import styles from './Join.module.css';
 
 function Join() {
 
+    // 약관 동의 상태 관리 _모달 기능
     const [isTermsModalOpen, setTermsModalOpen] = useState(false);
     const [isPrivacyModalOpen, setPrivacyModalOpen] = useState(false);
 
