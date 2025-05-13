@@ -13,7 +13,7 @@ function App() {
           <Route path="/" element={<Layout/>}>
           <Route index element={<UserMain/>}/>
           <Route path="post/writing" element={<PostWriting/>}/>
-          <Route path="user/delete" element={<UserDelete/>}/>
+          <Route path="users/delete" element={<UserDelete/>}/>
         </Route>
         </Routes>
       </BrowserRouter>
