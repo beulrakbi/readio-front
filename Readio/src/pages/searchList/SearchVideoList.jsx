@@ -70,6 +70,7 @@ function SearchVideoList() {
 
                     </div>
                     <hr />
+                    
                </div>
           </>
      )

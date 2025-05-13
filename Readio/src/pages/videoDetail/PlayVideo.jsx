@@ -33,11 +33,8 @@ import RecommandedVideoList from './RecommandedVideoList';
                <>
 
                <div className={styles.backgroundTexture}>
-                    {/* test */}
                     <div className={styles.container}>
-                         <div className={styles.video}> 
-                              {/* 네모 박스 */}
-                         </div> {/* video 영역 끝 */}
+                         <div className={styles.video}> {/* video 박스 */} </div> 
                          <div className={styles.videoInfo}>
                               <div className={styles.videoTitle}> 
                               출퇴근하며 19권 읽은 대학생의 여름 책 추천 📚 지하철에서 독서하는 습관 잡기(●'◡'●)

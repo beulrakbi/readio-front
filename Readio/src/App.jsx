@@ -21,12 +21,6 @@ function App() {
             <Route path="/video" element={<PlayVideo />} />
           </Route>
 
-          {/* <Route path="/" element={<Layout/>}>
-            <Route path="/" element={<UserMain/>}>
-                <Route path="/search/video" element={<SearchVideoList />} />
-                <Route path="/search/book" element={<SearchBookList />} />
-            </Route>
-          </Route> */}
 
         </Routes>
       </BrowserRouter>

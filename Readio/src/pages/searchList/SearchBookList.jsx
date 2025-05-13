@@ -75,12 +75,7 @@ function SearchBookList() {
                                   </div>
                              </div>
     
-                       
-                             
-                             
-    
-                             
-    
+     
                         </div>
                         <hr />
                    </div>
