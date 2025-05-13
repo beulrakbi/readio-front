@@ -94,15 +94,16 @@ body {
     color: #333;
 }
 .imageUploadBox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    width: 50px;
-    height: 30px;
-    cursor: pointer;
-    background-color: #fdfdfd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  width: 120px;
+  height: 60px;  
+  cursor: pointer;
+  background-color: #fdfdfd;
+  box-sizing: border-box;
 }
 
 .uploadLabel {
@@ -118,25 +119,25 @@ body {
 .previewWrapper {
   display: flex;
   align-items: center;
-  gap: 5px; /* 이미지와 버튼 사이 간격 */
+  gap: 8px; /* 이미지와 버튼 간격 */
+  width: 100%;
+  justify-content: center;
 }
 .previewImage {
-  max-width: 50px;
-  max-height: 50px;
-  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
   object-fit: cover;
 }
 
 .deleteImageBtn {
-    width: 60px;
+  height: 30px;
+  padding: 4px 10px;
+  font-size: 12px;
   background-color: #AF4C3F;
   color: white;
   border: none;
-  padding: 6px 10px;
   border-radius: 4px;
-  font-size: 13px;
   cursor: pointer;
-}
-.bottom{
-    margin-left: 3%;
+  white-space: nowrap;
 }

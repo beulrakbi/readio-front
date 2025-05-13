@@ -48,7 +48,7 @@ function AdminNoticeWriting() {
                             </div>
                             ) : (
                                 <label htmlFor="imageUpload" className={styles.uploadLabel}>
-                                    img
+                                    +img
                                 </label>
                         )}
                         <input
