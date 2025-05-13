@@ -1,17 +1,13 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 /* 영상 상세페이지 - 영상 재생 / 영상 상세 글 부분 */
-/* #root {
+#root {
      width: 100%;
      height: 100%;
      margin: 0;
      padding: 0;
-     font-family: 'Pretendard';  
-     display: flex;
-     flex-direction: column;
-     min-height: 100vh;
-     flex : 1;
-} */
+     position: static;
+}
 
 .backgroundTexture{
      width:100vw;
@@ -24,7 +20,6 @@
      width: 100vh;
      margin: 0 auto;
      padding : 50px;
-     /* background-color: rgb(219, 255, 215); */
 }
 
 .video {

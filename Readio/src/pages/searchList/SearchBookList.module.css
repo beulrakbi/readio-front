@@ -26,7 +26,6 @@ hr {
 .bookList {
      padding : 20px 40px;
      display:  flex;
-     /* border-bottom: 1px solid #4f4f4f; */
 }
 
 .book {
@@ -61,5 +60,5 @@ hr {
 .bookDetail {
      margin : 20px 0;
      font-size : 12px;
-     line-height: 15px; /* 줄 간격 조절 */
+     line-height: 15px;
 }

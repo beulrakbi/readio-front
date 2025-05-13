@@ -19,7 +19,7 @@ import RecommandedVideoList from './RecommandedVideoList';
                     console.log('북마크 버튼 활성화');
 
                     if (isBookmarked) {
-                         setBookmarkCount(prev => prev - 1); // 북마크 비활성화화
+                         setBookmarkCount(prev => prev - 1); // 북마크 비활성화
                     } else {
                          setBookmarkCount(prev => prev + 1); // 북마크 활성화
                     }
@@ -48,7 +48,6 @@ import RecommandedVideoList from './RecommandedVideoList';
                                    </div>
                                    <div className={styles.BookMark}>
                                         북마크 {bookmarkCount}
-                                        {/* <img src={bookMarkX} className={styles.bookmark} alt="북마크 X"></img> */}
                                         <img 
                                              src={isBookmarked ? bookMarkX : bookMarkO}
                                              alt="BookMark"

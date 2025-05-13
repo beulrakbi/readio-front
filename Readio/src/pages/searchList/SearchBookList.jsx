@@ -17,7 +17,6 @@ function SearchBookList() {
                                            <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
                                         </div>
                                    </div>
-                              {/* <img className={UserMainCSS.mainImg} src={bgimg} alt={"배경"}/> */}
                     </div>
 
 
@@ -66,8 +65,8 @@ function SearchBookList() {
                                   <div className={styles.bookInfo}>
                                        <div className={styles.bookTitle}>그리고 바통은 넘겨졌다.</div>
                                        <div className={styles.credits}>
-                                            <div className={styles.bookAuthor}>세오 마이코</div> {/* 저자 */}
-                                            <div className={styles.bookPublisher}>스토리텔러</div> {/* 출판사 */}
+                                            <div className={styles.bookAuthor}>세오 마이코</div>
+                                            <div className={styles.bookPublisher}>스토리텔러</div>
                                        </div>
                                        <div className={styles.bookDetail}>“부모 역할에 대해 생각해 보게 하는 소설”이 소설의 재미는 
                                                                             기둥 줄거리를 이끌어 가는 37세 아버지와 17세 딸이 각각 아버지 역할과

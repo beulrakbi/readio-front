@@ -6,7 +6,7 @@ function RecommandedVideoList(){
           <>
                <div className={styles.List}>
                     <div className = {styles.Title}># 관련 콘텐츠 추천</div>
-                    <div className={styles.videoList}> {/* 하나의 영상 콘텐츠 */}
+                    <div className={styles.videoList}> 
                          <div className = {styles.videoBox}>     
                               {/* 영상 박스 */}
                          </div>
@@ -17,7 +17,7 @@ function RecommandedVideoList(){
                          </div>
                     </div>
 
-                    <div className={styles.videoList}> {/* 하나의 영상 콘텐츠 */}
+                    <div className={styles.videoList}>
                          <div className = {styles.videoBox}>     
                               {/* 영상 박스 */}
                          </div>
@@ -28,7 +28,7 @@ function RecommandedVideoList(){
                          </div>
                     </div>
 
-                    <div className={styles.videoList}> {/* 하나의 영상 콘텐츠 */}
+                    <div className={styles.videoList}>
                          <div className = {styles.videoBox}>     
                               {/* 영상 박스 */}
                          </div>
@@ -39,7 +39,7 @@ function RecommandedVideoList(){
                          </div>
                     </div>
 
-                    <div className={styles.videoList}> {/* 하나의 영상 콘텐츠 */}
+                    <div className={styles.videoList}>
                          <div className = {styles.videoBox}>     
                               {/* 영상 박스 */}
                          </div>
