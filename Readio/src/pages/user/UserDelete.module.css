@@ -1,0 +1,65 @@
+
+.UserDeletePage {
+    margin: 40px 10px 150px 10px;
+}
+
+.contentBox {
+    margin: 60px 0px 30px 0px;
+    border-top: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+}
+
+.title {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.description {
+    margin: 20px 0px 20px 0px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.hr {
+    border: none;
+    border-top: 2px solid #B4B4B4;
+    width: 45vw;
+    position: relative;
+    margin: 20px 0;
+}
+
+.termGroup {
+    border: 1px solid #B4B4B4;
+    /* width: auto; */
+    margin-bottom: 20px;
+    padding: 0px 10px 0px 10px;
+}
+
+.terms {
+    font-size: 11pt;
+}
+
+.terms a {
+    color: #3FBE48;
+}
+
+.submitBtnWrap {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.submitBtn {
+    padding: 5px 20px;
+    background-color: #808467;
+    color: white;
+    border: none;
+    /* border-radius: 5px; */
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-bottom: 100px;
+}
+
+.submitBtn:hover {
+    background-color: #AF4C3F;
+}
