@@ -1,10 +1,9 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from './layouts/Layout';
-import Join from "./pages/user/Join";
-import Login from "./pages/user/Login";
 import UserMain from "./pages/user/UserMain";
 import PostWriting from "./pages/post/PostWriting";
+import UserEdit from "./pages/user/UserEdit";
 
 function App() {
 
@@ -16,8 +15,7 @@ function App() {
           <Route index element={<UserMain/>}/>
           <Route path="post/writing" element={<PostWriting/>}/>
           
-        <Route path="/login" element={<Login />} /> {/* 로그인 */}
-        <Route path="/join" element={<Join />} /> {/* 회원가입 */}
+        <Route path="/users/edit" element={<UserEdit />} /> {/* 회원가입 */}
           </Route>
         </Routes>
       </BrowserRouter>
