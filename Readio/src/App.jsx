@@ -5,6 +5,7 @@ import AdminFaqWriting from "./pages/boardManagement/AdminFaqWriting";
 import AdminNoticeList from "./pages/boardManagement/adminNoticeList";
 import AdminNoticeWriting from "./pages/boardManagement/AdminNoticeWriting";
 import AdminQnaAnswer from "./pages/boardManagement/AdminQnaAnswer";
+import AdminQnaDetail from "./pages/boardManagement/AdminQnaDetail";
 import AdminQnaList from "./pages/boardManagement/AdminQnaList";
 import PostWriting from "./pages/post/PostWriting";
 import Faq from "./pages/serviceCenter/Faq";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/admin/faq/writing" element={<AdminFaqWriting/>}/>
           <Route path="/admin/qna" element={<AdminQnaList/>}/>
           <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
+          <Route path="/admin/qna/detail" element={<AdminQnaDetail/>}/>
         </Routes>
       </BrowserRouter>
     </>

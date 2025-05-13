@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import styles from './AdminQnaList.module.css';
 
 function AdminQnaList() {
@@ -24,12 +25,12 @@ function AdminQnaList() {
                                 <tr>
                                     <td><input type="checkbox" /></td>
                                     <td>0001</td>
-                                    <td>질문 테스트입니다.</td>
+                                    <td><NavLink to="/admin/qna/detail" className={styles.contentBtn}>질문 테스트입니다.</NavLink></td>
                                     <td>user1</td>
                                     <td>2025-05-12</td>
                                     <td>55</td>
                                     <td>
-                                        <button className={styles.answer}>답변</button>
+                                        <button className={styles.answer}><NavLink to="/admin/qna/answer" className={styles.answerbtn}>답변</NavLink></button>
                                         /
                                         <button className={styles.delete}>삭제</button>    
                                     </td>
