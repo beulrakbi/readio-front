@@ -7,6 +7,7 @@ import AdminNoticeWriting from "./pages/boardManagement/AdminNoticeWriting";
 import AdminQnaAnswer from "./pages/boardManagement/AdminQnaAnswer";
 import AdminQnaDetail from "./pages/boardManagement/AdminQnaDetail";
 import AdminQnaList from "./pages/boardManagement/AdminQnaList";
+import Bookmark from "./pages/bookmark/bookmark";
 import PostWriting from "./pages/post/PostWriting";
 import Faq from "./pages/serviceCenter/Faq";
 import NoticeDetail from "./pages/serviceCenter/NoticeDetail";
@@ -34,6 +35,7 @@ function App() {
           <Route path="/qna/detail" element={<QnaDetail/>}/>
           <Route path="/qna/writing" element={<QnaWriting/>}/>
           <Route path="/faq" element={<Faq/>}/>
+          <Route path="bookmark" element={<Bookmark/>}/>
         </Route>
           {/* 어드민 페이지 */}
           <Route path="/admin/notice" element={<AdminNoticeList/>}/>

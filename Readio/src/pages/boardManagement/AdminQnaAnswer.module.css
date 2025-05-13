@@ -61,7 +61,7 @@ body {
 }
 
 .submit {
-    background-color: #808467;
+    background-color: #AF4C3F;
     color: white;
 }
 
@@ -95,5 +95,5 @@ body {
     font-size: 14px;
 }
 .answerBox{
-    height: 5vh;
+    height: 10vh;
 }

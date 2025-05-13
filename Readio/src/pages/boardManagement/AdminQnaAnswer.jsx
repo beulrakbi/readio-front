@@ -4,7 +4,7 @@ function AdminQnaAnswer() {
         <>
         <div className={styles.bigContainer}>
             <div className={styles.smallHeader}>
-                <span className={styles.smallHeaderElement}>Qna</span>
+                <span className={styles.smallHeaderElement}>Q&A</span>
             </div>
             <div className={styles.line}></div>
             <div>

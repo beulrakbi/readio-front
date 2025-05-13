@@ -15,8 +15,8 @@ function Faq() {
             </div>
 
             <div className={styles.faqItem}>
-                <div className={styles.faqQuestion} onClick={() => toggleAnswer(0)}>
-                    Q1. 알고리즘이 이상해요!
+                <div className={styles.faqQuestion}>
+                    <span className={styles.questionTitle} onClick={() => toggleAnswer(0)}>Q1. 알고리즘이 이상해요!</span>
                 </div>
                 {openIndex === 0 && (
                     <div className={styles.faqAnswer}>
@@ -29,8 +29,8 @@ function Faq() {
             </div>
 
             <div className={styles.faqItem}>
-                <div className={styles.faqQuestion} onClick={() => toggleAnswer(1)}>
-                    Q2. 회원가입 하면 좋은 점은 무엇인가요?
+                <div className={styles.faqQuestion}>
+                    <span className={styles.questionTitle} onClick={() => toggleAnswer(1)}>Q2. 회원가입 하면 좋은 점은 무엇인가요?</span>
                 </div>
                 {openIndex === 1 && (
                     <div className={styles.faqAnswer}>
@@ -40,8 +40,8 @@ function Faq() {
             </div>
 
             <div className={styles.faqItem}>
-                <div className={styles.faqQuestion} onClick={() => toggleAnswer(2)}>
-                    Q3. 영상에 대한 댓글을 작성 못하나요?
+                <div className={styles.faqQuestion}>
+                    <span className={styles.questionTitle} onClick={() => toggleAnswer(2)}>Q3. 영상에 대한 댓글을 작성 못하나요?</span>
                 </div>
                 {openIndex === 2 && (
                     <div className={styles.faqAnswer}>
@@ -51,8 +51,8 @@ function Faq() {
             </div>
 
             <div className={styles.faqItem}>
-                <div className={styles.faqQuestion} onClick={() => toggleAnswer(3)}>
-                    Q4. 영상이 안나옵니다.
+                <div className={styles.faqQuestion}>
+                    <span className={styles.questionTitle} onClick={() => toggleAnswer(3)}>Q4. 영상이 안나옵니다.</span>
                 </div>
                 {openIndex === 3 && (
                     <div className={styles.faqAnswer}>
