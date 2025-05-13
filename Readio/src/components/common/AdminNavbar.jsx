@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import logo from "../../assets/MainPageNavLogo.png";
 import styles from './AdminNavbar.module.css';
 
@@ -19,10 +20,10 @@ function AdminNavbar() {
                     </ul>
                     <hr />
                     <ul>게시판 관리
-                         <li>공지사항</li>
+                         <li><NavLink to="/admin/notice">공지사항</NavLink></li>
                          <li>소식</li>
-                         <li>FAQ</li>
-                         <li>Q&A</li>
+                         <li><NavLink to="/admin/faq">FAQ</NavLink></li>
+                         <li><NavLink to="/admin/qna">Q&A</NavLink></li>
                     </ul>
                     <hr />
                     <ul>사이트 관리
