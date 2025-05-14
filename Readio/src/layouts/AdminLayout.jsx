@@ -8,7 +8,7 @@ function AdminLayout()
     return (
         <>
             <div className={styles.container}>
-            <AdminNavbar />       
+                <AdminNavbar />       
             <div className={styles.main}>
                 <Outlet />
                 <AdminFooter />

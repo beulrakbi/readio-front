@@ -6,7 +6,7 @@ p {
     border-top: 1px solid #383838;
     border-left: 1px solid #383838;
     height: 171px;
-    width: 115.5%;
+    width: 120%;
     flex-direction: row;
 }
 
@@ -14,6 +14,7 @@ p {
     background-color: #AF4C3F;
     width:285px;
     height:171px;
+    z-index: 1000;
 }
 
 .footerDiv {

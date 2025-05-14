@@ -3,6 +3,7 @@
   display: flex;
   align-items: stretch;
   min-height: 100vh;
+  overflow-x:hidden;
 }
 
 .main {
@@ -18,5 +19,4 @@
 .main > :last-child {
   position:relative;
   left:-286px;
-  z-index: 100;
 }
