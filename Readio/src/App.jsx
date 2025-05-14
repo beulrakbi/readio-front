@@ -12,8 +12,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout/>}>
           <Route index element={<UserMain/>}/>
+
           <Route path="post/writing" element={<PostWriting/>}/>
-          <Route path="verify-pwd" element={<VerifyPwd/>}/>
+          <Route path="users/verify-pwd" element={<VerifyPwd/>}/>  {/* 비밀번호 확인 */}
         </Route>
         </Routes>
       </BrowserRouter>
