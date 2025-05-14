@@ -5,6 +5,7 @@ import styles from './AdminNoticeList.module.css';
 function AdminNoticeList() {
     return (
         <>
+        <div className={styles.main}>
             <div className={styles.bigContainer}>
                 <div className={styles.smallHeader}>
                     <span className={styles.smallHeaderElement}>공지사항</span>
@@ -21,7 +22,7 @@ function AdminNoticeList() {
                             <tr>
                                 <th><input type="checkbox" /></th>
                                 <th>번호</th>
-                                <th>제목</th>
+                                <th className={styles.titleSize}>제목</th>
                                 <th>작성자</th>
                                 <th>작성일</th>
                                 <th>조회수</th>
@@ -50,6 +51,7 @@ function AdminNoticeList() {
                         </div>
                     </div>
             </div>
+        </div>
         </>
     );
 }

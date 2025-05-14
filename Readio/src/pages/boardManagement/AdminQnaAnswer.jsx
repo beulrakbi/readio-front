@@ -2,6 +2,7 @@ import styles from './AdminQnaAnswer.module.css';
 function AdminQnaAnswer() {
     return (
         <>
+        <div className={styles.main}>
         <div className={styles.bigContainer}>
             <div className={styles.smallHeader}>
                 <span className={styles.smallHeaderElement}>Q&A</span>
@@ -30,6 +31,7 @@ function AdminQnaAnswer() {
                     <button className={styles.cancel}>취소</button>
                 </div>
             </div>
+         </div>
          </div>
         </>
     );

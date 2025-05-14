@@ -4,6 +4,7 @@ import styles from './AdminFaqList.module.css';
 function AdminFaqList() {
     return (
         <>
+        <div className={styles.main}>
             <div className={styles.bigContainer}>
                 <div className={styles.smallHeader}>
                     <span className={styles.smallHeaderElement}>FAQ</span>
@@ -20,7 +21,7 @@ function AdminFaqList() {
                             <tr>
                                 <th><input type="checkbox" /></th>
                                 <th>번호</th>
-                                <th>제목</th>
+                                <th className={styles.titleSize}>제목</th>   
                                 <th>작성자</th>
                                 <th>작성일</th>
                             </tr>
@@ -46,6 +47,7 @@ function AdminFaqList() {
                             <p className={styles.num}>1 2 3 4 5</p>
                         </div>
                     </div>
+            </div>
             </div>
         </>
     );

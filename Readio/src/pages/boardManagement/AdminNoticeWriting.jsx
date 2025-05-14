@@ -19,6 +19,7 @@ function AdminNoticeWriting() {
 
     return (
         <>
+        <div className={styles.main}>
             <div className={styles.bigContainer}>
                 <div className={styles.smallHeader}>
                     <span className={styles.smallHeaderElement}>공지사항</span>
@@ -66,6 +67,7 @@ function AdminNoticeWriting() {
                     </div>
                 </div>
             </div>
+        </div>
         </>
     );
 }

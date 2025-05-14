@@ -1,17 +1,14 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
-body {
-    background-image: url('../../assets/texture.png');
-    background-repeat: repeat;
-    background-size: auto;
-    font-family: 'Pretendard Variable', sans-serif;
-}
 
 .bigContainer{
     padding-top: 4%;
     margin:auto;
     width: 80%;
-    /*height: 80vh;*/
+    background-image: url('../../assets/texture.png');
+    background-repeat: repeat;
+    background-size: auto;
+    font-family: 'Pretendard Variable', sans-serif;
 }
 .title{
     font-size: 30px;
@@ -23,7 +20,7 @@ body {
 .line{
     border: 1px solid black;
     width: 100%;
-    margin-top: -10px;
+    /* margin-top: -10px; */
 }
 .userId{
     font-size: 25px;
@@ -96,7 +93,7 @@ body {
 }
 .noticeBoard{
     display: flex;
-    width: 110px;
+    width: 130px;
     height: 60px;
 }
 .num{

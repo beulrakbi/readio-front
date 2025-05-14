@@ -12,6 +12,7 @@ function AdminFaqWriting() {
     };
     return (
         <>
+        <div className={styles.main}>
         <div className={styles.bigContainer}>
             <div className={styles.smallHeader}>
                 <span className={styles.smallHeaderElement}>FAQ</span>
@@ -30,6 +31,7 @@ function AdminFaqWriting() {
                 </div>
             </div>
          </div>
+        </div>
         </>
     );
 }
