@@ -1,4 +1,4 @@
-import logo from "../../assets/img/MainPageNavLogo.png";
+import logo from "../../assets/MainPageNavLogo.png";
 import styles from '../common/AdminNavbar.module.css';
 
 function AdminNavbar() {
