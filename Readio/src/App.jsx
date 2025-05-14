@@ -3,6 +3,7 @@ import BookPage from '../src/pages/book/BookPage';
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
 import AdminMain from "./pages/admin/AdminMain";
+import PostWriting from "./pages/post/PostWriting";
 import UserMain from "./pages/user/UserMain";
 
 function App() {
