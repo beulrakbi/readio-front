@@ -1,3 +1,5 @@
+import sample from "./testBook.json";
+
 export function getBooks()
 {
 
@@ -21,4 +23,17 @@ export function testBook() {
     return fetch(corsProxy + encodeURIComponent(targetUrl))
     .then(response => response.json());
 
+}
+
+export function testBooksxxxx()
+{
+    const corsProxy = 'https://corsproxy.io/?';
+    const targetUrl = 'http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=ttbbbyubbu1233001&Query=aladdin&QueryType=Title&MaxResults=10&start=1&SearchTarget=Book&output=js&Version=20131101';
+    return fetch(corsProxy + encodeURIComponent(targetUrl))
+    .then(response => response.json());
+}
+
+export function testBooks()
+{
+    return sample;
 }

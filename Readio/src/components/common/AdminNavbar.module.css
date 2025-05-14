@@ -1,13 +1,15 @@
 
 
 .Navbar {
-     position:absolute;
-     width: 285px;
-     height: 100%;
+     position: relative;
+     max-width: 285px;
+     min-width: 285px;
+     /* min-height: 100vh; */
      color: #F6EEB6;
      background-color: #383838;
      display: flex;
      flex-direction: column;
+     top:0;
 }
 
 .buttonBox {
