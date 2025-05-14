@@ -43,6 +43,9 @@ function UserManagement() {
 
     return (
         <div className={styles.wrapper}>
+            <hr className={styles.line1}/>
+                       <h2>&nbsp;&nbsp;&nbsp;회원관리</h2>
+                         <hr className={styles.line1}/>
             {/* 조건 검색 영역 */}
             <div className={styles.searchSection}>
                 <div className={styles.rowGroup}>
@@ -97,6 +100,7 @@ function UserManagement() {
                 <button onClick={handleSearch} className={styles.searchButton}>검색</button>
             </div>
 
+ 
             {/* 회원 테이블 */}
             <table className={styles.table}>
                 <thead className={styles.tableHead}>
