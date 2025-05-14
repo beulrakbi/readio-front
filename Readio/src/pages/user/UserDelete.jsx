@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import styles from './UserDelete.module.css';
 import eraserImg from '../../assets/UserDelete-eraser.png'; // 지우개 이미지 경로
+import styles from './UserDelete.module.css';
 
 function UserDelete() {
     const [agreed, setAgreed] = useState(false);
@@ -73,7 +73,7 @@ function UserDelete() {
                         </p>
 
                         <p className={styles.terms}>
-                            <a>✓</a>  탈퇴 후에는 아이디 (user01) 로 다시 가입할 수 없으며, 아이디와 데이터는 복구할 수 없습니다. <br />
+                            <a>✓</a>  탈퇴 후에는 아이디 (user01) 로 다시 가입할 수 없으며, 아이디와 데이터는 복구할 수 없습니다. <br />
                         </p>
                     </div>
                     <div className={styles.checkBoxWrap}>
@@ -88,7 +88,7 @@ function UserDelete() {
                         </div>
                         {showError && (
                             <p className={styles.error}>안내 사항에 동의하셔야 탈퇴가 가능합니다.</p>
-                        )}
+                        )};
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@ function UserDelete() {
                         </div>
                     </div>
                 </div>
-            )}
+            )};
         </>
     );
 }
