@@ -1,19 +1,7 @@
-import { useState } from 'react';
-import styles from './UserEdit.module.css';
 import { NavLink } from 'react-router-dom';
+import styles from './UserEdit.module.css';
 
 function UserEdit() {
-
-    // 약관 동의 상태 관리 _모달 기능
-    const [isTermsModalOpen, setTermsModalOpen] = useState(false);
-    const [isPrivacyModalOpen, setPrivacyModalOpen] = useState(false);
-    // 모달 핸들러
-
-    const openTermsModal = () => setTermsModalOpen(true);
-    const closeTermsModal = () => setTermsModalOpen(false);
-
-    const openPrivacyModal = () => setPrivacyModalOpen(true);
-    const closePrivacyModal = () => setPrivacyModalOpen(false);
 
     return (
         <div className={styles.UserEditPage}>
@@ -21,11 +9,9 @@ function UserEdit() {
             <section className={styles.formSection}>
                 <hr className={styles.line1} />
                 <h2 className={styles.sectionTitle}>&nbsp;&nbsp;
-                    회원정보 입력
-                    <span className={styles.required}>(필수)</span>
+                    회원정보 수정
                 </h2>
                 <hr className={styles.line2} />
-
 
                 <div className={styles.formGroup}>
                     <label>이름</label>
@@ -65,7 +51,7 @@ function UserEdit() {
             <section className={styles.termsSection}>
                 <p className={styles.description}>
                     • 회원탈퇴 후 동일 아이디로 재가입이 불가합니다.
-                    <NavLink to={""} className={styles.deleteAccount}>회원탈퇴
+                    <NavLink to={""} className={styles.deleteAccount}>회원탈퇴 &gt;
                     </NavLink>
                 </p>
                 {/* <div className={styles.deleteAccountWrap}> */}

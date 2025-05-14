@@ -14,7 +14,7 @@ function UserNav({isOpen})
                         <div className={UserNavCSS.naviLine}></div>
                     </div>
                     <div className={UserNavCSS.naviLink}>
-                        <NavLink to="/" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
+                        <NavLink to="/users/edit" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>내 서재</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>피드</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>소식</NavLink>
