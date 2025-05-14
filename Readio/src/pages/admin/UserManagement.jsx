@@ -9,8 +9,13 @@ function UserManagement() {
     const [userTypes, setUserTypes] = useState({ 일반회원: false, 정지회원: false, 관리자: false });
     const [reportStatus, setReportStatus] = useState("");
     const [userRole, setUserRole] = useState("일반회원");
+
+    /* 페이지네이션 */
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 10; // 예시로 10페이지로 설정
+
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleUserTypeChange = (type) => {
         setUserTypes((prev) => ({ ...prev, [type]: !prev[type] }));
@@ -23,6 +28,17 @@ function UserManagement() {
     const handleRoleChange = (e) => {
         setUserRole(e.target.value);
         console.log("권한 변경됨:", e.target.value);
+    };
+
+    /* 모달 핸들러 (아이디 클릭시)*/
+    const handleUserClick = (userId) => {
+        setSelectedUser(userId); // 실제로는 전체 사용자 객체를 설정하는 게 좋음
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedUser(null);
     };
 
     return (
@@ -99,7 +115,11 @@ function UserManagement() {
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>user01</td>
+                        <td>
+                            <span onClick={() => handleUserClick("user01")} className={styles.userIdClickable}>
+                                user01
+                            </span>
+                        </td>
                         <td>user01@example.com</td>
                         <td>2024-12-01</td>
                         <td>일반회원</td>
@@ -303,8 +323,22 @@ function UserManagement() {
                 ))}
                 <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>&gt;</button>
             </div>
-            {/* 페이지네이션 */}
+            {/* 페이지네이션 끝*/}
+
+            {
+                isModalOpen && (
+                    <div className={styles.modalOverlay} onClick={closeModal}>
+                        <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                            <h3>회원 상세 정보</h3>
+                            <p>아이디: {selectedUser}</p>
+                            <p>이메일: {selectedUser}</p>
+                            <button onClick={closeModal}>닫기</button>
+                        </div>
+                    </div>
+                )
+            }
         </div>
+
     );
 }
 export default UserManagement;
