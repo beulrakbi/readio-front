@@ -9,7 +9,8 @@ function AdminNavbar() {
 
                     <img src={logo} className={styles.Logo} alt="Logo" /> 
                     <br />
-                    <button className={styles.login}>로그인</button>
+                    {/* <button className={styles.login}>로그인</button> */}
+                    <Link to="/login" className={styles.login}>로그인</Link>
                </div>
                <div className={styles.Nav}>
                     <hr />

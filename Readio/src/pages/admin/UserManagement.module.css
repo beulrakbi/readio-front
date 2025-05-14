@@ -1,0 +1,95 @@
+.wrapper {
+    padding: 80px 150px 20px 150px;
+    background-color: #E8E8E1;
+}
+
+.searchSection {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+}
+
+.selectBox {
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+}
+
+.inputBox {
+    border: 1px solid #ccc;
+    padding: 7px 10px;
+    width: 180px;
+}
+
+.dateInput {
+    border: 1px solid #ccc;
+    padding: 4pt 8pt;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 4pt;
+}
+
+.searchButton {
+    background-color: #808467;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 5px;
+    width: 15%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border-style: none;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 20px;
+    /* align-self: center; */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13pt;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ccc;
+    padding: 8pt 10pt;
+    text-align: center;
+}
+
+.tableHead {
+    background-color: #f3f4f6;
+    height: 60px;
+    font-weight: bold;
+}
+
+.deleteButton {
+    background-color: #ef4444;
+    color: white;
+    padding: 3px 9px;
+    border-radius: 5px;
+    border-style: none;
+}
+
+.rowGroup {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.row {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
