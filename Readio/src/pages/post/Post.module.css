@@ -449,6 +449,11 @@ body {
     cursor: pointer;
 }
 
+.followingBt {
+  background-color: #b5b5b5;
+  color: #000000;
+}
+
 .postDetailOptionbt {
     margin-right: 20px;
     border-style: none;
@@ -459,6 +464,11 @@ body {
 
 .postDetailOption {
     height: 25px;
+}
+
+.postDetailList {
+    display: none;
+    visibility: hidden;
 }
 
 .postDetailTitle {

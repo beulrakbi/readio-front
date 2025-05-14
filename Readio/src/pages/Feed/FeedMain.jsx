@@ -10,15 +10,21 @@ import book2 from '../../assets/book2.png';
 import FeedCSS from './Feed.module.css'
 import PostCSS from '../post/Post.module.css'
 import { useState } from 'react';
+import {NavLink} from "react-router-dom";
 
 function FeedMain () {
 
     const [activeTab, setActiveTab] = useState('rec');
     const [subTab, setSubTab] = useState('all')
+    const [isFollowing, setIsFollowing] = useState(false);
 
     const handleMainTabClick = (tabName) => {
         setActiveTab(tabName);
         setSubTab('all');
+    };
+
+    const toggleFollow = () => {
+        setIsFollowing(!isFollowing);
     };
 
     const renderRec = () => {
@@ -36,9 +42,16 @@ function FeedMain () {
                                 <button className={PostCSS.postDetailLikebt}>
                                     <img src={postBeLike} className={PostCSS.postDetailLike}/>
                                 </button>
-                                <button className={PostCSS.postDetailFollwbt}>팔로우</button>
-                                <button className={PostCSS.postDetailOptionbt}>
+                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                                onClick={toggleFollow}>
+                                {isFollowing ? '팔로잉' : '팔로우'}
+                                </button>
+                                <button className={PostCSS.postDetailOptionbt} type='button' aria-haspopup='true' aria-expanded='false' aria-controls='options-dropdown'>
                                     <img src={postDetailOption} className={PostCSS.postDetailOption}/>
+                                        <ul className={PostCSS.postDetailList } role="menu" id="options-dropdown" aria-labelledby="options-menu-button">
+                                            <li role='none'><NavLink to="/">수정하기</NavLink></li>
+                                            <li role='none'>삭제하기</li>
+                                        </ul>
                                 </button>
                             </div>
                         </div>
@@ -67,7 +80,10 @@ function FeedMain () {
                                 <button className={PostCSS.postDetailLikebt}>
                                     <img src={postBeLike} className={PostCSS.postDetailLike}/>
                                 </button>
-                                <button className={PostCSS.postDetailFollwbt}>팔로우</button>
+                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                                onClick={toggleFollow}>
+                                {isFollowing ? '팔로잉' : '팔로우'}
+                                </button>
                                 <button className={PostCSS.postDetailOptionbt}>
                                     <img src={postDetailOption} className={PostCSS.postDetailOption}/>
                                 </button>
@@ -100,7 +116,10 @@ function FeedMain () {
                                 <button className={PostCSS.postDetailLikebt}>
                                     <img src={postBeLike} className={PostCSS.postDetailLike}/>
                                 </button>
-                                <button className={PostCSS.postDetailFollwbt}>팔로우</button>
+                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                                onClick={toggleFollow}>
+                                {isFollowing ? '팔로잉' : '팔로우'}
+                                </button>
                                 <button className={PostCSS.postDetailOptionbt}>
                                     <img src={postDetailOption} className={PostCSS.postDetailOption}/>
                                 </button>
@@ -136,7 +155,10 @@ function FeedMain () {
                                 <button className={PostCSS.postDetailLikebt}>
                                     <img src={postBeLike} className={PostCSS.postDetailLike}/>
                                 </button>
-                                <button className={PostCSS.postDetailFollwbt}>팔로우</button>
+                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                                onClick={toggleFollow}>
+                                {isFollowing ? '팔로잉' : '팔로우'}
+                                </button>
                                 <button className={PostCSS.postDetailOptionbt}>
                                     <img src={postDetailOption} className={PostCSS.postDetailOption}/>
                                 </button>
@@ -173,10 +195,15 @@ function FeedMain () {
                                 <button className={PostCSS.postDetailLikebt}>
                                     <img src={postBeLike} className={PostCSS.postDetailLike}/>
                                 </button>
-                                <button className={PostCSS.postDetailFollwbt}>팔로우</button>
-                                <button className={PostCSS.postDetailOptionbt}>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
+                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                                onClick={toggleFollow}>
+                                {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
+                                <ul className={PostCSS.postDetailOptionbt}>
+                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
+                                    <li>수정하기</li>
+                                    <li>삭제하기</li>
+                                </ul>
                             </div>
                         </div>
                         <div className={FeedCSS.feedPostConDiv}>
@@ -204,7 +231,10 @@ function FeedMain () {
                                 <button className={PostCSS.postDetailLikebt}>
                                     <img src={postBeLike} className={PostCSS.postDetailLike}/>
                                 </button>
-                                <button className={PostCSS.postDetailFollwbt}>팔로우</button>
+                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                                onClick={toggleFollow}>
+                                {isFollowing ? '팔로잉' : '팔로우'}
+                                </button>
                                 <button className={PostCSS.postDetailOptionbt}>
                                     <img src={postDetailOption} className={PostCSS.postDetailOption}/>
                                 </button>
@@ -237,7 +267,10 @@ function FeedMain () {
                                 <button className={PostCSS.postDetailLikebt}>
                                     <img src={postBeLike} className={PostCSS.postDetailLike}/>
                                 </button>
-                                <button className={PostCSS.postDetailFollwbt}>팔로우</button>
+                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                                onClick={toggleFollow}>
+                                {isFollowing ? '팔로잉' : '팔로우'}
+                                </button>
                                 <button className={PostCSS.postDetailOptionbt}>
                                     <img src={postDetailOption} className={PostCSS.postDetailOption}/>
                                 </button>
@@ -273,7 +306,10 @@ function FeedMain () {
                                 <button className={PostCSS.postDetailLikebt}>
                                     <img src={postBeLike} className={PostCSS.postDetailLike}/>
                                 </button>
-                                <button className={PostCSS.postDetailFollwbt}>팔로우</button>
+                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                                onClick={toggleFollow}>
+                                {isFollowing ? '팔로잉' : '팔로우'}
+                                </button>
                                 <button className={PostCSS.postDetailOptionbt}>
                                     <img src={postDetailOption} className={PostCSS.postDetailOption}/>
                                 </button>
@@ -294,11 +330,6 @@ function FeedMain () {
             );
         }
     }
-    // const [isFollowing, setIsFollowing] = useState(false);
-
-    // const toggleFollow = () => {
-    //     setIsFollowing(!isFollowing);
-    // };
 
     return (
         <div className={FeedCSS.feedDiv}>
@@ -317,9 +348,9 @@ function FeedMain () {
                         onClick={() => setSubTab('post')}>포스트</button>
                         <button className={`${FeedCSS.feedReviewBt} ${subTab === 'review' ? FeedCSS.activeTaAf : FeedCSS.feedReviewBt} `}
                         onClick={() => setSubTab('review')}>리뷰</button>
-                        <button className={FeedCSS.feedWritingBt}>
+                       <NavLink to={"/post/writing"} className={FeedCSS.feedWritingBt}>
                             <img src={FeedRecWriting}/>
-                        </button>
+                        </NavLink>
                     </div>
                     {renderRec()}
                 </div>
@@ -332,9 +363,9 @@ function FeedMain () {
                         onClick={() => setSubTab('post')}>포스트</button>
                         <button className={`${FeedCSS.feedReviewBt} ${subTab === 'review' ? FeedCSS.activeTaAf : FeedCSS.feedReviewBt} `}
                         onClick={() => setSubTab('review')}>리뷰</button>
-                        <button className={FeedCSS.feedWritingBt}>
+                        <NavLink to={"/post/writing"} className={FeedCSS.feedWritingBt}>
                             <img src={FeedRecWriting}/>
-                        </button>
+                        </NavLink>
                     </div>
                     {renderFollowing()}
                 </div>

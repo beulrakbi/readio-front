@@ -42,7 +42,7 @@
 }
 
 .activeTab {
-  border-bottom: 4px solid #d44b4b; /* 클릭된 탭: 빨간 밑줄 */
+  border-bottom: 4px solid #d44b4b;
   
 }
 

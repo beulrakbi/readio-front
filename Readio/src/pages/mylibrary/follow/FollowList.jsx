@@ -8,7 +8,7 @@ import { useState } from 'react';
 function FollowList () {
 
     const [activeTab, setActiveTab] = useState('follower');
-    const [isFollowing, setIsFollowing] = useState(false); // 상태 추가
+    const [isFollowing, setIsFollowing] = useState(false);
 
     const toggleFollow = () => {
         setIsFollowing(!isFollowing);
@@ -31,16 +31,13 @@ function FollowList () {
                     </button>
                 </div>
             </div>
-            {/* 목록 영역 */}
             {activeTab === 'follower' ? (
                 <div className={FollowCSS.followProfileDiv}>
-                    {/* 팔로워 목록 예시 */}
                     <img src={profileImg3} className={FollowCSS.followProfileImg} alt="profile" />
                     <div className={FollowCSS.followProfile}>
                         <li className={FollowCSS.followProfileFont}>강적99</li>
                         <li className={FollowCSS.followFont}>팔로워 51명</li>
                     </div>
-                    {/* 버튼 스타일 조건부 적용 */}
                     <button
                         className={`${FollowCSS.followBt} ${isFollowing ? FollowCSS.followingBt : ''}`}
                         onClick={toggleFollow}
@@ -50,7 +47,6 @@ function FollowList () {
                 </div>
             ) : (
                 <div className={FollowCSS.followProfileDiv}>
-                    {/* 팔로잉 목록 예시 */}
                     <img src={profileImg1} className={FollowCSS.followProfileImg} alt="profile" />
                     <div className={FollowCSS.followProfile}>
                         <li className={FollowCSS.followProfileFont}>토리_tory</li>

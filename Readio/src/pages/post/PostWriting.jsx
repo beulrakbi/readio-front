@@ -4,8 +4,8 @@ import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
 import PostWritingSizeIcon from '../../assets/PostWritingSize.png';
 import PostWritingAlignIcon from '../../assets/PostWritingAlign.png';
 import PostWritingBookIcon from '../../assets/PostWritingBook.png';
-import PostCSS from './Post.module.css';                        // 경로 수정
-import PostWritingBook from './PostWritingBook';                   // 경로 수정
+import PostCSS from './Post.module.css';
+import PostWritingBook from './PostWritingBook';
 
 function PostWriting() {
     const fileInputRef = useRef(null);
@@ -62,7 +62,6 @@ function PostWriting() {
         };
         console.log("등록할 데이터:", postData);
         alert("게시글 등록 로직을 여기에 구현합니다.");
-        // 실제 API 호출 로직
     };
 
     return (
@@ -100,10 +99,9 @@ function PostWriting() {
                     onInput={handleTextareaInput}
                     maxLength={2500}
                 />
-                {/* <label htmlFor="imageInput" className={PostCSS.imageUploadLabel}></label> 이 label은 현재 비어있으므로, 스타일링 목적이 아니면 제거 가능 */}
                 <input
                     type="file"
-                    id="imageInput" /* label과 연결하려면 label에 내용이 있거나 스타일링 되어야 함 */
+                    id="imageInput"
                     accept="image/*"
                     onChange={handleImageUpload}
                     ref={fileInputRef}
