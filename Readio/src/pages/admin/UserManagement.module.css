@@ -1,5 +1,5 @@
 .wrapper {
-    padding: 80px 150px 20px 150px;
+    padding: 180px 150px 180px 150px;
     background-color: #E8E8E1;
 }
 
@@ -16,54 +16,63 @@
     width: 100%;
 }
 
+.selectBox,
+.inputBox,
+.dateInput {
+  width: 180px;
+}
+
 .selectBox {
     border: 1px solid #ccc;
-    padding: 4px 8px;
+    padding: 7px 10px;
 }
 
 .inputBox {
     border: 1px solid #ccc;
-    padding: 7px 10px;
-    width: 180px;
+    padding: 8px 10px;
+    width: 195px;
 }
 
 .dateInput {
     border: 1px solid #ccc;
-    padding: 4pt 8pt;
+    padding: 7pt 10pt;
 }
 
 .checkboxLabel {
     display: flex;
     align-items: center;
     gap: 4pt;
+    font-size: 12pt;
 }
 
 .searchButton {
     background-color: #808467;
     color: white;
-    padding: 8px 10px;
+    padding: 7px 10px;
     border-radius: 5px;
     width: 15%;
-    align-items: center;
-    display: flex;
-    justify-content: center;
     border-style: none;
     cursor: pointer;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    /* align-items: center; */
+    /* display: flex; */
+    /* justify-content: center; */
     /* align-self: center; */
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 13pt;
+    font-size: 12pt;
 }
 
 .table th,
 .table td {
     border: 1px solid #ccc;
-    padding: 8pt 10pt;
+    padding: 6pt 10pt;
     text-align: center;
 }
 
@@ -87,9 +96,44 @@
     gap: 15px;
 }
 
-.row {
-    flex: 1;
+
+.row label {
+    min-width: 90px;
+    /* 라벨 너비 늘림 */
+    font-weight: bold;
+}
+
+
+/* 페이지 스타일 */
+.pagination {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 30px;
+    margin-top: 24px;
+    gap: 8px;
+}
+
+.pagination button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #AF4C3F;
+}
+
+.pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.activePage {
+    background-color: #007bff;
+    color: rgb(0, 0, 0);
+    border-color: #007bff;
 }

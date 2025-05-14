@@ -9,6 +9,8 @@ function UserManagement() {
     const [userTypes, setUserTypes] = useState({ 일반회원: false, 정지회원: false, 관리자: false });
     const [reportStatus, setReportStatus] = useState("");
     const [userRole, setUserRole] = useState("일반회원");
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = 10; // 예시로 10페이지로 설정
 
     const handleUserTypeChange = (type) => {
         setUserTypes((prev) => ({ ...prev, [type]: !prev[type] }));
@@ -171,7 +173,7 @@ function UserManagement() {
                         </td>
                     </tr>
 
-                                        <tr>
+                    <tr>
                         <td>5</td>
                         <td>user05</td>
                         <td>user01@example.com</td>
@@ -190,7 +192,7 @@ function UserManagement() {
                         </td>
                     </tr>
 
-                                        <tr>
+                    <tr>
                         <td>6</td>
                         <td>user06</td>
                         <td>user01@example.com</td>
@@ -209,7 +211,7 @@ function UserManagement() {
                         </td>
                     </tr>
 
-                                        <tr>
+                    <tr>
                         <td>7</td>
                         <td>user07</td>
                         <td>user01@example.com</td>
@@ -228,7 +230,7 @@ function UserManagement() {
                         </td>
                     </tr>
 
-                                        <tr>
+                    <tr>
                         <td>8</td>
                         <td>user08</td>
                         <td>user01@example.com</td>
@@ -247,7 +249,7 @@ function UserManagement() {
                         </td>
                     </tr>
 
-                                        <tr>
+                    <tr>
                         <td>9</td>
                         <td>user09</td>
                         <td>user01@example.com</td>
@@ -266,7 +268,7 @@ function UserManagement() {
                         </td>
                     </tr>
 
-                                        <tr>
+                    <tr>
                         <td>10</td>
                         <td>user10</td>
                         <td>user01@example.com</td>
@@ -284,10 +286,23 @@ function UserManagement() {
                             <button className={styles.deleteButton}>삭제</button>
                         </td>
                     </tr>
-
-
                 </tbody>
             </table>
+
+            {/* 페이지네이션 */}
+            <div className={styles.pagination}>
+                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>&lt;</button>
+                {[...Array(totalPages)].map((_, index) => (
+                    <button
+                        key={index + 1}
+                        onClick={() => handlePageChange(index + 1)}
+                        className={currentPage === index + 1 ? styles.activePage : ""}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+                <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>&gt;</button>
+            </div>
             {/* 페이지네이션 */}
         </div>
     );
