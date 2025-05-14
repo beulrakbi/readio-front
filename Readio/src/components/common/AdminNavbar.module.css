@@ -1,5 +1,4 @@
 
-
 .Navbar {
      position: relative;
      max-width: 285px;
@@ -9,7 +8,6 @@
      display: flex;
      flex-direction: column;
      top:0;
-     z-index: -300;
 }
 
 .buttonBox {

@@ -4,7 +4,6 @@ import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
 import AdminMain from "./pages/admin/AdminMain";
 import UserMain from "./pages/user/UserMain";
-import PostWriting from "./pages/post/PostWriting";
 
 function App() {
 
@@ -20,7 +19,6 @@ function App() {
           <Route index element={<AdminMain/>}/>
           </Route>
           <Route path="post/writing" element={<PostWriting/>}/>
-        </Route>
         </Routes>
       </BrowserRouter>
     </>
