@@ -26,6 +26,12 @@
     cursor: pointer;
 }
 
+.activeTab {
+    border-bottom: 1px solid #000000;
+}
+
+
+
 .feedListBtDiv {
     width: 1000px;
     height: 80px;
@@ -40,9 +46,9 @@
     width: 80px;
     height: 30px;
     border-style: none;
-    background-color: #F6EEB6;
+    background-color: #B4B4B4;
     border-radius: 10px;
-    color: #c20505;
+    color: #000000;
     font-size: 18px;
     cursor: pointer;
 }
@@ -70,6 +76,13 @@
     margin-left: 20px;
     cursor: pointer;
 }
+
+.activeTaAf {
+    background-color: #F6EEB6;
+    color: #c20505;
+    font-size: 18px;
+}
+
 
 .feedWritingBt {
     height: 30px;
