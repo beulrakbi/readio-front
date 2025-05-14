@@ -1,15 +1,44 @@
+import { useEffect, useRef, useState } from 'react';
+import book1 from '../../assets/book1.jpg';
+import postBeLike from '../../assets/postBeLike.png';
+import postContentImg from '../../assets/postContentImg.png';
+import postDetailHeart from '../../assets/postDetailHeart.png';
+import postDetailOption from '../../assets/postDetailOption.png';
+import postDetailReview from '../../assets/postDetailReview.png';
+import postLike from '../../assets/postLike.png';
 import profileImg1 from '../../assets/profileImg1.png';
 import profileImg2 from '../../assets/profileImg2.png';
 import profileImg3 from '../../assets/profileImg3.png';
-import postDetailOption from '../../assets/postDetailOption.png';
-import postLike from '../../assets/postLike.png';
-import postContentImg from '../../assets/postContentImg.png';
-import postDetailHeart from '../../assets/postDetailHeart.png';
-import postDetailReview from '../../assets/postDetailReview.png';
-import book1 from '../../assets/book1.jpg';
 import PostCSS from './Post.module.css';
 
 function PostDetail () {
+
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [likeTab, setLikeTab] = useState('cencel')
+
+    const toggleFollow = () => {
+        setIsFollowing(!isFollowing);
+    };
+
+    const detailsRef = useRef(null);
+
+    useEffect (() => {
+        const handleClickOut = (event) => {
+            if (detailsRef.current && detailsRef.current.open && !detailsRef.current.contains(event.target)) {
+                detailsRef.current.open = false;
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOut);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOut);
+        };
+    }, []);
+
+    const toggleLike = () => {
+        setLikeTab(!likeTab)
+    }
+
     return (
         <div className={PostCSS.postDetailDiv}>
             <div className={PostCSS.postProfileDiv}>
@@ -19,13 +48,23 @@ function PostDetail () {
                     <li>2025.4.29</li>
                 </div>
                 <div className={PostCSS.postDetailBtDiv}>
-                    <button className={PostCSS.postDetailLikebt}>
-                        <img src={postLike} className={PostCSS.postDetailLike}/>
+                    <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                    onClick={toggleLike}>
+                        <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                     </button>
-                    <button className={PostCSS.postDetailFollwbt}>팔로우</button>
-                    <button className={PostCSS.postDetailOptionbt}>
-                        <img src={postDetailOption} className={PostCSS.postDetailOption}/>
+                    <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
+                    onClick={toggleFollow}>
+                        {isFollowing ? '팔로잉' : '팔로우'}
                     </button>
+                    <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                        <summary className={PostCSS.postDetailOptionbt}>
+                            <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                        </summary>
+                        <div className={PostCSS.postOptionList}>
+                            <p className={PostCSS.postOptionModify}>수정하기</p>
+                            <p className={PostCSS.postOptionDelete}>삭제하기</p>
+                        </div>
+                    </details>
                 </div>
             </div> 
             <h2 className={PostCSS.postDetailTitle}>진짜 생존 신고</h2>

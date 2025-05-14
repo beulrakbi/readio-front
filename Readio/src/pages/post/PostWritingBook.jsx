@@ -1,7 +1,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { searchAladinBooks } from '../../components/modules/bookSearchThunk' // Thunk 경로
-import { setQuery, setType, resetSearch } from '../../components/modules/bookSearchSlice'; // Slice 액션 경로
+import { resetSearch, setQuery, setType } from '../../components/modules/bookSearchSlice'; // Slice 액션 경로
+import { searchAladinBooks } from '../../components/modules/bookSearchThunk'; // Thunk 경로
 
 function PostWritingBook({ onBookSelect, onClose, PostCSS }) {
     const dispatch = useDispatch();
@@ -55,14 +55,6 @@ function PostWritingBook({ onBookSelect, onClose, PostCSS }) {
         onBookSelect(book); // 부모 컴포넌트로 선택된 책 정보 전달
         if (onClose) onClose(); // 모달 닫기
     };
-
-    // 컴포넌트 언마운트 시 검색 관련 상태 초기화 (선택적)
-    // useEffect(() => {
-    //     return () => {
-    //         dispatch(resetSearch());
-    //         dispatch(setQuery('')); // 검색어도 초기화
-    //     };
-    // }, [dispatch]);
 
     return (
         <div className={PostCSS.writingBookDiv}>

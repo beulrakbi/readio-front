@@ -1,22 +1,24 @@
+import { useEffect, useRef, useState } from 'react';
+import { NavLink } from "react-router-dom";
+import book2 from '../../assets/book2.png';
+import feedConImg from '../../assets/feedConImg.png';
 import FeedRecWriting from '../../assets/FeedRecWriting.png';
+import postBeLike from '../../assets/postBeLike.png';
+import postDetailHeart from '../../assets/postDetailHeart.png';
+import postDetailOption from '../../assets/postDetailOption.png';
+import postDetailReview from '../../assets/postDetailReview.png';
+import postLike from '../../assets/postLike.png';
 import profileImg2 from '../../assets/profileImg2.png';
 import profileImg3 from '../../assets/profileImg3.png';
-import postDetailOption from '../../assets/postDetailOption.png';
-import postDetailHeart from '../../assets/postDetailHeart.png';
-import postDetailReview from '../../assets/postDetailReview.png';
-import feedConImg from '../../assets/feedConImg.png';
-import postBeLike from '../../assets/postBeLike.png';
-import book2 from '../../assets/book2.png';
-import FeedCSS from './Feed.module.css'
-import PostCSS from '../post/Post.module.css'
-import { useState } from 'react';
-import {NavLink} from "react-router-dom";
+import PostCSS from '../post/Post.module.css';
+import FeedCSS from './Feed.module.css';
 
 function FeedMain () {
 
     const [activeTab, setActiveTab] = useState('rec');
     const [subTab, setSubTab] = useState('all')
     const [isFollowing, setIsFollowing] = useState(false);
+    const [likeTab, setLikeTab] = useState('cencel')
 
     const handleMainTabClick = (tabName) => {
         setActiveTab(tabName);
@@ -26,6 +28,26 @@ function FeedMain () {
     const toggleFollow = () => {
         setIsFollowing(!isFollowing);
     };
+
+    const detailsRef = useRef(null);
+
+    useEffect (() => {
+        const handleClickOut = (event) => {
+            if (detailsRef.current && detailsRef.current.open && !detailsRef.current.contains(event.target)) {
+                detailsRef.current.open = false;
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOut);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOut);
+        };
+    }, []);
+
+    const toggleLike = () => {
+        setLikeTab(!likeTab)
+    }
+
 
     const renderRec = () => {
         if (subTab === 'all') {
@@ -39,20 +61,22 @@ function FeedMain () {
                                 <li>포스트 • 3분전</li>
                             </div>
                             <div className={PostCSS.postDetailBtDiv}>
-                                <button className={PostCSS.postDetailLikebt}>
-                                    <img src={postBeLike} className={PostCSS.postDetailLike}/>
+                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                                onClick={toggleLike}>
+                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                                 </button>
                                 <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                                 onClick={toggleFollow}>
-                                {isFollowing ? '팔로잉' : '팔로우'}
+                                    {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
-                                <button className={PostCSS.postDetailOptionbt} type='button' aria-haspopup='true' aria-expanded='false' aria-controls='options-dropdown'>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
-                                        <ul className={PostCSS.postDetailList } role="menu" id="options-dropdown" aria-labelledby="options-menu-button">
-                                            <li role='none'><NavLink to="/">수정하기</NavLink></li>
-                                            <li role='none'>삭제하기</li>
-                                        </ul>
-                                </button>
+                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                                    <summary className={PostCSS.postDetailOptionbt}>
+                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                                    </summary>
+                                    <div className={PostCSS.postDetailList }>
+                                        <p>신고하기</p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         <div className={FeedCSS.feedPostConDiv}>
@@ -77,16 +101,22 @@ function FeedMain () {
                                 <li>리뷰 • 5분전</li>
                             </div>
                             <div className={PostCSS.postDetailBtDiv}>
-                                <button className={PostCSS.postDetailLikebt}>
-                                    <img src={postBeLike} className={PostCSS.postDetailLike}/>
+                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                                onClick={toggleLike}>
+                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                                 </button>
                                 <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                                 onClick={toggleFollow}>
                                 {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
-                                <button className={PostCSS.postDetailOptionbt}>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
-                                </button>
+                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                                    <summary className={PostCSS.postDetailOptionbt}>
+                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                                    </summary>
+                                    <div className={PostCSS.postDetailList }>
+                                        <p>신고하기</p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         <div className={FeedCSS.feedReConDiv}>
@@ -113,16 +143,22 @@ function FeedMain () {
                                 <li>포스트 • 3분전</li>
                             </div>
                             <div className={PostCSS.postDetailBtDiv}>
-                                <button className={PostCSS.postDetailLikebt}>
-                                    <img src={postBeLike} className={PostCSS.postDetailLike}/>
+                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                                onClick={toggleLike}>
+                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                                 </button>
                                 <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                                 onClick={toggleFollow}>
                                 {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
-                                <button className={PostCSS.postDetailOptionbt}>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
-                                </button>
+                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                                    <summary className={PostCSS.postDetailOptionbt}>
+                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                                    </summary>
+                                    <div className={PostCSS.postDetailList }>
+                                        <p>신고하기</p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         <div className={FeedCSS.feedPostConDiv}>
@@ -152,16 +188,22 @@ function FeedMain () {
                                 <li>리뷰 • 5분전</li>
                             </div>
                             <div className={PostCSS.postDetailBtDiv}>
-                                <button className={PostCSS.postDetailLikebt}>
-                                    <img src={postBeLike} className={PostCSS.postDetailLike}/>
+                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                                onClick={toggleLike}>
+                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                                 </button>
                                 <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                                 onClick={toggleFollow}>
                                 {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
-                                <button className={PostCSS.postDetailOptionbt}>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
-                                </button>
+                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                                    <summary className={PostCSS.postDetailOptionbt}>
+                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                                    </summary>
+                                    <div className={PostCSS.postDetailList }>
+                                        <p>신고하기</p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         <div className={FeedCSS.feedReConDiv}>
@@ -192,18 +234,22 @@ function FeedMain () {
                                 <li>포스트 • 3분전</li>
                             </div>
                             <div className={PostCSS.postDetailBtDiv}>
-                                <button className={PostCSS.postDetailLikebt}>
-                                    <img src={postBeLike} className={PostCSS.postDetailLike}/>
+                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                                onClick={toggleLike}>
+                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                                 </button>
                                 <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                                 onClick={toggleFollow}>
                                 {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
-                                <ul className={PostCSS.postDetailOptionbt}>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
-                                    <li>수정하기</li>
-                                    <li>삭제하기</li>
-                                </ul>
+                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                                    <summary className={PostCSS.postDetailOptionbt}>
+                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                                    </summary>
+                                    <div className={PostCSS.postDetailList }>
+                                        <p>신고하기</p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         <div className={FeedCSS.feedPostConDiv}>
@@ -228,16 +274,22 @@ function FeedMain () {
                                 <li>리뷰 • 5분전</li>
                             </div>
                             <div className={PostCSS.postDetailBtDiv}>
-                                <button className={PostCSS.postDetailLikebt}>
-                                    <img src={postBeLike} className={PostCSS.postDetailLike}/>
+                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                                onClick={toggleLike}>
+                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                                 </button>
                                 <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                                 onClick={toggleFollow}>
                                 {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
-                                <button className={PostCSS.postDetailOptionbt}>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
-                                </button>
+                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                                    <summary className={PostCSS.postDetailOptionbt}>
+                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                                    </summary>
+                                    <div className={PostCSS.postDetailList }>
+                                        <p>신고하기</p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         <div className={FeedCSS.feedReConDiv}>
@@ -264,16 +316,22 @@ function FeedMain () {
                                 <li>포스트 • 3분전</li>
                             </div>
                             <div className={PostCSS.postDetailBtDiv}>
-                                <button className={PostCSS.postDetailLikebt}>
-                                    <img src={postBeLike} className={PostCSS.postDetailLike}/>
+                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                                onClick={toggleLike}>
+                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                                 </button>
                                 <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                                 onClick={toggleFollow}>
                                 {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
-                                <button className={PostCSS.postDetailOptionbt}>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
-                                </button>
+                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                                    <summary className={PostCSS.postDetailOptionbt}>
+                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                                    </summary>
+                                    <div className={PostCSS.postDetailList }>
+                                        <p>신고하기</p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         <div className={FeedCSS.feedPostConDiv}>
@@ -303,16 +361,22 @@ function FeedMain () {
                                 <li>리뷰 • 5분전</li>
                             </div>
                             <div className={PostCSS.postDetailBtDiv}>
-                                <button className={PostCSS.postDetailLikebt}>
-                                    <img src={postBeLike} className={PostCSS.postDetailLike}/>
+                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
+                                onClick={toggleLike}>
+                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
                                 </button>
                                 <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                                 onClick={toggleFollow}>
                                 {isFollowing ? '팔로잉' : '팔로우'}
                                 </button>
-                                <button className={PostCSS.postDetailOptionbt}>
-                                    <img src={postDetailOption} className={PostCSS.postDetailOption}/>
-                                </button>
+                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
+                                    <summary className={PostCSS.postDetailOptionbt}>
+                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
+                                    </summary>
+                                    <div className={PostCSS.postDetailList }>
+                                        <p>신고하기</p>
+                                    </div>
+                                </details>
                             </div>
                         </div>
                         <div className={FeedCSS.feedReConDiv}>
