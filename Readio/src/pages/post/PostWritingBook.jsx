@@ -1,7 +1,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { resetSearch, setQuery, setType } from '../../components/modules/bookSearchSlice'; // Slice 액션 경로
-import { searchAladinBooks } from '../../components/modules/bookSearchThunk'; // Thunk 경로
+import { resetSearch, setQuery, setType } from '../../components/modules/postwriting/bookSearchSlice'; // Slice 액션 경로
+import { searchAladinBooks } from '../../components/modules/postwriting/bookSearchThunk'; // Thunk 경로
 
 function PostWritingBook({ onBookSelect, onClose, PostCSS }) {
     const dispatch = useDispatch();
@@ -71,7 +71,6 @@ function PostWritingBook({ onBookSelect, onClose, PostCSS }) {
                     <option value="Title">도서명으로 검색</option>
                     <option value="Author">저자명으로 검색</option>
                     <option value="Publisher">출판사명으로 검색</option>
-                    <option value="ItemNewAll">신간 전체보기</option>
                 </select>
                 <input
                     type="text"

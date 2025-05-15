@@ -1,24 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
-import { NavLink } from "react-router-dom";
+import { useState } from 'react';
 import book2 from '../../assets/book2.png';
 import feedConImg from '../../assets/feedConImg.png';
-import FeedRecWriting from '../../assets/FeedRecWriting.png';
-import postBeLike from '../../assets/postBeLike.png';
-import postDetailHeart from '../../assets/postDetailHeart.png';
-import postDetailOption from '../../assets/postDetailOption.png';
-import postDetailReview from '../../assets/postDetailReview.png';
-import postLike from '../../assets/postLike.png';
 import profileImg2 from '../../assets/profileImg2.png';
 import profileImg3 from '../../assets/profileImg3.png';
-import PostCSS from '../post/Post.module.css';
 import FeedCSS from './Feed.module.css';
+import TabNavigation from '../../components/modules/feed/TabNavigation';
+import SubTabNavigation from '../../components/modules/feed/SubTabNavigation';
+import FeedItemPost from '../../components/modules/feed/FeedItemPost';
+import FeedItemReview from '../../components/modules/feed/FeedItemReview';
 
-function FeedMain () {
-
+function FeedMain() {
     const [activeTab, setActiveTab] = useState('rec');
-    const [subTab, setSubTab] = useState('all')
+    const [subTab, setSubTab] = useState('all');
     const [isFollowing, setIsFollowing] = useState(false);
-    const [likeTab, setLikeTab] = useState('cencel')
+    const [likeTab, setLikeTab] = useState(false);
 
     const handleMainTabClick = (tabName) => {
         setActiveTab(tabName);
@@ -29,195 +24,77 @@ function FeedMain () {
         setIsFollowing(!isFollowing);
     };
 
-    const detailsRef = useRef(null);
-
-    useEffect (() => {
-        const handleClickOut = (event) => {
-            if (detailsRef.current && detailsRef.current.open && !detailsRef.current.contains(event.target)) {
-                detailsRef.current.open = false;
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOut);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOut);
-        };
-    }, []);
-
     const toggleLike = () => {
-        setLikeTab(!likeTab)
-    }
+        setLikeTab(prevLikeTab => typeof prevLikeTab === 'string' ? true : !prevLikeTab);
+    };
 
+    const isLikedBoolean = typeof likeTab === 'string' ? false : likeTab;
 
     const renderRec = () => {
         if (subTab === 'all') {
             return (
                 <>
-                    <div className={FeedCSS.feedContentDiv}>
-                        <div className={FeedCSS.feedPostProfileDiv}>
-                            <img src={profileImg3} className={FeedCSS.feedPostProfileImg} />
-                            <div className={FeedCSS.feedPostProfile}>
-                                <li>강적99</li>
-                                <li>포스트 • 3분전</li>
-                            </div>
-                            <div className={PostCSS.postDetailBtDiv}>
-                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
-                                onClick={toggleLike}>
-                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
-                                </button>
-                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
-                                onClick={toggleFollow}>
-                                    {isFollowing ? '팔로잉' : '팔로우'}
-                                </button>
-                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
-                                    <summary className={PostCSS.postDetailOptionbt}>
-                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
-                                    </summary>
-                                    <div className={PostCSS.postDetailList }>
-                                        <p>신고하기</p>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedPostConDiv}>
-                            <div className={FeedCSS.feedPostCon}>
-                                <h2>어른의 맞춤법</h2>
-                                <p>읽은 기간 : 25.04.15 / 25.04.26 읽은 부분 : 시작 ~ 너도나도 헷갈리는 기초 맞춤법 규정 1. - 맞춤법을 공부할 때 마음가짐으로 삼아야겠따. 독서 일기를 수시로 따로 쓰니 밀리에 독서 감상을 자세히 적어야 할 이유를 못느끼겠다. 앞으로는 독서 후에 새롭게 알게된 내용을 정리하기 보단 감상 위주로 적어야겠다.</p>
-                            </div>
-                            <div className={FeedCSS.feedPostConImgDiv}>
-                                <img src={feedConImg} className={FeedCSS.feedPostConImg}/>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedPostHeartDiv}>
-                            <span className={FeedCSS.feedPostHeartSpan}><img src={postDetailHeart} className={FeedCSS.feedPostHeart}/>15</span>
-                            <span className={FeedCSS.feedPostHeartSpan}><img src={postDetailReview} className={FeedCSS.feedPostReview}/>3</span>
-                        </div>
-                    </div>
-                    <div className={FeedCSS.feedContentDiv}>
-                        <div className={FeedCSS.feedPostProfileDiv}>
-                            <img src={profileImg2} className={FeedCSS.feedPostProfileImg} />
-                            <div className={FeedCSS.feedPostProfile}>
-                                <li>배병</li>
-                                <li>리뷰 • 5분전</li>
-                            </div>
-                            <div className={PostCSS.postDetailBtDiv}>
-                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
-                                onClick={toggleLike}>
-                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
-                                </button>
-                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
-                                onClick={toggleFollow}>
-                                {isFollowing ? '팔로잉' : '팔로우'}
-                                </button>
-                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
-                                    <summary className={PostCSS.postDetailOptionbt}>
-                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
-                                    </summary>
-                                    <div className={PostCSS.postDetailList }>
-                                        <p>신고하기</p>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedReConDiv}>
-                            <p className={FeedCSS.feedReCon}>재미있었습니다 주인공이 마지막 전투에서 막검을 얻은 후 동료들에게 배신을 당하고 회귀하여 복수하는 내용입니다 많이 보이는 설정이죠? 그럼에도 나름 스토리라인이 억지스럽지 않고 매끄럽게 진행되어갑니다 물론 막검....</p>
-                        </div>
-                        <div className={FeedCSS.feedReBookDiv}>
-                            <img src={book2} className={FeedCSS.feedReBook}/>
-                            <div className={FeedCSS.feedReBookTitleDiv}>
-                                <h3 className={FeedCSS.feedReBookTitle}>신화급 마검 헌터 1권</h3>
-                                <p className={FeedCSS.feedReBookTitle}>태일 지음</p>
-                            </div>
-                        </div>
-                    </div>
+                    <FeedItemPost
+                        profileImg={profileImg3}
+                        userName="강적99"
+                        postMeta="포스트 • 3분전"
+                        isLikedProp={isLikedBoolean}
+                        isFollowingProp={isFollowing}
+                        onToggleLike={toggleLike}
+                        onToggleFollow={toggleFollow}
+                        title="어른의 맞춤법"
+                        text="읽은 기간 : 25.04.15 / 25.04.26 읽은 부분 : 시작 ~ 너도나도 헷갈리는 기초 맞춤법 규정 1. - 맞춤법을 공부할 때 마음가짐으로 삼아야겠따. 독서 일기를 수시로 따로 쓰니 밀리에 독서 감상을 자세히 적어야 할 이유를 못느끼겠다. 앞으로는 독서 후에 새롭게 알게된 내용을 정리하기 보단 감상 위주로 적어야겠다."
+                        contentImg={feedConImg}
+                        likesCount={15}
+                        reviewsCount={3}
+                    />
+                    <FeedItemReview
+                        profileImg={profileImg2}
+                        userName="배병"
+                        postMeta="리뷰 • 5분전"
+                        isLikedProp={isLikedBoolean}
+                        isFollowingProp={isFollowing}
+                        onToggleLike={toggleLike}
+                        onToggleFollow={toggleFollow}
+                        reviewText="재미있었습니다 주인공이 마지막 전투에서 막검을 얻은 후 동료들에게 배신을 당하고 회귀하여 복수하는 내용입니다 많이 보이는 설정이죠? 그럼에도 나름 스토리라인이 억지스럽지 않고 매끄럽게 진행되어갑니다 물론 막검...."
+                        bookImg={book2}
+                        bookTitle="신화급 마검 헌터 1권"
+                        bookAuthor="태일 지음"
+                    />
                 </>
             );
         } else if (subTab === 'post') {
             return (
-                <>
-                    <div className={FeedCSS.feedContentDiv}>
-                        <div className={FeedCSS.feedPostProfileDiv}>
-                            <img src={profileImg3} className={FeedCSS.feedPostProfileImg} />
-                            <div className={FeedCSS.feedPostProfile}>
-                                <li>강적99</li>
-                                <li>포스트 • 3분전</li>
-                            </div>
-                            <div className={PostCSS.postDetailBtDiv}>
-                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
-                                onClick={toggleLike}>
-                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
-                                </button>
-                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
-                                onClick={toggleFollow}>
-                                {isFollowing ? '팔로잉' : '팔로우'}
-                                </button>
-                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
-                                    <summary className={PostCSS.postDetailOptionbt}>
-                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
-                                    </summary>
-                                    <div className={PostCSS.postDetailList }>
-                                        <p>신고하기</p>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedPostConDiv}>
-                            <div className={FeedCSS.feedPostCon}>
-                                <h2>어른의 맞춤법</h2>
-                                <p>읽은 기간 : 25.04.15 / 25.04.26 읽은 부분 : 시작 ~ 너도나도 헷갈리는 기초 맞춤법 규정 1. - 맞춤법을 공부할 때 마음가짐으로 삼아야겠따. 독서 일기를 수시로 따로 쓰니 밀리에 독서 감상을 자세히 적어야 할 이유를 못느끼겠다. 앞으로는 독서 후에 새롭게 알게된 내용을 정리하기 보단 감상 위주로 적어야겠다.</p>
-                            </div>
-                            <div className={FeedCSS.feedPostConImgDiv}>
-                                <img src={feedConImg} className={FeedCSS.feedPostConImg}/>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedPostHeartDiv}>
-                            <span className={FeedCSS.feedPostHeartSpan}><img src={postDetailHeart} className={FeedCSS.feedPostHeart}/>15</span>
-                            <span className={FeedCSS.feedPostHeartSpan}><img src={postDetailReview} className={FeedCSS.feedPostReview}/>3</span>
-                        </div>
-                    </div>
-                </>
+                <FeedItemPost
+                    profileImg={profileImg3}
+                    userName="강적99"
+                    postMeta="포스트 • 3분전"
+                    isLikedProp={isLikedBoolean}
+                    isFollowingProp={isFollowing}
+                    onToggleLike={toggleLike}
+                    onToggleFollow={toggleFollow}
+                    title="어른의 맞춤법"
+                    text="읽은 기간 : 25.04.15 / 25.04.26 읽은 부분 : 시작 ~ 너도나도 헷갈리는 기초 맞춤법 규정 1. - 맞춤법을 공부할 때 마음가짐으로 삼아야겠따. 독서 일기를 수시로 따로 쓰니 밀리에 독서 감상을 자세히 적어야 할 이유를 못느끼겠다. 앞으로는 독서 후에 새롭게 알게된 내용을 정리하기 보단 감상 위주로 적어야겠다."
+                    contentImg={feedConImg}
+                    likesCount={15}
+                    reviewsCount={3}
+                />
             );
-        } else {
+        } else { // subTab === 'review'
             return (
-                <>
-                    <div className={FeedCSS.feedContentDiv}>
-                        <div className={FeedCSS.feedPostProfileDiv}>
-                            <img src={profileImg2} className={FeedCSS.feedPostProfileImg} />
-                            <div className={FeedCSS.feedPostProfile}>
-                                <li>배병</li>
-                                <li>리뷰 • 5분전</li>
-                            </div>
-                            <div className={PostCSS.postDetailBtDiv}>
-                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
-                                onClick={toggleLike}>
-                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
-                                </button>
-                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
-                                onClick={toggleFollow}>
-                                {isFollowing ? '팔로잉' : '팔로우'}
-                                </button>
-                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
-                                    <summary className={PostCSS.postDetailOptionbt}>
-                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
-                                    </summary>
-                                    <div className={PostCSS.postDetailList }>
-                                        <p>신고하기</p>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedReConDiv}>
-                            <p className={FeedCSS.feedReCon}>재미있었습니다 주인공이 마지막 전투에서 막검을 얻은 후 동료들에게 배신을 당하고 회귀하여 복수하는 내용입니다 많이 보이는 설정이죠? 그럼에도 나름 스토리라인이 억지스럽지 않고 매끄럽게 진행되어갑니다 물론 막검....</p>
-                        </div>
-                        <div className={FeedCSS.feedReBookDiv}>
-                            <img src={book2} className={FeedCSS.feedReBook}/>
-                            <div className={FeedCSS.feedReBookTitleDiv}>
-                                <h3 className={FeedCSS.feedReBookTitle}>신화급 마검 헌터 1권</h3>
-                                <p className={FeedCSS.feedReBookTitle}>태일 지음</p>
-                            </div>
-                        </div>
-                    </div>
-                </>
+                <FeedItemReview
+                    profileImg={profileImg2}
+                    userName="배병"
+                    postMeta="리뷰 • 5분전"
+                    isLikedProp={isLikedBoolean}
+                    isFollowingProp={isFollowing}
+                    onToggleLike={toggleLike}
+                    onToggleFollow={toggleFollow}
+                    reviewText="재미있었습니다 주인공이 마지막 전투에서 막검을 얻은 후 동료들에게 배신을 당하고 회귀하여 복수하는 내용입니다 많이 보이는 설정이죠? 그럼에도 나름 스토리라인이 억지스럽지 않고 매끄럽게 진행되어갑니다 물론 막검...."
+                    bookImg={book2}
+                    bookTitle="신화급 마검 헌터 1권"
+                    bookAuthor="태일 지음"
+                />
             );
         }
     }
@@ -226,216 +103,79 @@ function FeedMain () {
         if (subTab === 'all') {
             return (
                 <>
-                    <div className={FeedCSS.feedContentDiv}>
-                        <div className={FeedCSS.feedPostProfileDiv}>
-                            <img src={profileImg3} className={FeedCSS.feedPostProfileImg} />
-                            <div className={FeedCSS.feedPostProfile}>
-                                <li>강적99</li>
-                                <li>포스트 • 3분전</li>
-                            </div>
-                            <div className={PostCSS.postDetailBtDiv}>
-                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
-                                onClick={toggleLike}>
-                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
-                                </button>
-                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
-                                onClick={toggleFollow}>
-                                {isFollowing ? '팔로잉' : '팔로우'}
-                                </button>
-                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
-                                    <summary className={PostCSS.postDetailOptionbt}>
-                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
-                                    </summary>
-                                    <div className={PostCSS.postDetailList }>
-                                        <p>신고하기</p>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedPostConDiv}>
-                            <div className={FeedCSS.feedPostCon}>
-                                <h2>어른의 맞춤법</h2>
-                                <p>읽은 기간 : 25.04.15 / 25.04.26 읽은 부분 : 시작 ~ 너도나도 헷갈리는 기초 맞춤법 규정 1. - 맞춤법을 공부할 때 마음가짐으로 삼아야겠따. 독서 일기를 수시로 따로 쓰니 밀리에 독서 감상을 자세히 적어야 할 이유를 못느끼겠다. 앞으로는 독서 후에 새롭게 알게된 내용을 정리하기 보단 감상 위주로 적어야겠다.</p>
-                            </div>
-                            <div className={FeedCSS.feedPostConImgDiv}>
-                                <img src={feedConImg} className={FeedCSS.feedPostConImg}/>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedPostHeartDiv}>
-                            <span className={FeedCSS.feedPostHeartSpan}><img src={postDetailHeart} className={FeedCSS.feedPostHeart}/>15</span>
-                            <span className={FeedCSS.feedPostHeartSpan}><img src={postDetailReview} className={FeedCSS.feedPostReview}/>3</span>
-                        </div>
-                    </div>
-                    <div className={FeedCSS.feedContentDiv}>
-                        <div className={FeedCSS.feedPostProfileDiv}>
-                            <img src={profileImg2} className={FeedCSS.feedPostProfileImg} />
-                            <div className={FeedCSS.feedPostProfile}>
-                                <li>배병</li>
-                                <li>리뷰 • 5분전</li>
-                            </div>
-                            <div className={PostCSS.postDetailBtDiv}>
-                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
-                                onClick={toggleLike}>
-                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
-                                </button>
-                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
-                                onClick={toggleFollow}>
-                                {isFollowing ? '팔로잉' : '팔로우'}
-                                </button>
-                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
-                                    <summary className={PostCSS.postDetailOptionbt}>
-                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
-                                    </summary>
-                                    <div className={PostCSS.postDetailList }>
-                                        <p>신고하기</p>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedReConDiv}>
-                            <p className={FeedCSS.feedReCon}>재미있었습니다 주인공이 마지막 전투에서 막검을 얻은 후 동료들에게 배신을 당하고 회귀하여 복수하는 내용입니다 많이 보이는 설정이죠? 그럼에도 나름 스토리라인이 억지스럽지 않고 매끄럽게 진행되어갑니다 물론 막검....</p>
-                        </div>
-                        <div className={FeedCSS.feedReBookDiv}>
-                            <img src={book2} className={FeedCSS.feedReBook}/>
-                            <div className={FeedCSS.feedReBookTitleDiv}>
-                                <h3 className={FeedCSS.feedReBookTitle}>신화급 마검 헌터 1권</h3>
-                                <p className={FeedCSS.feedReBookTitle}>태일 지음</p>
-                            </div>
-                        </div>
-                    </div>
+                    <FeedItemPost
+                        profileImg={profileImg3}
+                        userName="강적99"
+                        postMeta="포스트 • 3분전"
+                        isLikedProp={isLikedBoolean}
+                        isFollowingProp={isFollowing}
+                        onToggleLike={toggleLike}
+                        onToggleFollow={toggleFollow}
+                        title="어른의 맞춤법"
+                        text="팔로잉 탭에 표시될 포스트 내용입니다. 실제로는 다른 데이터가 와야 합니다."
+                        contentImg={feedConImg}
+                        likesCount={15}
+                        reviewsCount={3}
+                    />
+                    <FeedItemReview
+                        profileImg={profileImg2}
+                        userName="배병"
+                        postMeta="리뷰 • 5분전"
+                        isLikedProp={isLikedBoolean}
+                        isFollowingProp={isFollowing}
+                        onToggleLike={toggleLike}
+                        onToggleFollow={toggleFollow}
+                        reviewText="팔로잉 탭에 표시될 리뷰 내용입니다. 실제로는 다른 데이터가 와야 합니다."
+                        bookImg={book2}
+                        bookTitle="신화급 마검 헌터 1권"
+                        bookAuthor="태일 지음"
+                    />
                 </>
             );
         } else if (subTab === 'post') {
             return (
-                <>
-                    <div className={FeedCSS.feedContentDiv}>
-                        <div className={FeedCSS.feedPostProfileDiv}>
-                            <img src={profileImg3} className={FeedCSS.feedPostProfileImg} />
-                            <div className={FeedCSS.feedPostProfile}>
-                                <li>강적99</li>
-                                <li>포스트 • 3분전</li>
-                            </div>
-                            <div className={PostCSS.postDetailBtDiv}>
-                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
-                                onClick={toggleLike}>
-                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
-                                </button>
-                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
-                                onClick={toggleFollow}>
-                                {isFollowing ? '팔로잉' : '팔로우'}
-                                </button>
-                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
-                                    <summary className={PostCSS.postDetailOptionbt}>
-                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
-                                    </summary>
-                                    <div className={PostCSS.postDetailList }>
-                                        <p>신고하기</p>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedPostConDiv}>
-                            <div className={FeedCSS.feedPostCon}>
-                                <h2>어른의 맞춤법</h2>
-                                <p>읽은 기간 : 25.04.15 / 25.04.26 읽은 부분 : 시작 ~ 너도나도 헷갈리는 기초 맞춤법 규정 1. - 맞춤법을 공부할 때 마음가짐으로 삼아야겠따. 독서 일기를 수시로 따로 쓰니 밀리에 독서 감상을 자세히 적어야 할 이유를 못느끼겠다. 앞으로는 독서 후에 새롭게 알게된 내용을 정리하기 보단 감상 위주로 적어야겠다.</p>
-                            </div>
-                            <div className={FeedCSS.feedPostConImgDiv}>
-                                <img src={feedConImg} className={FeedCSS.feedPostConImg}/>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedPostHeartDiv}>
-                            <span className={FeedCSS.feedPostHeartSpan}><img src={postDetailHeart} className={FeedCSS.feedPostHeart}/>15</span>
-                            <span className={FeedCSS.feedPostHeartSpan}><img src={postDetailReview} className={FeedCSS.feedPostReview}/>3</span>
-                        </div>
-                    </div>
-                </>
+                <FeedItemPost
+                    profileImg={profileImg3}
+                    userName="강적99"
+                    postMeta="포스트 • 3분전"
+                    isLikedProp={isLikedBoolean}
+                    isFollowingProp={isFollowing}
+                    onToggleLike={toggleLike}
+                    onToggleFollow={toggleFollow}
+                    title="어른의 맞춤법"
+                    text="팔로잉 탭에 표시될 포스트 내용입니다. 실제로는 다른 데이터가 와야 합니다."
+                    contentImg={feedConImg}
+                    likesCount={15}
+                    reviewsCount={3}
+                />
             );
         } else {
             return (
-                <>
-                    <div className={FeedCSS.feedContentDiv}>
-                        <div className={FeedCSS.feedPostProfileDiv}>
-                            <img src={profileImg2} className={FeedCSS.feedPostProfileImg} />
-                            <div className={FeedCSS.feedPostProfile}>
-                                <li>배병</li>
-                                <li>리뷰 • 5분전</li>
-                            </div>
-                            <div className={PostCSS.postDetailBtDiv}>
-                                <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
-                                onClick={toggleLike}>
-                                    <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
-                                </button>
-                                <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
-                                onClick={toggleFollow}>
-                                {isFollowing ? '팔로잉' : '팔로우'}
-                                </button>
-                                <details ref={detailsRef} style={{position:'relative', display:'inline-block'}}>
-                                    <summary className={PostCSS.postDetailOptionbt}>
-                                        <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption}/>
-                                    </summary>
-                                    <div className={PostCSS.postDetailList }>
-                                        <p>신고하기</p>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-                        <div className={FeedCSS.feedReConDiv}>
-                            <p className={FeedCSS.feedReCon}>재미있었습니다 주인공이 마지막 전투에서 막검을 얻은 후 동료들에게 배신을 당하고 회귀하여 복수하는 내용입니다 많이 보이는 설정이죠? 그럼에도 나름 스토리라인이 억지스럽지 않고 매끄럽게 진행되어갑니다 물론 막검....</p>
-                        </div>
-                        <div className={FeedCSS.feedReBookDiv}>
-                            <img src={book2} className={FeedCSS.feedReBook}/>
-                            <div className={FeedCSS.feedReBookTitleDiv}>
-                                <h3 className={FeedCSS.feedReBookTitle}>신화급 마검 헌터 1권</h3>
-                                <p className={FeedCSS.feedReBookTitle}>태일 지음</p>
-                            </div>
-                        </div>
-                    </div>
-                </>
+                <FeedItemReview
+                    profileImg={profileImg2}
+                    userName="배병"
+                    postMeta="리뷰 • 5분전"
+                    isLikedProp={isLikedBoolean}
+                    isFollowingProp={isFollowing}
+                    onToggleLike={toggleLike}
+                    onToggleFollow={toggleFollow}
+                    reviewText="팔로잉 탭에 표시될 리뷰 내용입니다. 실제로는 다른 데이터가 와야 합니다."
+                    bookImg={book2}
+                    bookTitle="신화급 마검 헌터 1권"
+                    bookAuthor="태일 지음"
+                />
             );
         }
     }
 
     return (
         <div className={FeedCSS.feedDiv}>
-            <div className={FeedCSS.feedRecDiv}>
-                <button className={`${FeedCSS.feedRecBt} ${activeTab === 'rec' ? FeedCSS.activeTab : ''} `}
-                        onClick={() => handleMainTabClick('rec')}>추천</button>
-                <button className={`${FeedCSS.feedFollowBt} ${activeTab === 'following' ? FeedCSS.activeTab : ''} `}
-                        onClick={() => handleMainTabClick('following')}>팔로잉</button>
-            </div>
-            {activeTab === 'rec' ? (
-                <div>
-                    <div className={FeedCSS.feedListBtDiv}>
-                        <button className={`${FeedCSS.feedAllBt} ${subTab === 'all' ? FeedCSS.activeTaAf : FeedCSS.feedAllBt} `}
-                        onClick={() => setSubTab('all')}>전체</button>
-                        <button className={`${FeedCSS.feedPostBt} ${subTab === 'post' ? FeedCSS.activeTaAf : FeedCSS.feedPostBt} `}
-                        onClick={() => setSubTab('post')}>포스트</button>
-                        <button className={`${FeedCSS.feedReviewBt} ${subTab === 'review' ? FeedCSS.activeTaAf : FeedCSS.feedReviewBt} `}
-                        onClick={() => setSubTab('review')}>리뷰</button>
-                       <NavLink to={"/post/writing"} className={FeedCSS.feedWritingBt}>
-                            <img src={FeedRecWriting}/>
-                        </NavLink>
-                    </div>
-                    {renderRec()}
-                </div>
-            ) : (
-                <div>
-                    <div className={FeedCSS.feedListBtDiv}>
-                        <button className={`${FeedCSS.feedAllBt} ${subTab === 'all' ? FeedCSS.activeTaAf : FeedCSS.feedAllBt} `}
-                        onClick={() => setSubTab('all')}>전체</button>
-                        <button className={`${FeedCSS.feedPostBt} ${subTab === 'post' ? FeedCSS.activeTaAf : FeedCSS.feedPostBt} `}
-                        onClick={() => setSubTab('post')}>포스트</button>
-                        <button className={`${FeedCSS.feedReviewBt} ${subTab === 'review' ? FeedCSS.activeTaAf : FeedCSS.feedReviewBt} `}
-                        onClick={() => setSubTab('review')}>리뷰</button>
-                        <NavLink to={"/post/writing"} className={FeedCSS.feedWritingBt}>
-                            <img src={FeedRecWriting}/>
-                        </NavLink>
-                    </div>
-                    {renderFollowing()}
-                </div>
-            )}
+            <TabNavigation activeTab={activeTab} onMainTabClick={handleMainTabClick} />
+            <SubTabNavigation subTab={subTab} onSubTabClick={setSubTab} />
+            
+            {activeTab === 'rec' ? renderRec() : renderFollowing()}
         </div>
-    )
+    );
 }
 
-export default FeedMain
+export default FeedMain;

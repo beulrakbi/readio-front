@@ -10,11 +10,13 @@ import profileImg1 from '../../assets/profileImg1.png';
 import profileImg2 from '../../assets/profileImg2.png';
 import profileImg3 from '../../assets/profileImg3.png';
 import PostCSS from './Post.module.css';
+import FeedItemPost from '../../components/modules/feed/FeedItemPost';
+
 
 function PostDetail () {
 
     const [isFollowing, setIsFollowing] = useState(false);
-    const [likeTab, setLikeTab] = useState('cencel')
+    const [likeTab, setLikeTab] = useState(false);
 
     const toggleFollow = () => {
         setIsFollowing(!isFollowing);
@@ -36,8 +38,11 @@ function PostDetail () {
     }, []);
 
     const toggleLike = () => {
-        setLikeTab(!likeTab)
-    }
+        setLikeTab(prevLikeTab => typeof prevLikeTab === 'string' ? true : !prevLikeTab);
+    };
+
+    // const isLikedBoolean = typeof likeTab === 'string' ? false : likeTab;
+
 
     return (
         <div className={PostCSS.postDetailDiv}>
@@ -50,7 +55,7 @@ function PostDetail () {
                 <div className={PostCSS.postDetailBtDiv}>
                     <button className={`${PostCSS.postDetailLikebt} ${likeTab ? postBeLike : postLike}`}
                     onClick={toggleLike}>
-                        <img src={likeTab ? postBeLike : postLike} className={PostCSS.postDetailLike}/>
+                        <img src={likeTab ? postLike : postBeLike} className={PostCSS.postDetailLike} alt="like button"/>
                     </button>
                     <button className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
                     onClick={toggleFollow}>
