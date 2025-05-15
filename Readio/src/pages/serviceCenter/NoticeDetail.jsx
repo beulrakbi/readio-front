@@ -3,8 +3,8 @@ function NoticeDetail() {
     return (
         <>
             <div className={styles.bigContainer}>
-                <div>
                     <p className={styles.sort}>공지사항</p>
+                <div>
                     <p className={styles.title}>공지사항 테스트중입니다.1</p>
                 </div>
                 <div className={styles.line}></div>
