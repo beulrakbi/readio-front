@@ -11,7 +11,7 @@ body {
     overflow-x: hidden;
 }
 .block {
-    margin: 0 250px 80px 250px;
+    margin: 80px 250px 60px 250px;
     padding: 0;
 }
 
@@ -21,17 +21,71 @@ body {
     color: #676767;
     text-align: left;
     width: 100%;
-    margin: 30px 150px 50px 150px;
+    margin: 50px 150px 30px 0;
+}
+.subtitle{
+    font-size: 22px;
+    font-weight: bold;
+    color: #676767;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    width: 100%;
+    margin-bottom: 60px;
+}
+.triangleBtn {
+    width: 10px;
+    height: 10px;
+    border-style: solid;
+    background: transparent;
+    cursor: pointer;
+}
+
+.left {
+    border-width: 10px 12px 10px 10px;
+    border-color: transparent #AF4C3F transparent transparent;
+}
+
+.right {
+    border-width: 10px 0 10px 12px;
+    border-color: transparent transparent transparent #AF4C3F;
+}
+.tabBar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.tabButton {
+    min-width: 100px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 30px;
+    font-weight: 600;
+    font-size: 15px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+
+.activeTab {
+    background-color: #f6eeb6;
+    color: #AF4C3F;
 }
 
 .dayCell {
-    height: 50px;
+    height: 100px;
     text-align: center;
-    line-height: 50px;
+    line-height: 60px;
     font-size: 15px;
+    font-weight: 500;
     /*color: #676767;*/
     color: black;
-    border-bottom: 1px solid #F6EEB6;
+    border-bottom: 2px solid #F6EEB6;
 }
 .calendarHeaderRow {
     display: grid;
@@ -45,7 +99,7 @@ body {
     text-align: center;
     font-weight: bold;
     color: #AF4C3F;
-    padding: 15px 0;
+    padding: 15px 45px;
 }
 
 .calendarGrid {
