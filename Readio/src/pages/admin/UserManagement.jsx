@@ -39,7 +39,7 @@ function UserManagement() {
 
     /* 모달 핸들러 (아이디 클릭시)*/
     const handleUserClick = (userId) => {
-        setSelectedUser(userId); // 실제로는 전체 사용자 객체를 설정하는 게 좋음
+        setSelectedUser(userId); // 실제로는 전체 사용자 객체를 설정할 것
         setIsModalOpen(true);
     };
 
@@ -344,16 +344,59 @@ function UserManagement() {
             </div>
             {/* 페이지네이션 끝*/}
 
+
+            {/* 모달 */}
             {
                 isModalOpen && (
                     <div className={styles.modalOverlay} onClick={closeModal}>
                         <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-                            <h3>회원 상세 정보</h3>
-                            <p>아이디: {selectedUser}</p>
-                            <p>이메일: {selectedUser}</p>
-                            <button onClick={closeModal}>닫기</button>
+
+                            <div className={styles.modalTitle}>{selectedUser} 님의 회원정보입니다.</div>
+
+
+                            <div className={styles.sectionTitle}>회원 상세 정보</div>
+
+                            <hr className={styles.line2} />
+
+                            <table className={styles.detailTable}>
+                                <tbody>
+                                    <tr>
+                                        <td className={styles.modalLabel}>이름 </td>
+                                        <td>{selectedUser.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalLabel}>아이디 </td>
+                                        <td>{selectedUser}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalLabel}>이메일 </td>
+                                        <td>{selectedUser.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalLabel}>휴대폰번호 </td>
+                                        <td>{selectedUser.phone}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalLabel}>생년월일 </td>
+                                        <td>{selectedUser.birthDate}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalLabel}>회원권한 </td>
+                                        <td>{selectedUser.birthDate}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.modalLabel}>가입일자 </td>
+                                        <td>{selectedUser.birthDate}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div className={styles.closeModal}>
+                                <button className={styles.closeBtn} onClick={closeModal}>닫기</button>
+                            </div>
                         </div>
                     </div>
+
                 )
             }
         </div>

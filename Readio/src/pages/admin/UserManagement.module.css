@@ -144,14 +144,14 @@
 
 
 /* 모달 스타일 */
-/* 아이디 */
+/* 아이디 클릭시 모달 창 열림 */
 .userIdClickable {
     cursor: pointer;
     /* text-decoration: underline; */
 }
 
 .userIdClickable:hover {
-color: #AF4C3F;
+    color: #AF4C3F;
 }
 
 .modalOverlay {
@@ -168,8 +168,77 @@ color: #AF4C3F;
 }
 
 .modalContent {
+    width: 100%;
     background: white;
-    padding: 20px;
-    border-radius: 10px;
-    min-width: 300px;
+    color: #000000;
+    padding: 0px 0px 20px 0px;
+    /* border-radius: 10px; */
+    min-width: 500px;
+    max-width: 600px;
+    
 }
+
+.modalTitle {
+    color: #ffffff;
+    padding: 15px 15px;
+    background-color: #383838;
+    font-weight: 600;
+    font-size: 15pt;
+}
+
+.sectionTitle {
+  font-size: 14pt;
+  font-weight: 500;
+  margin: 10px 15px;
+}
+
+.line2 {
+    width: 100%;
+    background-color: #B4B4B4;
+}
+
+.detailTable {
+    width: 500px;
+    justify-content: center;
+    align-items: center;
+    border-collapse: collapse;
+    line-height: 2;
+    margin: 30px 50px;
+    padding-left: 10px;
+    /* text-align: left; */
+    /* font-size: 14px; */
+}
+
+.detailTable td {
+    border: 1px solid #B4B4B4;
+    padding-left: 10px;
+}
+
+.modalLabel {
+    font-weight: 600;
+    background-color: #F3F3F3;
+    width: 150px;
+    padding-left: 15px;
+}
+
+/* 닫기 버튼 부분 */
+.closeModal {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeBtn {
+    padding: 10px 30px;
+    font-size: 15px;
+    font-weight: 500;
+    background-color: #383838;
+    color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
