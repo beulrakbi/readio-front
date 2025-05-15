@@ -30,6 +30,13 @@ function UserManagement() {
         console.log("권한 변경됨:", e.target.value);
     };
 
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+            console.log('페이지 변경:', page);
+        }
+    }
+
     /* 모달 핸들러 (아이디 클릭시)*/
     const handleUserClick = (userId) => {
         setSelectedUser(userId); // 실제로는 전체 사용자 객체를 설정하는 게 좋음
@@ -43,9 +50,9 @@ function UserManagement() {
 
     return (
         <div className={styles.wrapper}>
-            <hr className={styles.line1}/>
-                       <h2>&nbsp;&nbsp;&nbsp;회원관리</h2>
-                         <hr className={styles.line1}/>
+            <hr className={styles.line1} />
+            <h2>&nbsp;&nbsp;&nbsp;회원관리</h2>
+            <hr className={styles.line1} />
             {/* 조건 검색 영역 */}
             <div className={styles.searchSection}>
                 <div className={styles.rowGroup}>
@@ -100,7 +107,7 @@ function UserManagement() {
                 <button onClick={handleSearch} className={styles.searchButton}>검색</button>
             </div>
 
- 
+
             {/* 회원 테이블 */}
             <table className={styles.table}>
                 <thead className={styles.tableHead}>
@@ -315,7 +322,11 @@ function UserManagement() {
 
             {/* 페이지네이션 */}
             <div className={styles.pagination}>
-                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>&lt;</button>
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}>&lt;
+                </button>
+
                 {[...Array(totalPages)].map((_, index) => (
                     <button
                         key={index + 1}
@@ -324,8 +335,12 @@ function UserManagement() {
                     >
                         {index + 1}
                     </button>
-                ))}
-                <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>&gt;</button>
+                )
+                )}
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}>&gt;
+                </button>
             </div>
             {/* 페이지네이션 끝*/}
 
