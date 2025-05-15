@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
 import AdminMain from './pages/admin/AdminMain';
@@ -38,7 +39,7 @@ function App() {
           <Route path="/qna/writing" element={<QnaWriting/>}/>
           <Route path="/faq" element={<Faq/>}/>
           <Route path="/bookmark" element={<Bookmark/>}/>
-
+          <Route path="/notice" element={<Search/>}/>
         </Route>
           {/* 어드민 페이지 */}
           <Route path="/admin" element={<AdminLayout/>}>
