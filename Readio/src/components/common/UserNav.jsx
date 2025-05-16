@@ -14,14 +14,14 @@ function UserNav({isOpen})
                         <div className={UserNavCSS.naviLine}></div>
                     </div>
                     <div className={UserNavCSS.naviLink}>
-                        <NavLink to="/" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
+                        <NavLink to="/users/edit" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>내 서재</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>피드</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>소식</NavLink>
                         <ul style={{fontSize:'20px', paddingInlineStart:'0px'}}>고객센터
-                            <li className={UserNavCSS.naviLinkText}><NavLink to="/" className={UserNavCSS.naviLinkText}>공지사항</NavLink></li>
-                            <li className={UserNavCSS.naviLinkText}><NavLink to="/" className={UserNavCSS.naviLinkText} >FAQ</NavLink></li>
-                            <li className={UserNavCSS.naviLinkText}><NavLink to="/" className={UserNavCSS.naviLinkText}>Q&A</NavLink></li>
+                            <li className={UserNavCSS.naviLinkText}><NavLink to="/notice" className={UserNavCSS.naviLinkText}>공지사항</NavLink></li>
+                            <li className={UserNavCSS.naviLinkText}><NavLink to="/faq" className={UserNavCSS.naviLinkText} >FAQ</NavLink></li>
+                            <li className={UserNavCSS.naviLinkText}><NavLink to="/qna" className={UserNavCSS.naviLinkText}>Q&A</NavLink></li>
                         </ul>
                     </div>
                     <div className={UserNavCSS.naviBannerContainer}>
