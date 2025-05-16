@@ -14,15 +14,8 @@
     background-size: cover;
     background-position: center 30%; /* 좌우 중앙, 상단에서 40% 위치 */
 }
-.mainImg{
-    width: 100vw;      /* 뷰포트 너비 100% */
-    height: auto;
-    display: block;
-    object-fit: cover;
-}
 
 .backgroundTexture{
-
     justify-content: center;
     align-items: center;
     display: flex;
@@ -39,7 +32,7 @@
     font-weight: 900;
     position: absolute;
     left:100px;
-    top:340px;
+    top:460px;
 
 }
 
