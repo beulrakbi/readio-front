@@ -1,12 +1,21 @@
+import { useNavigate } from 'react-router-dom';
 import search from '../../assets/search.png';
 import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchVideoList.module.css';
 
 
 function SearchVideoList() {
+
+     
+     const navigate = useNavigate();
+     
+     const onClickVideoPage = () => {
+          navigate(`/video`);
+     }
+     
+
      return (
           <>
-
                <div className={UserMainCSS.mainImgBox}>
                                         <div className={UserMainCSS.mainSearch}>
                                              <div className={UserMainCSS.buttonBox}>
@@ -29,7 +38,7 @@ function SearchVideoList() {
                     <hr />
                     <div className={styles.SearchVideoList}>
 
-                         <div className={styles.videoList}>
+                         <div className={styles.videoList} onClick={onClickVideoPage}>
                               <div className={styles.video}></div>
                               <div className={styles.videoInfo}>
                                    <div className={styles.videoTitle}>[이적의 단어들]📜 작가 이적. 책리뷰. 추천도서...</div>
@@ -39,7 +48,7 @@ function SearchVideoList() {
                          </div>
                          <hr />
 
-                         <div className={styles.videoList}>
+                         <div className={styles.videoList} onClick={onClickVideoPage}>
                               <div className={styles.video}></div>
                               <div className={styles.videoInfo}>
                                    <div className={styles.videoTitle}>[이적의 단어들]📜 작가 이적. 책리뷰. 추천도서...</div>
@@ -49,7 +58,7 @@ function SearchVideoList() {
                          </div>
                          <hr />
 
-                         <div className={styles.videoList}>
+                         <div className={styles.videoList} onClick={onClickVideoPage}>
                               <div className={styles.video}></div>
                               <div className={styles.videoInfo}>
                                    <div className={styles.videoTitle}>[이적의 단어들]📜 작가 이적. 책리뷰. 추천도서...</div>
@@ -59,7 +68,7 @@ function SearchVideoList() {
                          </div>
                          <hr />
 
-                         <div className={styles.videoList}>
+                         <div className={styles.videoList} onClick={onClickVideoPage}>
                               <div className={styles.video}></div>
                               <div className={styles.videoInfo}>
                                    <div className={styles.videoTitle}>[이적의 단어들]📜 작가 이적. 책리뷰. 추천도서...</div>

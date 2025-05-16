@@ -1,15 +1,46 @@
+import { useNavigate } from 'react-router-dom';
 import search from '../../assets/search.png';
 import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchBookList.module.css';
 
 function SearchBookList() {
+
+     const navigate = useNavigate();
+     
+     // const [searchVideo, setSearchVideo] = useState('');
+
+     // 책 상세 페이지로 이동하게 하기 
+     // const onClickVideoPage = () => {
+     //      navigate(`/video`);
+     // }
+
+
+     // 검색하면 영상 검색 결과 리스트 뜨게 코드 작성....
+     // const onSearchChangeHandler = (e) => {
+     //      setSearchVideo(e.target.value);
+     // }
+
+     // const onEnterkeyHandler = (e) => {
+     //      if (e.key == 'Enter') {
+     //           console.log('Enter key', searchVideo);
+
+     //           navigate(`/search/video`);
+     //      }
+     // };
+
+     const onSearchClickHandler = () => {
+          navigate(`/search/video`);
+     }
+
+     
+
     return (
               <>
                     <div className={UserMainCSS.mainImgBox}>
                                    <div className={UserMainCSS.mainSearch}>
                                         <div className={UserMainCSS.buttonBox}>
                                              <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
-                                             <button className={UserMainCSS.buttonNone}><img src={search}/></button>
+                                             <button className={UserMainCSS.buttonNone}onClick={onSearchClickHandler}><img src={search}/></button>
                                         </div>
                                         <div className={UserMainCSS.buttonBox}>
                                            <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
