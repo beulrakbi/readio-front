@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import BookPage from '../src/pages/book/BookPage';
 import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
@@ -27,6 +27,7 @@ import NoticeList from './pages/serviceCenter/NoticeList';
 import QnaDetail from './pages/serviceCenter/QnaDetail';
 import QnaList from './pages/serviceCenter/QnaList';
 import QnaWriting from './pages/serviceCenter/QnaWriting';
+import FindAccount, { FindIdForm, FindPwdForm } from "./pages/user/FindAccount";
 import Join from "./pages/user/Join";
 import Login from "./pages/user/Login";
 import UserMain from "./pages/user/UserMain";
@@ -40,8 +41,13 @@ function App() {
           {/* 메인페이지 */}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
-            <Route path="/login" element={<Login />} /> {/* 로그인 */}
-            <Route path="join" element={<Join />} /> {/* 회원가입 */}
+            <Route path="/login" element={<Login />} />                   {/* 로그인 */}
+            <Route path="join" element={<Join />} />                      {/* 회원가입 */}
+            <Route path="/find-account" element={<FindAccount />}>        {/* 아이디,비밀번호찾기 */}
+              <Route index element={<Navigate to="find-id" replace />} /> {/* 기본-아이디찾기 */}
+              <Route path="find-id" element={<FindIdForm />} />           {/* 아이디찾기 */}
+              <Route path="find-pwd" element={<FindPwdForm />} />         {/* 비밀번호찾기 */}
+            </Route>
             <Route path="bookPage" element={<BookPage />} />
             <Route path="/notice" element={<NoticeList />} />
             <Route path="/notice/detail" element={<NoticeDetail />} />
@@ -52,23 +58,25 @@ function App() {
             <Route path="/bookmark" element={<Bookmark />} />
             <Route path="/notice" element={<Search />} />
           </Route>
-          <Route path="/admin" element={<AdminLayout/>}>
-            <Route index element={<AdminMain/>}/>
-            <Route path="filtering/list" element={<FilteringListPage/>}/>
-            <Route path="filtering/create" element={<FilteringCreatePage/>}/>
-            <Route path="filtering/detail" element={<FilteringDetailPage/>}/>
-            <Route path="filtering/modify" element={<FilteringModifyPage/>}/>
-            <Route path="reported/review/list" element={<ReportedReviewListPage/>} />
-            <Route path="reported/review/detail" element={<ReportedReviewDetailPage/>} />
-            <Route path="reported/post/list" element={<ReportedPostListPage/>} />
-            <Route path="reported/post/detail" element={<ReportedPostDetailPage/>} />
-            <Route path="/admin/notice" element={<AdminNoticeList/>}/>
-            <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
-            <Route path="/admin/faq" element={<AdminFaqList/>}/>
-            <Route path="/admin/faq/writing" element={<AdminFaqWriting/>}/>
-            <Route path="/admin/qna" element={<AdminQnaList/>}/>
-            <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
-            <Route path="/admin/qna/detail" element={<AdminQnaDetail/>}/>
+
+          {/* 관리자페이지 */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminMain />} />
+            <Route path="filtering/list" element={<FilteringListPage />} />
+            <Route path="filtering/create" element={<FilteringCreatePage />} />
+            <Route path="filtering/detail" element={<FilteringDetailPage />} />
+            <Route path="filtering/modify" element={<FilteringModifyPage />} />
+            <Route path="reported/review/list" element={<ReportedReviewListPage />} />
+            <Route path="reported/review/detail" element={<ReportedReviewDetailPage />} />
+            <Route path="reported/post/list" element={<ReportedPostListPage />} />
+            <Route path="reported/post/detail" element={<ReportedPostDetailPage />} />
+            <Route path="/admin/notice" element={<AdminNoticeList />} />
+            <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
+            <Route path="/admin/faq" element={<AdminFaqList />} />
+            <Route path="/admin/faq/writing" element={<AdminFaqWriting />} />
+            <Route path="/admin/qna" element={<AdminQnaList />} />
+            <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
+            <Route path="/admin/qna/detail" element={<AdminQnaDetail />} />
           </Route>
           <Route path="post/writing" element={<PostWriting />} />
         </Routes>
