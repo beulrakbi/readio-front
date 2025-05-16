@@ -30,6 +30,7 @@ import QnaWriting from './pages/serviceCenter/QnaWriting';
 import FindAccount, { FindIdForm, FindPwdForm } from "./pages/user/FindAccount";
 import Join from "./pages/user/Join";
 import Login from "./pages/user/Login";
+import UserDeleteComplete from "./pages/user/UserDeleteComplete";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 
@@ -42,13 +43,14 @@ function App() {
           {/* 메인페이지 */}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
-            <Route path="/login" element={<Login />} />                   {/* 로그인 */}
-            <Route path="join" element={<Join />} />                      {/* 회원가입 */}
-            <Route path="users/verify-pwd" element={<VerifyPwd/>}/>  {/* 비밀번호 확인 */}
-            <Route path="/find-account" element={<FindAccount />}>        {/* 아이디,비밀번호찾기 */}
-              <Route index element={<Navigate to="find-id" replace />} /> {/* 기본-아이디찾기 */}
-              <Route path="find-id" element={<FindIdForm />} />           {/* 아이디찾기 */}
-              <Route path="find-pwd" element={<FindPwdForm />} />         {/* 비밀번호찾기 */}
+            <Route path="/login" element={<Login />} />                           {/* 로그인 */}
+            <Route path="join" element={<Join />} />                              {/* 회원가입 */}
+            <Route path="users/verify-pwd" element={<VerifyPwd/>}/>               {/* 비밀번호 확인 */}
+            <Route path="users/delete/complete" element={<UserDeleteComplete/>} />{/* 회원탈퇴완료 */}
+            <Route path="/find-account" element={<FindAccount />}>                {/* 아이디,비밀번호찾기 */}
+              <Route index element={<Navigate to="find-id" replace />} />         {/* 기본-아이디찾기 */}
+              <Route path="find-id" element={<FindIdForm />} />                   {/* 아이디찾기 */}
+              <Route path="find-pwd" element={<FindPwdForm />} />                 {/* 비밀번호찾기 */}
             </Route>
             <Route path="bookPage" element={<BookPage />} />
             <Route path="/notice" element={<NoticeList />} />
