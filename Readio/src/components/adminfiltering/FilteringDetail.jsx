@@ -8,9 +8,9 @@ function FilteringDetail()
             <div className={FListCSS.fontContainer}>
                 <p className={FListCSS.font1}>필터링 제목1</p>
                 <div className={FListCSS.buttonDiv}>
-                    <p className={FListCSS.font2}>활성화</p>
-                    <p className={FListCSS.font2}>수정</p>
-                    <p className={FListCSS.font2}>삭제</p>
+                    <p className={FListCSS.font2}><Link className={FListCSS.link} to="/">활성화</Link></p>
+                    <p className={FListCSS.font2}><Link className={FListCSS.link} to="/">수정</Link></p>
+                    <p className={FListCSS.font2}><Link className={FListCSS.link} to="/">삭제</Link></p>
                 </div>
             </div>
             <hr className={FListCSS.filteringLine}/>
@@ -28,7 +28,7 @@ function FilteringDetail()
                 </div>
             <hr className={FListCSS.filteringLine}/>
             <div className={FListCSS.paging}>
-                <Link to="/">뒤로가기</Link>
+                <p className={FListCSS.font2}><Link className={FListCSS.link} to="/">뒤로가기</Link></p>
             </div>
         </div>
     )
