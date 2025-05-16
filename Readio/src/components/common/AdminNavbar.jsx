@@ -27,7 +27,7 @@ function AdminNavbar() {
                     <Link to="/" className={styles.text2}>• Q&A</Link>
                     <hr />
                     <p className={styles.text1}>사이트 관리</p>
-                    <Link to="/" className={styles.text2}>• 영상 필터링 / 키워드</Link>
+                    <Link to="/admin/filtering/list" className={styles.text2}>• 영상 필터링 / 키워드</Link>
                     <Link to="/" className={styles.text2}>• 관심분야</Link>
                </div>
           </div>
