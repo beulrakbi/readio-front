@@ -7,6 +7,7 @@ import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
 import FilteringDetailPage from "./pages/admin/filtering/FilteringDetailPage";
 import FilteringListPage from "./pages/admin/filtering/FilteringListPage";
 import FilteringModifyPage from "./pages/admin/filtering/FilteringModifyPage";
+import ReportedReviewListPage from "./pages/admin/reported/ReportedReviewListPage";
 import PostWriting from "./pages/post/PostWriting";
 import UserMain from "./pages/user/UserMain";
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="filtering/create" element={<FilteringCreatePage/>}/>
           <Route path="filtering/detail" element={<FilteringDetailPage/>}/>
           <Route path="filtering/modify" element={<FilteringModifyPage/>}/>
+          <Route path="reported/review/list" element={<ReportedReviewListPage/>} />
           </Route>
           <Route path="post/writing" element={<PostWriting/>}/>
         </Routes>
