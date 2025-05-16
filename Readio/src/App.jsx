@@ -22,6 +22,8 @@ import AdminQnaDetail from "./pages/boardManagement/AdminQnaDetail";
 import AdminQnaList from "./pages/boardManagement/AdminQnaList";
 import Bookmark from "./pages/bookmark/bookmark";
 import PostWriting from "./pages/post/PostWriting";
+import SearchBookList from './pages/searchList/SearchBookList';
+import SearchVideoList from './pages/searchList/SearchVideoList';
 import Faq from './pages/serviceCenter/Faq';
 import NoticeDetail from './pages/serviceCenter/NoticeDetail';
 import NoticeList from './pages/serviceCenter/NoticeList';
@@ -36,6 +38,7 @@ import UserDeleteComplete from "./pages/user/UserDeleteComplete";
 import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
+import PlayVideo from "./pages/videoDetail/PlayVideo";
 
 function App() {
 
@@ -66,6 +69,9 @@ function App() {
             <Route path="/faq" element={<Faq />} />
             <Route path="/bookmark" element={<Bookmark />} />
             <Route path="/notice" element={<Search />} />
+            <Route path="/search/video" element={<SearchVideoList />} />
+            <Route path="/search/book" element={<SearchBookList />} />
+            <Route path="/video" element={<PlayVideo />} />
           </Route>
 
           {/* 관리자 페이지 */}
