@@ -6,6 +6,7 @@ import AdminMain from "./pages/admin/AdminMain";
 import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
 import FilteringDetailPage from "./pages/admin/filtering/FilteringDetailPage";
 import FilteringListPage from "./pages/admin/filtering/FilteringListPage";
+import FilteringModifyPage from "./pages/admin/filtering/FilteringModifyPage";
 import PostWriting from "./pages/post/PostWriting";
 import UserMain from "./pages/user/UserMain";
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="filtering/list" element={<FilteringListPage/>}/>
           <Route path="filtering/create" element={<FilteringCreatePage/>}/>
           <Route path="filtering/detail" element={<FilteringDetailPage/>}/>
+          <Route path="filtering/modify" element={<FilteringModifyPage/>}/>
           </Route>
           <Route path="post/writing" element={<PostWriting/>}/>
         </Routes>
