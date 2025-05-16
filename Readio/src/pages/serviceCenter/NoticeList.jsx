@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import Pagination from '../../components/board/common/Pagination';
 import Search from '../../components/board/common/search';
 import styles from './NoticeList.module.css';
 function NoticeList() {
@@ -32,14 +33,8 @@ function NoticeList() {
           </li>
         </ul>
         <div className={styles.mcontainer}>
-          {/* <div className={styles.textcontainer}>
-            <input className={styles.textbox} type="text" placeholder="검색어를 입력해주세요." />
-            <button className={styles.btn}><img src={searchIcon}/></button>
-          </div> */}
           <Search/> 
-          <div className={styles.pagingbox}>
-            <p className={styles.num}>1 2 3 4 5</p>
-          </div>
+          <Pagination/>
         </div>
       </div>
     </>
