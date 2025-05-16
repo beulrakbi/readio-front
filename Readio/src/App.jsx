@@ -8,6 +8,7 @@ import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
 import FilteringDetailPage from "./pages/admin/filtering/FilteringDetailPage";
 import FilteringListPage from "./pages/admin/filtering/FilteringListPage";
 import FilteringModifyPage from "./pages/admin/filtering/FilteringModifyPage";
+import ReportedReviewListPage from "./pages/admin/reported/ReportedReviewListPage";
 import AdminFaqList from "./pages/boardManagement/AdminFaqList";
 import AdminFaqWriting from "./pages/boardManagement/AdminFaqWriting";
 import AdminNoticeList from "./pages/boardManagement/adminNoticeList";
@@ -50,6 +51,7 @@ function App() {
           <Route path="filtering/create" element={<FilteringCreatePage/>}/>
           <Route path="filtering/detail" element={<FilteringDetailPage/>}/>
           <Route path="filtering/modify" element={<FilteringModifyPage/>}/>
+          <Route path="reported/review/list" element={<ReportedReviewListPage/>} />
           <Route path="/admin/notice" element={<AdminNoticeList/>}/>
           <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
           <Route path="/admin/faq" element={<AdminFaqList/>}/>
