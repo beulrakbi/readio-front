@@ -8,6 +8,9 @@ import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
 import FilteringDetailPage from "./pages/admin/filtering/FilteringDetailPage";
 import FilteringListPage from "./pages/admin/filtering/FilteringListPage";
 import FilteringModifyPage from "./pages/admin/filtering/FilteringModifyPage";
+import ReportedPostDetailPage from "./pages/admin/reported/ReportedPostDetailPage";
+import ReportedPostListPage from "./pages/admin/reported/ReportedPostListPage";
+import ReportedReviewDetailPage from "./pages/admin/reported/ReportedReviewDetailPage";
 import ReportedReviewListPage from "./pages/admin/reported/ReportedReviewListPage";
 import AdminFaqList from "./pages/boardManagement/AdminFaqList";
 import AdminFaqWriting from "./pages/boardManagement/AdminFaqWriting";
@@ -52,6 +55,9 @@ function App() {
           <Route path="filtering/detail" element={<FilteringDetailPage/>}/>
           <Route path="filtering/modify" element={<FilteringModifyPage/>}/>
           <Route path="reported/review/list" element={<ReportedReviewListPage/>} />
+          <Route path="reported/review/detail" element={<ReportedReviewDetailPage/>} />
+          <Route path="reported/post/list" element={<ReportedPostListPage/>} />
+          <Route path="reported/post/detail" element={<ReportedPostDetailPage/>} />
           <Route path="/admin/notice" element={<AdminNoticeList/>}/>
           <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
           <Route path="/admin/faq" element={<AdminFaqList/>}/>
