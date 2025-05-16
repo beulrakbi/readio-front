@@ -23,6 +23,7 @@ import NoticeList from './pages/serviceCenter/NoticeList';
 import QnaDetail from './pages/serviceCenter/QnaDetail';
 import QnaList from './pages/serviceCenter/QnaList';
 import QnaWriting from './pages/serviceCenter/QnaWriting';
+import Join from "./pages/user/Join";
 import UserMain from "./pages/user/UserMain";
 
 function App() {
@@ -32,40 +33,43 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* 메인페이지 */}
-          <Route path="/" element={<Layout/>}>
-          <Route index element={<UserMain/>}/>
-          <Route path="bookPage" element={<BookPage/>}/>
-          <Route path="/notice" element={<NoticeList/>}/>
-          <Route path="/notice/detail" element={<NoticeDetail/>}/>
-          <Route path="/qna" element={<QnaList/>}/>
-          <Route path="/qna/detail" element={<QnaDetail/>}/>
-          <Route path="/qna/writing" element={<QnaWriting/>}/>
-          <Route path="/faq" element={<Faq/>}/>
-          <Route path="/bookmark" element={<Bookmark/>}/>
-          <Route path="/notice" element={<Search/>}/>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<UserMain />} />
+            <Route path="join" element={<Join />} /> {/* 회원가입 */}
+            <Route path="bookPage" element={<BookPage />} />
+            <Route path="/notice" element={<NoticeList />} />
+            <Route path="/notice/detail" element={<NoticeDetail />} />
+            <Route path="/qna" element={<QnaList />} />
+            <Route path="/qna/detail" element={<QnaDetail />} />
+            <Route path="/qna/writing" element={<QnaWriting />} />
+            <Route path="/faq" element={<Faq />} />
+            <Route path="/bookmark" element={<Bookmark />} />
+            <Route path="/notice" element={<Search />} />
           </Route>
-          <Route path="/admin" element={<AdminLayout/>}>
-          <Route index element={<AdminMain/>}/>
-          <Route path="filtering/list" element={<FilteringListPage/>}/>
-          <Route path="filtering/create" element={<FilteringCreatePage/>}/>
-          <Route path="filtering/detail" element={<FilteringDetailPage/>}/>
-          <Route path="filtering/modify" element={<FilteringModifyPage/>}/>
-          <Route path="/admin" element={<AdminLayout/>}>
-          <Route index element={<AdminMain/>}/>
-          <Route path="/admin/notice" element={<AdminNoticeList/>}/>
-          <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
-          <Route path="/admin/faq" element={<AdminFaqList/>}/>
-          <Route path="/admin/faq/writing" element={<AdminFaqWriting/>}/>
-          <Route path="/admin/qna" element={<AdminQnaList/>}/>
-          <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
-          <Route path="/admin/qna/detail" element={<AdminQnaDetail/>}/>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminMain />} />
+            <Route path="filtering/list" element={<FilteringListPage />} />
+            <Route path="filtering/create" element={<FilteringCreatePage />} />
+            <Route path="filtering/detail" element={<FilteringDetailPage />} />
+            <Route path="filtering/modify" element={<FilteringModifyPage />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminMain />} />
+              <Route path="/admin/notice" element={<AdminNoticeList />} />
+              <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
+              <Route path="/admin/faq" element={<AdminFaqList />} />
+              <Route path="/admin/faq/writing" element={<AdminFaqWriting />} />
+              <Route path="/admin/qna" element={<AdminQnaList />} />
+              <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
+              <Route path="/admin/qna/detail" element={<AdminQnaDetail />} />
+            </Route>
+
+
           </Route>
-          </Route>
-          <Route path="post/writing" element={<PostWriting/>}/>
+          <Route path="post/writing" element={<PostWriting />} />
         </Routes>
       </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
