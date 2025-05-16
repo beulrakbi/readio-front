@@ -10,7 +10,8 @@ const InterestViewPage = () => {
 
     return (
         <div className={styles.wrapper}>
-            <h2 className={styles.title}>&lt; 나의 관심사</h2>
+            <h2 className={styles.title} onClick={()=>navigate('/mylibrary')} style={{ cursor: 'pointer' }}>
+                &lt; 나의 관심사</h2>
             <div className={styles.block}>
                 <h3 className={styles.subtitle}>좋아하는 분야</h3>
                 <div className={styles.tagList}>

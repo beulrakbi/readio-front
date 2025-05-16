@@ -1,7 +1,10 @@
 import React, { useState, useRef } from 'react';
 import styles from './EditProfilePage.module.css';
 import xIcon from '../../../assets/x.png';
+import { useNavigate } from 'react-router-dom';
+
 const EditProfilePage = () => {
+    const navigate = useNavigate();
     const [previewImg, setPreviewImg] = useState(null);
     const fileInputRef = useRef(null);
     const [nickname, setNickname] = useState('Readio 기본 필명 001');
@@ -27,7 +30,8 @@ const EditProfilePage = () => {
 
     return (
         <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>&lt; 프로필 편집</h2>
+            <h2 className={styles.title} onClick={()=>navigate('/mylibrary')} style={{ cursor: 'pointer' }}>
+                &lt; 프로필 편집</h2>
             <div className={styles.profileCard}>
             <div className={styles.profileImageWrapper}>
                 {previewImg ? (

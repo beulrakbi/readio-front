@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {use} from 'react';
 import styles from './MyLibrary.module.css';
 import dayjs from 'dayjs';
+import {useNavigate} from "react-router-dom";
 
 const CalendarSection = () => {
     const today = dayjs();
     const year = today.year();
     const month = today.month(); // 0~11
+    const navigate = useNavigate()
 
     const getDaysArray = () => {
         const startDay = dayjs(new Date(year, month, 1)).day();
@@ -29,7 +31,8 @@ const CalendarSection = () => {
         <div className={styles.section}>
             <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>{month + 1}월 활동 달력</h2>
-                <span className={styles.sectionAction}>전체보기</span>
+                <span className={styles.sectionAction} onClick={()=>navigate('/mylibrary/calendar')}style={{cursor:'pointer'}}>
+                    전체보기</span>
             </div>
 
             <div className={styles.calendarWrapper}>

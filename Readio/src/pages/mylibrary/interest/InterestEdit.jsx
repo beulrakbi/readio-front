@@ -31,7 +31,8 @@ const InterestEditPage = () => {
 
     return (
         <div className={styles.wrapper}>
-            <h2 className={styles.title}>&lt; 뒤로가기</h2>
+            <h2 className={styles.title} onClick={()=>navigate('/mylibrary/interest')} style={{ cursor: 'pointer' }}>
+                &lt; 뒤로가기</h2>
             {/* 관심 분야 */}
             <div className={styles.block}>
                 <h3 className={styles.subtitle}>관심 분야를 선택해 주세요</h3>
