@@ -10,12 +10,12 @@ function AdminNavbar() {
                     <img src={logo} className={styles.Logo} alt="Logo" /> 
                     <br />
                     {/* <button className={styles.login}>로그인</button> */}
-                    <Link to="/login" className={styles.login}>로그인</Link>
+                    <Link to="/" className={styles.login}>로그인</Link>
                </div>
                <div className={styles.Nav}>
                     <hr />
                     <p className={styles.text1}>회원 관리</p>
-                    <Link to="/" className={styles.text2}>• 회원 목록</Link>
+                    <Link to="/admin/users/list" className={styles.text2}>• 회원 목록</Link>
                     <hr />
                     <p className={styles.text1}>신고 관리</p>
                     <Link to="/" className={styles.text2}>• 리뷰</Link>

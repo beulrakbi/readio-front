@@ -3,9 +3,9 @@ import BookPage from '../src/pages/book/BookPage';
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
 import AdminMain from "./pages/admin/AdminMain";
-import UserMain from "./pages/user/UserMain";
-import PostWriting from "./pages/post/PostWriting";
 import UserManagement from "./pages/admin/UserManagement";
+import PostWriting from "./pages/post/PostWriting";
+import UserMain from "./pages/user/UserMain";
 
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
           {/* 관리자용 페이지 */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminMain />} />
-            <Route path="users" element={<UserManagement />} />
+            <Route path="users/list" element={<UserManagement />} />
           </Route>
 
 
