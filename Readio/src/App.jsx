@@ -52,7 +52,7 @@ function App() {
             <Route path="users/edit" element={<UserEdit />} />                    {/* 회원정보 수정 */}
               <Route path="users/delete" element={<UserDelete/>}/>                {/* 회원탈퇴 */}
             <Route path="users/delete/complete" element={<UserDeleteComplete/>} />{/* 회원탈퇴완료 */}
-            <Route path="/find-account" element={<FindAccount />}>                {/* 아이디,비밀번호찾기 */}
+            <Route path="find-account" element={<FindAccount />}>                 {/* 계정정보찾기 */}
               <Route index element={<Navigate to="find-id" replace />} />         {/* 기본-아이디찾기 */}
               <Route path="find-id" element={<FindIdForm />} />                   {/* 아이디찾기 */}
               <Route path="find-pwd" element={<FindPwdForm />} />                 {/* 비밀번호찾기 */}
