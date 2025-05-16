@@ -6,6 +6,9 @@
      font-family: 'Pretendard';
      /* display: flex; */
      flex-direction: column;
+     background-image: url('../../assets/texture.png');
+     background-repeat: repeat;
+     background-size: auto;
 }
 
 .footer {

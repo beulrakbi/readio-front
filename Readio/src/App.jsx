@@ -21,6 +21,12 @@ import AdminQnaAnswer from "./pages/boardManagement/AdminQnaAnswer";
 import AdminQnaDetail from "./pages/boardManagement/AdminQnaDetail";
 import AdminQnaList from "./pages/boardManagement/AdminQnaList";
 import Bookmark from "./pages/bookmark/bookmark";
+import CalendarPage from "./pages/mylibrary/calendar/CalendarPage.jsx";
+import InterestEditPage from "./pages/mylibrary/interest/InterestEdit.jsx";
+import InterestViewPage from "./pages/mylibrary/interest/InterestView.jsx";
+import MyLibraryGuestPage from "./pages/mylibrary/mainpage/MyLibraryGuestPage.jsx";
+import MyLibraryPage from './pages/mylibrary/mainpage/MyLibraryPage.jsx';
+import EditProfilePage from "./pages/mylibrary/profile/EditProfilePage.jsx";
 import PostWriting from "./pages/post/PostWriting";
 import SearchBookList from './pages/searchList/SearchBookList';
 import SearchVideoList from './pages/searchList/SearchVideoList';
@@ -72,6 +78,12 @@ function App() {
             <Route path="/search/video" element={<SearchVideoList />} />
             <Route path="/search/book" element={<SearchBookList />} />
             <Route path="/video" element={<PlayVideo />} />
+            <Route path="mylibrary" element={<MyLibraryPage />} />
+            <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
+            <Route path="mylibrary/profile" element={<EditProfilePage />} />
+            <Route path="mylibrary/interest" element={<InterestViewPage/>}/>
+            <Route path="mylibrary/interest/edit" element={<InterestEditPage/>}/>
+            <Route path="mylibrary/calendar" element={<CalendarPage/>}/>
           </Route>
 
           {/* 관리자 페이지 */}
