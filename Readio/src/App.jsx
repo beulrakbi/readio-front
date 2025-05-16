@@ -31,6 +31,7 @@ import QnaWriting from './pages/serviceCenter/QnaWriting';
 import FindAccount, { FindIdForm, FindPwdForm } from "./pages/user/FindAccount";
 import Join from "./pages/user/Join";
 import Login from "./pages/user/Login";
+import UserDelete from "./pages/user/UserDelete";
 import UserDeleteComplete from "./pages/user/UserDeleteComplete";
 import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
@@ -49,6 +50,7 @@ function App() {
             <Route path="join" element={<Join />} />                              {/* 회원가입 */}
             <Route path="users/verify-pwd" element={<VerifyPwd/>}/>               {/* 비밀번호 확인 */}
             <Route path="users/edit" element={<UserEdit />} />                    {/* 회원정보 수정 */}
+              <Route path="users/delete" element={<UserDelete/>}/>                {/* 회원탈퇴 */}
             <Route path="users/delete/complete" element={<UserDeleteComplete/>} />{/* 회원탈퇴완료 */}
             <Route path="/find-account" element={<FindAccount />}>                {/* 아이디,비밀번호찾기 */}
               <Route index element={<Navigate to="find-id" replace />} />         {/* 기본-아이디찾기 */}
