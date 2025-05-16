@@ -28,12 +28,12 @@ const Login = () => {
         <div className={LoginCSS.loginPage} style={{ backgroundImage: `url(${loginImage})` }}>
             <div className={LoginCSS.formContainer}>
                 <h1 className={LoginCSS.companyName}>Readio :</h1>
-                <p className={LoginCSS.description}>
+                <div className={LoginCSS.description}>
                     "오늘 당신에게 필요한 한 문장은 무엇인가요?
                     <br />
                     readio에서 당신만의 이야기를 찾아보세요.
                     "
-                </p>
+                </div>
 
                 <form onSubmit={handleSubmit}>
                     <div className={LoginCSS.inputGroup}>
