@@ -12,6 +12,7 @@ import ReportedPostDetailPage from "./pages/admin/reported/ReportedPostDetailPag
 import ReportedPostListPage from "./pages/admin/reported/ReportedPostListPage";
 import ReportedReviewDetailPage from "./pages/admin/reported/ReportedReviewDetailPage";
 import ReportedReviewListPage from "./pages/admin/reported/ReportedReviewListPage";
+import UserManagement from "./pages/admin/UserManagement";
 import AdminFaqList from "./pages/boardManagement/AdminFaqList";
 import AdminFaqWriting from "./pages/boardManagement/AdminFaqWriting";
 import AdminNoticeList from "./pages/boardManagement/adminNoticeList";
@@ -41,7 +42,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          {/* 메인페이지 */}
+          {/* 메인 페이지, 사용자 페이지 */}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
             <Route path="/login" element={<Login />} />                           {/* 로그인 */}
@@ -65,9 +66,10 @@ function App() {
             <Route path="/notice" element={<Search />} />
           </Route>
 
-          {/* 관리자페이지 */}
+          {/* 관리자 페이지 */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminMain />} />
+            <Route path="users/list" element={<UserManagement />} />
             <Route path="filtering/list" element={<FilteringListPage />} />
             <Route path="filtering/create" element={<FilteringCreatePage />} />
             <Route path="filtering/detail" element={<FilteringDetailPage />} />
@@ -86,7 +88,7 @@ function App() {
           </Route>
           <Route path="post/writing" element={<PostWriting />} />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter >
     </>
   );
 }
