@@ -17,6 +17,7 @@ import AdminQnaDetail from "./pages/boardManagement/AdminQnaDetail";
 import AdminQnaList from "./pages/boardManagement/AdminQnaList";
 import Bookmark from "./pages/bookmark/bookmark";
 import PostWriting from "./pages/post/PostWriting";
+import NoticeList from './pages/serviceCenter/NoticeList';
 import UserMain from "./pages/user/UserMain";
 
 function App() {
