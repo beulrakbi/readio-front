@@ -10,7 +10,7 @@ function ReportedReviewList()
             <div className={ReportedCSS.fontContainer}>
                 <p className={ReportedCSS.font1}>신고된 리뷰 관리</p>
                 <div className={ReportedCSS.searchDiv}>
-                    <form>
+                    <form className={ReportedCSS.searchForm}>
                         <input type="text"
                             name="keyword"
                             placeholder="ID / 내용 검색"
@@ -116,8 +116,18 @@ function ReportedReviewList()
                     </tr>
                 </tbody>
             </table>
-            <div className={ReportedCSS.paging}>
+            <div className={ReportedCSS.radioBoxesDiv}>
+                <div className={ReportedCSS.radioBoxDiv}>
+                    <input className={ReportedCSS.radioBox} type="radio" id="1" name="test"/>
+                    <input className={ReportedCSS.radioBox} type="radio" id="2" name="test"/>
+                </div>
+                <div className={ReportedCSS.radioBoxDiv}>
+                    <label className={ReportedCSS.font2} for="1">숨김처리된 리뷰만 보기</label>
+                    <label className={ReportedCSS.font2} for="2">전체 보기</label>
+                </div>
+                <div className={ReportedCSS.paging1}>
                 <p>1 2 3 4 5</p> 
+                </div>
             </div>
         </div>
     )
