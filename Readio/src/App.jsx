@@ -25,6 +25,7 @@ import QnaDetail from './pages/serviceCenter/QnaDetail';
 import QnaList from './pages/serviceCenter/QnaList';
 import QnaWriting from './pages/serviceCenter/QnaWriting';
 import Join from "./pages/user/Join";
+import Login from "./pages/user/Login";
 import UserMain from "./pages/user/UserMain";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           {/* 메인페이지 */}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
+            <Route path="/login" element={<Login />} /> {/* 로그인 */}
             <Route path="join" element={<Join />} /> {/* 회원가입 */}
             <Route path="bookPage" element={<BookPage />} />
             <Route path="/notice" element={<NoticeList />} />
@@ -47,21 +49,21 @@ function App() {
             <Route path="/bookmark" element={<Bookmark />} />
             <Route path="/notice" element={<Search />} />
           </Route>
-          <Route path="/admin" element={<AdminLayout/>}>
-          <Route index element={<AdminMain/>}/>
-          <Route path="filtering/list" element={<FilteringListPage/>}/>
-          <Route path="filtering/create" element={<FilteringCreatePage/>}/>
-          <Route path="filtering/detail" element={<FilteringDetailPage/>}/>
-          <Route path="filtering/modify" element={<FilteringModifyPage/>}/>
-          <Route path="reported/review/list" element={<ReportedReviewListPage/>} />
-          
-          <Route path="/admin/notice" element={<AdminNoticeList/>}/>
-          <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
-          <Route path="/admin/faq" element={<AdminFaqList/>}/>
-          <Route path="/admin/faq/writing" element={<AdminFaqWriting/>}/>
-          <Route path="/admin/qna" element={<AdminQnaList/>}/>
-          <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
-          <Route path="/admin/qna/detail" element={<AdminQnaDetail/>}/>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminMain />} />
+            <Route path="filtering/list" element={<FilteringListPage />} />
+            <Route path="filtering/create" element={<FilteringCreatePage />} />
+            <Route path="filtering/detail" element={<FilteringDetailPage />} />
+            <Route path="filtering/modify" element={<FilteringModifyPage />} />
+            <Route path="reported/review/list" element={<ReportedReviewListPage />} />
+
+            <Route path="/admin/notice" element={<AdminNoticeList />} />
+            <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
+            <Route path="/admin/faq" element={<AdminFaqList />} />
+            <Route path="/admin/faq/writing" element={<AdminFaqWriting />} />
+            <Route path="/admin/qna" element={<AdminQnaList />} />
+            <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
+            <Route path="/admin/qna/detail" element={<AdminQnaDetail />} />
 
           </Route>
           <Route path="post/writing" element={<PostWriting />} />
