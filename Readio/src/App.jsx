@@ -50,8 +50,6 @@ function App() {
           <Route path="filtering/create" element={<FilteringCreatePage/>}/>
           <Route path="filtering/detail" element={<FilteringDetailPage/>}/>
           <Route path="filtering/modify" element={<FilteringModifyPage/>}/>
-          <Route path="/admin" element={<AdminLayout/>}>
-          <Route index element={<AdminMain/>}/>
           <Route path="/admin/notice" element={<AdminNoticeList/>}/>
           <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
           <Route path="/admin/faq" element={<AdminFaqList/>}/>
@@ -59,7 +57,6 @@ function App() {
           <Route path="/admin/qna" element={<AdminQnaList/>}/>
           <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
           <Route path="/admin/qna/detail" element={<AdminQnaDetail/>}/>
-          </Route>
           </Route>
           <Route path="post/writing" element={<PostWriting/>}/>
         </Routes>
