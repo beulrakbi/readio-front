@@ -40,12 +40,12 @@ function SearchBookList() {
                                    <div className={UserMainCSS.mainSearch}>
                                         <div className={UserMainCSS.buttonBox}>
                                              <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
-                                             <button className={UserMainCSS.buttonNone}onClick={onSearchClickHandler}><img src={search}/></button>
+                                             <button className={UserMainCSS.buttonNone} onClick={onSearchClickHandler}><img src={search}/></button>
                                         </div>
                                         <div className={UserMainCSS.buttonBox}>
-                                           <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
-                                           <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
-                                           <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
+                                           <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
+                                           <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
+                                           <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
                                         </div>
                                    </div>
                     </div>
