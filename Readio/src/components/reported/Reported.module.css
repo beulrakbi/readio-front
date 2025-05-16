@@ -151,7 +151,6 @@
     height: 30px;
     font-size: 16px;
     font-weight: 400;
-
 }
 
 .searchInput:focus {
@@ -169,5 +168,7 @@
     cursor: pointer;
     width: 17px;
     height: 17px;
-    
+    position: relative;
+    left: -9%;
+    top: 5%;
 }
