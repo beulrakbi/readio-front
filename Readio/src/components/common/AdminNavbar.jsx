@@ -17,14 +17,9 @@ function AdminNavbar() {
                     <Link to="/" className={styles.text2}>• 회원 목록</Link>
                     <hr />
                     <p className={styles.text1}>신고 관리</p>
-                    <Link to="/" className={styles.text2}>• 리뷰</Link>
+                    <Link to="/admin/reported/review/list" className={styles.text2}>• 리뷰</Link>
                     <Link to="/" className={styles.text2}>• 포스트</Link>
                     <hr />
-                    <p className={styles.text1}>게시판 관리</p>
-                    <Link to="/" className={styles.text2}>• 공지사항</Link>
-                    <Link to="/" className={styles.text2}>• 소식</Link>
-                    <Link to="/" className={styles.text2}>• FAQ</Link>
-                    <Link to="/" className={styles.text2}>• Q&A</Link>
                     <p className={styles.text1}>게시판 관리</p>
                     <Link to="/admin/notice" className={styles.text2}>• 공지사항</Link>
                     <Link to="/" className={styles.text2}>• 소식</Link>
