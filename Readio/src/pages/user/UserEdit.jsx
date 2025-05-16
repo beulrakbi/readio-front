@@ -51,13 +51,9 @@ function UserEdit() {
             <section className={styles.termsSection}>
                 <p className={styles.description}>
                     • 회원탈퇴 후 동일 아이디로 재가입이 불가합니다.
-                    <NavLink to={""} className={styles.deleteAccount}>회원탈퇴 &gt;
+                    <NavLink to={"/users/verify-pwd"} className={styles.deleteAccount}>회원탈퇴 &gt;
                     </NavLink>
                 </p>
-                {/* <div className={styles.deleteAccountWrap}> */}
-                {/* </div> */}
-
-
             </section>
 
             <div className={styles.submitBtnWrap}>
