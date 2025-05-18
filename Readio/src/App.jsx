@@ -12,7 +12,7 @@ function App() {
           <Route path="/" element={<Layout/>}>
           <Route index element={<UserMain/>}/>
 
-        <Route path="join" element={<Join />} /> {/* 회원가입 */}
+        <Route path="/users/join" element={<Join />} /> {/* 회원가입 */}
           </Route>
         </Routes>
       </BrowserRouter>
