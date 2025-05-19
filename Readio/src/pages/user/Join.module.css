@@ -1,15 +1,13 @@
 /* @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"); */
-body {
+/* body {
   background-image: url('../../assets/texture.png');
   background-repeat: repeat;
   min-height: 100vh;
-}
+} */
 
 
 .joinPage {
   height: 100%;
-  max-width: 860px;
-  width: 100%;
   margin: 0 auto;
 }
 
@@ -50,9 +48,9 @@ body {
 }
 
 .formGroup input {
-  width: 35%;
+  width: 100%;
   /* 입력란이 가로로 꽉 차게 */
-  max-width: 600px;
+  max-width: 300px;
   /* 최대 너비 설정 */
   padding: 10px;
 }

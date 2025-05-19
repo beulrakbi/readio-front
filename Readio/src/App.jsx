@@ -59,17 +59,17 @@ function App() {
           {/* 메인 페이지, 사용자 페이지 */}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
-            <Route path="/login" element={<Login />} />                           {/* 로그인 */}
-            <Route path="/users/join" element={<Join />} />                       {/* 회원가입 */}
-            <Route path="users/verify-pwd" element={<VerifyPwd/>}/>               {/* 비밀번호 확인 */}
+            <Route path="users/login" element={<Login />} />                           {/* 로그인 */}
+            <Route path="users/join" element={<Join />} />                       {/* 회원가입 */}
+            <Route path="users/verify-pwd" element={<VerifyPwd />} />               {/* 비밀번호 확인 */}
             <Route path="users/edit" element={<UserEdit />} />                    {/* 회원정보 수정 */}
-            <Route path="users/delete" element={<UserDelete/>}/>                {/* 회원탈퇴 */}
-            <Route path="users/delete/complete" element={<UserDeleteComplete/>} />{/* 회원탈퇴완료 */}
+            <Route path="users/delete" element={<UserDelete />} />                {/* 회원탈퇴 */}
+            <Route path="users/delete/complete" element={<UserDeleteComplete />} />{/* 회원탈퇴완료 */}
             <Route path="find-account" element={<FindAccount />}>                 {/* 계정정보찾기 */}
-            <Route index element={<Navigate to="find-id" replace />} />         {/* 기본-아이디찾기 */}
-            <Route path="find-id" element={<FindIdForm />} />                   {/* 아이디찾기 */}
-            <Route path="find-pwd" element={<FindPwdForm />} />                 {/* 비밀번호찾기 */}
-          </Route>
+              <Route index element={<Navigate to="find-id" replace />} />         {/* 기본-아이디찾기 */}
+              <Route path="find-id" element={<FindIdForm />} />                   {/* 아이디찾기 */}
+              <Route path="find-pwd" element={<FindPwdForm />} />                 {/* 비밀번호찾기 */}
+            </Route>
             <Route path="bookPage" element={<BookPage />} />
             <Route path="/notice" element={<NoticeList />} />
             <Route path="/notice/detail" element={<NoticeDetail />} />
@@ -85,15 +85,15 @@ function App() {
             <Route path="mylibrary" element={<MyLibraryPage />} />
             <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
             <Route path="mylibrary/profile" element={<EditProfilePage />} />
-            <Route path="mylibrary/interest" element={<InterestViewPage/>}/>
-            <Route path="mylibrary/interest/edit" element={<InterestEditPage/>}/>
-            <Route path="mylibrary/calendar" element={<CalendarPage/>}/>
-            <Route path="post/writing" element={<PostWriting/>}/>
-            <Route path="post/writing/book" element={<PostWritingBook/>}/>
-            <Route path="post" element={<PostDetail/>}/>
-            <Route path="feed" element={<FeedMain/>}/>
-            <Route path="mylibrary/follow" element={<FollowList/>}/>
-            <Route path="mylibrary/postlist" element={<PostList/>}/>
+            <Route path="mylibrary/interest" element={<InterestViewPage />} />
+            <Route path="mylibrary/interest/edit" element={<InterestEditPage />} />
+            <Route path="mylibrary/calendar" element={<CalendarPage />} />
+            <Route path="post/writing" element={<PostWriting />} />
+            <Route path="post/writing/book" element={<PostWritingBook />} />
+            <Route path="post" element={<PostDetail />} />
+            <Route path="feed" element={<FeedMain />} />
+            <Route path="mylibrary/follow" element={<FollowList />} />
+            <Route path="mylibrary/postlist" element={<PostList />} />
           </Route>
 
           <Route path="/admin" element={<AdminLayout />}>

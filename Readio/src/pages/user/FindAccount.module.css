@@ -10,7 +10,7 @@
     display: table-row;
 }
 
-h2 {
+.FindAccountTitle {
     margin: 80px 0px 40px 0px;
     font-size: 24px;
     text-align: left;
