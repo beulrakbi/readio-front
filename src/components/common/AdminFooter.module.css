@@ -1,0 +1,45 @@
+p {
+    margin:5px;
+}
+.adminFooter {
+    background-color: #E8E8E1;
+    display: flex;
+    border-top: 1px solid #383838;
+    border-left: 1px solid #383838;
+    height: 171px;
+    width: 120%;
+    flex-direction: row;
+}
+
+.redBox {
+    background-color: #AF4C3F;
+    width:285px;
+    height:171px;
+    z-index: 1000;
+}
+
+.footerDiv {
+    padding-left: 20px;
+    font-family: 'Pretendard';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.readio {
+    color: #383838;
+    font-weight: 900;
+    font-size: 30px;
+}
+
+.info {
+    color: #383838;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.line {
+    width: 545px;
+    padding:0px;
+    margin:0px;
+}
