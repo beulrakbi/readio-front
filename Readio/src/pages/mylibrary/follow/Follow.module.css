@@ -1,0 +1,97 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
+.followDiv {
+    width: 60%;
+    height: 1000px;
+}
+
+.followBackBt {
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    margin-top: 60px;
+    border-style: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.followTapDiv {
+    display: flex;
+    
+}
+
+.followListBtDiv {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 50px;
+    
+}
+
+.followListBt {
+    width: 100%;
+    height: 100%;
+    font-size: 25px;
+    border: none;
+    background-color: transparent;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 4px solid #808467;
+}
+
+.activeTab {
+  border-bottom: 4px solid #d44b4b;
+  
+}
+
+
+.followProfileDiv {
+    width: 80%;
+    height: 80px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.followProfileImg {
+    height: 50px;
+    margin-left: 20px;
+}
+
+.followProfile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 40px;
+    list-style-type: none;
+}
+
+.followProfileFont {   
+    font-size: 18px;
+}
+
+.followFont {
+    font-size: 15px;
+}
+
+.followBt {
+    margin-left: auto;
+    margin-right: 20px;
+    border-style: none;
+    background-color: #F6EEB6;
+    color: #000000;
+    height: 35px;
+    width: 90px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.followingBt {
+  background-color: #b5b5b5;
+  color: #000000;
+}

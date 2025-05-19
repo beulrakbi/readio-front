@@ -1,0 +1,244 @@
+.wrapper {
+    padding: 110px 150px 180px 150px;
+    background-color: #E8E8E1;
+}
+
+.searchSection {
+    display: grid;
+    gap: 15px;
+    margin: 30px 0px 60px 20px;
+}
+
+.line1 {
+    border: #000000;
+}
+
+.row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+}
+
+.selectBox,
+.inputBox,
+.dateInput {
+    width: 180px;
+}
+
+.selectBox {
+    border: 1px solid #ccc;
+    padding: 7px 10px;
+}
+
+.inputBox {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    width: 195px;
+}
+
+.dateInput {
+    border: 1px solid #ccc;
+    padding: 7pt 10pt;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 4pt;
+    font-size: 12pt;
+}
+
+.searchButton {
+    background-color: #808467;
+    color: white;
+    padding: 7px 10px;
+    border-radius: 5px;
+    width: 15%;
+    border-style: none;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 30px;
+
+    /* align-items: center; */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-self: center; */
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12pt;
+    margin-bottom: 80px;
+}
+
+.table th,
+.table td {
+    border: 1px solid #ccc;
+    padding: 6pt 10pt;
+    text-align: center;
+}
+
+.tableHead {
+    background-color: #f3f4f6;
+    height: 60px;
+    font-weight: bold;
+}
+
+.deleteButton {
+    background-color: #ef4444;
+    color: white;
+    padding: 3px 9px;
+    border-radius: 5px;
+    border-style: none;
+}
+
+.rowGroup {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+
+.row label {
+    min-width: 90px;
+    /* 라벨 너비 늘림 */
+    font-weight: bold;
+}
+
+
+/* 페이지 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    gap: 8px;
+}
+
+.pagination button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #AF4C3F;
+}
+
+.pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.activePage {
+    background-color: #007bff;
+    color: rgb(0, 0, 0);
+    border-color: #007bff;
+}
+
+
+/* 모달 스타일 */
+/* 아이디 클릭시 모달 창 열림 */
+.userIdClickable {
+    cursor: pointer;
+    /* text-decoration: underline; */
+}
+
+.userIdClickable:hover {
+    color: #AF4C3F;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    width: 100%;
+    background: white;
+    color: #000000;
+    padding: 0px 0px 20px 0px;
+    /* border-radius: 10px; */
+    min-width: 500px;
+    max-width: 600px;
+    
+}
+
+.modalTitle {
+    color: #ffffff;
+    padding: 15px 15px;
+    background-color: #383838;
+    font-weight: 600;
+    font-size: 15pt;
+}
+
+.sectionTitle {
+  font-size: 14pt;
+  font-weight: 500;
+  margin: 10px 15px;
+}
+
+.line2 {
+    width: 100%;
+    background-color: #B4B4B4;
+}
+
+.detailTable {
+    width: 500px;
+    justify-content: center;
+    align-items: center;
+    border-collapse: collapse;
+    line-height: 2;
+    margin: 30px 50px;
+    padding-left: 10px;
+    /* text-align: left; */
+    /* font-size: 14px; */
+}
+
+.detailTable td {
+    border: 1px solid #B4B4B4;
+    padding-left: 10px;
+}
+
+.modalLabel {
+    font-weight: 600;
+    background-color: #F3F3F3;
+    width: 150px;
+    padding-left: 15px;
+}
+
+/* 닫기 버튼 부분 */
+.closeModal {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeBtn {
+    padding: 10px 30px;
+    font-size: 15px;
+    font-weight: 500;
+    background-color: #383838;
+    color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
