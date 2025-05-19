@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { getVideosTest } from '../../apis/VideoAPI';
 import search from '../../assets/search.png';
 import Video from '../../components/video/Video';
-import VideoListCSS from '../../components/video/videoList.module.css';
 import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchVideoList.module.css';
 
@@ -59,17 +58,17 @@ function SearchVideoList() {
                          <div className={styles.videoList} onClick={onClickVideoPage}>
                               {videoList.map(video => (
                                    <>
-                                        <div key={video.etag} className={VideoListCSS.video}>
+                                        <div key={video.etag} className={styles.video}>
                                              {/* 영상 미리보기 컴포넌트 */}
                                              <Video video={video} />
                                              
                                              {/* 영상 정보 */}
                                              <div className={styles.videoInfo}>
-                                             <div className={styles.videoTitle}>{video.snippet.title}</div>
-                                             <div className={styles.videoDate}>
-                                                  {video.snippet.publishedAt.slice(0, 10).replace(/-/g, '.')}
-                                             </div>
-                                             <div className={styles.videoDetail}>{video.snippet.description}</div>
+                                                  <div className={styles.videoTitle}>{video.snippet.title}</div>
+                                                  <div className={styles.videoDate}>
+                                                       {video.snippet.publishedAt.slice(0, 10).replace(/-/g, '.')}
+                                                  </div>
+                                                  <div className={styles.videoDetail}>{video.snippet.description}</div>
                                         </div>
                                    </div>
                                    <hr className="videoListHr"/>
