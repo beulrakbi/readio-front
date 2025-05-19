@@ -11,10 +11,11 @@
      font-weight: 600;
 }
 
-hr {
+/* 변경 필요 */
+/* hr {
      width : 80vh;
      height: 1px;
-}
+} */
 
 .SearchVideoList {
      margin : 10px 0 ;

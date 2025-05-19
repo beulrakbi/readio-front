@@ -43,6 +43,7 @@ import QnaList from './pages/serviceCenter/QnaList';
 import QnaWriting from './pages/serviceCenter/QnaWriting';
 import FindAccount, { FindIdForm, FindPwdForm } from "./pages/user/FindAccount";
 import Join from "./pages/user/Join";
+import JoinComplete from "./pages/user/JoinComplete.jsx";
 import Login from "./pages/user/Login";
 import UserDelete from "./pages/user/UserDelete";
 import UserDeleteComplete from "./pages/user/UserDeleteComplete";
@@ -59,9 +60,10 @@ function App() {
           {/* 메인 페이지, 사용자 페이지 */}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
-            <Route path="users/login" element={<Login />} />                           {/* 로그인 */}
-            <Route path="users/join" element={<Join />} />                       {/* 회원가입 */}
-            <Route path="users/verify-pwd" element={<VerifyPwd />} />               {/* 비밀번호 확인 */}
+            <Route path="users/login" element={<Login />} />                      {/* 로그인 */}
+            <Route path="users/join" element={<Join />} />                        {/* 회원가입 */}
+            <Route path="users/join/complete" element={<JoinComplete />} />       {/* 회원가입완료 */}
+            <Route path="users/verify-pwd" element={<VerifyPwd />} />             {/* 비밀번호 확인 */}
             <Route path="users/edit" element={<UserEdit />} />                    {/* 회원정보 수정 */}
             <Route path="users/delete" element={<UserDelete />} />                {/* 회원탈퇴 */}
             <Route path="users/delete/complete" element={<UserDeleteComplete />} />{/* 회원탈퇴완료 */}
