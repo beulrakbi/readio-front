@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
 .main{
     width:100%;
     height:auto;
@@ -5,8 +7,8 @@
 }
 
 .mainImgBox {
-    width:100vw;
-    height:500px;
+    width: 100vw;
+    height: 500px;
     overflow: hidden;
     background-image: url('../../assets/bgimg.png');
     background-size: cover;
@@ -19,6 +21,7 @@
     display: flex;
     flex-direction: column;
     width:100vw;
+    height: auto;
     background-image: url('../../assets/texture.png');
     background-repeat: repeat;
 }
@@ -29,8 +32,8 @@
     font-weight: 900;
     position: absolute;
     left:100px;
-    top:340px;
-    font-family: 'Pretendard';
+    top:460px;
+
 }
 
 .mainTextBox{
@@ -44,7 +47,6 @@
 .mainText{
     justify-content: center;
     font-size:24px;
-    font-family: 'Pretendard';
     font-weight: 500;
     text-align: center;
 }

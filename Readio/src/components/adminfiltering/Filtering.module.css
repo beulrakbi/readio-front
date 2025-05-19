@@ -1,13 +1,11 @@
 .container {
     width: 1300px;
-    min-height: 580px;
-    max-height: 580px;
+    /* min-height: 580px; */
+    /* max-height: 580px; */
     display: flex;
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    /* margin:auto; */
-    /* margin-top:200px; */
 }
 
 .fontContainer {
@@ -275,7 +273,7 @@
 
 .filteringDetailContent {
     width: 1300px;
-    height: 250px;
+    height: 270px;
     background-color: transparent;
     font-size: 20px;
     font-weight: 600;
