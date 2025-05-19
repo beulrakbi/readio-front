@@ -10,7 +10,6 @@ import profileImg1 from '../../assets/profileImg1.png';
 import profileImg2 from '../../assets/profileImg2.png';
 import profileImg3 from '../../assets/profileImg3.png';
 import PostCSS from './Post.module.css';
-import FeedItemPost from '../../components/modules/feed/FeedItemPost';
 
 
 function PostDetail () {

@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
-import FeedCSS from '../../../pages/Feed/Feed.module.css';
-import PostCSS from '../../../pages/post/Post.module.css';
+import FeedCSS from '../../pages/Feed/Feed.module.css';
+import PostCSS from '../../pages/post/Post.module.css';
 
 // assets 경로 수정
-import postBeLike from '../../../assets/postBeLike.png';
-import postLike from '../../../assets/postLike.png';
-import postDetailOption from '../../../assets/postDetailOption.png';
-import postDetailHeart from '../../../assets/postDetailHeart.png';
-import postDetailReview from '../../../assets/postDetailReview.png';
+import postBeLike from '../../assets/postBeLike.png';
+import postDetailHeart from '../../assets/postDetailHeart.png';
+import postDetailOption from '../../assets/postDetailOption.png';
+import postDetailReview from '../../assets/postDetailReview.png';
+import postLike from '../../assets/postLike.png';
 
 function FeedItemPost(props) {
     const detailsRef = useRef(null);

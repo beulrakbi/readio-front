@@ -1,7 +1,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import { resetSearch, setQuery, setType } from '../../components/modules/postwriting/bookSearchSlice'; // Slice 액션 경로
-import { searchAladinBooks } from '../../components/modules/postwriting/bookSearchThunk'; // Thunk 경로
+import { resetSearch, setQuery, setType } from '../../modules/postwriting/bookSearchSlice'; // Slice 액션 경로
+import { searchAladinBooks } from '../../modules/postwriting/bookSearchThunk'; // Thunk 경로
 
 function PostWritingBook({ onBookSelect, onClose, PostCSS }) {
     const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
-import FeedCSS from '../../../pages/Feed/Feed.module.css';
-import FeedRecWriting from '../../../assets/FeedRecWriting.png';
+import FeedRecWriting from '../../assets/FeedRecWriting.png';
+import FeedCSS from '../../pages/Feed/Feed.module.css';
 
 function SubTabNavigation(props) {
     return (

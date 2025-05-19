@@ -1,15 +1,7 @@
 import {
     GET_FILTERINGS,
-    POST_FILTERING,
-    POST_FILTERINGS,
-    PUT_FILTERINGS,
-    DELETE_FILTERING,
-    DELETE_FILTERINGS,
-    GET_FILTERINGGROUP,
-    POST_FILTERINGGROUP,
-    PUT_FILTERINGGROUP,
-    DELETE_FILTERINGGROUP
-} from '../modules/FilteringModule.js';
+    POST_FILTERINGGROUP
+} from '../modules/filtering/FilteringModule.js';
 
 export const callFilteringsAPI = ({groupId}) => {
     const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/admin/filtering/${groupId}`;

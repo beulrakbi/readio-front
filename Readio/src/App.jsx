@@ -3,16 +3,6 @@ import BookPage from '../src/pages/book/BookPage';
 import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
-import UserMain from "./pages/user/UserMain";
-import MyLibraryPage from './pages/mylibrary/mainpage/MyLibraryPage.jsx';
-import NoticeList from "./pages/user/NoticeList";
-import NoticeDetail from "./pages/user/NoticeDetail";
-import MyLibraryGuestPage from "./pages/mylibrary/mainpage/MyLibraryGuestPage.jsx";
-import EditProfilePage from "./pages/mylibrary/profile/EditProfilePage.jsx";
-import PostWriting from "./pages/post/PostWriting.jsx";
-import InterestViewPage from "./pages/mylibrary/interest/InterestView.jsx";
-import InterestEditPage from "./pages/mylibrary/interest/InterestEdit.jsx";
-import CalendarPage from "./pages/mylibrary/calendar/CalendarPage.jsx";
 import AdminMain from "./pages/admin/AdminMain";
 import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
 import FilteringDetailPage from "./pages/admin/filtering/FilteringDetailPage";
@@ -31,23 +21,23 @@ import AdminQnaAnswer from "./pages/boardManagement/AdminQnaAnswer";
 import AdminQnaDetail from "./pages/boardManagement/AdminQnaDetail";
 import AdminQnaList from "./pages/boardManagement/AdminQnaList";
 import Bookmark from "./pages/bookmark/bookmark";
+import FeedMain from "./pages/feed/FeedMain";
 import CalendarPage from "./pages/mylibrary/calendar/CalendarPage.jsx";
+import FollowList from "./pages/mylibrary/follow/FollowList";
 import InterestEditPage from "./pages/mylibrary/interest/InterestEdit.jsx";
 import InterestViewPage from "./pages/mylibrary/interest/InterestView.jsx";
 import MyLibraryGuestPage from "./pages/mylibrary/mainpage/MyLibraryGuestPage.jsx";
 import MyLibraryPage from './pages/mylibrary/mainpage/MyLibraryPage.jsx';
+import PostList from "./pages/mylibrary/mypost/PostList";
 import EditProfilePage from "./pages/mylibrary/profile/EditProfilePage.jsx";
-import PostWriting from "./pages/post/PostWriting";
-import PostWritingBook from "./pages/post/PostWritingBook";
 import PostDetail from "./pages/post/PostDetail";
-import FeedMain from "./pages/feed/FeedMain";
-import FollowList from "./pages/mylibrary/follow/FollowList"
-import PostList from "./pages/mylibrary/mypost/PostList"
+import PostWriting from "./pages/post/PostWriting.jsx";
+import PostWritingBook from "./pages/post/PostWritingBook";
 import SearchBookList from './pages/searchList/SearchBookList';
 import SearchVideoList from './pages/searchList/SearchVideoList';
 import Faq from './pages/serviceCenter/Faq';
-import NoticeDetail from './pages/serviceCenter/NoticeDetail';
-import NoticeList from './pages/serviceCenter/NoticeList';
+import NoticeDetail from "./pages/serviceCenter/NoticeDetail";
+import NoticeList from "./pages/serviceCenter/NoticeList";
 import QnaDetail from './pages/serviceCenter/QnaDetail';
 import QnaList from './pages/serviceCenter/QnaList';
 import QnaWriting from './pages/serviceCenter/QnaWriting';
@@ -62,27 +52,6 @@ import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
 
 function App() {
-
-    return (
-        <>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<UserMain />} />
-                        <Route path="mylibrary" element={<MyLibraryPage />} />
-                        <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
-                        <Route path="mylibrary/profile" element={<EditProfilePage />} />
-                        <Route path="notice" element={<NoticeList />} />
-                        <Route path="notice/detail" element={<NoticeDetail />} />
-                        <Route path="post/writing" element={<PostWriting/>}/>
-                        <Route path="mylibrary/interest" element={<InterestViewPage/>}/>
-                        <Route path="mylibrary/interest/edit" element={<InterestEditPage/>}/>
-                        <Route path="mylibrary/calendar" element={<CalendarPage/>}/>
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        </>
-    )
   return (
     <>
       <BrowserRouter>

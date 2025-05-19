@@ -3,11 +3,11 @@ import book2 from '../../assets/book2.png';
 import feedConImg from '../../assets/feedConImg.png';
 import profileImg2 from '../../assets/profileImg2.png';
 import profileImg3 from '../../assets/profileImg3.png';
+import FeedItemPost from '../../modules/feed/FeedItemPost';
+import FeedItemReview from '../../modules/feed/FeedItemReview';
+import SubTabNavigation from '../../modules/feed/SubTabNavigation';
+import TabNavigation from '../../modules/feed/TabNavigation';
 import FeedCSS from './Feed.module.css';
-import TabNavigation from '../../components/modules/feed/TabNavigation';
-import SubTabNavigation from '../../components/modules/feed/SubTabNavigation';
-import FeedItemPost from '../../components/modules/feed/FeedItemPost';
-import FeedItemReview from '../../components/modules/feed/FeedItemReview';
 
 function FeedMain() {
     const [activeTab, setActiveTab] = useState('rec');
