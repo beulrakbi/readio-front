@@ -1,0 +1,239 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+body {
+    background-image: url('../../../assets/texture.png');
+    background-repeat: repeat;
+    background-size: auto;
+    font-family: 'Pretendard Variable', sans-serif;
+}
+
+.wrapper {
+    margin: 50px;
+    overflow-x: hidden;
+}
+.block {
+    margin: 80px 250px 60px 250px;
+    padding: 0;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: bold;
+    color: #676767;
+    text-align: left;
+    width: 100%;
+    margin: 50px 150px 30px 0;
+}
+.subtitle{
+    font-size: 22px;
+    font-weight: bold;
+    color: #676767;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    width: 100%;
+    margin-bottom: 60px;
+}
+.triangleBtn {
+    width: 10px;
+    height: 10px;
+    border-style: solid;
+    background: transparent;
+    cursor: pointer;
+}
+
+.left {
+    border-width: 10px 12px 10px 10px;
+    border-color: transparent #AF4C3F transparent transparent;
+}
+
+.right {
+    border-width: 10px 0 10px 12px;
+    border-color: transparent transparent transparent #AF4C3F;
+}
+.tabBar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.tabButton {
+    min-width: 100px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 30px;
+    font-weight: 600;
+    font-size: 15px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+
+.activeTab {
+    background-color: #f6eeb6;
+    color: #AF4C3F;
+}
+
+.dayCell {
+    height: 100px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 15px;
+    font-weight: 500;
+    /*color: #676767;*/
+    color: black;
+    border-bottom: 2px solid #F6EEB6;
+}
+.calendarHeaderRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #F6EEB6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.dayHeader {
+    text-align: center;
+    font-weight: bold;
+    color: #AF4C3F;
+    padding: 15px 45px;
+}
+
+.calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.selectedDay {
+    font-weight: bold;
+    color: #AF4C3F;
+    font-size: 18px;
+}
+
+.actionTextButtons {
+
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 20px;
+    padding: 0 4px;
+}
+
+.textButton {
+    max-width: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+}
+.textButton:hover {
+    color: #AF4C3F;
+}
+.disabledDay {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.showPopup {
+    min-width: 200px;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #d9d9d9; /*SㅓㅗDSDFEF*/
+    color: #333;
+    font-weight: 700;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 999;
+    animation: fadeInOut 2s ease-in-out;
+    text-align: center
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/*EmotionModal*/
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    min-width: 100px;
+    border: 2px solid #808467;
+}
+
+.emotionGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
+    justify-content: center;
+}
+
+.emotionButton {
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.selected {
+    border: 2px solid #AF4C3F;
+    background-color: #fdf3cf;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.cancelBtn {
+    flex: 1;
+    background-color: #ccc;
+    color: #b4372f;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.confirmBtn {
+    flex: 1;
+    background-color: #f6eeb6;
+    color: #222;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}

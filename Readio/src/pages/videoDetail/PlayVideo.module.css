@@ -1,0 +1,51 @@
+/* 영상 상세페이지 - 영상 재생 / 영상 상세 글 부분 */
+
+.container{
+     width: 100vh;
+     margin: 0 auto;
+     padding : 50px;
+}
+
+.video {
+     width: 70vh;
+     height: 40vh;
+     background-color: rgb(67, 67, 67);
+     margin: 0 auto;
+     border-radius: 3px;
+}
+
+.videoTitle {
+     width: 70vh;
+     font-size: 18px;
+     font-weight: 800;
+     margin: 10px auto;
+}
+
+.channelNameBookMark {
+     width: 70vh;
+     font-size: 13px;
+     margin: 10px auto;
+     display: flex;
+}
+
+.BookMark {
+     margin : 0 50px;
+     display: flex;
+}
+
+.bookmark { /* 북마크 그림 */
+     margin : 0 0 0 10px;
+}
+
+.videoDetail {
+     width: 70vh;
+     height : 30vh;
+     background-color: #d9d9d9;
+     margin: 0 auto;
+     font-size: 12px;
+     color:  rgb(66, 66, 66);
+     border-radius: 5px;
+     padding: 10px;
+}
+
+

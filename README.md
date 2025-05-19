@@ -1,17 +1,12 @@
-## 🧑‍💻 코드 작성 규칙 (Code Rule)
+# React + Vite
 
-### 1. 🎯 코드 컨벤션
-* 변수 및 함수명: **카멜케이스 (camelCase)** 사용
-* (추가적인 컨벤션 내용이 있다면 여기에 채워주세요)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-### 2. 🪧 이슈 발행 규칙
-* 브랜치를 **세부적으로 생성** (ex) 조회/상세조회/작성/수정/삭제 등)
-* **커밋은 자주** 하기 (하루에 **2\~3회 이상** 권장)
-* 커밋 메시지에는 **이슈 번호와 일치된 번호 사용**
-* 이슈 생성 시 **협업 담당자 태그 필수**
-* 기능 개발 전, **이슈 등록 하고, 마일스톤에 연결**
+Currently, two official plugins are available:
 
-### 4. 🌿 브랜치 네이밍 규칙
-* `feature/기능이름/상세기능` 형태로 생성
-  * 예시: `feature/login/oauth`
-* 이슈도 동일한 구조로 작성
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

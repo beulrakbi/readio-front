@@ -1,0 +1,87 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-image: url('/images/background.jpg');
+    /* background-color: #ebffca; */
+}
+
+.box {
+    width: 800px;
+    height: 260px;
+    background-color: #ffffff;
+    margin: 100px 0px 0px 0px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.logo {
+    width: 120px;
+    margin-bottom: 40px;
+}
+
+.checkimg {
+    width: 50px;
+}
+
+.checkWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.message {
+    font-size: 1rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    line-height: 1.5;
+}
+
+/* nav ≡ 이미지 */
+.inlineIcon {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.highlight {
+    color: #AF4C3F; /* 원하는 색상으로 변경 가능 */
+    font-weight: bold;
+}
+
+.buttonGroup {
+    margin-top: 50px;
+    margin-bottom: 100px;
+    display: flex;
+    gap: 10px;
+}
+
+.button {
+    padding: 10px 20px;
+    background-color: #808467;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #AF4C3F;
+}
