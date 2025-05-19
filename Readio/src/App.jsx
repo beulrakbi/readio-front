@@ -28,6 +28,11 @@ import MyLibraryGuestPage from "./pages/mylibrary/mainpage/MyLibraryGuestPage.js
 import MyLibraryPage from './pages/mylibrary/mainpage/MyLibraryPage.jsx';
 import EditProfilePage from "./pages/mylibrary/profile/EditProfilePage.jsx";
 import PostWriting from "./pages/post/PostWriting";
+import PostWritingBook from "./pages/post/PostWritingBook";
+import PostDetail from "./pages/post/PostDetail";
+import FeedMain from "./pages/feed/FeedMain";
+import FollowList from "./pages/mylibrary/follow/FollowList"
+import PostList from "./pages/mylibrary/mypost/PostList"
 import SearchBookList from './pages/searchList/SearchBookList';
 import SearchVideoList from './pages/searchList/SearchVideoList';
 import Faq from './pages/serviceCenter/Faq';
@@ -84,6 +89,12 @@ function App() {
             <Route path="mylibrary/interest" element={<InterestViewPage/>}/>
             <Route path="mylibrary/interest/edit" element={<InterestEditPage/>}/>
             <Route path="mylibrary/calendar" element={<CalendarPage/>}/>
+            <Route path="post/writing" element={<PostWriting/>}/>
+            <Route path="post/writing/book" element={<PostWritingBook/>}/>
+            <Route path="post" element={<PostDetail/>}/>
+            <Route path="feed" element={<FeedMain/>}/>
+            <Route path="mylibrary/follow" element={<FollowList/>}/>
+            <Route path="mylibrary/postlist" element={<PostList/>}/>
           </Route>
 
           {/* 관리자 페이지 */}
@@ -106,7 +117,6 @@ function App() {
             <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
             <Route path="/admin/qna/detail" element={<AdminQnaDetail />} />
           </Route>
-          <Route path="post/writing" element={<PostWriting />} />
         </Routes>
       </BrowserRouter >
     </>
