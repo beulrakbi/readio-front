@@ -1,8 +1,25 @@
-import { Link } from 'react-router-dom';
 import FListCSS from './Filtering.module.css';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
+import {callFilteringGroupCreateAPI} from "../../apis/FilteringAPICalls.js";
+import {useEffect} from "react";
 
 function FilteringList()
 {
+    // callFilteringGroupCreateAPI();
+
+    // const navigate = useNavigate();
+    // const dispatch = useDispatch();
+    // const params = useParams();
+    // const filteringGroups  = useSelector(state => state.filteringReducer);
+    // const filteringGroupList = filteringGroups.data;
+    //
+    // useEffect(() => {
+    //     dispatch(callFilteringGroupCreateAPI({
+    //
+    //     }))
+    // }, []);
+
     return (
         <div className={FListCSS.container}>
             <div className={FListCSS.fontContainer}>
