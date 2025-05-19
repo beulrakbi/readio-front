@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { useState } from 'react';
 import styles from './Join.module.css';
-import axios from 'axios';
 
 function Join() {
 
@@ -18,8 +18,8 @@ function Join() {
     // 약관 동의 상태
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [agreePrivacy, setAgreePrivacy] = useState(false);
-    const [agreeMarketing, setAgreeMarketing] = useState(false);
-    const [agreeThirdParty, setAgreeThirdParty] = useState(false);
+    // const [agreeMarketing, setAgreeMarketing] = useState(false);
+    // const [agreeThirdParty, setAgreeThirdParty] = useState(false);
 
     // 모달 상태
     const [isTermsModalOpen, setTermsModalOpen] = useState(false);

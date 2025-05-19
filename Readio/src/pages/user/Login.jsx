@@ -66,7 +66,7 @@ const Login = () => {
                     <div className={LoginCSS.findLinks}>
                         <Link to="/find-account">아이디 찾기</Link>
                         <span className={LoginCSS.divider}>|</span>
-                        <Link to="/find-password">비밀번호 찾기</Link>
+                        <Link to="/find-account/find-pwd">비밀번호 찾기</Link>
                     </div>
                 </form>
             </div>

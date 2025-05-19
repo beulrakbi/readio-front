@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/JoinComplete-logo.png';
 import checkIcon from '../../assets/JoinComplete-check.png';
+import logo from '../../assets/JoinComplete-logo.png';
 import menuIcon from '../../assets/JoinComplete-nav.png';
 import styles from './JoinComplete.module.css'; // module import
 
@@ -23,7 +23,7 @@ function JoinComplete() {
 
             <div className={styles.buttonGroup}>
                 <Link to="/" className={styles.button}>메인으로 이동하기</Link>
-                <Link to="/login" className={styles.button}>로그인하기</Link>
+                <Link to="/users/login" className={styles.button}>로그인하기</Link>
             </div>
         </div>
     );
