@@ -66,6 +66,7 @@ html, body, #root {
 .headerLogin {
     width: auto; /* 고정 너비 대신 내용에 맞게 조정 */
     display: flex;
+    gap: 10px;
 }
 
 .headerLoginBt {
