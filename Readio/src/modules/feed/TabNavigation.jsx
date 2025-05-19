@@ -1,4 +1,4 @@
-import FeedCSS from '../../../pages/Feed/Feed.module.css';
+import FeedCSS from '../../pages/Feed/Feed.module.css';
 
 function TabNavigation(props) {
     return (

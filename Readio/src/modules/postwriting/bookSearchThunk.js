@@ -24,6 +24,7 @@ export const searchAladinBooks = createAsyncThunk(
         params.append('Cover', 'MidBig');
 
         apiUrl = `${apiUrl}?${params.toString()}`;
+        console.log("test", apiurl);
 
         try {
             const response = await fetch(apiUrl);

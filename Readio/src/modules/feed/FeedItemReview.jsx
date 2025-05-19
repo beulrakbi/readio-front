@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import FeedCSS from '../../../pages/Feed/Feed.module.css';
-import PostCSS from '../../../pages/post/Post.module.css';
-import postBeLike from '../../../assets/postBeLike.png';
-import postLike from '../../../assets/postLike.png';
-import postDetailOption from '../../../assets/postDetailOption.png';
+import postBeLike from '../../assets/postBeLike.png';
+import postDetailOption from '../../assets/postDetailOption.png';
+import postLike from '../../assets/postLike.png';
+import FeedCSS from '../../pages/Feed/Feed.module.css';
+import PostCSS from '../../pages/post/Post.module.css';
 
 function FeedItemReview(props) {
     const detailsRef = useRef(null);
