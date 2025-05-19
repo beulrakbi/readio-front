@@ -127,7 +127,6 @@ function App() {
             <Route path="mylibrary/postlist" element={<PostList/>}/>
           </Route>
 
-          {/* 관리자 페이지 */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminMain />} />
             <Route path="users/list" element={<UserManagement />} />
