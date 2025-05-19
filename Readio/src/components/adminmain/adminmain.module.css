@@ -1,4 +1,4 @@
-p {
+.adminMainP {
     display: inline;
     margin:10px;
 }
@@ -27,17 +27,25 @@ p {
 .font1{
     font-size: 24px;
     font-weight: 600;
+    display: inline;
+    margin:10px;
+
 }
 
 .font2{
     font-size: 18px;
     font-weight: 800;
+    display: inline;
+    margin:10px;
 }
 
 .font3{
     font-size: 18px;
     font-weight: 200;
     margin:6px;
+    display: inline;
+    margin:10px;
+
 }
 
 .linkFont {
@@ -195,6 +203,7 @@ p {
     font-size: 15px;
     font-weight: 200;
     margin:6px;
+    
 }
 
 /* 관심분야 키워드 */
