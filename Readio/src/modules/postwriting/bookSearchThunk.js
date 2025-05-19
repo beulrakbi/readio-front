@@ -23,11 +23,12 @@ export const searchAladinBooks = createAsyncThunk(
         params.append('Version', '20131101');
         params.append('Cover', 'MidBig');
 
+        const corsProxy = 'https://corsproxy.io/?';
         apiUrl = `${apiUrl}?${params.toString()}`;
-        console.log("test", apiurl);
+        console.log("test", apiUrl);
 
         try {
-            const response = await fetch(apiUrl);
+            const response = await fetch(corsProxy + encodeURIComponent(apiUrl));
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error('Aladin API HTTP Error:', response.status, errorText);

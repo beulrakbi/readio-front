@@ -99,9 +99,9 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminMain />} />
             <Route path="users/list" element={<UserManagement />} />
-            <Route path="filtering/list" element={<FilteringListPage />} />
-            <Route path="filtering/create" element={<FilteringCreatePage />} />
-            <Route path="filtering/detail" element={<FilteringDetailPage />} />
+            <Route path="filtering" element={<FilteringListPage />} />
+            <Route path="filtering/:groupId" element={<FilteringCreatePage />} />
+            <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
             <Route path="filtering/modify" element={<FilteringModifyPage />} />
             <Route path="reported/review/list" element={<ReportedReviewListPage />} />
             <Route path="reported/review/detail" element={<ReportedReviewDetailPage />} />

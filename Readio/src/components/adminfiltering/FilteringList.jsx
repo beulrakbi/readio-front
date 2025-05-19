@@ -1,25 +1,27 @@
 import FListCSS from './Filtering.module.css';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link, replace, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {callFilteringGroupCreateAPI} from "../../apis/FilteringAPICalls.js";
+import {callFilteringGroupsAPI} from "../../apis/FilteringAPICalls.js";
 import {useEffect} from "react";
 
 function FilteringList()
 {
-    // callFilteringGroupCreateAPI();
 
-    // const navigate = useNavigate();
-    // const dispatch = useDispatch();
-    // const params = useParams();
-    // const filteringGroups  = useSelector(state => state.filteringReducer);
-    // const filteringGroupList = filteringGroups.data;
-    //
-    // useEffect(() => {
-    //     dispatch(callFilteringGroupCreateAPI({
-    //
-    //     }))
-    // }, []);
+    const dispatch = useDispatch();
+    const filteringGroups  = useSelector(state => state.filtering);
+    const filteringGroupList = filteringGroups.data;
+    const navigate = useNavigate();
+    console.log("filteringGroupList", filteringGroupList);
 
+    useEffect(() => {
+        dispatch(callFilteringGroupsAPI());
+    }, []);
+
+    const onClickFilteringGroupHandler = (groupId) => {
+        navigate(`/admin/filtering/${groupId}`, {replace : true});
+    }
+
+    // console.log("filteringGroups", filteringGroups);
     return (
         <div className={FListCSS.container}>
             <div className={FListCSS.fontContainer}>
@@ -37,66 +39,15 @@ function FilteringList()
                     </tr>
                 </thead>
                 <tbody className={FListCSS.filteringTbody}>
-                    <tr>
-                        <td>10</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
+                    {filteringGroupList?.data?.map?.((filteringGroup) => (
+
+                    <tr key={filteringGroup.groupId}>
+                        <td>{filteringGroup.groupId}</td>
+                        <td>{filteringGroup.isActive ? "활성" : "비활성"}</td>
+                        <td>{filteringGroup.createAt}</td>
+                        <td onClick={() => onClickFilteringGroupHandler(filteringGroup.groupId)}>{filteringGroup.title}</td>
                     </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>비활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
+                    ))}
                 </tbody>
             </table>
             <div className={FListCSS.paging}>
