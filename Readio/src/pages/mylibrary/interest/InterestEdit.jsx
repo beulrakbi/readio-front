@@ -30,6 +30,7 @@ const InterestEditPage = () => {
 
 
     return (
+        <div className={styles.InterestEditPageWrapper}>
         <div className={styles.wrapper}>
             <h2 className={styles.title} onClick={()=>navigate('/mylibrary/interest')} style={{ cursor: 'pointer' }}>
                 &lt; 뒤로가기</h2>
@@ -80,6 +81,7 @@ const InterestEditPage = () => {
         </div>
     )}
 </div>
+        </div>
     );
 };
 

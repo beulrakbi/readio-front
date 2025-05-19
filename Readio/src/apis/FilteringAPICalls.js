@@ -4,7 +4,7 @@ import {
 } from '../modules/filtering/FilteringModule.js';
 
 export const callFilteringsAPI = ({groupId}) => {
-    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/admin/filtering/${groupId}`;
+    const requestURL = `http://localhost:8080/admin/filtering/${groupId}`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -24,7 +24,7 @@ export const callFilteringsAPI = ({groupId}) => {
 }
 
 export const callFilteringGroupAPI = ({groupId}) => {
-    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/admin/filtering/${groupId}`;
+    const requestURL = `http://localhost:8080/admin/filtering/${groupId}`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
