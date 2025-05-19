@@ -1,0 +1,177 @@
+.UserDeletePage {
+    height: 100%;
+    width: 100%;
+    /* margin: 0px 0px 80px 0px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contentBox {
+    margin: 100px 0px 60px 0px;
+    border-top: 3px solid #000000;
+    border-bottom: 3px solid #000000;
+}
+
+.title {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.description {
+    margin: 20px 0px 20px 0px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.hr {
+    border: none;
+    border-top: 2px solid #B4B4B4;
+    /* width: 100%; */
+    /* width: 45vw; */
+    position: relative;
+    margin: 20px 0;
+}
+
+.termGroup {
+    border: 1px solid #B4B4B4;
+    border-radius: 5px;
+    /* width: auto; */
+    margin-bottom: 20px;
+    padding: 15px 30px 15px 30px;
+    margin: 0px 15px 20px 15px;
+}
+
+.terms {
+    line-height: 1.5;
+    font-size: 11pt;
+}
+
+/* 약관 앞 체크표시 */
+.terms a {
+    font-weight: bold;
+    color: #3FBE48;
+}
+
+.terms2 {
+    line-height: 2;
+}
+
+.checkBoxWrap {
+    margin: 0px 0px 40px 0px;
+
+}
+
+.checkBox {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 30px;
+    margin: 0px 15px 0px 15px;
+}
+
+.error {
+    justify-content: left;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    color: red;
+    font-size: 11pt;
+    margin-left: 35px;
+}
+
+
+.submitBtnWrap {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.submitBtn {
+    padding: 5px 40px;
+    background-color: #808467;
+    color: white;
+    border: none;
+    /* border-radius: 5px; */
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-bottom: 150px;
+    max-width: 600px;
+}
+
+.submitBtn:hover {
+    background-color: #AF4C3F;
+}
+
+/* 아래부터 모달 style*/
+
+.modalWrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    width: 300px;
+    height: 350px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.eraserImg {
+    width: 90px;
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.modalTitle {
+    font-size: 16pt;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+
+.modalBtnWrap {
+    display: flex;
+    /* justify-content: space-around; 간격이 너무 넓어짐 */
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 25px; /* 버튼 간격 */
+
+}
+
+.cancelBtn,
+.confirmBtn {
+    padding: 7px 35px;
+    font-size: 12pt;
+    border: none;
+    /* border-radius: 5px; */
+    cursor: pointer;
+}
+
+.confirmBtn,
+.cancelBtn {
+    background-color: #808467;
+    color: white;
+}
+
+.confirmBtn:hover {
+    background-color: #AF4C3F;
+}
+
+.cancelBtn:hover {
+    background-color: #AF4C3F;
+}
