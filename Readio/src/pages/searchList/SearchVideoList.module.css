@@ -11,10 +11,10 @@
      font-weight: 600;
 }
 
-hr {
+/* hr {
      width : 80vh;
      height: 1px;
-}
+} */
 
 .SearchVideoList {
      margin : 10px 0 ;
@@ -22,7 +22,6 @@ hr {
 
 .videoList {
      padding : 20px;
-     display:  flex;
 }
 
 .video {
@@ -30,10 +29,11 @@ hr {
      height : 130px;
      background-color: #4f4f4f;
      border-radius: 3px;
+     display:  flex;
 }
 
 .videoInfo {
-     margin: 0 0 0 20px;
+     margin: 10px;
      cursor: pointer;
 }
 

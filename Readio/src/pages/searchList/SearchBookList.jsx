@@ -1,11 +1,30 @@
-import { useNavigate } from 'react-router-dom';
 import search from '../../assets/search.png';
 import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchBookList.module.css';
 
 function SearchBookList() {
 
-     const navigate = useNavigate();
+     // const navigate = useNavigate();
+
+     // const [book, setBook] = useState([]);
+     // const [bookCover, setBookCover] = useState('');
+
+     // const [bookList, setBookList] = useState([]);
+     
+     // useEffect(() => {
+     //      testBook()
+     //      .then(data => {
+     //           setBook(data.item[0]);
+     //           console.log("book", book);
+     //           if (book && book.cover) {
+     //                setBookCover(book.cover.replace("coversum", "cover500"));
+     //           }});
+     // },[book.cover])
+
+
+
+
+
      
      // const [searchVideo, setSearchVideo] = useState('');
 
