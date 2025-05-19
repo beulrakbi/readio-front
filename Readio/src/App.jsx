@@ -62,9 +62,9 @@ function App() {
           {/* 메인 페이지, 사용자 페이지 */}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
-            <Route path="/login" element={<Login />} />                                {/* 로그인 */}
-            <Route path="/users/join" element={<Join />} />                            {/* 회원가입 */}
-            <Route path="/users/join/complete" element={<JoinComplete />} />           {/* 회원가입완료 */}
+            <Route path="users/login" element={<Login />} />                                {/* 로그인 */}
+            <Route path="users/join" element={<Join />} />                            {/* 회원가입 */}
+            <Route path="users/join/complete" element={<JoinComplete />} />           {/* 회원가입완료 */}
             <Route path="users/verify-pwd" element={<VerifyPwd />} />                  {/* 비밀번호 확인 */}
             <Route path="users/edit" element={<UserEdit />} />                         {/* 회원정보 수정 */}
             <Route path="users/delete" element={<UserDelete />} />                     {/* 회원탈퇴 */}
