@@ -79,6 +79,7 @@ const CalendarPage = () => {
     const days = getDaysArray();
 
     return (
+        <div className={styles.calendarPageWrapper}>
         <div className={styles.wrapper}>
             <h2 className={styles.title} onClick={() => navigate('/mylibrary')} style={{ cursor: 'pointer' }}>
                 &lt; 뒤로가기
@@ -151,6 +152,7 @@ const CalendarPage = () => {
                 />
             )}
 </div>
+        </div>
 
     );
 };

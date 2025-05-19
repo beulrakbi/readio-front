@@ -10,11 +10,11 @@
     display: table-row;
 }
 
-h2 {
-    margin: 80px 0px 40px 0px;
-    font-size: 24px;
-    text-align: left;
-}
+/*h2 {*/
+/*    margin: 80px 0px 40px 0px;*/
+/*    font-size: 24px;*/
+/*    text-align: left;*/
+/*}*/
 
 .tableCell {
     display: table-cell;

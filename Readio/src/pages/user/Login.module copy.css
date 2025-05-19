@@ -1,16 +1,16 @@
 /* 2025.05.15 */
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
-body {
-    margin: 0;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
+/*body {*/
+/*    margin: 0;*/
+/*    background-size: cover;*/
+/*    background-position: center;*/
+/*    height: 100vh;*/
 
-    /* display: flex; */
-    justify-content: center;
-    align-items: center;
-}
+/*    !* display: flex; *!*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
 
 .loginPage {
     background-size: cover;         /* 이미지 꽉 채우기 */
