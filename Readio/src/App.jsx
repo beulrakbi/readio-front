@@ -50,6 +50,8 @@ import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
+import AdminInterestManager from "./pages/admin/interest/AdminInterestManager.jsx";
+
 
 function App() {
   return (
@@ -114,6 +116,7 @@ function App() {
             <Route path="/admin/qna" element={<AdminQnaList />} />
             <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
             <Route path="/admin/qna/detail" element={<AdminQnaDetail />} />
+            <Route path="/admin/interest" element={< AdminInterestManager/>}/>
           </Route>
         </Routes>
       </BrowserRouter >
