@@ -10,8 +10,13 @@
      font-weight: 600;
 }
 
-hr {
-     width : 80vh;
+.SearchbookListhr {
+     width : 90vh;
+     height: 1px;
+}
+
+.bookListhr {
+     width : 85vh;
      height: 1px;
 }
 

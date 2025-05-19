@@ -73,7 +73,7 @@ function SearchBookList() {
                    <div className={styles.container}>
 
                         <div className={styles.SearchListTitle}># 키워드에 대한 검색 결과</div>
-                        <hr />
+                        <hr className="SearchbookListHr" />
                         <div className={styles.SearchBookList}>
     
                              <div className={styles.bookList}>
@@ -90,7 +90,7 @@ function SearchBookList() {
                                                                         </div>
                                   </div>
                              </div>
-                             <hr />
+                             <hr className="bookListHr" />
 
 
                              <div className={styles.bookList}>
@@ -107,7 +107,7 @@ function SearchBookList() {
                                                                         </div>
                                   </div>
                              </div>
-                             <hr />
+                             <hr className="bookListHr" />
 
 
                              <div className={styles.bookList}>
@@ -127,7 +127,7 @@ function SearchBookList() {
     
      
                         </div>
-                        <hr />
+                        <hr className="bookListHr" />
                    </div>
               </>
          )

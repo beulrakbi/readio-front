@@ -11,10 +11,15 @@
      font-weight: 600;
 }
 
-/* hr {
-     width : 80vh;
+.SearchvideoListHr {
+     width : 90vh;
      height: 1px;
-} */
+}
+
+.videoListHr {
+     width : 85vh;
+     height: 1px;
+}
 
 .SearchVideoList {
      margin : 10px 0 ;
