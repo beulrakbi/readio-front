@@ -1,0 +1,60 @@
+.videoContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 80px;
+    align-items: center;
+}
+
+.videoInnerContainer
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.videoInnerContainer > div:hover{
+    background-color: RGB(0,0,0,0.2);
+}
+
+.line {
+    width:1200px;
+    height:1px;
+    background-color: #808467;
+}
+
+.videoList {
+    max-width:1200px;
+    height:300px;
+    display:flex;
+    gap: 30px;
+    overflow: auto;
+    scrollbar-width: none;
+    margin: auto;
+}
+
+.video {
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.videoFont {
+    color:#808467;
+    font-weight:600;
+    font-size:30px;
+
+    display: block;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    margin-inline-start: 5px;
+    margin-inline-end: 5px;
+    unicode-bidi: isolate;
+}
+
+.scrollButton {
+    all: unset;
+    margin:20px;
+    cursor: pointer;
+}
+
+.scrollButton :hover {
+    filter: brightness(2.0);
+}
