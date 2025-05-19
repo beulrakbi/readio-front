@@ -5,9 +5,8 @@ import bookSearchSlice from "./postwriting/bookSearchSlice.js";
 
 const rootReducers =  combineReducers(
         {
-            filteringReducer,
-            bookSearchSlice,
-            
+            filtering: filteringReducer,
+            bookSearch: bookSearchSlice,
         });
 
 export default rootReducers;
