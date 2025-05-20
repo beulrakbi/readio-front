@@ -14,14 +14,12 @@ function FilteringDetail()
     console.log("param", param);
 
     useEffect(() => {
-        // console.log("들어가나");
         dispatch(callFilteringGroupAPI({groupId:param.groupId}));
     }, []);
 
     const onClickChangeActiveState = () => {
         if (confirm('상태를 변경하시겠습니까?'))
         {
-            console.log("들어가니");
             dispatch(callFilteringGroupActiveStateUpdateAPI({groupForm:filtering.filteringGroup}));
             navigate(`/admin/filtering`, {replace : true});
         }

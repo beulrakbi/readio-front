@@ -4,18 +4,23 @@ import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
 import Video from "./Video";
 import VideoListCSS from "./videoList.module.css";
+import {useDispatch, useSelector} from "react-redux";
+import {callCurationsAPI} from "../../apis/CurationAPICalls.js";
 
-function VideoList()
+function VideoList({type})
 {
+    const dispatch = useDispatch();
+    const keywords = useSelector(state => state.curation);
+    console.log("keywords", keywords);
     const [videoList, setVideoList] = useState([]);
+
 
     useEffect(
         () => {
-            // getVideos.then(data => setVideoList(data));
-            // fetch(sample).then(data => setVideoList(data.items));
+            dispatch(callCurationsAPI({type}));
             setVideoList(getVideosTest().items);
             console.log("test", videoList);
-        }
+        },[]
     )
 
     const scrollRef = useRef();
