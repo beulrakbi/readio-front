@@ -77,7 +77,7 @@ function Header({toggleNav}) {
     function BeforeLogin() {
         return (
             <div className={HeaderCSS.headerLogin}>
-                <NavLink to="users/login" className={HeaderCSS.headerLoginBt}>로그인</NavLink>
+                <NavLink to="/users/login" className={HeaderCSS.headerLoginBt}>로그인</NavLink>
                 &nbsp;
                 <NavLink to="/users/join" className={HeaderCSS.headerLoginBt}>회원가입</NavLink>
             </div>

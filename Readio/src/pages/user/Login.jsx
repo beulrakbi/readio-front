@@ -64,9 +64,9 @@ const Login = () => {
 
                     <button type="submit" className={LoginCSS.submitBtn}>로그인</button>
                     <div className={LoginCSS.findLinks}>
-                        <Link to="/find-account">아이디 찾기</Link>
+                        <Link to="/account">아이디 찾기</Link>
                         <span className={LoginCSS.divider}>|</span>
-                        <Link to="/find-password">비밀번호 찾기</Link>
+                        <Link to="/account/findpwd">비밀번호 찾기</Link>
                     </div>
                 </form>
             </div>
