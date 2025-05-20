@@ -1,39 +1,50 @@
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import FListCSS from './Filtering.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {callFilteringGroupAPI} from "../../apis/FilteringAPICalls.js";
+import {callFilteringGroupActiveStateUpdateAPI, callFilteringGroupAPI} from "../../apis/FilteringAPICalls.js";
 
 function FilteringDetail()
 {
     const dispatch = useDispatch();
-    const filteringGroup  = useSelector(state => state.filtering);
+    const filtering  = useSelector(state => state.filtering);
     const param = useParams();
-    console.log("filteringGroup", filteringGroup);
+    const navigate = useNavigate();
+    console.log("filtering", filtering);
+    console.log("param", param);
 
     useEffect(() => {
+        // console.log("들어가나");
         dispatch(callFilteringGroupAPI({groupId:param.groupId}));
     }, []);
 
+    const onClickChangeActiveState = () => {
+        if (confirm('상태를 변경하시겠습니까?'))
+        {
+            console.log("들어가니");
+            dispatch(callFilteringGroupActiveStateUpdateAPI({groupForm:filtering.filteringGroup}));
+            navigate(`/admin/filtering`, {replace : true});
+        }
+    }
 
     return (
-        filteringGroup &&
         <div className={FListCSS.container}>
             <div className={FListCSS.fontContainer}>
-                <p className={FListCSS.font1}>{filteringGroup.title}</p>
+                <p className={FListCSS.font1}>{filtering?.filteringGroup?.title}</p>
                 <div className={FListCSS.buttonDiv}>
-                    <p className={FListCSS.font2}><Link className={FListCSS.link} to="/">활성화</Link></p>
-                    <p className={FListCSS.font2}><Link className={FListCSS.link} to="/">수정</Link></p>
-                    <p className={FListCSS.font2}><Link className={FListCSS.link} to="/">삭제</Link></p>
+                    <p className={FListCSS.font2} onClick={onClickChangeActiveState}>{filtering?.filteringGroup?.isActive == "Y" ? "비활성화" : "활성화"}</p>
+                    <p className={FListCSS.font2} onClick={navigate(`/admin/filtering/${filtering?.filteringGroup?.groupId}`, {replace : true})}>수정</p>
+                    <p className={FListCSS.font2}>삭제</p>
                 </div>
             </div>
             <hr className={FListCSS.filteringLine}/>
+
             <div className={FListCSS.filteringDetailContent}>
-                <p className={FListCSS.font4}>{filteringGroup.content}</p>
+                <p className={FListCSS.font4}>{filtering?.filteringGroup?.content}</p>
                 <div className={FListCSS.filteringKeywords}>
-                    <p className={FListCSS.filteringKeyword}>48goLblvWvsSnT01</p>
-                    <p className={FListCSS.filteringKeyword}>ㅇㅇ</p>
-                    <p className={FListCSS.filteringKeyword}>ㅇㅇ</p>
+                    {filtering?.filterings?.map(filter => (
+                        <p className={FListCSS.filteringKeyword} key={filter.filteringId}>{filter.keyword? filter.keyword : filter.videoId}</p>
+                    ))}
                 </div>
             </div>
                 <p className={FListCSS.font3}>필터링된 영상</p>

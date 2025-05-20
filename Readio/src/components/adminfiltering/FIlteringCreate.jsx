@@ -40,7 +40,6 @@ function FilteringCreate()
     const [final, setFinal] = useState([{
         videoId: "",
         keyword: "",
-        isActive: ""
     }]);
     const [filterings, setFilterings] = useState([]);
     const [id, setId] = useState(1);
@@ -93,20 +92,17 @@ function FilteringCreate()
                             groupId: groupId,
                             videoId: filtering.keyword,
                             keyword: "",
-                            isActive: "Y"
                         };
                     } else {
                         return {
                             groupId: groupId,
                             videoId: "",
                             keyword: filtering.keyword,
-                            isActive: "Y"
                         };
                     }
                 });
 
                 setFinal(newFinal);
-                console.log(newFinal, "들어왔나ㅏㅏ");
                 await dispatch(callFilteringsCreateAPI({
                     groupId: groupId,
                     filterings: newFinal

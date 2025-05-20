@@ -3,7 +3,7 @@ import {
     GET_FILTERINGGROUPS,
     GET_FILTERINGS,
     POST_FILTERINGGROUP,
-    POST_FILTERINGS
+    POST_FILTERINGS, PUT_FILTERINGGROUP
 } from '../modules/filtering/FilteringModule.js';
 
 export const callFilteringsCreateAPI = ({groupId, filterings}) => {
@@ -52,9 +52,42 @@ export const callFilteringGroupCreateAPI = ({ groupForm }) => {
     };
 };
 
+export const callFilteringGroupActiveStateUpdateAPI = ({ groupForm }) => {
 
-export const callFilteringGroupsAPI = () => {
+    console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI Call');
+
     const requestURL = `http://localhost:8080/admin/filtering`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+            body: JSON.stringify(groupForm)
+        }).then((response) => response.json());
+
+        console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI RESULT : ', result);
+
+        dispatch({ type: PUT_FILTERINGGROUP, payload: result });
+    };
+
+}
+
+export const callFilteringGroupsAPI = ({ currentPage }) => {
+
+    let requestURL;
+
+    if (currentPage){
+    // if (currentPage !== undefined || currentPage !== null) {
+        requestURL = `http://localhost:8080/admin/filtering?offset=${currentPage}`;
+    } else {
+        requestURL = `http://localhost:8080/admin/filtering`;
+    }
+
+    console.log("URL: ", requestURL);
+    // const requestURL = `http://localhost:8080/admin/filtering`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -68,7 +101,7 @@ export const callFilteringGroupsAPI = () => {
         console.log('[FilteringAPICalls] callFilteringGroupsAPI RESULT : ', result);
         if (result.status === 200) {
             console.log('[FilteringAPICalls] callFilteringGroupsAPI SUCCESS');
-            dispatch({ type: GET_FILTERINGGROUPS, payload: result });
+            dispatch({ type: GET_FILTERINGGROUPS, payload: result.data });
         }
     };
 }
@@ -88,9 +121,12 @@ export const callFilteringGroupAPI = ({groupId}) => {
         console.log('[FilteringAPICalls] callFilteringGroupAPI RESULT : ', result);
         if (result.status === 200) {
             console.log('[FilteringAPICalls] callFilteringGroupAPI SUCCESS');
+            // console.log("result", result);
             dispatch({ type: GET_FILTERINGGROUP, payload: result.data });
         }
     };
 }
+
+
 
 

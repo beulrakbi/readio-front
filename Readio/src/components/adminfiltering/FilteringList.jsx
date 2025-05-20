@@ -1,8 +1,9 @@
 import FListCSS from './Filtering.module.css';
-import {Link, replace, useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {callFilteringGroupsAPI} from "../../apis/FilteringAPICalls.js";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import dayjs from "dayjs";
 
 function FilteringList()
 {
@@ -13,15 +14,30 @@ function FilteringList()
     const navigate = useNavigate();
     console.log("filteringGroupList", filteringGroupList);
 
+
+    const pageInfo = filteringGroups.pageInfo;
+    const [start, setStart] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageEnd, setPageEnd] = useState(1);
+    const pageNumber = [];
+    if (pageInfo) {
+        for (let i = 1; i <= pageInfo.pageEnd; i++) {
+            pageNumber.push(i);
+        }
+    }
+    console.log("pageNumber", pageNumber);
+    console.log("pageInfo", pageInfo);
+
     useEffect(() => {
-        dispatch(callFilteringGroupsAPI());
-    }, []);
+        setStart((currentPage - 1) * 5);
+        dispatch(callFilteringGroupsAPI({currentPage: currentPage}));
+    }, [currentPage]);
 
     const onClickFilteringGroupHandler = (groupId) => {
         navigate(`/admin/filtering/${groupId}`, {replace : true});
     }
 
-    // console.log("filteringGroups", filteringGroups);
+
     return (
         <div className={FListCSS.container}>
             <div className={FListCSS.fontContainer}>
@@ -39,19 +55,57 @@ function FilteringList()
                     </tr>
                 </thead>
                 <tbody className={FListCSS.filteringTbody}>
-                    {filteringGroupList?.data?.map?.((filteringGroup) => (
+                    {filteringGroupList?.map?.((filteringGroup) => (
 
                     <tr key={filteringGroup.groupId}>
                         <td>{filteringGroup.groupId}</td>
                         <td>{filteringGroup.isActive ? "활성" : "비활성"}</td>
-                        <td>{filteringGroup.createAt}</td>
+                        <td>{dayjs(filteringGroup.createAt).format('YYYY-MM-DD')}</td>
                         <td onClick={() => onClickFilteringGroupHandler(filteringGroup.groupId)}>{filteringGroup.title}</td>
                     </tr>
                     ))}
                 </tbody>
             </table>
             <div className={FListCSS.paging}>
-                <p>1 2 3 4 5</p> 
+                {Array.isArray(filteringGroupList) && (
+                    <button
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={FListCSS.pagingBtn}
+                    >
+                        &lt;
+                    </button>
+                )}
+                {pageNumber.map((num) => (
+                    <li
+                        style={{all:"unset"}}
+                        key={num}
+                        onClick={() => setCurrentPage(num)}
+                    >
+                        <button
+                            style={
+                                currentPage === num
+                                    ? { backgroundColor: 'orange' }
+                                    : null
+                            }
+                            className={FListCSS.pagingBtn}
+                        >
+                            {num}
+                        </button>
+                    </li>
+                ))}
+                {Array.isArray(filteringGroupList) && (
+                    <button
+                        className={FListCSS.pagingBtn}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={
+                            currentPage === pageInfo.pageEnd ||
+                            pageInfo.total == 0
+                        }
+                    >
+                        &gt;
+                    </button>
+                )}
             </div>
         </div>
 
