@@ -10,13 +10,13 @@ const FindAccount = () => {
 
       {/* 탭 버튼 */}
       <div className={styles.tabs}>
-        <Link to="/find-account/find-id"
-          className={location.pathname.includes('find-id') ? styles.active : ''}>
+        <Link to="/account/findid"
+          className={location.pathname.includes('findid') ? styles.active : ''}>
           아이디 찾기
         </Link>
         
-        <Link to="/find-account/find-pwd"
-          className={location.pathname.includes('find-pwd') ? styles.active : ''}>
+        <Link to="/account/findpwd"
+          className={location.pathname.includes('findpwd') ? styles.active : ''}>
           비밀번호 찾기
         </Link>
       </div>

@@ -1,10 +1,6 @@
-/* body {
-  background-image: url('../../assets/texture.png');
-  background-repeat: repeat;
-  min-height: 100vh;
-} */
-
 .UserEditPage {
+  width: 100%;
+  max-width: 800px;
   height: 100%;
   margin: 0 auto;
 }
@@ -108,8 +104,10 @@
 
 .checkBtn {
   padding: 6px 10px;
-  margin-left: 10px;/* 버튼과 입력란 간격 */
-  background-color: #808467;/* 기본 색상 */
+  margin-left: 10px;
+  /* 버튼과 입력란 간격 */
+  background-color: #808467;
+  /* 기본 색상 */
   color: white;
   /* border-radius: 5px; */
   font-size: 11pt;
@@ -118,9 +116,9 @@
   text-align: center;
   align-items: center;
   justify-content: center;
-  width: 80px;/* 버튼 크기 고정 */
+  width: 80px;
+  /* 버튼 크기 고정 */
   border: none;
-
 }
 
 .checkBtn:hover {
@@ -164,11 +162,6 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-}
-
-.p {
-  align-items: center;
-  justify-content: center;
 }
 
 .deleteAccount {

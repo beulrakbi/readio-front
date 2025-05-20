@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './MyLibrary.module.css';
-import profileImg from '../../../assets/cat1.jpg'
-import pencilIcon from '../../../assets/pencil.png'
-import {useNavigate} from "react-router-dom";
+import profileImg from '../../../assets/cat1.jpg';
+import pencilIcon from '../../../assets/pencil.png';
+import { useNavigate } from "react-router-dom";
 
 const ProfileSection = () => {
     const navigate = useNavigate();
     return (
-        <>
+        <div className={styles.profileSectionWrapper}>
             <div className={styles.profileCard}>
                 <div className={styles.profileImageWrapper}>
                     <img src={profileImg} className={styles.profileImage} />
@@ -26,6 +26,7 @@ const ProfileSection = () => {
                     필명은 readio에서 보이는 나의 활동명이에요. 나를 나타내는 프로필 사진과 필명을 설정해 보세요.
                 </p>
             </div>
+
             <div className={styles.outProfileInfo}>
                 <div className={styles.stats}>
                     <div className={styles.statItem}>
@@ -46,19 +47,17 @@ const ProfileSection = () => {
                     </div>
                 </div>
 
-
                 <div className={styles.buttons}>
-            <button className={styles.postBtn}>+ 포스트 작성하기</button>
+                    <button className={styles.postBtn}>+ 포스트 작성하기</button>
                     <button className={styles.interestBtn} onClick={() => navigate('/mylibrary/interest')}>
                         📌 나의 관심사
                     </button>
-        </div>
-    </div>
+                </div>
+            </div>
 
             <hr className={styles.sectionDivider} />
-</>
-
-
-);
+        </div>
+    );
 };
+
 export default ProfileSection;
