@@ -1,10 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import rootReducers from './modules';
-import bookSearchReducer from './modules/postwriting/bookSearchSlice';
+import rootReducer from './modules';
+import { composeWithDevTools} from '@redux-devtools/extension'
+import { createStore, applyMiddleware } from 'redux';
+import {thunk} from 'redux-thunk';
 
-export const store = configureStore({
-    reducer: {
-        bookSearch: bookSearchReducer,
-        rootReducers,
-    },
-});
+const store = createStore(
+    rootReducer,
+    composeWithDevTools(applyMiddleware(thunk))
+);
+
+export default store;
