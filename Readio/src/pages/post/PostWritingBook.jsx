@@ -54,6 +54,7 @@ function PostWritingBook({ onBookSelect, onClose, PostCSS }) {
     const handleBookItemClick = (book) => {
         onBookSelect(book); // 부모 컴포넌트로 선택된 책 정보 전달
         if (onClose) onClose(); // 모달 닫기
+        console.log("이미지 경로" ,book.coverUrl);
     };
 
     return (

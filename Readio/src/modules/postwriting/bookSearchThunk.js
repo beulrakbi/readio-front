@@ -23,6 +23,8 @@ export const searchAladinBooks = createAsyncThunk(
         params.append('Version', '20131101');
         params.append('Cover', 'MidBig');
 
+        const corsProxy = 'https://corsproxy.io/?';
+
         apiUrl = `${apiUrl}?${params.toString()}`;
         console.log("test", apiUrl);
 
@@ -78,6 +80,7 @@ export const searchAladinBooks = createAsyncThunk(
                 publisher: item.publisher,
                 coverUrl: item.cover || '기본표지경로.png',
             }));
+            
 
             const totalResults = parseInt(data.totalResults || 0, 10);
             const maxResultsPerPage = 10;
