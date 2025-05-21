@@ -135,7 +135,7 @@ function AdminNoticeList() {
                                             </span>
                                         </td>
                                         <td>관리자</td>
-                                        <td>{new Date(notice.noticeCreateAt).toLocaleDateString()}</td>
+                                        <td>{new Date(notice.noticeCreateAt).toLocaleString()}</td>
                                         <td>{notice.noticeView}</td>
                                     </tr>
                                 ))
