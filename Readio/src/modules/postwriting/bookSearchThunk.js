@@ -24,7 +24,6 @@ export const searchAladinBooks = createAsyncThunk(
         params.append('Cover', 'MidBig');
 
         const corsProxy = 'https://corsproxy.io/?';
-
         apiUrl = `${apiUrl}?${params.toString()}`;
         console.log("test", apiUrl);
 
