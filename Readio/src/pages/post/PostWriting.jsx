@@ -1,8 +1,6 @@
 // src/components/PostWriting.js
 import { useRef, useState } from 'react';
 import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
-import PostWritingSizeIcon from '../../assets/PostWritingSize.png';
-import PostWritingAlignIcon from '../../assets/PostWritingAlign.png';
 import PostWritingBookIcon from '../../assets/PostWritingBook.png';
 import PostCSS from './Post.module.css';
 import PostWritingBook from './PostWritingBook';
@@ -18,19 +16,22 @@ function PostWriting() {
     const [selectedBook, setSelectedBook] = useState(null);
     const [isBookSearchOpen, setIsBookSearchOpen] = useState(false);
 
+    /* 책 검색 */
     const handleToggleBookSearch = () => {
         setIsBookSearchOpen(prev => !prev);
     };
-
+    /* 책 등록 */
     const handleBookSelectFromSearch = (book) => {
         setSelectedBook(book);
         setIsBookSearchOpen(false);
     };
 
+    /* 등록 책 삭제 */
     const removeSelectedBook = () => {
         setSelectedBook(null);
     };
 
+    /* 텍스트 창 자동 커짐짐*/
     const handleTextareaInput = (e) => {
         const textarea = textareaRef.current;
         if (textarea) {
@@ -40,6 +41,7 @@ function PostWriting() {
         setContent(e.target.value);
     };
 
+    /* 이미지 업로드 */
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -49,10 +51,12 @@ function PostWriting() {
         }
     };
 
+    /* 이미지 삭제 */
     const removeImage = () => {
         setImage(null);
     };
 
+    /* 게시글 등록 */
     const handleSubmit = () => {
         const postData = {
             title,
@@ -70,12 +74,12 @@ function PostWriting() {
                 <button type="button" className={PostCSS.iconBt} onClick={() => fileInputRef.current.click()}>
                     <img src={PostWritingPhotoIcon} className={PostCSS.icon} alt="Upload Photo" />
                 </button>
-                <button type="button" className={PostCSS.iconBt}>
+                {/* <button type="button" className={PostCSS.iconBt}>
                     <img src={PostWritingSizeIcon} className={PostCSS.icon} alt="Adjust Size" />
                 </button>
                 <button type="button" className={PostCSS.iconBt}>
                     <img src={PostWritingAlignIcon} className={PostCSS.icon} alt="Adjust Align" />
-                </button>
+                </button> */}
                 <button type="button" className={PostCSS.iconBt} onClick={handleToggleBookSearch}>
                     <img src={PostWritingBookIcon} className={PostCSS.icon} alt="Search Book" />
                 </button>

@@ -1,0 +1,95 @@
+.container {
+    background-color: #E8E8E1;
+    padding: 60px 80px;
+    font-family: 'Pretendard Variable', sans-serif;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 60px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.label {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.inputRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+}
+
+.input {
+    padding: 8px 10px;
+    width: 130px;
+    border: none;
+    background-color: #AF4C3F;
+    opacity: 0.6;
+    border-radius: 10px;
+    font-size: 16px;
+    color: white;
+}
+
+.input::placeholder {
+    color: #fff1f1;
+}
+
+.addBtn {
+    background-color: #af4c3f;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+}
+.tag {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 6px 10px;
+    min-width: 130px;
+    background-color: rgba(175, 76, 63, 0.6); /* 60% */
+    border-radius: 10px;
+    font-size: 16px;
+    color: white;
+}
+
+.removeBtn {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.divider {
+    margin: 40px 0;
+    border: none;
+    border-top: 1px solid #383838;
+}
+
+.saveContainer {
+    text-align: center;
+}
+
+.saveBtn {
+    background: none;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}

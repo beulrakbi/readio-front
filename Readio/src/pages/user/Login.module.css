@@ -1,37 +1,13 @@
-/* 2025.05.16 master 기준 스타일 */
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
-
-body {
-    margin: 0;
+.loginPage {
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     height: 100vh;
-
-    /* display: flex; */
-    justify-content: center;
-    align-items: center;
-}
-
-.loginPage {
-    background-size: cover;         /* 이미지 꽉 채우기 */
-    background-position: center;    /* 이미지 중앙 정렬 */
-    background-repeat: no-repeat;   /* 반복 안함 */
-    height: 100vh;                  /* 화면 전체 높이 */
-    width: 100vw;                   /* 화면 전체 너비 */
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-/* .form-container {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 100px;
-    text-align: center;
-  } */
 
 /* 로그인 박스 스타일 */
 .formContainer {
@@ -62,23 +38,12 @@ body {
     margin-bottom: 20px;
 }
 
-/* .inputGroup {
-    margin-bottom: 15px;
-    text-align: left;
-} */
-
 .inputGroup label {
-    width: 90px; /* 라벨 고정 너비 */
+    width: 90px;
+    /* 라벨 고정 너비 */
     font-weight: bold;
     margin-right: 10px;
 }
-
-/* .inputGroup label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-} */
-
 
 .inputGroup input {
     flex: 1;
@@ -89,14 +54,6 @@ body {
     outline: none;
     background: transparent;
 }
-
-/* .inputGroup input {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-} */
 
 .submitBtn {
     width: 100%;
@@ -118,14 +75,14 @@ body {
     margin-top: 10px;
     text-align: right;
     font-size: 0.9rem;
-  }
-  
-  .findLinks a {
+}
+
+.findLinks a {
     color: #007bff;
     text-decoration: none;
     margin: 0 5px;
-  }
-  
-  .findLinks a:hover {
+}
+
+.findLinks a:hover {
     text-decoration: underline;
-  }
+}

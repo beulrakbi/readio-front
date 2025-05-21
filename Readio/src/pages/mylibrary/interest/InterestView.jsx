@@ -9,6 +9,7 @@ const InterestViewPage = () => {
     const selectedKeywords = ['#습관', '#취미', '#인간관계'];
 
     return (
+        <div className={styles.InterestPageWrapper}>
         <div className={styles.wrapper}>
             <h2 className={styles.title} onClick={()=>navigate('/mylibrary')} style={{ cursor: 'pointer' }}>
                 &lt; 나의 관심사</h2>
@@ -35,7 +36,7 @@ const InterestViewPage = () => {
                 편집
             </button>
         </div>
-
+        </div>
     );
 };
 

@@ -79,6 +79,7 @@ export const searchAladinBooks = createAsyncThunk(
                 publisher: item.publisher,
                 coverUrl: item.cover || '기본표지경로.png',
             }));
+            
 
             const totalResults = parseInt(data.totalResults || 0, 10);
             const maxResultsPerPage = 10;

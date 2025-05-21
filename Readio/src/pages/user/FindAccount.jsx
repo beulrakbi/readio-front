@@ -1,19 +1,25 @@
-import { Route, Link, useLocation, Routes, Navigate, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import styles from './FindAccount.module.css';
 
 const FindAccount = () => {
   const location = useLocation();
-  
+
   return (
- <div className={styles.container}>
-      <h2>계정정보 찾기</h2>
+    <div className={styles.container}>
+      <h2 className={styles.FindAccountTitle}>계정정보 찾기</h2>
 
       {/* 탭 버튼 */}
       <div className={styles.tabs}>
-        <Link to="find-id" className={location.pathname === '/find-account/find-id' ? styles.active : ''}>아이디 찾기</Link>
-        <Link to="find-pwd" className={location.pathname === '/find-account/find-pwd' ? styles.active : ''}>비밀번호 찾기</Link>
+        <Link to="/account/findid"
+          className={location.pathname.includes('findid') ? styles.active : ''}>
+          아이디 찾기
+        </Link>
+        
+        <Link to="/account/findpwd"
+          className={location.pathname.includes('findpwd') ? styles.active : ''}>
+          비밀번호 찾기
+        </Link>
       </div>
-
       {/* 자식 컴포넌트가 여기서 렌더됨 */}
       <Outlet />
     </div>
@@ -23,7 +29,7 @@ const FindAccount = () => {
 const FindIdForm = () => (
   <div className={styles.formContainer}>
 
- <div className={styles.tableForm}>
+    <div className={styles.tableForm}>
       <div className={styles.tableRow}>
         <div className={`${styles.tableCell} ${styles.labelCell}`}>이름</div>
         <div className={`${styles.tableCell} ${styles.inputCell}`}>
@@ -45,7 +51,7 @@ const FindIdForm = () => (
 const FindPwdForm = () => (
   <div className={styles.formContainer}>
 
-        <div className={styles.tableForm}>
+    <div className={styles.tableForm}>
       <div className={styles.tableRow}>
         <div className={`${styles.tableCell} ${styles.labelCell}`}>아이디</div>
         <div className={`${styles.tableCell} ${styles.inputCell}`}>
@@ -75,3 +81,4 @@ const FindPwdForm = () => (
 
 export default FindAccount;
 export { FindIdForm, FindPwdForm };
+
