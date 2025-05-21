@@ -76,7 +76,7 @@
     flex-direction: column;
     justify-content: flex-end;
     width: 100%;
-    height: 60vh;
+    /* height: vh; */
 }
 .pagingbox{
     text-align: center;
@@ -108,4 +108,7 @@
 }
 .titleSize{
     width: 40%;
+}
+.tableBox {
+    min-height: 450px; /* 또는 height: 300px; */
 }
