@@ -4,7 +4,7 @@ import {GET_CURATIONKEYWORDS} from "../modules/video/CurationModule.js";
 
 export const callCurationsAPI = ({type}) => {
     const requestURL = `http://localhost:8080/curation/${type}`;
-
+    // console.log("type이 뭔지", type);
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
             method: 'GET',
@@ -17,7 +17,7 @@ export const callCurationsAPI = ({type}) => {
         console.log('[CurationAPICalls] callCurationsAPI RESULT : ', result);
         if (result.status === 200) {
             console.log('[CurationAPICalls] callCurationsAPI SUCCESS');
-            dispatch({ type: GET_CURATIONKEYWORDS, payload: { type, data: result } });
+            dispatch({ type: GET_CURATIONKEYWORDS, payload: result });
         }
     };
 }

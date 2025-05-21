@@ -1,9 +1,18 @@
 import sample from "./test.json";
 
-export function getVideosByType(keyword)
+export function getVideosByKeyword(type, keyword)
 {
-    const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=25&key=AIzaSyA2Cyb_5A9hMOylg1aAqCBSbsaUfYnHMEA';
-
+    // console.log("getVideosByKeyword 시작");
+    if (type === "연예인")
+    {
+        keyword = keyword + '|낭독|리뷰'
+    }
+        // console.log("VideoAPI keyword", keyword);
+    const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=3&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
+    // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
+    return fetch(baseUrl)
+        .then(data => data.json())
+        .then(data => data.items);
 }
 
 export function getVideos(keywords, keywordsToDelete)

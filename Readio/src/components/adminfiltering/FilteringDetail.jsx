@@ -10,8 +10,6 @@ function FilteringDetail()
     const filtering  = useSelector(state => state.filtering);
     const param = useParams();
     const navigate = useNavigate();
-    console.log("filtering", filtering);
-    console.log("param", param);
 
     useEffect(() => {
         dispatch(callFilteringGroupAPI({groupId:param.groupId}));
