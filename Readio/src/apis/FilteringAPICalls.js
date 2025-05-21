@@ -1,10 +1,10 @@
 import {
-    GET_FILTERINGGROUP,
-    GET_FILTERINGGROUPS,
-    GET_FILTERINGS,
-    POST_FILTERINGGROUP,
-    POST_FILTERINGS, PUT_FILTERINGGROUP
-} from '../modules/filtering/FilteringModule.js';
+    getFilteringGroup,
+    getFilteringGroups,
+    postFilteringGroup,
+    postFilterings,
+    putFilteringGroup
+} from "../modules/filtering/FilteringSlice.js";
 
 export const callFilteringsCreateAPI = ({groupId, filterings}) => {
 
@@ -22,7 +22,7 @@ export const callFilteringsCreateAPI = ({groupId, filterings}) => {
         console.log('[FilteringAPICalls] callFilteringsAPI RESULT : ', result);
         if (result.status === 200) {
             console.log('[FilteringAPICalls] callFilteringsAPI SUCCESS');
-            dispatch({ type: POST_FILTERINGS, payload: result });
+            dispatch({ type: postFilterings, payload: result });
         }
     };
 }
@@ -47,7 +47,7 @@ export const callFilteringGroupCreateAPI = ({ groupForm }) => {
 
         console.log('[FilteringAPICalls] callFilteringGroupCreateAPI RESULT : ', result);
 
-        dispatch({ type: POST_FILTERINGGROUP, payload: result });
+        dispatch({ type: postFilteringGroup, payload: result });
         return result;
     };
 };
@@ -70,7 +70,7 @@ export const callFilteringGroupActiveStateUpdateAPI = ({ groupForm }) => {
 
         console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI RESULT : ', result);
 
-        dispatch({ type: PUT_FILTERINGGROUP, payload: result });
+        dispatch({ type: putFilteringGroup, payload: result });
     };
 
 }
@@ -101,7 +101,7 @@ export const callFilteringGroupsAPI = ({ currentPage }) => {
         console.log('[FilteringAPICalls] callFilteringGroupsAPI RESULT : ', result);
         if (result.status === 200) {
             console.log('[FilteringAPICalls] callFilteringGroupsAPI SUCCESS');
-            dispatch({ type: GET_FILTERINGGROUPS, payload: result.data });
+            dispatch({ type: getFilteringGroups, payload: result.data });
         }
     };
 }
@@ -122,7 +122,7 @@ export const callFilteringGroupAPI = ({groupId}) => {
         if (result.status === 200) {
             console.log('[FilteringAPICalls] callFilteringGroupAPI SUCCESS');
             // console.log("result", result);
-            dispatch({ type: GET_FILTERINGGROUP, payload: result.data });
+            dispatch({ type: getFilteringGroup, payload: result.data });
         }
     };
 }

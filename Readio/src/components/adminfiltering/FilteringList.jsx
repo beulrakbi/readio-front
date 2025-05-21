@@ -34,7 +34,7 @@ function FilteringList()
     }, [currentPage]);
 
     const onClickFilteringGroupHandler = (groupId) => {
-        navigate(`/admin/filtering/${groupId}`, {replace : true});
+        navigate(`/admin/filtering/${groupId}`);
     }
 
 

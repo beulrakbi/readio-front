@@ -1,5 +1,4 @@
-import {POST_FILTERINGS} from "../modules/filtering/FilteringModule.js";
-import {GET_CURATIONKEYWORDS} from "../modules/video/CurationModule.js";
+import {getCurationKeywords} from "../modules/video/CurationSlice.js";
 
 
 export const callCurationsAPI = ({type}) => {
@@ -17,7 +16,7 @@ export const callCurationsAPI = ({type}) => {
         console.log('[CurationAPICalls] callCurationsAPI RESULT : ', result);
         if (result.status === 200) {
             console.log('[CurationAPICalls] callCurationsAPI SUCCESS');
-            dispatch({ type: GET_CURATIONKEYWORDS, payload: result });
+            dispatch({ type: getCurationKeywords, payload: result });
         }
     };
 }

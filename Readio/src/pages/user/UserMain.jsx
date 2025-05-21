@@ -1,5 +1,5 @@
 import search from '../../assets/search.png';
-import VideoList from '../../components/video/VideoLIst';
+import VideoList from '../../components/video/VideoList.jsx';
 import UserMainCSS from './UserMain.module.css';
 import {useEffect, useState} from "react";
 
@@ -17,8 +17,6 @@ function UserMain()
     useEffect(() => {
         getRandomTypes();
     }, []);
-
-    console.log(types);
 
     return (
         <>

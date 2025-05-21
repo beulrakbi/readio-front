@@ -1,19 +1,73 @@
 import sample from "./test.json";
+import {callVideoInsertAPI, callVideosAPI} from "./VideoAPICalls.js";
 
-export function getVideosByKeyword(type, keyword)
+
+export async function getVideosByKeyword(type, keyword, dispatch)
 {
-    // console.log("getVideosByKeyword 시작");
+    // if (type === "연예인")
+    // {
+    //     keyword = keyword + '|낭독|리뷰'
+    // }
+    // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
+    // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I
+
+    let result = await dispatch(callVideosAPI({search:"고양이"}));
+    if (result.data.num > 9)
+        return result;
+
+    const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=3&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
+    result = fetch(baseUrl)
+        .then(data => data.json())
+        .then(data => data.items);
+
+    for (let i = 0; i < result.length; i++)
+    {
+        // const video = result[i];
+        const form = {
+            videoId: result[i].id.videoId,
+            title: result[i].snippet.title,
+            description: result[i].snippet.description,
+            channelTitle: result[i].snippet.channelTitle,
+            thumbnail: result[i].snippet.thumbnails.high.url
+        };
+        dispatch(callVideoInsertAPI({form}));
+    }
+
+    return result;
+}
+
+export function getNewVideos(type, keyword, dispatch, num)
+{
     if (type === "연예인")
     {
         keyword = keyword + '|낭독|리뷰'
     }
-        // console.log("VideoAPI keyword", keyword);
-    const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=3&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
-    return fetch(baseUrl)
+    // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I
+
+    let maxResult = 10 - num;
+
+    const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
+    const result = fetch(baseUrl)
         .then(data => data.json())
         .then(data => data.items);
+
+    for (let i = 0; i < result.length; i++)
+    {
+        // const video = result[i];
+        const form = {
+            videoId: result[i].id.videoId,
+            title: result[i].snippet.title,
+            description: result[i].snippet.description,
+            channelTitle: result[i].snippet.channelTitle,
+            thumbnail: result[i].snippet.thumbnails.high.url
+        };
+        dispatch(callVideoInsertAPI({form}));
+    }
+
+    return result;
 }
+
 
 export function getVideos(keywords, keywordsToDelete)
 {
@@ -31,7 +85,20 @@ export function getVideos(keywords, keywordsToDelete)
     .then(data => data.items);
 }
 
-export function getVideosTest()
+export function getVideosTest(dispatch)
 {
+    const result = sample.items;
+    for (let i = 0; i < result.length; i++)
+    {
+        const form = {
+            videoId: result[i].id.videoId,
+            title: result[i].snippet.title,
+            description: result[i].snippet.description,
+            channelTitle: result[i].snippet.channelTitle,
+            thumbnail: result[i].snippet.thumbnails.high.url
+        };
+        dispatch(callVideoInsertAPI({form}));
+    }
+
     return sample;
 }
