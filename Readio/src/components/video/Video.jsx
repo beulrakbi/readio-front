@@ -1,9 +1,8 @@
 import VideoCSS from "./videoList.module.css";
 
-
+// api에서 가져온 video
 function Video({ video }) {
-    const videoSrc = 'https://www.youtube.com/embed/' + video.id.videoId;
-    // const videoSrc = 'https://www.youtube.com/embed/xRo27Q3mvto';
+    // const videoSrc = 'https://www.youtube.com/embed/' + video.id.videoId;
 
     return (
         <div className={VideoCSS.videoDiv}>

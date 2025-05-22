@@ -3,65 +3,50 @@ import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
 import Video from "./Video";
 import VideoListCSS from "./videoList.module.css";
-import {getVideosByKeyword, getVideosTest} from "../../apis/VideoAPI.js";
-import {useDispatch, useSelector} from "react-redux";
+import {getNewVideos, getVideosByKeyword} from "../../apis/VideoAPI.js";
+import {useDispatch} from "react-redux";
+import VIdeoInDB from "./VIdeoInDB.jsx";
 
 function VideoList({type})
 {
     const [videoList, setVideoList] = useState([]);
+    const [videoInDBList, setVideoInDBList] = useState([]);
     const dispatch = useDispatch();
-
-    // 테스트용 useEffect
-    // useEffect(() => {
-    //     const videos = getVideosTest(dispatch).items;
-    //     console.log("videos", videos);
-    //     setVideoList(videos);
-    // },[videoList])
+    let keyword = null;
 
     useEffect(() => {
-        const getVideos = async () => {
+        const getVideosInDB = async () => {
             const keywords = await fetch(`http://localhost:8080/curation/${type}`)
                 .then(response => response.json())
                 .then(response => response.data);
             if (keywords.length > 0) {
+                const allVideosInDB = [];
                 const allVideos = [];
 
-                // for (let i = 0; i < keywords.length; i++) {
-                    const keyword = keywords[0].keyword;
+                for (let i = 0; i < keywords.length; i++) {
+                    keyword = keywords[i].keyword;
                     const getVideosAwait = await getVideosByKeyword(type, keyword, dispatch);
-                    const videos = getVideosAwait.data.videoDTOList;
-                    console.log("mememe", videos);
-                    allVideos.push(...videos); // 배열에 쌓기
-                // }
-
-                setVideoList(allVideos); // 딱 한 번만 상태 갱신
+                    const videosInDB = getVideosAwait?.data.videoDTOList;
+                    const getNewVideoAwait = await getNewVideos(type, keyword, dispatch, videosInDB? videosInDB.length : 0);
+                    if (videosInDB)
+                    {
+                        allVideosInDB.push(...videosInDB); // 배열에 쌓기
+                        allVideosInDB.filter((video, index, self) =>
+                            index === self.findIndex(v => v.videoId === video.videoId));
+                    }
+                    if (getNewVideoAwait)
+                    {
+                        allVideos.push(...getNewVideoAwait);
+                        allVideos.filter((video, index, self) =>
+                            index === self.findIndex(v => v.id.videoId === video.id.videoId));
+                    }
+                }
+                setVideoInDBList(allVideosInDB); // 딱 한 번만 상태 갱신
+                setVideoList(allVideos)
             }
         }
-        getVideos();
+        getVideosInDB();
     }, [type]);
-
-    // new useEffect
-    // useEffect(() => {
-    //     const getVideos = async () => {
-    //         const keywords = await fetch(`http://localhost:8080/curation/${type}`)
-    //             .then(response => response.json())
-    //             .then(response => response.data);
-    //         if (keywords.length > 0) {
-    //             const allVideos = [];
-    //
-    //             for (let i = 0; i < keywords.length; i++) {
-    //                 const keyword = keywords[i].keyword;
-    //
-    //                 const videos = await getVideosByKeyword(type, keyword, dispatch);
-    //                 allVideos.push(...videos); // 배열에 쌓기
-    //             }
-    //
-    //             setVideoList(allVideos); // 딱 한 번만 상태 갱신
-    //         }
-    //     };
-    //
-    //     getVideos();
-    // }, [type]);
 
     let videoListTitle;
 
@@ -75,11 +60,11 @@ function VideoList({type})
 
     const scrollRef = useRef();
     const leftButtonHandler = () => {
-        scrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
+        scrollRef.current.scrollBy({ left: -800, behavior: 'smooth' });
     }
 
     const rightButtonHandler = () => {
-        scrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+        scrollRef.current.scrollBy({ left: 800, behavior: 'smooth' });
     }
 
     return (
@@ -90,8 +75,8 @@ function VideoList({type})
                 <p className={VideoListCSS.videoFont}>{videoListTitle}</p>
                 <div className={VideoListCSS.line}></div>
                 <div className={VideoListCSS.videoList} ref={scrollRef}>
-                    {/*{videoList?.map(video => {return <Video key={video.id.videoId} video={video}/>})}*/}
-                    {videoList?.map(video => {return <Video key={video.videoId} video={video}/>})}
+                    {videoList?.map(video => {return <Video key={video.id.videoId} video={video}/>})}
+                    {videoInDBList?.map(video => {return <VIdeoInDB key={video.videoId} videoInDB={video}/>})}
                 </div>
                 <div className={VideoListCSS.line}></div>
                 </div>

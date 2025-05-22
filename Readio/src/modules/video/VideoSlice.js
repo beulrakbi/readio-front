@@ -33,8 +33,8 @@ const videoSlice = createSlice({
         getVideos: (state, action) => {
             return {
                 ...state,
-                data: action.payload.data.videoDTOList,
-                num: action.payload.data.num
+                data: action.payload.videoDTOList, // result.data가 아닌 payload 직접 접근
+                num: action.payload.num
             };
         },
         postVideo: (state, action) => {

@@ -16,7 +16,7 @@ export const callVideosAPI = ({search}) => {
         console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
         if (result.status === 200) {
             console.log('[VideoAPICalls] callVideosAPI SUCCESS');
-            dispatch({ type: getVideos, payload: result });
+            dispatch(getVideos(result));
             return result;
         }
     };
@@ -38,7 +38,7 @@ export const callVideoInsertAPI = ({form}) => {
         console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
         if (result.status === 200) {
             console.log('[VideoAPICalls] callVideosAPI SUCCESS');
-            dispatch({ type: postVideo, payload: result });
+            dispatch(postVideo(form));
         }
     };
 }
