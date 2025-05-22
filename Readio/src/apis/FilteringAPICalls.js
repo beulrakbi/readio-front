@@ -19,16 +19,16 @@ export const callFilteringsCreateAPI = ({groupId, filterings}) => {
             body: JSON.stringify(filterings)
         }).then((response) => response.json());
 
-        console.log('[FilteringAPICalls] callFilteringsAPI RESULT : ', result);
+        // console.log('[FilteringAPICalls] callFilteringsAPI RESULT : ', result);
         if (result.status === 200) {
-            console.log('[FilteringAPICalls] callFilteringsAPI SUCCESS');
-            dispatch({ type: postFilterings, payload: result });
+            // console.log('[FilteringAPICalls] callFilteringsAPI SUCCESS');
+            dispatch(postFilterings(result));
         }
     };
 }
 
 export const callFilteringGroupCreateAPI = ({ groupForm }) => {
-    console.log('[FilteringAPICalls] callFilteringGroupCreateAPI Call');
+    // console.log('[FilteringAPICalls] callFilteringGroupCreateAPI Call');
 
     const requestURL = `http://localhost:8080/admin/filtering/create`;
 
@@ -45,16 +45,16 @@ export const callFilteringGroupCreateAPI = ({ groupForm }) => {
             })
         }).then((response) => response.json());
 
-        console.log('[FilteringAPICalls] callFilteringGroupCreateAPI RESULT : ', result);
+        // console.log('[FilteringAPICalls] callFilteringGroupCreateAPI RESULT : ', result);
 
-        dispatch({ type: postFilteringGroup, payload: result });
+        dispatch(postFilteringGroup(result));
         return result;
     };
 };
 
 export const callFilteringGroupActiveStateUpdateAPI = ({ groupForm }) => {
 
-    console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI Call');
+    // console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI Call');
 
     const requestURL = `http://localhost:8080/admin/filtering`;
 
@@ -68,11 +68,31 @@ export const callFilteringGroupActiveStateUpdateAPI = ({ groupForm }) => {
             body: JSON.stringify(groupForm)
         }).then((response) => response.json());
 
-        console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI RESULT : ', result);
+        // console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI RESULT : ', result);
 
-        dispatch({ type: putFilteringGroup, payload: result });
+        dispatch(putFilteringGroup(result));
     };
+}
 
+export const callFilteringGroupUpdateAPI = ({ final }) => {
+
+    console.log('[FilteringAPICalls] callFilteringGroupUpdateAPI Call');
+
+    const requestURL = `http://localhost:8080/admin/filtering/edit`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+            body: JSON.stringify(final)
+        }).then((response) => response.json());
+
+        console.log('[FilteringAPICalls] callFilteringGroupUpdateAPI RESULT : ', result);
+        dispatch(putFilteringGroup(result));
+    };
 }
 
 export const callFilteringGroupsAPI = ({ currentPage }) => {
@@ -86,8 +106,6 @@ export const callFilteringGroupsAPI = ({ currentPage }) => {
         requestURL = `http://localhost:8080/admin/filtering`;
     }
 
-    console.log("URL: ", requestURL);
-    // const requestURL = `http://localhost:8080/admin/filtering`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -98,10 +116,10 @@ export const callFilteringGroupsAPI = ({ currentPage }) => {
             }
         }).then((response) => response.json());
 
-        console.log('[FilteringAPICalls] callFilteringGroupsAPI RESULT : ', result);
+        // console.log('[FilteringAPICalls] callFilteringGroupsAPI RESULT : ', result);
         if (result.status === 200) {
-            console.log('[FilteringAPICalls] callFilteringGroupsAPI SUCCESS');
-            dispatch({ type: getFilteringGroups, payload: result.data });
+            // console.log('[FilteringAPICalls] callFilteringGroupsAPI SUCCESS');
+            dispatch(getFilteringGroups(result.data));
         }
     };
 }
@@ -122,7 +140,7 @@ export const callFilteringGroupAPI = ({groupId}) => {
         if (result.status === 200) {
             console.log('[FilteringAPICalls] callFilteringGroupAPI SUCCESS');
             // console.log("result", result);
-            dispatch({ type: getFilteringGroup, payload: result.data });
+            dispatch(getFilteringGroup(result));
         }
     };
 }

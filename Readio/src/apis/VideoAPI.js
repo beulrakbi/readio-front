@@ -1,5 +1,5 @@
 import sample from "./test.json";
-import {callVideoInsertAPI, callVideosAPI} from "./VideoAPICalls.js";
+import {callTopVideosAPI, callVideoInsertAPI, callVideosAPI} from "./VideoAPICalls.js";
 
 
 export async function getVideosByKeyword(type, keyword, dispatch) {
@@ -15,6 +15,12 @@ export async function getVideosByKeyword(type, keyword, dispatch) {
         return result;
     }
 }
+
+export async function getTopVideos(dispatch)
+{
+    return await dispatch(callTopVideosAPI());
+}
+
 
 export async function getNewVideos(type, keyword, dispatch, num) {
 

@@ -10,6 +10,8 @@ function FilteringDetail()
     const filtering  = useSelector(state => state.filtering);
     const param = useParams();
     const navigate = useNavigate();
+    const data = filtering.data;
+    console.log("filtering result", filtering)
 
     useEffect(() => {
         dispatch(callFilteringGroupAPI({groupId:param.groupId}));
@@ -18,27 +20,27 @@ function FilteringDetail()
     const onClickChangeActiveState = () => {
         if (confirm('상태를 변경하시겠습니까?'))
         {
-            dispatch(callFilteringGroupActiveStateUpdateAPI({groupForm:filtering.filteringGroup}));
-            navigate(`/admin/filtering`, {replace : true});
+            dispatch(callFilteringGroupActiveStateUpdateAPI({groupForm:data.filteringGroup}));
+            navigate(`/admin/filtering`);
         }
     }
 
     return (
         <div className={FListCSS.container}>
             <div className={FListCSS.fontContainer}>
-                <p className={FListCSS.font1}>{filtering?.filteringGroup?.title}</p>
+                <p className={FListCSS.font1}>{data?.filteringGroup?.title}</p>
                 <div className={FListCSS.buttonDiv}>
-                    <p className={FListCSS.font2} onClick={onClickChangeActiveState}>{filtering?.filteringGroup?.isActive == "Y" ? "비활성화" : "활성화"}</p>
-                    <p className={FListCSS.font2} onClick={() => navigate(`/admin/filtering/${filtering.filteringGroup.groupId}/edit`)}>수정</p>
+                    <p className={FListCSS.font2} onClick={onClickChangeActiveState}>{data?.filteringGroup?.isActive == "Y" ? "비활성화" : "활성화"}</p>
+                    <p className={FListCSS.font2} onClick={() => navigate(`/admin/filtering/${data.filteringGroup.groupId}/edit`)}>수정</p>
                     <p className={FListCSS.font2}>삭제</p>
                 </div>
             </div>
             <hr className={FListCSS.filteringLine}/>
 
             <div className={FListCSS.filteringDetailContent}>
-                <p className={FListCSS.font4}>{filtering?.filteringGroup?.content}</p>
+                <p className={FListCSS.font4}>{data?.filteringGroup?.content}</p>
                 <div className={FListCSS.filteringKeywords}>
-                    {filtering?.filterings?.map(filter => (
+                    {data?.filterings?.map(filter => (
                         <p className={FListCSS.filteringKeyword} key={filter.filteringId}>{filter.keyword? filter.keyword : filter.videoId}</p>
                     ))}
                 </div>
