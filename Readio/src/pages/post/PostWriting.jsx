@@ -1,17 +1,27 @@
-// src/components/PostWriting.js
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
 import PostWritingBookIcon from '../../assets/PostWritingBook.png';
 import PostCSS from './Post.module.css';
 import PostWritingBook from './PostWritingBook';
+import { replace, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { callPostCreateAPI } from '../../apis/PostAPICalls';
 
 function PostWriting() {
+    const dispatch = useDispatch();
+
     const fileInputRef = useRef(null);
     const textareaRef = useRef(null);
+    const navigator = useNavigate();
 
-    const [image, setImage] = useState(null);
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [form, setForm] = useState({
+        postTitle:'',
+        postContent:'',
+        bookIsbn:''
+    });
+
+    const [imageUrl, setImageUrl] = useState();
 
     const [selectedBook, setSelectedBook] = useState(null);
     const [isBookSearchOpen, setIsBookSearchOpen] = useState(false);
@@ -31,41 +41,59 @@ function PostWriting() {
         setSelectedBook(null);
     };
 
-    /* 텍스트 창 자동 커짐짐*/
-    const handleTextareaInput = (e) => {
-        const textarea = textareaRef.current;
-        if (textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = `${textarea.scrollHeight}px`;
-        }
-        setContent(e.target.value);
-    };
-
     /* 이미지 업로드 */
-    const handleImageUpload = (e) => {
+    const onChangeImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
             const previewUrl = URL.createObjectURL(file);
-            setImage({ file, previewUrl });
+            setImageUrl({ file, previewUrl });
             e.target.value = '';
         }
     };
 
     /* 이미지 삭제 */
     const removeImage = () => {
-        setImage(null);
+        setImageUrl(null);
     };
+
+    const onChangeHandler = (e) => {
+    setForm({
+        ...form,
+        [e.target.name]: e.target.value
+    });
+
+    if (e.target.name === 'postContent' && textareaRef.current) {
+        const textarea = textareaRef.current;
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+};
 
     /* 게시글 등록 */
     const handleSubmit = () => {
-        const postData = {
-            title,
-            content,
-            imageFile: image ? image.file : null,
-            bookInfo: selectedBook,
-        };
-        console.log("등록할 데이터:", postData);
-        alert("게시글 등록 로직을 여기에 구현합니다.");
+        
+        const formData = new FormData();
+
+        formData.append('postTitle', form.postTitle);
+        formData.append('postContent', form.postContent);
+        formData.append('bookIsbn', selectedBook.title);
+
+        if (imageUrl && imageUrl.file) {
+            formData.append('postImage', imageUrl.file);
+        }
+
+        dispatch(
+            callPostCreateAPI({
+                form: formData
+            })
+        )
+        console.log("postTitle:", formData.get('postTitle'));
+        console.log("postContent:", formData.get('postContent'));
+        console.log("bookIsbn:", formData.get('bookIsbn'));
+        console.log("postImage:", formData.get('postImage'));
+        alert('포스트 리스트로 이동합니다.');
+        navigator('/mylibrary/postlist', { replace: true});
+        window.location.reload();
     };
 
     return (
@@ -91,30 +119,28 @@ function PostWriting() {
                     name='postTitle'
                     placeholder='제목을 입력해주세요.'
                     className={PostCSS.postTitle}
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={onChangeHandler}
                 />
                 <textarea
-                    name="PostContent"
+                    name="postContent"
                     placeholder="내용을 입력해주세요."
                     className={PostCSS.postContent}
                     ref={textareaRef}
-                    value={content}
-                    onInput={handleTextareaInput}
+                    onChange={onChangeHandler}
                     maxLength={2500}
                 />
                 <input
                     type="file"
                     id="imageInput"
                     accept="image/*"
-                    onChange={handleImageUpload}
+                    onChange={onChangeImageUpload}
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                 />
 
-                {image && (
+                {imageUrl && (
                     <div className={PostCSS.imagePreview}>
-                        <img src={image.previewUrl} alt="미리보기" className={PostCSS.imagePreviewImg} />
+                        <img src={imageUrl.previewUrl} alt="미리보기" className={PostCSS.imagePreviewImg} />
                         <button type="button" className={PostCSS.removeBtn} onClick={removeImage}>X</button>
                     </div>
                 )}
