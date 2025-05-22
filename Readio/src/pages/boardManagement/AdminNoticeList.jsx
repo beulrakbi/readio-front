@@ -9,9 +9,28 @@ function AdminNoticeList() {
     const [isAllSelected, setIsAllSelected] = useState(false);
     const navigate = useNavigate();
 
-    // 공지사항 리스트 가져오기
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const pageSize = 7;
+
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const noticePage = async (pageNumber = 0) => {
+        try {
+            const response = await fetch(`http://localhost:8080/serviceCenter/notice/list/paging?page=${pageNumber}&size=${pageSize}`);
+            if (!response.ok) throw new Error('서버 오류');
+            const data = await response.json();
+
+            setNotices(data.content);
+            setPage(data.number);
+            setTotalPages(data.totalPages);
+        } catch (error) {
+            console.error('공지사항을 불러오는데 실패했습니다:', error);
+        }
+    };
+
     useEffect(() => {
-        fetchNotices();
+        noticePage();
     }, []);
 
     const fetchNotices = async () => {
@@ -25,7 +44,6 @@ function AdminNoticeList() {
         }
     };
 
-    // 체크박스 선택/해제
     const handleCheckboxChange = (noticeId) => {
         setSelectedIds((prev) => {
             const updated = prev.includes(noticeId)
@@ -36,7 +54,6 @@ function AdminNoticeList() {
         });
     };
 
-    // 전체 선택/해제
     const handleAllCheckboxChange = () => {
         if (isAllSelected) {
             setSelectedIds([]);
@@ -48,7 +65,6 @@ function AdminNoticeList() {
         }
     };
 
-    // 선택 삭제
     const handleDelete = async () => {
         if (selectedIds.length === 0) {
             alert('삭제할 공지사항을 선택해주세요.');
@@ -72,7 +88,23 @@ function AdminNoticeList() {
         }
     };
 
-    // 제목 클릭 시 수정 페이지 이동
+    const fetchNoticeSearch = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/serviceCenter/notice/search?keyword=${encodeURIComponent(searchQuery)}`);
+            if (!response.ok) throw new Error('서버 오류');
+            const data = await response.json();
+            setNotices(data); // ✅ 검색 결과로 목록 변경
+            setPage(0);
+            setTotalPages(1); // 필요 시 서버 응답에 따라 조정
+        } catch (error) {
+            console.error('공지사항 검색 실패:', error);
+        }
+    };
+
+    const handlePageClick = (pageNumber) => {
+        noticePage(pageNumber);
+    };
+
     const handleTitleClick = (noticeId) => {
         navigate(`/admin/notice/edit/${noticeId}`);
     };
@@ -125,13 +157,13 @@ function AdminNoticeList() {
                                         </td>
                                         <td>{notice.noticeId}</td>
                                         <td>{notice.noticeState === 'TEMPORARY' ? '단기' :
-                                             notice.noticeState === 'URGENT' ? '긴급' : '종료'}</td>
+                                            notice.noticeState === 'URGENT' ? '긴급' : '종료'}</td>
                                         <td className={styles.titleCell}>
                                             <span
                                                 onClick={() => handleTitleClick(notice.noticeId)}
                                                 style={{ cursor: 'pointer', color: 'black', textDecoration: 'none' }}
                                             >
-                                            {notice.noticeTitle}
+                                                {notice.noticeTitle}
                                             </span>
                                         </td>
                                         <td>관리자</td>
@@ -146,11 +178,61 @@ function AdminNoticeList() {
 
                 <div className={styles.mcontainer}>
                     <div className={styles.textcontainer}>
-                        <input className={styles.textbox} type="text" placeholder="검색어를 입력해주세요." />
-                        <button className={styles.btn}><img src={searchIcon} alt="검색" /></button>
+                        <input
+                            className={styles.textbox}
+                            type="text"
+                            placeholder="검색어를 입력해주세요."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    fetchNoticeSearch();
+                                }
+                            }}
+                        />
+                        <button className={styles.btn} onClick={fetchNoticeSearch}>
+                            <img src={searchIcon} alt="검색" />
+                        </button>
                     </div>
                     <div className={styles.pagingbox}>
-                        <p className={styles.num}>1 2 3 4 5</p>
+                        <button
+                            className={styles.pageButton}
+                            onClick={() => handlePageClick(0)}
+                            disabled={page === 0}
+                        >
+                            {'<<'}
+                        </button>
+                        <button
+                            className={styles.pageButton}
+                            onClick={() => handlePageClick(page - 1)}
+                            disabled={page === 0}
+                        >
+                            {'<'}
+                        </button>
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button
+                                key={index}
+                                className={styles.pageButton}
+                                style={{ fontWeight: index === page ? 'bold' : 'normal' }}
+                                onClick={() => handlePageClick(index)}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                        <button
+                            className={styles.pageButton}
+                            onClick={() => handlePageClick(page + 1)}
+                            disabled={page === totalPages - 1}
+                        >
+                            {'>'}
+                        </button>
+                        <button
+                            className={styles.pageButton}
+                            onClick={() => handlePageClick(totalPages - 1)}
+                            disabled={page === totalPages - 1}
+                        >
+                            {'>>'}
+                        </button>
                     </div>
                 </div>
             </div>

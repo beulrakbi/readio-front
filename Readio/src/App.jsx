@@ -115,6 +115,7 @@ function App() {
             <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
             <Route path="/admin/faq" element={<AdminFaqList />} />
             <Route path="/admin/faq/writing" element={<AdminFaqWriting />} />
+            <Route path="/admin/faq/edit/:faqId" element={<AdminFaqWriting />} />
             <Route path="/admin/notice/edit/:noticeId" element={<AdminNoticeWriting />} />
             <Route path="/admin/qna" element={<AdminQnaList />} />
             <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
