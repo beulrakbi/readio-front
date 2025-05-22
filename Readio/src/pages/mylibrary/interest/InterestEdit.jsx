@@ -16,14 +16,21 @@ const InterestEditPage = () => {
     useEffect(() => {
         fetch('/api/admin/interests/categories')
             .then(res => res.json())
-            .then(data => setAllCategories(data.map(d => d.name)))
-            .catch(err => console.error('카테고리 불러오기 실패', err));
+            .then(data => setAllCategories(data)); // 그대로 저장 (id, name 구조 유지)
 
         fetch('/api/admin/interests/keywords')
             .then(res => res.json())
-            .then(data => setAllKeywords(data.map(d => d.name)))
-            .catch(err => console.error('키워드 불러오기 실패', err));
+            .then(data => setAllKeywords(data));
+
+        fetch('/api/user/interests/test2')
+            .then(res => res.json())
+            .then(data => {
+                setSelectedCategories(data.categories.map(c => c.name));
+                setSelectedKeywords(data.keywords.map(k => k.name));
+            })
+            .catch(err => console.error('유저 관심사 불러오기 실패', err));
     }, []);
+
 
     const toggle = (item, list, setList, max) => {
         if (list.includes(item)) {
@@ -34,14 +41,38 @@ const InterestEditPage = () => {
     };
 
     const handleSave = () => {
-        // 저장 로직 (선택한 카테고리와 키워드를 서버로 전송)
-        setShowPopup(true);
-        setTimeout(() => {
-            setShowPopup(false);
-            navigate('/mylibrary/interest');
-        }, 1000);
-    };
+        const payload = {
+            userId: 'test2',
+            categoryIds: selectedCategories.map(name =>
+                allCategories.find(c => c.name === name)?.id
+            ),
+            keywordIds: selectedKeywords.map(name =>
+                allKeywords.find(k => k.name === name)?.id
+            )
+        };
 
+
+        fetch('/api/user/interests', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+            .then(res => {
+                console.log('응답 상태코드:', res.status);
+                if (!res.ok) throw new Error('저장 실패');
+                return res.json();
+            })
+            .then(() => {
+                setShowPopup(true);
+                setTimeout(() => {
+                    setShowPopup(false);
+                    navigate('/mylibrary/interest');
+                }, 1000);
+            })
+            .catch(err => console.error('저장 에러:', err));
+    };
     return (
         <div className={styles.InterestEditPageWrapper}>
             <div className={styles.wrapper}>
@@ -59,12 +90,14 @@ const InterestEditPage = () => {
                             {allCategories.map((cat, idx) => (
                                 <span
                                     key={idx}
-                                    className={`${styles.tag} ${selectedCategories.includes(cat) ? styles.selected : ''}`}
-                                    onClick={() => toggle(cat, selectedCategories, setSelectedCategories, 3)}
+                                    className={`${styles.tag} ${selectedCategories.includes(cat.name) ? styles.selected : ''}`}
+                                    onClick={() => toggle(cat.name, selectedCategories, setSelectedCategories, 3)}
                                 >
-                                    {cat}
+                                    {cat.name}
                                 </span>
                             ))}
+
+
                         </div>
                     </div>
                 </div>
@@ -79,12 +112,13 @@ const InterestEditPage = () => {
                             {allKeywords.map((kw, idx) => (
                                 <span
                                     key={idx}
-                                    className={`${styles.tag} ${selectedKeywords.includes(kw) ? styles.selected : ''}`}
-                                    onClick={() => toggle(kw, selectedKeywords, setSelectedKeywords, 5)}
+                                    className={`${styles.tag} ${selectedKeywords.includes(kw.name) ? styles.selected : ''}`}
+                                    onClick={() => toggle(kw.name, selectedKeywords, setSelectedKeywords, 5)}
                                 >
-                                    {kw}
+                                    {kw.name}
                                 </span>
                             ))}
+
                         </div>
                     </div>
                 </div>
