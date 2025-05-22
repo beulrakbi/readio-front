@@ -1,9 +1,25 @@
 import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoLIst';
 import UserMainCSS from './UserMain.module.css';
+import {useEffect, useState} from "react";
 
 function UserMain()
 {
+
+    const [types, setTypes] = useState([]);
+    const allTypes = ["연예인", "굿즈", "독서방법"];
+
+    const getRandomTypes = () => {
+        const shuffled = [...allTypes].sort(() => 0.5 - Math.random()); // 랜덤 셔플
+        setTypes(shuffled);
+    };
+
+    useEffect(() => {
+        getRandomTypes();
+    }, []);
+
+    console.log(types);
+
     return (
         <>
             <div className={UserMainCSS.main}>
@@ -19,7 +35,6 @@ function UserMain()
                             <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
                         </div>
                     </div>
-                    {/* <img className={UserMainCSS.mainImg} src={bgimg} alt={"배경"}/> */}
                 </div>
                 <p className={UserMainCSS.readio}>READIO</p>
             <div className={UserMainCSS.backgroundTexture}>
@@ -30,9 +45,9 @@ function UserMain()
                 </div>
                 <div className={UserMainCSS.videoSection}>
 
-                <VideoList />
-                <VideoList />
-                <VideoList />
+                <VideoList type={types[0]}/>
+                <VideoList type={types[1]}/>
+                <VideoList type={types[2]}/>
 
                 </div>
             </div>

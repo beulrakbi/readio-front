@@ -14,19 +14,18 @@ export const DELETE_FILTERING = 'filtering/DELETE_FILTERING';
 export const DELETE_FILTERINGS = 'filtering/DELETE_FILTERINGS';
 
 export const GET_FILTERINGGROUP = 'filtering/GET_FILTERINGGROUP';
+export const GET_FILTERINGGROUPS = 'filtering/GET_FILTERINGGROUPS';
 export const POST_FILTERINGGROUP = 'filtering/POST_FILTERINGGROUP';
 export const PUT_FILTERINGGROUP = 'filtering/PUT_FILTERINGGROUP';
 export const DELETE_FILTERINGGROUP = 'filtering/DELETE_FILTERINGGROUP';
 
 const action = createAction( {
-    [GET_FILTERING]: () => {},
-    [GET_FILTERINGS]: () => {},
-    [POST_FILTERING]: () => {},
     [POST_FILTERINGS]: () => {},
     [PUT_FILTERINGS]: () => {},
     [DELETE_FILTERING]: () => {},
     [DELETE_FILTERINGS]: () => {},
     [GET_FILTERINGGROUP]: () => {},
+    [GET_FILTERINGGROUPS]: () => {},
     [POST_FILTERINGGROUP]: () => {},
     [PUT_FILTERINGGROUP]: () => {},
     [DELETE_FILTERINGGROUP]: () => {}
@@ -35,15 +34,6 @@ const action = createAction( {
 /* 리듀서 */
 const filteringReducer = handleActions(
     {
-        [GET_FILTERING]: (state, {payload}) => {
-            return payload;
-        },
-        [GET_FILTERINGS]: (state, {payload}) => {
-            return payload;
-        },
-        [POST_FILTERING]: (state, {payload}) => {
-            return payload;
-        },
         [POST_FILTERINGS]: (state, {payload}) => {
             return payload;
         },
@@ -57,6 +47,9 @@ const filteringReducer = handleActions(
             return payload;
         },
         [GET_FILTERINGGROUP]: (state, {payload}) => {
+            return payload;
+        },
+        [GET_FILTERINGGROUPS]: (state, {payload}) => {
             return payload;
         },
         [POST_FILTERINGGROUP]: (state, {payload}) => {
