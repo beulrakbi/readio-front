@@ -106,7 +106,7 @@ function App() {
             <Route path="filtering" element={<FilteringListPage />} />
             <Route path="filtering" element={<FilteringCreatePage />} />
             <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
-            <Route path="filtering/modify" element={<FilteringModifyPage />} />
+            <Route path="filtering/:groupId/edit" element={<FilteringModifyPage />} />
             <Route path="reported/review/list" element={<ReportedReviewListPage />} />
             <Route path="reported/review/detail" element={<ReportedReviewDetailPage />} />
             <Route path="reported/post/list" element={<ReportedPostListPage />} />

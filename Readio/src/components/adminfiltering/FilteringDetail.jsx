@@ -29,7 +29,7 @@ function FilteringDetail()
                 <p className={FListCSS.font1}>{filtering?.filteringGroup?.title}</p>
                 <div className={FListCSS.buttonDiv}>
                     <p className={FListCSS.font2} onClick={onClickChangeActiveState}>{filtering?.filteringGroup?.isActive == "Y" ? "비활성화" : "활성화"}</p>
-                    <p className={FListCSS.font2} onClick={navigate(`/admin/filtering/${filtering?.filteringGroup?.groupId}`, {replace : true})}>수정</p>
+                    <p className={FListCSS.font2} onClick={() => navigate(`/admin/filtering/${filtering.filteringGroup.groupId}/edit`)}>수정</p>
                     <p className={FListCSS.font2}>삭제</p>
                 </div>
             </div>
