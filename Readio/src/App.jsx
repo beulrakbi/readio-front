@@ -94,7 +94,7 @@ function App() {
             <Route path="mylibrary/calendar" element={<CalendarPage />} />
             <Route path="post/writing" element={<PostWriting />} />
             <Route path="post/writing/book" element={<PostWritingBook />} />
-            <Route path="post" element={<PostDetail />} />
+            <Route path="post/:postId" element={<PostDetail />} />
             <Route path="feed" element={<FeedMain />} />
             <Route path="mylibrary/follow" element={<FollowList />} />
             <Route path="mylibrary/postlist" element={<PostList />} />

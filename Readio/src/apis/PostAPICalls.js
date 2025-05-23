@@ -1,5 +1,6 @@
 import {
-    POST_PRODUCT
+	GET_POST,
+    POST_POST
 } from '../modules/postwriting/PostModule.js';
 
 export const callPostCreateAPI = ({ form }) => {
@@ -26,6 +27,26 @@ export const callPostCreateAPI = ({ form }) => {
 
 		console.log('[PostAPICalls] callPostCratetAPI RESULT : ', result);
 
-		dispatch({ type: POST_PRODUCT, payload: result });
+		dispatch({ type: POST_POST, payload: result });
+	};
+};
+
+export const callPostDetailAPI = ({ postId }) => {
+	const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/post/${postId}`;
+
+	return async (dispatch, getState) => {
+		const result = await fetch(requestURL, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: '*/*'
+			}
+		}).then((response) => response.json());
+
+		console.log('[PostAPICalls] callPostDetailAPI RESULT : ', result);
+		if (result.status === 200) {
+			console.log('[PostAPICalls] callPostDetailAPI SUCCESS');
+			dispatch({ type: GET_POST, payload: result.data });
+		}
 	};
 };

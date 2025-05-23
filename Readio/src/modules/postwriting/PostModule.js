@@ -4,18 +4,23 @@ import { createActions, handleActions } from 'redux-actions';
 const initialState = [];
 
 /* 액션 */
-export const POST_PRODUCT = 'post/POST_PRODUCT';
+export const POST_POST = 'post/POST_POST';
+export const GET_POST = 'post/GET_POST';
 
 const actions = createActions({
-	[POST_PRODUCT]: () => {}
+	[POST_POST]: () => {},
+	[GET_POST]: () => {}
 });
 
 /* 리듀서 */
 const postReducer = handleActions(
 	{
-		[POST_PRODUCT]: (state, { payload }) => {
+		[POST_POST]: (state, { payload }) => {
 			return payload;
-		}
+		},
+		[GET_POST]: (state, { payload }) => {
+			return payload;
+		},
 	},
 	initialState
 );

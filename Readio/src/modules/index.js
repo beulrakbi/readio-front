@@ -11,7 +11,6 @@ const rootReducers =  combineReducers(
             filtering: filteringReducer,
             curation: curationReducer,
             bookSearch: bookSearchSlice,
-            
         });
 
 export default rootReducers;

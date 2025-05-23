@@ -10,6 +10,9 @@ import profileImg1 from '../../assets/profileImg1.png';
 import profileImg2 from '../../assets/profileImg2.png';
 import profileImg3 from '../../assets/profileImg3.png';
 import PostCSS from './Post.module.css';
+import { useParams } from 'react-router-dom';
+import { callPostDetailAPI } from '../../apis/PostAPICalls';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function PostDetail () {
@@ -17,11 +20,24 @@ function PostDetail () {
     const [isFollowing, setIsFollowing] = useState(false);
     const [likeTab, setLikeTab] = useState(false);
 
+    const dispatch = useDispatch();
+    const params = useParams();
+    const post = useSelector(state => state.postReducer)
+
     const toggleFollow = () => {
         setIsFollowing(!isFollowing);
     };
 
     const detailsRef = useRef(null);
+
+    useEffect(
+        () => {
+            dispatch(callPostDetailAPI({
+                postId: params.postId
+            }));
+        }
+        ,[]
+    );
 
     useEffect (() => {
         const handleClickOut = (event) => {
@@ -71,11 +87,10 @@ function PostDetail () {
                     </details>
                 </div>
             </div> 
-            <h2 className={PostCSS.postDetailTitle}>진짜 생존 신고</h2>
-            <div className={PostCSS.postDetailContent}>어우 학교 못갈수도 있어요<br/>
-            <br/>
-            저 지금 영랑호 리조트라는 숙소에 있는데.. 안전안내문자가 보통 주변에 있는 곳에서 오잖아요? 고성군에서 불났다네요.. 네이버 cctv 보니까 올때 지났던 기린터널.. 간격이 좁아 터널과 터널사이 어떤 곳에 유리로 조치 해논걸로 아는데 거기 기억나거든요 근데 거기 불났어요 ㄷㄷ 진짜 남의 일이라 생각했는데 보니까 인제에서 양양 건너 속초에요.. 산이랑 산사이에 도시 장벽이 있긴 한데 무서워요.. 여기 주변 숲이라;; 지금 숙소 버리고 도망가도 국도로 돌아서 가야 하고요 망했어요</div>
-            <img src={postContentImg} className={PostCSS.postContentImg}/>
+            <h2 className={PostCSS.postDetailTitle}>{post.postTitle || '' }</h2>
+            <div className={PostCSS.postDetailContent}>{post.postContent || '' }<br/>
+            </div>
+            <img src={post.postImg.saveName} className={PostCSS.postContentImg}/>
             <div className={PostCSS.postDetailHeartDiv}>
                 <span className={PostCSS.postDetailHeartSpan}><img src={postDetailHeart} className={PostCSS.postDetailHeart}/>15</span>
                 <span className={PostCSS.postDetailHeartSpan}><img src={postDetailReview} className={PostCSS.postDetailReview}/>3</span>
