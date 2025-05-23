@@ -11,29 +11,23 @@
      font-weight: 600;
 }
 
-/*hr {*/
-/*     width : 80vh;*/
-/*     height: 1px;*/
-/*}*/
+/* .videoListHr {
+     width : 85vh;
+     height: 1px;
+} */
 
 .SearchVideoList {
      margin : 10px 0 ;
 }
 
-.videoList {
-     padding : 20px;
-     display:  flex;
-}
-
 .video {
-     width : 210px;
-     height : 130px;
-     background-color: #4f4f4f;
-     border-radius: 3px;
+    border-radius: 10px;
+    margin: 5px;
+    display: flex;
 }
 
 .videoInfo {
-     margin: 0 0 0 20px;
+     margin: 10px;
      cursor: pointer;
 }
 
@@ -43,8 +37,9 @@
 }
 
 .videoDate {
-      margin : 20px 0;
-      font-size : 13px;
+     margin : 20px 0;
+     font-size : 13px;
+     font-weight: 500;
 }
 
 .videoDetail {
