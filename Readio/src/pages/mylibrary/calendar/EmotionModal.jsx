@@ -9,6 +9,8 @@ const emotions = [
     { label: '불안', emoji: '😵‍💫' },
 ];
 
+
+
 const EmotionModal = ({ onSelect, onCancel }) => {
     const [selected, setSelected] = React.useState(null);
 
