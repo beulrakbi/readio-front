@@ -13,9 +13,9 @@ export const callCurationsAPI = ({type}) => {
             },
         }).then((response) => response.json());
 
-        console.log('[CurationAPICalls] callCurationsAPI RESULT : ', result);
+        // console.log('[CurationAPICalls] callCurationsAPI RESULT : ', result);
         if (result.status === 200) {
-            console.log('[CurationAPICalls] callCurationsAPI SUCCESS');
+            // console.log('[CurationAPICalls] callCurationsAPI SUCCESS');
             dispatch({ type: getCurationKeywords, payload: result });
         }
     };

@@ -104,7 +104,7 @@ function App() {
             <Route index element={<AdminMain />} />
             <Route path="users/list" element={<UserManagement />} />
             <Route path="filtering" element={<FilteringListPage />} />
-            <Route path="filtering" element={<FilteringCreatePage />} />
+            <Route path="filtering/create" element={<FilteringCreatePage />} />
             <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
             <Route path="filtering/:groupId/edit" element={<FilteringModifyPage />} />
             <Route path="reported/review/list" element={<ReportedReviewListPage />} />

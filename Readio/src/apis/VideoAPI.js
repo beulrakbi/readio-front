@@ -1,10 +1,10 @@
 import sample from "./test.json";
-import {callVideoInsertAPI, callVideosAPI} from "./VideoAPICalls.js";
+import {callTopVideosAPI, callVideoInsertAPI, callVideosAPI} from "./VideoAPICalls.js";
 
 
 export async function getVideosByKeyword(type, keyword, dispatch) {
 
-    if (type == "연예인") {
+    if (type == "celeb") {
         const keywordArray = keyword.split(" ");
         keyword = keywordArray[0];
     }
@@ -16,6 +16,12 @@ export async function getVideosByKeyword(type, keyword, dispatch) {
     }
 }
 
+export async function getTopVideos(dispatch)
+{
+    return await dispatch(callTopVideosAPI());
+}
+
+
 export async function getNewVideos(type, keyword, dispatch, num) {
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
@@ -25,7 +31,7 @@ export async function getNewVideos(type, keyword, dispatch, num) {
 
     if (maxResult <= num) return null; else {
 
-        if (type === "연예인") {
+        if (type === "celeb") {
             keyword = keyword + '|낭독|리뷰'
         }
         maxResult = maxResult - num;
