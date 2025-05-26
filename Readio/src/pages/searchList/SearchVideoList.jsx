@@ -25,7 +25,7 @@ function SearchVideoList() {
      const fetchVideos = async () => {
           if (searchQuery) {
           try {
-               const result = await getNewVideos("기타", searchQuery, dispatch, 0); // 🔥 실시간 API 호출
+               const result = await getNewVideos("기타", searchQuery, dispatch, 0); //  실시간 API 호출
                if (Array.isArray(result)) {
                setVideoList(result);
                } else {
