@@ -22,6 +22,29 @@ export const callVideosAPI = ({search}) => {
     };
 }
 
+export const callSearchVideosAPI = ({search}) => {
+
+    let requestURL = `http://localhost:8080/video/query/${search}`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*'
+            }
+        }).then((response) => response.json());
+
+        console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
+        if (result.status === 200) {
+            // console.log('[VideoAPICalls] callVideosAPI SUCCESS');
+            dispatch(getVideos(result));
+            return result;
+        }
+    };
+}
+
+
 export const callTopVideosAPI = () => {
     let requestURL = `http://localhost:8080/video/getTopVideos`;
 
