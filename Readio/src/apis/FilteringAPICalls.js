@@ -1,10 +1,131 @@
 import {
-    GET_FILTERINGS,
-    POST_FILTERINGGROUP
-} from '../modules/filtering/FilteringModule.js';
+    deleteFilteringGroup,
+    getFilteringGroup,
+    getFilteringGroups,
+    postFilteringGroup,
+    postFilterings,
+    putFilteringGroup
+} from "../modules/filtering/FilteringSlice.js";
 
-export const callFilteringsAPI = ({groupId}) => {
+export const callFilteringsCreateAPI = ({groupId, filterings}) => {
+
     const requestURL = `http://localhost:8080/admin/filtering/${groupId}`;
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*'
+            },
+            body: JSON.stringify(filterings)
+        }).then((response) => response.json());
+
+        // console.log('[FilteringAPICalls] callFilteringsAPI RESULT : ', result);
+        if (result.status === 200) {
+            // console.log('[FilteringAPICalls] callFilteringsAPI SUCCESS');
+            dispatch(postFilterings(result));
+        }
+    };
+}
+
+export const callFilteringGroupCreateAPI = ({ groupForm }) => {
+    // console.log('[FilteringAPICalls] callFilteringGroupCreateAPI Call');
+
+    const requestURL = `http://localhost:8080/admin/filtering/create`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+            body: JSON.stringify({
+                title: groupForm.title,
+                content: groupForm.content
+            })
+        }).then((response) => response.json());
+
+        // console.log('[FilteringAPICalls] callFilteringGroupCreateAPI RESULT : ', result);
+
+        dispatch(postFilteringGroup(result));
+        return result;
+    };
+};
+
+export const callFilteringGroupActiveStateUpdateAPI = ({ groupForm }) => {
+
+    // console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI Call');
+
+    const requestURL = `http://localhost:8080/admin/filtering`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+            body: JSON.stringify(groupForm)
+        }).then((response) => response.json());
+
+        // console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI RESULT : ', result);
+
+        dispatch(putFilteringGroup(result));
+    };
+}
+
+export const callFilteringGroupUpdateAPI = ({ final }) => {
+
+    console.log('[FilteringAPICalls] callFilteringGroupUpdateAPI Call');
+
+    const requestURL = `http://localhost:8080/admin/filtering/edit`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+            body: JSON.stringify(final)
+        }).then((response) => response.json());
+
+        console.log('[FilteringAPICalls] callFilteringGroupUpdateAPI RESULT : ', result);
+        dispatch(putFilteringGroup(result));
+    };
+}
+
+export const callFilteringGroupDeleteAPI = ({groupId}) => {
+    console.log('[FilteringAPICalls] callFilteringGroupDeleteAPI Call');
+
+    const requestURL = `http://localhost:8080/admin/filtering/${groupId}`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            }
+        }).then((response) => response.json());
+
+        console.log('[FilteringAPICalls] callFilteringGroupDeleteAPI RESULT : ', result);
+        dispatch(deleteFilteringGroup(result));
+    };
+}
+
+export const callFilteringGroupsAPI = ({ currentPage }) => {
+
+    let requestURL;
+
+    if (currentPage){
+    // if (currentPage !== undefined || currentPage !== null) {
+        requestURL = `http://localhost:8080/admin/filtering?offset=${currentPage}`;
+    } else {
+        requestURL = `http://localhost:8080/admin/filtering`;
+    }
+
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -15,10 +136,10 @@ export const callFilteringsAPI = ({groupId}) => {
             }
         }).then((response) => response.json());
 
-        console.log('[ReviewAPICalls] callReviewDetailAPI RESULT : ', result);
+        // console.log('[FilteringAPICalls] callFilteringGroupsAPI RESULT : ', result);
         if (result.status === 200) {
-            console.log('[ReviewAPICalls] callReviewDetailAPI SUCCESS');
-            dispatch({ type: GET_FILTERINGS, payload: result });
+            // console.log('[FilteringAPICalls] callFilteringGroupsAPI SUCCESS');
+            dispatch(getFilteringGroups(result.data));
         }
     };
 }
@@ -35,69 +156,15 @@ export const callFilteringGroupAPI = ({groupId}) => {
             }
         }).then((response) => response.json());
 
-        console.log('[ReviewAPICalls] callReviewDetailAPI RESULT : ', result);
+        console.log('[FilteringAPICalls] callFilteringGroupAPI RESULT : ', result);
         if (result.status === 200) {
-            console.log('[ReviewAPICalls] callReviewDetailAPI SUCCESS');
-            dispatch({ type: GET_FILTERINGS, payload: result });
+            console.log('[FilteringAPICalls] callFilteringGroupAPI SUCCESS');
+            // console.log("result", result);
+            dispatch(getFilteringGroup(result));
         }
     };
 }
 
 
 
-// export const callFilteringsCreateAPI = ({ groupId }) => {
-//     console.log('[FilteringsAPICalls] callFilteringsCreateAPI Call');
-//
-//     const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/admin/filtering`;
-//
-//     return async (dispatch, getState) => {
-//         const result = await fetch(requestURL, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Accept: '*/*',
-//                 // Authorization:
-//                 //     'Bearer ' + window.localStorage.getItem('accessToken')
-//             },
-//             body: JSON.stringify([{
-//                 filteringId: groupId.filteringId,
-//                 groupId: groupId,
-//                 videoId: groupId.videoId,
-//                 keyword: groupId.keyword,
-//                 isActive: groupId.isActive
-//             },
-//             ])
-//         }).then((response) => response.json());
-//
-//         console.log('[FilteringsAPICalls] callFilteringsCreateAPI RESULT : ', result);
-//
-//         dispatch({ type: POST_FILTERINGS, payload: result });
-//     };
-// };
 
-export const callFilteringGroupCreateAPI = ({ form }) => {
-    console.log('[FilteringAPICalls] callFilteringGroupCreateAPI Call');
-
-    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8000/admin/filtering/create`;
-
-    return async (dispatch, getState) => {
-        const result = await fetch(requestURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: '*/*',
-                // Authorization:
-                //     'Bearer ' + window.localStorage.getItem('accessToken')
-            },
-            body: JSON.stringify({
-                // groupId: form.groupId,
-                title: form.title,
-                content: form.content
-            })
-        }).then((response) => response.json());
-
-        console.log('[FilteringAPICalls] callFilteringGroupCreateAPI RESULT : ', result);
-
-        dispatch({ type: POST_FILTERINGGROUP, payload: result });
-    };
-};
