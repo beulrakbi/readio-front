@@ -54,6 +54,7 @@ import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
 
 
+
 function App() {
   return (
     <>
@@ -76,10 +77,11 @@ function App() {
             </Route>
             <Route path="bookPage" element={<BookPage />} />
             <Route path="/notice" element={<NoticeList />} />
-            <Route path="/notice/detail" element={<NoticeDetail />} />
+            <Route path="/notice/detail/:noticeId" element={<NoticeDetail />} />
             <Route path="/qna" element={<QnaList />} />
-            <Route path="/qna/detail" element={<QnaDetail />} />
+            <Route path="/qna/detail/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/writing" element={<QnaWriting />} />
+            <Route path="/qna/writing/:qnaId" element={<QnaWriting />} /> 
             <Route path="/faq" element={<Faq />} />
             <Route path="/bookmark" element={<Bookmark />} />
             <Route path="/notice" element={<Search />} />
@@ -119,7 +121,7 @@ function App() {
             <Route path="/admin/notice/edit/:noticeId" element={<AdminNoticeWriting />} />
             <Route path="/admin/qna" element={<AdminQnaList />} />
             <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
-            <Route path="/admin/qna/detail" element={<AdminQnaDetail />} />
+            <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail />} />
             <Route path="/admin/interest" element={< AdminInterestManager />} />
           </Route>
         </Routes>

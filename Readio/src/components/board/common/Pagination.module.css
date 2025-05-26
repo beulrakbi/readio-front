@@ -1,3 +1,14 @@
-.pagingbox{
-    text-align: center;
+.pagingbox {
+    text-align: center; /* 가운데 정렬 */
 }
+
+.num {
+    display: inline-block; /* 버튼도 인라인처럼 보이게 */
+    margin: 0 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+}
+
