@@ -4,7 +4,7 @@ import {callTopVideosAPI, callVideoInsertAPI, callVideosAPI} from "./VideoAPICal
 
 export async function getVideosByKeyword(type, keyword, dispatch) {
 
-    if (type == "연예인") {
+    if (type == "celeb") {
         const keywordArray = keyword.split(" ");
         keyword = keywordArray[0];
     }
@@ -31,7 +31,7 @@ export async function getNewVideos(type, keyword, dispatch, num) {
 
     if (maxResult <= num) return null; else {
 
-        if (type === "연예인") {
+        if (type === "celeb") {
             keyword = keyword + '|낭독|리뷰'
         }
         maxResult = maxResult - num;

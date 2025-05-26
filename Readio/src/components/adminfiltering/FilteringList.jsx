@@ -27,7 +27,7 @@ function FilteringList()
     useEffect(() => {
         setStart((currentPage - 1) * 5);
         dispatch(callFilteringGroupsAPI({currentPage: currentPage}));
-    }, [currentPage, filteringGroupList]);
+    }, [currentPage]);
 
     const onClickFilteringGroupHandler = (groupId) => {
         navigate(`/admin/filtering/${groupId}`);

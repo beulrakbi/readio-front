@@ -1,4 +1,5 @@
 import {
+    deleteFilteringGroup,
     getFilteringGroup,
     getFilteringGroups,
     postFilteringGroup,
@@ -92,6 +93,25 @@ export const callFilteringGroupUpdateAPI = ({ final }) => {
 
         console.log('[FilteringAPICalls] callFilteringGroupUpdateAPI RESULT : ', result);
         dispatch(putFilteringGroup(result));
+    };
+}
+
+export const callFilteringGroupDeleteAPI = ({groupId}) => {
+    console.log('[FilteringAPICalls] callFilteringGroupDeleteAPI Call');
+
+    const requestURL = `http://localhost:8080/admin/filtering/${groupId}`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            }
+        }).then((response) => response.json());
+
+        console.log('[FilteringAPICalls] callFilteringGroupDeleteAPI RESULT : ', result);
+        dispatch(deleteFilteringGroup(result));
     };
 }
 

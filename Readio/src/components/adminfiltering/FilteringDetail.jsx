@@ -2,7 +2,11 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import FListCSS from './Filtering.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {callFilteringGroupActiveStateUpdateAPI, callFilteringGroupAPI} from "../../apis/FilteringAPICalls.js";
+import {
+    callFilteringGroupActiveStateUpdateAPI,
+    callFilteringGroupAPI,
+    callFilteringGroupDeleteAPI
+} from "../../apis/FilteringAPICalls.js";
 
 function FilteringDetail()
 {
@@ -25,6 +29,15 @@ function FilteringDetail()
         }
     }
 
+    const onClickDelete = () => {
+        if (confirm('삭제하시겠습니까?'))
+        {
+            dispatch(callFilteringGroupDeleteAPI({groupId:param.groupId}));
+            navigate(`/admin/filtering`);
+        }
+    }
+
+
     return (
         <div className={FListCSS.container}>
             <div className={FListCSS.fontContainer}>
@@ -32,7 +45,7 @@ function FilteringDetail()
                 <div className={FListCSS.buttonDiv}>
                     <p className={FListCSS.font2} onClick={onClickChangeActiveState}>{data?.filteringGroup?.isActive == "Y" ? "비활성화" : "활성화"}</p>
                     <p className={FListCSS.font2} onClick={() => navigate(`/admin/filtering/${data.filteringGroup.groupId}/edit`)}>수정</p>
-                    <p className={FListCSS.font2}>삭제</p>
+                    <p className={FListCSS.font2} onClick={onClickDelete}>삭제</p>
                 </div>
             </div>
             <hr className={FListCSS.filteringLine}/>

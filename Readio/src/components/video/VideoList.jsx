@@ -15,10 +15,11 @@ function VideoList({type})
     let keyword = null;
 
     useEffect(() => {
-        const getVideosInDB = async () => {
+        const getVideos = async () => {
             const keywords = await fetch(`http://localhost:8080/curation/${type}`)
                 .then(response => response.json())
                 .then(response => response.data);
+            console.log(keywords);
             if (keywords.length > 0) {
                 const allVideosInDB = [];
                 const allVideos = [];
@@ -45,16 +46,16 @@ function VideoList({type})
                 setVideoList(allVideos)
             }
         }
-        getVideosInDB();
+        getVideos();
     }, [type]);
 
     let videoListTitle;
 
-    if (type === "연예인")
+    if (type === "celeb")
         videoListTitle = "💫연예인 작가 모음🎵";
-    else if (type === "독서방법")
+    else if (type === "habit")
         videoListTitle = "👓독서 꿀팁 및 독서 방법 모음📕";
-    else if (type === "굿즈")
+    else if (type === "goods")
         videoListTitle = "💸독서 꿀템 및 악세사리 굿즈 모음🎁";
 
 
