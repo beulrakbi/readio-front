@@ -35,7 +35,7 @@ export const callSearchVideosAPI = ({search}) => {
             }
         }).then((response) => response.json());
 
-        console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
+        // console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
         if (result.status === 200) {
             // console.log('[VideoAPICalls] callVideosAPI SUCCESS');
             dispatch(getVideos(result));
@@ -80,9 +80,9 @@ export const callVideoInsertAPI = ({form}) => {
             body: JSON.stringify(form)
         }).then((response) => response.json());
 
-        console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
+        // console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
         if (result.status === 200) {
-            console.log('[VideoAPICalls] callVideosAPI SUCCESS');
+            // console.log('[VideoAPICalls] callVideosAPI SUCCESS');
             dispatch(postVideo(form));
         }
     };

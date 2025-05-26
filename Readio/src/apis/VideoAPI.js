@@ -4,7 +4,7 @@ import {callSearchVideosAPI, callTopVideosAPI, callVideoInsertAPI, callVideosAPI
 
 export async function getVideosByKeyword(type, keyword, dispatch) {
 
-    if (type == "celeb") {
+    if (type == "1") {
         const keywordArray = keyword.split(" ");
         keyword = keywordArray[0];
     }
@@ -38,7 +38,7 @@ export async function getNewVideos(type, keyword, dispatch, num) {
 
     if (maxResult <= num) return null; else {
 
-        if (type === "celeb") {
+        if (type === "1") {
             keyword = keyword + '|낭독|리뷰'
         }
         maxResult = maxResult - num;
