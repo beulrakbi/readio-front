@@ -33,7 +33,7 @@ function Join() {
     const [isBirthday, setIsBirthday] = React.useState(false);
 
     const [isIdChecked, setIsIdChecked] = useState(false);
-    const [isEmailChecked, setIsEmailCheckd] = useState(false);
+    const [isEmailChecked, setIsEmailChecked] = useState(false);
     const [isPhoneChecked, setIsphoneChecked] = useState(false);
 
 
@@ -222,12 +222,12 @@ function Join() {
             if (response.data.exist) {
                 setEmailMessage("이미 사용중인 이메일입니다.")
                 setIsEmail(false);
-                setIsEmailCheckd(false);
+                setIsEmailChecked(false);
 
             } else {
                 setEmailMessage("사용 가능한 이메일입니다.")
                 setIsEmail(true);
-                setIsEmailCheckd(true);
+                setIsEmailChecked(true);
 
             }
         } catch (error) {   // 배포할땐 error변수를 _ 로 바꿀 것
@@ -235,7 +235,7 @@ function Join() {
 
             setEmailMessage("중복확인 중 오류가 발생했습니다.")
             setIsEmail(false);
-            setIsEmailCheckd(false);
+            setIsEmailChecked(false);
         }
     }
 
