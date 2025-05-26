@@ -8,7 +8,6 @@ export async function getVideosByKeyword(type, keyword, dispatch) {
         const keywordArray = keyword.split(" ");
         keyword = keywordArray[0];
     }
-
     let result = await dispatch(callVideosAPI({search: keyword}));
 
     if (result) {
@@ -109,7 +108,6 @@ export async function searchNewVideos(keyword, dispatch, num) {
         }
     }
 }
-
 
 // export function getVideos(keywords, keywordsToDelete)
 // {

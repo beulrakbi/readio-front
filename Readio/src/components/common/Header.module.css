@@ -6,6 +6,7 @@ html, body, #root {
 }
 
 .headerDiv {
+    font-family: 'Pretendard Variable', sans-serif;
     width: 100%;
     height: 60px;
     background-color: #808467;
@@ -66,6 +67,7 @@ html, body, #root {
 .headerLogin {
     width: auto; /* 고정 너비 대신 내용에 맞게 조정 */
     display: flex;
+    gap: 2px;
 }
 
 .headerLoginBt {
@@ -76,6 +78,13 @@ html, body, #root {
     width: 70px;
     border-radius: 5px;
     cursor: pointer;
+
+    /* 헤더 버튼->NavLink 변경으로 인해 스타일 추가 */
+    display: inline-flex;        /* 버튼처럼 정렬 */
+    align-items: center;         /* 텍스트 수직 중앙 정렬 */
+    justify-content: center;     /* 텍스트 중앙 정렬 */
+    text-decoration: none;       /* 밑줄 제거 */
+    cursor: pointer;             /* 손가락 커서 */
 }
 
 .headerlibraryBt {
@@ -98,4 +107,15 @@ html, body, #root {
     flex-direction: row;
     position: relative; /* absolute 대신 relative로 변경 */
     margin-right: 2%; /* 오른쪽 여백 추가 */
+}
+
+/* 5.10 헤더 로고 정중앙 설정 (보경)*/
+.headerLogo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    background-color: transparent;
+    margin: auto;
+    cursor: pointer;
 }

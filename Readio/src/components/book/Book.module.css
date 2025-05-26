@@ -1,0 +1,181 @@
+.BookP {
+    display: flex;
+    align-items: center;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    /* unicode-bidi: isolate; */
+}
+
+.bookPage {
+    width:100vw;
+    height: auto;
+    font-family: 'Pretendard';
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+}
+
+.bookSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.aladin
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin-top: 85px; */
+    /* margin-left: 145px; */
+        justify-content: center;
+
+}
+
+.bookCover {
+    border-radius: 10px;
+    width:368px;
+    height:524px;
+}
+
+.bookInfo {
+    display: flex;
+    flex-direction: column;
+    margin-top:85px;
+    margin-left:30px;
+}
+
+.bookTitle {
+    font-size:25px;
+    font-weight: 800;
+}
+
+.reviewAndBookmark {
+    font-size:15px;
+    font-weight:300;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+        display: flex;
+    align-items: center;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+
+}
+
+.infoBold {
+    font-size: 18px;
+    font-weight: 600;
+    gap:5px;
+        display: flex;
+    align-items: center;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+
+}
+
+.infoLight {
+    font-size: 18px;
+    font-weight: 200;
+        display: flex;
+    align-items: center;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+
+}
+
+.infoLight2 {
+    font-size: 12px;
+    font-weight: 200;
+        display: flex;
+    align-items: center;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+
+}
+
+.buttonNone {
+    all: unset;
+    cursor: pointer;
+}
+
+.bookmarkImg {
+    width:15px;
+    height: auto;
+}
+
+.bookDescription {
+    width:700px;
+    height:100px;
+    margin-bottom:50px;
+}
+
+.more {
+    width:700px;
+    height:50px;
+    background-color: #808467;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* 비디오부분 */
+
+.videoContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top:10px;
+    margin-bottom:10px;
+    align-items: center;
+}
+
+.videoInnerContainer
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.videoInnerContainer > div:hover{
+    background-color: RGB(0,0,0,0.2);
+}
+
+.line {
+    width:800px;
+    height:1px;
+    background-color: #808467;
+}
+
+.videoList {
+    max-width:650px;
+    height:200px;
+    display:flex;
+    gap: 15px;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.video {
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.scrollButton {
+    all: unset;
+    margin:5px;
+    cursor: pointer;
+}
+
+.scrollButton :hover {
+    filter: brightness(2.0);
+}

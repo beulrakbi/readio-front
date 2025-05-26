@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import bell from '../../assets/alarm.png';
 import logo from '../../assets/Logo.png';
 import navBar from '../../assets/NavBar.png';
@@ -31,21 +31,28 @@ function Header({toggleNav}) {
 
     const onEnterkeyHandler = (e) => {
         if (e.key == 'Enter') {
+
+            if(!search.trim()) return; // 빈 검색어 방지
+
             console.log('Enter key', search);
 
             // navigate(`/search?value=${search}`, {replace: false});
-            navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
+            // navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
 
             // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
-            
+            navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`); 
+                        
             window.location.reload();
         }
     };
 
     const onSearchClickHandler = () => { // 함수 추가함
-        navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
+        // navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
+
+        if(!search.trim()) return; // 빈 검색어 방지
 
         // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
+        navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`); 
 
         window.location.reload();
     }
@@ -77,9 +84,9 @@ function Header({toggleNav}) {
     function BeforeLogin() {
         return (
             <div className={HeaderCSS.headerLogin}>
-                <button className={HeaderCSS.headerLoginBt}>로그인</button>
+                <NavLink to="/users/login" className={HeaderCSS.headerLoginBt}>로그인</NavLink>
                 &nbsp;
-                <button className={HeaderCSS.headerLoginBt}>회원가입</button>
+                <NavLink to="/users/join" className={HeaderCSS.headerLoginBt}>회원가입</NavLink>
             </div>
         );
     }

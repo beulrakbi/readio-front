@@ -1,43 +1,152 @@
-import PostWritingPhoto from '../../assets/PostWritingPhoto.png';
-import PostWritingSize from '../../assets/PostWritingSize.png';
-import PostWritingAlign from '../../assets/PostWritingAlign.png';
-import PostWritingBook from '../../assets/PostWritingBook.png';
-import PostWritingCSS from './PostWriting.module.css';
-
+// src/components/PostWriting.js
+import { useRef, useState } from 'react';
+import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
+import PostWritingBookIcon from '../../assets/PostWritingBook.png';
+import PostCSS from './Post.module.css';
+import PostWritingBook from './PostWritingBook';
 
 function PostWriting() {
-    return (
-        <div className={PostWritingCSS.postWritingDiv}>
-            <div className={PostWritingCSS.iconDiv}>
-                <button type='button' className={PostWritingCSS.iconBt}
-                        onClick={''}>
-                    <img src={PostWritingPhoto} className={PostWritingCSS.icon}/>
-                </button>
-                <button className={PostWritingCSS.iconBt}>
-                    <img src={PostWritingSize} className={PostWritingCSS.icon}/>
-                </button>
-                <button className={PostWritingCSS.iconBt}>
-                    <img src={PostWritingAlign} className={PostWritingCSS.icon}/>
-                </button>
-                <button className={PostWritingCSS.iconBt}>
-                    <img src={PostWritingBook} className={PostWritingCSS.icon}/>
-                </button>
-                <button className={PostWritingCSS.postbt}>등록</button>
-            </div>
-            <input
-                name='postTitle'
-                placeholder='제목을 입력해주세요.'
-                className={PostWritingCSS.postTitle}
+    const fileInputRef = useRef(null);
+    const textareaRef = useRef(null);
 
-            />
-            <textarea
-                name='PostContent'
-                placeholder='내용을 입력해주세요.'
-                className={PostWritingCSS.postContent}
-            >
-            </textarea>
+    const [image, setImage] = useState(null);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+
+    const [selectedBook, setSelectedBook] = useState(null);
+    const [isBookSearchOpen, setIsBookSearchOpen] = useState(false);
+
+    /* 책 검색 */
+    const handleToggleBookSearch = () => {
+        setIsBookSearchOpen(prev => !prev);
+    };
+    /* 책 등록 */
+    const handleBookSelectFromSearch = (book) => {
+        setSelectedBook(book);
+        setIsBookSearchOpen(false);
+    };
+
+    /* 등록 책 삭제 */
+    const removeSelectedBook = () => {
+        setSelectedBook(null);
+    };
+
+    /* 텍스트 창 자동 커짐짐*/
+    const handleTextareaInput = (e) => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+        setContent(e.target.value);
+    };
+
+    /* 이미지 업로드 */
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const previewUrl = URL.createObjectURL(file);
+            setImage({ file, previewUrl });
+            e.target.value = '';
+        }
+    };
+
+    /* 이미지 삭제 */
+    const removeImage = () => {
+        setImage(null);
+    };
+
+    /* 게시글 등록 */
+    const handleSubmit = () => {
+        const postData = {
+            title,
+            content,
+            imageFile: image ? image.file : null,
+            bookInfo: selectedBook,
+        };
+        console.log("등록할 데이터:", postData);
+        alert("게시글 등록 로직을 여기에 구현합니다.");
+    };
+
+    return (
+        <div className={PostCSS.postWritingDiv}>
+            <div className={PostCSS.iconDiv}>
+                <button type="button" className={PostCSS.iconBt} onClick={() => fileInputRef.current.click()}>
+                    <img src={PostWritingPhotoIcon} className={PostCSS.icon} alt="Upload Photo" />
+                </button>
+                {/* <button type="button" className={PostCSS.iconBt}>
+                    <img src={PostWritingSizeIcon} className={PostCSS.icon} alt="Adjust Size" />
+                </button>
+                <button type="button" className={PostCSS.iconBt}>
+                    <img src={PostWritingAlignIcon} className={PostCSS.icon} alt="Adjust Align" />
+                </button> */}
+                <button type="button" className={PostCSS.iconBt} onClick={handleToggleBookSearch}>
+                    <img src={PostWritingBookIcon} className={PostCSS.icon} alt="Search Book" />
+                </button>
+                <button type="button" className={PostCSS.postbt} onClick={handleSubmit}>등록</button>
+            </div>
+
+            <div className={PostCSS.postContentDiv}>
+                <input
+                    name='postTitle'
+                    placeholder='제목을 입력해주세요.'
+                    className={PostCSS.postTitle}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+                <textarea
+                    name="PostContent"
+                    placeholder="내용을 입력해주세요."
+                    className={PostCSS.postContent}
+                    ref={textareaRef}
+                    value={content}
+                    onInput={handleTextareaInput}
+                    maxLength={2500}
+                />
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                />
+
+                {image && (
+                    <div className={PostCSS.imagePreview}>
+                        <img src={image.previewUrl} alt="미리보기" className={PostCSS.imagePreviewImg} />
+                        <button type="button" className={PostCSS.removeBtn} onClick={removeImage}>X</button>
+                    </div>
+                )}
+
+                {selectedBook && (
+                    <div className={PostCSS.selectedBookPreview}>
+                        <img
+                            src={selectedBook.coverUrl || '기본표지경로.png'}
+                            alt={selectedBook.title}
+                            className={PostCSS.selectedBookCover}
+                        />
+                        <div className={PostCSS.selectedBookInfo}>
+                            <p className={PostCSS.selectedBookTitle} dangerouslySetInnerHTML={{ __html: selectedBook.title }}></p>
+                            <p className={PostCSS.selectedBookAuthor}>{selectedBook.author} </p>
+                            {selectedBook.publisher && <p className={PostCSS.selectedBookPublisher}>출판사 : {selectedBook.publisher}</p>}
+                        </div>
+                        <button type="button" className={PostCSS.removeSelectedBookBtn} onClick={removeSelectedBook}>X</button>
+                    </div>
+                )}
+            </div>
+
+            {isBookSearchOpen && (
+                <div className={PostCSS.bookSearchModalOverlay}>
+                    <PostWritingBook
+                        onBookSelect={handleBookSelectFromSearch}
+                        onClose={() => setIsBookSearchOpen(false)}
+                        PostCSS={PostCSS}
+                    />
+                </div>
+            )}
         </div>
-    )
+    );
 }
 
 export default PostWriting;

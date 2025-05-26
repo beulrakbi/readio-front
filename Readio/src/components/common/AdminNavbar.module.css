@@ -1,13 +1,24 @@
-html, body, #root{
-     width: 100%;
-     height: 100%;
-     margin: 0;
-     padding: 0;
-     font-family: 'Pretendard'; 
+
+.Navbar {
+     position: relative;
+     max-width: 285px;
+     min-width: 285px;
+     color: #F6EEB6;
+     background-color: #383838;
+     display: flex;
+     flex-direction: column;
+     top:0;
+}
+
+.buttonBox {
+     display: flex;
+     align-items: center;
+     flex-direction: column;
+     margin: 20px;
 }
 
 .Logo {
-     text-align: center;
+     margin-top: 20px;
      width: 135px;
      height: 70px;
 }
@@ -17,50 +28,51 @@ html, body, #root{
      text-align: center;
      border: 1.5px solid #f6efb66b;
      border-radius: 5px;
-     width : 75px;
+     width: 75px;
      height: 30px;
      color: #F6EEB6;
      background-color: #383838;
      font-size: 15px;
-     margin : 15px 0;
+
+     /* 5.15 추가 (보경) */
+     display: flex;
+     text-decoration: none;
+     justify-content: center;
 }
 
-.Navbar {
-     width: 15%;
-     height: 100vh;
+.Nav {
      display: flex;
      flex-direction: column;
-     text-align: center;
+     align-items: left;
 }
 
-.Nav{
-     width: 100%;
-     height: 80%;
-     padding: 80px 0 0 0;
+.adminNavBarHr {
+     border: none;
+     width: 285px;
+     height: 1px;
+     background-color: #5B5B5B;
+     margin: 10px 0;
+}
+
+.text1 {
+     font-size: 18px;
+     font-weight: 600;
      color: #F6EEB6;
-     background-color: #383838;
+     margin-top: 5px;
+     margin-bottom: 5px;
+     margin-left: 20px;
 }
 
-.NavbarBox {
-     width: 100%;
-     height: 20%;
-     background-color: #AF4C3F;
-}
-
-hr {
-     border: none; 
-     height: 1px; 
-     background-color: #5B5B5B; 
-     margin: 15px 0; 
-}
-
-ul , li {
-     text-align: left;
-     font-size: 15px;
-}
-
-li {
-     margin : 15px 0 0 25px;
+.text2 {
+     all: unset;
+     display: block;
+     font-size: 18px;
+     font-weight: 600;
+     color: #F6EEB6;
      cursor: pointer;
+     padding: 5px 10px 5px 30px;
 }
 
+.text2:hover {
+     background-color: #5B5B5B;
+}

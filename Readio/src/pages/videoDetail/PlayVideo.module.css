@@ -17,7 +17,7 @@
 .videoTitle {
      width: 70vh;
      font-size: 18px;
-     font-weight: 800;
+     font-weight: 750;
      margin: 10px auto;
 }
 
@@ -28,9 +28,14 @@
      display: flex;
 }
 
+.channelName {
+     font-weight: 450;
+}
+
 .BookMark {
      margin : 0 50px;
      display: flex;
+     font-weight: 350;
 }
 
 .bookmark { /* 북마크 그림 */
@@ -45,9 +50,7 @@
      font-size: 12px;
      color:  rgb(66, 66, 66);
      border-radius: 5px;
+     padding: 10px;
 }
 
-.videoDetail > p {
-     padding : 10px;
-}
 

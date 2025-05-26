@@ -7,7 +7,7 @@ import LayoutCSS from "./Layout.module.css";
 
 function Layout()
 {
-    const [navOpen, setNavOpen] = useState(false);
+    const [navOpen, setNavOpen] = useState (false);
 
     return(
         <>

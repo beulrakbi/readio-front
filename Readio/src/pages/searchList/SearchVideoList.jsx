@@ -11,7 +11,6 @@ import VIdeoInDB from "../../components/video/VIdeoInDB.jsx";
 
 function SearchVideoList() {
 
-
     const [videoList, setVideoList] = useState([]);
     const [videoInDBList, setVideoInDBList] = useState([]);
 
