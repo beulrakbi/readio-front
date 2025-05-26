@@ -6,7 +6,7 @@ import LoginCSS from './Login.module.css';
 const Login = () => {
     const [formData, setFormData] = useState({
         username: '',
-        password: '',
+        password: ''
     });
 
     const handleChange = (e) => {
@@ -17,11 +17,67 @@ const Login = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
+        try {
+            const response = await fetch("http://localhost:8080/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData),
+                credentials: "include" // 쿠키를 포함하여 요청
+            });
+
+            if (!response.ok) {
+                throw new Error("로그인 실패");
+            }
+
+            const data = await response.json();
+
+            localStorage.setItem("accessToken", data.accessToken);
+
+            window.location.href = "/";
+
+        } catch (error) {
+            alert("로그인에 실패했습니다.");
+            console.log(error);
+        }
         console.log(formData);
     };
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         const response = await fetch("http://localhost:8080/users/login", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify(formData),
+    //             credentials: "include"
+    //         });
+
+    //         if (!response.ok) {
+    //             throw new Error("로그인 실패");
+    //         }
+
+    //         const data = await response.json();
+
+    //         localStorage.setItem("accessToken", data.accessToken);
+
+    //         window.location.href = "/";
+
+    //     } catch (error) {
+    //         alert("로그인에 실패했습니다.");
+    //         console.log(error);
+    //     }
+    // };
+
+
 
     return (
 
