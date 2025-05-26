@@ -40,7 +40,7 @@ function Header({ toggleNav }) {
 
             // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
 
-            window.location.reload();
+            // window.location.reload();
         }
     };
 
@@ -49,7 +49,7 @@ function Header({ toggleNav }) {
 
         // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
 
-        window.location.reload();
+        // window.location.reload();
     }
 
 
@@ -79,7 +79,7 @@ function Header({ toggleNav }) {
         dispatch(logout());
 
         navigate('/', { replace: true });
-        window.location.reload();
+        // window.location.reload();
     };
 
     function BeforeLogin() {
