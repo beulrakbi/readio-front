@@ -1,7 +1,18 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './UserEdit.module.css';
+import { useEffect } from 'react';
 
 function UserEdit() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const isPasswordVerified = localStorage.getItem('isPasswordVerified');
+        if (isPasswordVerified !== 'true') {
+            // 비밀번호가 검증되지 않은 경우, 비밀번호 확인 페이지로 리다이렉트
+            navigate('/users/verifypwd');
+        }
+    }, [navigate])
 
     return (
         <div className={styles.UserEditPage}>
