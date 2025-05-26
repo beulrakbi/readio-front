@@ -38,6 +38,9 @@ const Login = () => {
             const data = await response.json();
 
             localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("userID", data.userId); // 로그인한 사용자 ID 저장
+            localStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
+            localStorage.setItem("isPasswordVerified", "true"); // 비밀번호 검증 플래그 설정
 
             window.location.href = "/";
 

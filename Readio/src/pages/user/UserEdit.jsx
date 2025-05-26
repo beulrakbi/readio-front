@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './UserEdit.module.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function UserEdit() {
@@ -33,6 +33,7 @@ function UserEdit() {
 
             axios.get(`/users/edit?userId=${userId}`)
                 .then(response => {
+                    console.log("회원정보 불러오기 성공", response.data);
                     const data = response.data;
                     setFormData(prev => ({
                         ...prev,
@@ -49,7 +50,7 @@ function UserEdit() {
         }
     }, [navigate])
 
-    const onChaneHandler = (e) => {
+    const onChangeHandler = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
@@ -103,7 +104,7 @@ function UserEdit() {
                         type="text"
                         name="userName"
                         value={formData.userName}
-                        onChange={onChaneHandler}
+                        onChange={onChangeHandler}
                         placeholder="이름을 입력하세요"
                         required
                     />
@@ -126,7 +127,7 @@ function UserEdit() {
                         type="password"
                         name="userPwd"
                         value={formData.userPwd}
-                        onChange={onChaneHandler}
+                        onChange={onChangeHandler}
                         placeholder="비밀번호 입력"
                         required
                     />
@@ -138,7 +139,7 @@ function UserEdit() {
                         type="password"
                         name="userPwdConfirm"
                         value={formData.userPwdConfirm}
-                        onChange={onChaneHandler}
+                        onChange={onChangeHandler}
                         placeholder="비밀번호 확인"
                         required
                     />
@@ -150,7 +151,7 @@ function UserEdit() {
                         type="email"
                         name="userEmail"
                         value={formData.userEmail}
-                        onChange={onChaneHandler}
+                        onChange={onChangeHandler}
                         placeholder="이메일 입력"
                         required
                     />
@@ -163,7 +164,7 @@ function UserEdit() {
                         type="tel"
                         name="userPhone"
                         value={formData.userPhone}
-                        onChange={onChaneHandler}
+                        onChange={onChangeHandler}
                         placeholder="휴대폰 번호 입력"
                         required
                     />
@@ -176,7 +177,7 @@ function UserEdit() {
                     type="date"
                     name="userBirthday"
                     value={formData.userBirthday}
-                    onChange={onChaneHandler}
+                    onChange={onChangeHandler}
                     required
                     />
                 </div>
@@ -194,7 +195,7 @@ function UserEdit() {
             </section>
 
             <div className={styles.submitBtnWrap}>
-                <button type="submit" className={styles.cancelBtn}>취소</button>
+                <button type="button" className={styles.cancelBtn}>취소</button>
                 <button type="submit" className={styles.submitBtn}>수정</button>
             </div>
         </div>

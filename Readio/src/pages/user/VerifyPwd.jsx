@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './VerifyPwd.module.css';
 import axios from 'axios';
@@ -7,20 +7,41 @@ import axios from 'axios';
 function VerifyPwd() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const userId = localStorage.getItem('loginUserId');
+    console.log("loginUserId", localStorage.getItem('loginUserId'));
+    console.log("userId", userId);
+
+    useEffect(() => {
+        if (!userId) {
+            alert('로그인이 필요합니다.');
+            navigate('/users/login');
+        }
+    }, [userId, navigate]);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-
+        if (!password) {
+            alert("비밀번호를 입력하세요");
+            return;
+        }
+        console.log("비밀번호 확인 요청 전")
         try {
             // 예시: 비밀번호 검증 API 호출 (백엔드에 맞게 URL과 요청 데이터 조정 필요)
-            await axios.post('/users/verifypwd', { password });
+            const response = await axios.post('http://localhost:8080/users/verifypwd', { userId, password }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 토큰 인증 헤더 추가
+                }
 
+            });
+            console.log("비밀번호 확인 요청 후", response.data);
             // 성공하면 로컬스토리지에 인증 플래그 저장
             localStorage.setItem('isPasswordVerified', 'true');
 
             // 회원정보 수정 페이지로 이동
             navigate('/users/edit');
         } catch (error) {
+            console.error("비밀번호 확인 실패:", error);
             alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.');
         }
     };
@@ -57,5 +78,5 @@ function VerifyPwd() {
             </section>
         </div>
     );
-} 
+}
 export default VerifyPwd;
