@@ -47,14 +47,13 @@ const ProfileSection = () => {
         <div className={styles.profileSectionWrapper}>
             <div
                 className={styles.profileCard}
-                onClick={() => isOwner && navigate('/mylibrary/profile')}
-                style={{ cursor: isOwner ? 'pointer' : 'default' }}
             >
                 <div className={styles.profileImageWrapper}>
                     <img src={profile.imageUrl ? `http://localhost:8080${profile.imageUrl}` : defaultImg} className={styles.profileImage} />
 
                     {isOwner && (
-                        <img src={pencilIcon} className={styles.editIcon} alt="편집" />
+                        <img src={pencilIcon} className={styles.editIcon} alt="편집"  onClick={() => isOwner && navigate('/mylibrary/profile')}
+                             style={{ cursor: isOwner ? 'pointer' : 'default' }}/>
                     )}
                 </div>
 
