@@ -51,11 +51,8 @@ const ProfileSection = () => {
                 style={{ cursor: isOwner ? 'pointer' : 'default' }}
             >
                 <div className={styles.profileImageWrapper}>
-                    <img
-                        src={profile.imageUrl ? `http://localhost:8080${profile.imageUrl}` : defaultImg}
-                        className={styles.profileImage}
-                        alt="프로필"
-                    />
+                    <img src={profile.imageUrl ? `http://localhost:8080${profile.imageUrl}` : defaultImg} className={styles.profileImage} />
+
                     {isOwner && (
                         <img src={pencilIcon} className={styles.editIcon} alt="편집" />
                     )}
