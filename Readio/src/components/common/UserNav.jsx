@@ -18,7 +18,7 @@ function UserNav({ isOpen }) {
                     <div className={UserNavCSS.naviLink}>
                         {isLogin && (
                             <>
-                                <NavLink to="/users/edit" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
+                                <NavLink to="/users/verifypwd" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
                             </>
 
                         )}

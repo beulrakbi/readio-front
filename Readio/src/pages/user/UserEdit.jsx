@@ -57,7 +57,7 @@ function UserEdit() {
         }));
     };
 
-    const onSubmitHandler = (e) => {
+    const onSubmitHandler = async (e) => {
         e.preventDefault();
 
         if (formData.userPwd !== formData.userPwdConfirm) {
