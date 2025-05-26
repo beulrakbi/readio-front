@@ -1,10 +1,10 @@
-import {useEffect, useRef, useState} from 'react';
-import {getTopVideos, getVideosTest} from '../../apis/VideoAPI';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from "react-redux";
+import { getTopVideos } from '../../apis/VideoAPI';
 import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
 import AdminMainCSS from './adminmain.module.css';
 import TopVideo from './TopVideo';
-import {useDispatch} from "react-redux";
 
 
 function TopVideos() {
