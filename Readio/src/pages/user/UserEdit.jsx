@@ -1,18 +1,91 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './UserEdit.module.css';
 import { useEffect } from 'react';
+import axios from 'axios';
 
 function UserEdit() {
 
     const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        userId: '',
+        userName: '',
+        userPwd: '',
+        userPwdConfirm: '',
+        userEmail: '',
+        userPhone: '',
+        userBirthday: '',
+    });
 
     useEffect(() => {
         const isPasswordVerified = localStorage.getItem('isPasswordVerified');
         if (isPasswordVerified !== 'true') {
             // 비밀번호가 검증되지 않은 경우, 비밀번호 확인 페이지로 리다이렉트
             navigate('/users/verifypwd');
+        } else {
+            const userId = localStorage.getItem('loginUserId');
+            if (!userId) {
+                alert('로그인이 필요합니다.');
+                navigate('/users/login');
+                return;
+            }
+
+            setFormData(prev => ({ ...prev, userId }));
+
+            axios.get(`/users/edit?userId=${userId}`)
+                .then(response => {
+                    const data = response.data;
+                    setFormData(prev => ({
+                        ...prev,
+                        userName: data.userName || '',
+                        userEmail: data.userEmail || '',
+                        userPhone: data.userPhone || '',
+                        userBirthday: data.userBirthday || ''
+                    }));
+                })
+                .catch(() => {
+                    alert('회원정보를 불러오는 데 실패했습니다. 다시 시도해주세요.');
+                });
+
         }
     }, [navigate])
+
+    const onChaneHandler = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+
+        if (formData.userPwd !== formData.userPwdConfirm) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        try {
+            const submitData = {
+                userId: formData.userId,
+                userName: formData.userName,
+                userPwd: formData.userPwd,
+                userEmail: formData.userEmail,
+                userPhone: formData.userPhone,
+                userBirthday: formData.userBirthday,
+            };
+            const response = await axios.put('/users/edit', submitData);
+
+            if (response.status === 200) {
+                alert('회원정보가 성공적으로 수정되었습니다.');
+                navigate('/users/profile'); // 수정 후 프로필 페이지로 이동
+            } else {
+                alert('회원정보 수정에 실패했습니다. 다시 시도해주세요.');
+            }
+        } catch (error) {
+            console.error('회원정보 수정 중 오류 발생:', error);
+        }
+    };
 
     return (
         <div className={styles.UserEditPage}>
@@ -26,35 +99,88 @@ function UserEdit() {
 
                 <div className={styles.formGroup}>
                     <label>이름</label>
-                    <input type="text" placeholder="이름을 입력하세요" />
+                    <input
+                        type="text"
+                        name="userName"
+                        value={formData.userName}
+                        onChange={onChaneHandler}
+                        placeholder="이름을 입력하세요"
+                        required
+                    />
                 </div>
+
                 <div className={styles.formGroup}>
                     <label>아이디</label>
-                    <input type="text" placeholder="아이디를 입력하세요" />
+                    <input
+                        type="text"
+                        name="userId"
+                        value={formData.userId}
+                        readOnly
+                    />
                     {/* <button type="button" className={styles.checkBtn}>중복확인</button> */}
                 </div>
+
                 <div className={styles.formGroup}>
                     <label>비밀번호</label>
-                    <input type="password" placeholder="비밀번호 입력" />
+                    <input
+                        type="password"
+                        name="userPwd"
+                        value={formData.userPwd}
+                        onChange={onChaneHandler}
+                        placeholder="비밀번호 입력"
+                        required
+                    />
                 </div>
+
                 <div className={styles.formGroup}>
                     <label>비밀번호 확인</label>
-                    <input type="password" placeholder="비밀번호 확인" />
+                    <input
+                        type="password"
+                        name="userPwdConfirm"
+                        value={formData.userPwdConfirm}
+                        onChange={onChaneHandler}
+                        placeholder="비밀번호 확인"
+                        required
+                    />
                 </div>
+
                 <div className={styles.formGroup}>
                     <label>이메일</label>
-                    <input type="email" placeholder="이메일을 입력하세요" />
+                    <input
+                        type="email"
+                        name="userEmail"
+                        value={formData.userEmail}
+                        onChange={onChaneHandler}
+                        placeholder="이메일 입력"
+                        required
+                    />
                     <button type="button" className={styles.checkBtn}>중복확인</button>
                 </div>
+
                 <div className={styles.formGroup}>
                     <label>휴대폰 번호</label>
-                    <input type="phone" placeholder="휴대폰 번호 입력" />
+                    <input
+                        type="tel"
+                        name="userPhone"
+                        value={formData.userPhone}
+                        onChange={onChaneHandler}
+                        placeholder="휴대폰 번호 입력"
+                        required
+                    />
                     <button type="button" className={styles.checkBtn}>중복확인</button>
                 </div>
+
                 <div className={styles.formGroup}>
                     <label>생년월일</label>
-                    <input type="date" />
+                    <input 
+                    type="date"
+                    name="userBirthday"
+                    value={formData.userBirthday}
+                    onChange={onChaneHandler}
+                    required
+                    />
                 </div>
+
             </section>
 
             {/* 약관동의 */}
