@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import FilteringSlice from "./filtering/FilteringSlice.js";
-import userReducer from './logout/userReducer.js';
 import bookSearchSlice from "./postwriting/bookSearchSlice.js";
 import CurationSlice from "./video/CurationSlice.js";
 import videoSlice from "./video/VideoSlice.js";
+import userReducer from './user/userSlice.js';
 
 
 const rootReducers =  combineReducers(

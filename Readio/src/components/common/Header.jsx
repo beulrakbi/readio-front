@@ -1,20 +1,22 @@
 import { jwtDecode } from 'jwt-decode';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import bell from '../../assets/alarm.png';
 import logo from '../../assets/Logo.png';
 import navBar from '../../assets/NavBar.png';
 import searchIcon from '../../assets/search2.png';
-import { logout } from '../../modules/logout/userReducer';
+
 import HeaderCSS from './Header.module.css';
+import { loginSuccess, logout } from '../../modules/user/userSlice';
 
 function Header({ toggleNav }) {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
     // const loginMember = useEslector((state) => state.memberReducer);
-    const isLogin = window.localStorage.getItem('accessToken');
+    // const isLogin = window.localStorage.getItem('accessToken');
+    const isLogin = useSelector((state) => state.user.isLogin);
     const [search, setSearch] = useState('');
 
     const [searchType, setSearchType] = useState('video'); // 추가 
@@ -79,8 +81,30 @@ function Header({ toggleNav }) {
         dispatch(logout());
 
         navigate('/', { replace: true });
-        window.location.reload();
+        // window.location.reload();
     };
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            try {
+                const token = jwtDecode(accessToken);
+                if (token.exp * 1000 > Date.now()) {
+                    // 토큰이 유효할때 로그인 상태 유지
+                    dispatch(loginSuccess({ userId: token.sub }));
+                } else {
+                    console.log('토큰이 만료되었습니다.');
+                    dispatch(logout());  // 토큰 만료시 로그아웃 처리
+                }
+            } catch (error) {
+                console.error('토큰 파싱 실패:', error);
+                dispatch(logout());  // 토큰 파싱 실패시 로그아웃 처리
+            }
+        } else {
+            console.log('토큰 없음. 로그인 상태가 아닙니다.');
+            dispatch(logout());  // 토큰 없으면 로그아웃 처리
+        }
+    }, [dispatch])
 
     function BeforeLogin() {
         return (
@@ -146,11 +170,14 @@ function Header({ toggleNav }) {
                     <button className={HeaderCSS.headerAlarm}>
                         <img src={bell} />
                     </button>
-                    {isLogin == null || isLogin === undefined ? (
+                    {isLogin ? (<AfterLogin />) : (<BeforeLogin />)}
+
+                    {/* {isLogin == null || isLogin === undefined ? (
                         <BeforeLogin />
                     ) : (
                         <AfterLogin />
-                    )}
+                    )} */}
+
                 </div>
             </div>
         </>
