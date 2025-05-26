@@ -37,8 +37,6 @@ function SearchBookList() {
         fetchBooks();
     }, [query, dispatch]);
 
-
-
      // 검색하면 영상 검색 결과 리스트 뜨게 코드 작성....
      const onSearchChangeHandler = (e) => {
           setSearchVideo(e.target.value);
@@ -82,7 +80,6 @@ function SearchBookList() {
 
 
                    <div className={styles.container}>
-
                         {/* <div className={styles.SearchListTitle}># 키워드에 대한 검색 결과</div> */}
                         <div className={styles.SearchListTitle}>
                               {query ? `# ${query}에 대한 검색 결과` : '# 도서 전체 목록'}
@@ -121,5 +118,4 @@ function SearchBookList() {
           </>
      );
      }
-
 export default SearchBookList;
