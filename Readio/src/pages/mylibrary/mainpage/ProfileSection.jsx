@@ -4,6 +4,7 @@ import profileImg from '../../../assets/cat1.jpg';
 import pencilIcon from '../../../assets/pencil.png';
 import { useNavigate } from "react-router-dom";
 
+
 const ProfileSection = () => {
     const navigate = useNavigate();
     return (
