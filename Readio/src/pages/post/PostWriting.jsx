@@ -1,8 +1,6 @@
 // src/components/PostWriting.js
 import { useRef, useState } from 'react';
 import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
-import PostWritingSizeIcon from '../../assets/PostWritingSize.png';
-import PostWritingAlignIcon from '../../assets/PostWritingAlign.png';
 import PostWritingBookIcon from '../../assets/PostWritingBook.png';
 import PostCSS from './Post.module.css';
 import PostWritingBook from './PostWritingBook';
@@ -43,7 +41,7 @@ function PostWriting() {
         setContent(e.target.value);
     };
 
-    /* 이미지 업로드드 */
+    /* 이미지 업로드 */
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {

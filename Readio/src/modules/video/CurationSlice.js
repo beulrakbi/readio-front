@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { createSlice } from "@reduxjs/toolkit";
+=======
+import {createSlice} from "@reduxjs/toolkit";
+>>>>>>> ed0b1c798eb1e3b5fa11fec6c8e6cf895339cacb
 
 const initialState = {
     data: []

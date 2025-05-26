@@ -10,21 +10,31 @@
      font-weight: 600;
 }
 
-/*hr {*/
-/*     width : 80vh;*/
-/*     height: 1px;*/
-/*}*/
-
-.bookList {
-     padding: 20px 40px;
-     display: flex;
+.SearchbookListhr {
+     width : 90vh;
+     height: 1px;
 }
 
-.book {
-     width: 200px;
-     height: 200px;
-     background-color: #4f4f4f;
-     border-radius: 3px;
+
+.bookListHr {
+     width : 80vh;
+     height: 1px;
+}
+
+.bookList {
+     padding : 10px 30px;
+}
+
+.bookItem {
+     display: flex;
+     margin: 30px;
+}
+
+.book img{
+     width : 130px;
+     height : 200px;
+     border-radius: 5px;
+     box-shadow: 1px 1px 1px 1px #b0b0b0;
 }
 
 .bookInfo {

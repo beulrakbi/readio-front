@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { getNewVideos, getVideosByKeyword } from "../../apis/VideoAPI.js";
 import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
 import Video from "./Video";
-import VIdeoInDB from "./VIdeoInDB.jsx";
 import VideoListCSS from "./videoList.module.css";
+import {getNewVideos, getVideosByKeyword} from "../../apis/VideoAPI.js";
+import {useDispatch} from "react-redux";
+import VIdeoInDB from "./VIdeoInDB.jsx";
 
 function VideoList({type})
 {

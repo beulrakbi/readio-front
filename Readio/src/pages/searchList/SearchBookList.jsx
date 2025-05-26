@@ -1,4 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getBooksByKeyword } from '../../apis/BookAPI';
 import search from '../../assets/search.png';
 import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchBookList.module.css';
@@ -6,30 +9,49 @@ import styles from './SearchBookList.module.css';
 function SearchBookList() {
 
      const navigate = useNavigate();
-     
-     // const [searchVideo, setSearchVideo] = useState('');
+     const location = useLocation();
+     const dispatch = useDispatch();
 
-     // 책 상세 페이지로 이동하게 하기 
-     // const onClickVideoPage = () => {
-     //      navigate(`/video`);
-     // }
+     const [bookList, setBookList] = useState([]);
+     const [searchVideo, setSearchVideo] = useState('');
 
+     const [page, setPage] = useState(1); // 현재 페이지
+     const [totalCount, setTotalCount] = useState(0); // 전체 검색 결과 수 
+
+     const queryParams = new URLSearchParams(location.search);
+     const query = queryParams.get('query');
+
+    // 알라딘 API 실시간 호출
+    useEffect(() => {
+        const fetchBooks = async () => {
+            if (query) {
+                const result = await getBooksByKeyword(query, dispatch, apge);
+                if (result && result.item) {
+                    setBookList(result.item);
+                } else {
+                    setBookList([]); // 검색 결과 없을 경우
+                }
+            }
+        };
+
+        fetchBooks();
+    }, [query, dispatch]);
 
      // 검색하면 영상 검색 결과 리스트 뜨게 코드 작성....
-     // const onSearchChangeHandler = (e) => {
-     //      setSearchVideo(e.target.value);
-     // }
+     const onSearchChangeHandler = (e) => {
+          setSearchVideo(e.target.value);
+     }
 
-     // const onEnterkeyHandler = (e) => {
-     //      if (e.key == 'Enter') {
-     //           console.log('Enter key', searchVideo);
+     const onEnterkeyHandler = (e) => {
+          if (e.key == 'Enter') {
+               console.log('Enter key', searchVideo);
 
-     //           navigate(`/search/video`);
-     //      }
-     // };
+               navigate(`/search/video?query=${encodeURIComponent(searchVideo)}`);
+          }
+     };
 
      const onSearchClickHandler = () => {
-          navigate(`/search/video`);
+          navigate(`/search/video?query=${encodeURIComponent(searchVideo)}`);
      }
 
      
@@ -39,7 +61,13 @@ function SearchBookList() {
                     <div className={UserMainCSS.mainImgBox}>
                                    <div className={UserMainCSS.mainSearch}>
                                         <div className={UserMainCSS.buttonBox}>
-                                             <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
+                                             <input className={UserMainCSS.mainSearchInput} 
+                                                       type="text" 
+                                                       name="search" 
+                                                       value={searchVideo}
+                                                       onChange={onSearchChangeHandler}
+                                                       onKeyDown={onEnterkeyHandler}
+                                                       placeholder="검색어를 입력하세요"/>
                                              <button className={UserMainCSS.buttonNone} onClick={onSearchClickHandler}><img src={search}/></button>
                                         </div>
                                         <div className={UserMainCSS.buttonBox}>
@@ -52,66 +80,42 @@ function SearchBookList() {
 
 
                    <div className={styles.container}>
-
-                        <div className={styles.SearchListTitle}># 키워드에 대한 검색 결과</div>
-                        <hr />
-                        <div className={styles.SearchBookList}>
-    
-                             <div className={styles.bookList}>
-                                  <div className={styles.book}></div>
-                                  <div className={styles.bookInfo}>
-                                       <div className={styles.bookTitle}>그리고 바통은 넘겨졌다.</div>
-                                       <div className={styles.credits}>
-                                            <div className={styles.bookAuthor}>세오 마이코</div> {/* 저자 */}
-                                            <div className={styles.bookPublisher}>스토리텔러</div> {/* 출판사 */}
-                                       </div>
-                                       <div className={styles.bookDetail}>“부모 역할에 대해 생각해 보게 하는 소설”이 소설의 재미는 
-                                                                            기둥 줄거리를 이끌어 가는 37세 아버지와 17세 딸이 각각 아버지 역할과
-                                                                            딸 역할에 최선을 다하면서 만들어내는 미묘한 분위기에 있다....   
-                                                                        </div>
-                                  </div>
-                             </div>
-                             <hr />
-
-
-                             <div className={styles.bookList}>
-                                  <div className={styles.book}></div>
-                                  <div className={styles.bookInfo}>
-                                       <div className={styles.bookTitle}>그리고 바통은 넘겨졌다.</div>
-                                       <div className={styles.credits}>
-                                            <div className={styles.bookAuthor}>세오 마이코</div> {/* 저자 */}
-                                            <div className={styles.bookPublisher}>스토리텔러</div> {/* 출판사 */}
-                                       </div>
-                                       <div className={styles.bookDetail}>“부모 역할에 대해 생각해 보게 하는 소설”이 소설의 재미는 
-                                                                            기둥 줄거리를 이끌어 가는 37세 아버지와 17세 딸이 각각 아버지 역할과
-                                                                            딸 역할에 최선을 다하면서 만들어내는 미묘한 분위기에 있다....   
-                                                                        </div>
-                                  </div>
-                             </div>
-                             <hr />
-
-
-                             <div className={styles.bookList}>
-                                  <div className={styles.book}></div>
-                                  <div className={styles.bookInfo}>
-                                       <div className={styles.bookTitle}>그리고 바통은 넘겨졌다.</div>
-                                       <div className={styles.credits}>
-                                            <div className={styles.bookAuthor}>세오 마이코</div>
-                                            <div className={styles.bookPublisher}>스토리텔러</div>
-                                       </div>
-                                       <div className={styles.bookDetail}>“부모 역할에 대해 생각해 보게 하는 소설”이 소설의 재미는 
-                                                                            기둥 줄거리를 이끌어 가는 37세 아버지와 17세 딸이 각각 아버지 역할과
-                                                                            딸 역할에 최선을 다하면서 만들어내는 미묘한 분위기에 있다....   
-                                                                        </div>
-                                  </div>
-                             </div>
-    
-     
+                        {/* <div className={styles.SearchListTitle}># 키워드에 대한 검색 결과</div> */}
+                        <div className={styles.SearchListTitle}>
+                              {query ? `# ${query}에 대한 검색 결과` : '# 도서 전체 목록'}
                         </div>
-                        <hr />
-                   </div>
-              </>
-         )
-}
+                        <hr className={styles.SearchbookListHr} />
 
+
+                        <div className={styles.SearchBookList}>
+                         <div className={styles.bookList}>
+                         {bookList.length > 0 ? (
+                              bookList.map((book) => (
+                                   <div key={book.itemId} className={styles.bookItem}>
+                                        <div className={styles.book}>
+                                             <img
+                                             src={book.cover.replace("coversum", "cover500")}
+                                             alt={`${book.title} 표지`}
+                                             />
+                                        </div>
+                                        <div className={styles.bookInfo}>
+                                             <div className={styles.bookTitle}>{book.title}</div>
+                                             <div className={styles.credits}>
+                                             <div className={styles.bookAuthor}>{book.author}</div>
+                                             <div className={styles.bookPublisher}>{book.publisher}</div>
+                                             </div>
+                                             <div className={styles.bookDetail}>{book.description}</div>
+                                        </div>
+                                        <hr className={styles.bookListHr} />
+                                   </div>
+                              ))
+                         ) : (
+                              <div className={styles.noResults}>검색 결과가 없습니다.</div>
+                         )}
+                         </div>
+                    </div>
+               </div>
+          </>
+     );
+     }
 export default SearchBookList;

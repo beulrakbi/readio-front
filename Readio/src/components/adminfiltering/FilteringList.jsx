@@ -1,24 +1,38 @@
 import FListCSS from './Filtering.module.css';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {callFilteringGroupCreateAPI} from "../../apis/FilteringAPICalls.js";
-import {useEffect} from "react";
+import {callFilteringGroupsAPI} from "../../apis/FilteringAPICalls.js";
+import {useEffect, useState} from "react";
+import dayjs from "dayjs";
 
 function FilteringList()
 {
-    // callFilteringGroupCreateAPI();
 
-    // const navigate = useNavigate();
-    // const dispatch = useDispatch();
-    // const params = useParams();
-    // const filteringGroups  = useSelector(state => state.filteringReducer);
-    // const filteringGroupList = filteringGroups.data;
-    //
-    // useEffect(() => {
-    //     dispatch(callFilteringGroupCreateAPI({
-    //
-    //     }))
-    // }, []);
+    const dispatch = useDispatch();
+    const filteringGroups  = useSelector(state => state.filtering);
+    const filteringGroupList = filteringGroups.data;
+    const navigate = useNavigate();
+
+    const pageInfo = filteringGroups.pageInfo;
+    const [start, setStart] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageEnd, setPageEnd] = useState(1);
+    const pageNumber = [];
+    if (pageInfo) {
+        for (let i = 1; i <= pageInfo.pageEnd; i++) {
+            pageNumber.push(i);
+        }
+    }
+
+    useEffect(() => {
+        setStart((currentPage - 1) * 5);
+        dispatch(callFilteringGroupsAPI({currentPage: currentPage}));
+    }, [currentPage]);
+
+    const onClickFilteringGroupHandler = (groupId) => {
+        navigate(`/admin/filtering/${groupId}`);
+    }
+
 
     return (
         <div className={FListCSS.container}>
@@ -37,70 +51,57 @@ function FilteringList()
                     </tr>
                 </thead>
                 <tbody className={FListCSS.filteringTbody}>
-                    <tr>
-                        <td>10</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
+                    {filteringGroupList?.map?.((filteringGroup) => (
+
+                    <tr key={filteringGroup.groupId}>
+                        <td>{filteringGroup.groupId}</td>
+                        <td>{filteringGroup.isActive === "Y" ? "활성" : "비활성"}</td>
+                        <td>{dayjs(filteringGroup.createAt).format('YYYY-MM-DD')}</td>
+                        <td onClick={() => onClickFilteringGroupHandler(filteringGroup.groupId)}>{filteringGroup.title}</td>
                     </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>비활성화</td>
-                        <td>2025.04.01</td>
-                        <td><Link to="/" className={FListCSS.link}>필터링 제목 1</Link></td>
-                    </tr>
+                    ))}
                 </tbody>
             </table>
             <div className={FListCSS.paging}>
-                <p>1 2 3 4 5</p> 
+                {Array.isArray(filteringGroupList) && (
+                    <button
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={FListCSS.pagingBtn}
+                    >
+                        &lt;
+                    </button>
+                )}
+                {pageNumber.map((num) => (
+                    <li
+                        style={{all:"unset"}}
+                        key={num}
+                        onClick={() => setCurrentPage(num)}
+                    >
+                        <button
+                            style={
+                                currentPage === num
+                                    ? { backgroundColor: '#AF4C3F' }
+                                    : null
+                            }
+                            className={FListCSS.pagingBtn}
+                        >
+                            {num}
+                        </button>
+                    </li>
+                ))}
+                {Array.isArray(filteringGroupList) && (
+                    <button
+                        className={FListCSS.pagingBtn}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={
+                            currentPage === pageInfo.pageEnd ||
+                            pageInfo.total == 0
+                        }
+                    >
+                        &gt;
+                    </button>
+                )}
             </div>
         </div>
 

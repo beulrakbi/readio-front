@@ -6,6 +6,7 @@
     flex-direction: column;
     align-content: center;
     justify-content: center;
+    font-family: 'Pretendard Variable', sans-serif;
 }
 
 .fontContainer {
@@ -35,6 +36,7 @@
     font-size: 20px;
     font-weight: 600;
     color: #AF4C3F;
+    cursor: pointer;
 }
 
 .font3 {
@@ -47,9 +49,6 @@
     font-size: 20px;
     font-weight: 600;
     color: #383838;
-    font-family: 'Pretendard';
-    padding: 0px;
-    margin: 0px;
 }
 
 .filteringTable {
@@ -66,7 +65,6 @@
     font-size: 20px;
     font-weight: 400;
     border-bottom: 1px solid #383838;
-    /* border-top: 1px solid #383838; */
     text-align: center;
     height: 40px;
 }
@@ -117,6 +115,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.pagingBtn {
+    all: unset;
+    cursor: pointer;
 }
 
 /* create */
@@ -140,7 +145,6 @@
     font-size: 24px;
     font-weight: 600;
     color: #383838;
-    font-family: 'Pretendard';
     padding: 0px;
     margin:0px;
     padding-block: 0px;
@@ -165,7 +169,6 @@
     font-size: 20px;
     font-weight: 600;
     color: #383838;
-    font-family: 'Pretendard';
     padding: 10px;
 }
 
@@ -206,13 +209,13 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
+    /*gap: 5px;*/
 }
 
 .filteringInput {
     background-color: rgb(175,76,63,0.6);
     border-radius: 10px;
-    height: 25px;
+    height: 30px;
     width: auto;
     border: none;
     color: white;
@@ -220,8 +223,7 @@
     font-weight: 400;
     padding: 5px 30px 5px 10px;
     padding-block: 3px;
-    overflow-clip-margin: 0px !important;
-    overflow: none !important;
+    gap: 5px;
 }
 
 .filteringInput:focus {
@@ -236,9 +238,9 @@
 
 .noneBt {
     all: unset;
-    color: white;
+    color: #383838;
     position: absolute;
-    right: 8px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -249,7 +251,7 @@
 .savedKeyword {
     background-color: rgb(175,76,63);
     border-radius: 10px;
-    height: 22px;
+    height: 30px;
     width: auto;
     border: none;
     color: white;
@@ -257,10 +259,8 @@
     font-weight: 400;
     padding: 5px 30px 5px 10px; /* 오른쪽에 버튼 공간 확보 */
     align-items: center;
-    margin-block-start: 0;
-    margin-block-end: 0;
-    margin-inline-start: 0;
-    margin-inline-end: 0;
+    justify-content: center;
+    display: flex;
 }
 
 /* 상세페이지 */
@@ -278,7 +278,7 @@
     font-size: 20px;
     font-weight: 600;
     color: #383838;
-    font-family: 'Pretendard';
+    font-family: 'Pretendard Variable', sans-serif;
     padding: 10px;
     margin:0px;
     display:flex;
@@ -301,14 +301,13 @@
 .filteringKeyword {
     background-color: rgb(175,76,63,0.6);
     border-radius: 10px;
-    height: 25px;
+    height: 30px;
     width: auto;
-    border: none;
     color: white;
     font-size: 16px;
     font-weight: 400;
     padding: 5px;
-    padding-block: 3px;
-    text-align: center;
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
