@@ -31,21 +31,28 @@ function Header({toggleNav}) {
 
     const onEnterkeyHandler = (e) => {
         if (e.key == 'Enter') {
+
+            if(!search.trim()) return; // 빈 검색어 방지
+
             console.log('Enter key', search);
 
             // navigate(`/search?value=${search}`, {replace: false});
-            navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
+            // navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
 
             // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
-            
+            navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`); 
+                        
             window.location.reload();
         }
     };
 
     const onSearchClickHandler = () => { // 함수 추가함
-        navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
+        // navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
+
+        if(!search.trim()) return; // 빈 검색어 방지
 
         // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
+        navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`); 
 
         window.location.reload();
     }
