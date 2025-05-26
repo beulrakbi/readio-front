@@ -101,14 +101,6 @@ function MyLibraryGuestPage() {
                     </div>
                 </div>
             </div>
-
-            {/* 활동 리포트 */}
-            <div className={styles.section}>
-                <div className={styles.sectionHeader}>
-                    <h2 className={styles.sectionTitle}>활동 리포트</h2>
-                    <span className={styles.sectionAction}>리포트 상세</span>
-                </div>
-            </div>
             </div>
         </>
     );

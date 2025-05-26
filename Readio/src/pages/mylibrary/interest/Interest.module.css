@@ -32,9 +32,8 @@
     /*flex-wrap: wrap;*/
     gap: 20px;
 }
-
 .tag {
-    width: 100px;
+    width: 130px;
     text-align: center;
     padding: 5px 15px;
     border: 2px solid #f6eeb6;
