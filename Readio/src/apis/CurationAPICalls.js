@@ -41,6 +41,10 @@ export const callAllCurationTypesAndKeywordsAPI = () => {
     };
 }
 
+export const callUpdateCurationTypeAndKeywordsAPI = () => {
+
+}
+
 export const callCurationKeywordsAPI = ({typeId}) => {
     const requestURL = `http://localhost:8080/curation/${typeId}`;
     return async (dispatch, getState) => {
