@@ -1,7 +1,7 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styles from './UserEdit.module.css';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 function UserEdit() {
 
@@ -22,7 +22,7 @@ function UserEdit() {
             // 비밀번호가 검증되지 않은 경우, 비밀번호 확인 페이지로 리다이렉트
             navigate('/users/verifypwd');
         } else {
-            const userId = localStorage.getItem('loginUserId');
+            const userId = localStorage.getItem('userId');
             if (!userId) {
                 alert('로그인이 필요합니다.');
                 navigate('/users/login');

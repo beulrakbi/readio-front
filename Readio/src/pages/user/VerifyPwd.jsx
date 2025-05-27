@@ -1,18 +1,18 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './VerifyPwd.module.css';
-import axios from 'axios';
 
 
 function VerifyPwd() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const userId = localStorage.getItem('loginUserId');
-    console.log("loginUserId", localStorage.getItem('loginUserId'));
-    console.log("userId", userId);
+    const userId = localStorage.getItem('userId');
+    console.log("localStorage userId: ", localStorage.getItem('userId'));
+    console.log("typeof userId: ", typeof userId);
 
     useEffect(() => {
-        if (!userId) {
+        if (!userId || userId == 'null' || userId == 'undefined') {
             alert('로그인이 필요합니다.');
             navigate('/users/login');
         }
