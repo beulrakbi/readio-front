@@ -4,8 +4,9 @@ import UserNavCSS from './navi.module.css';
 
 
 function UserNav({ isOpen }) {
+
     const isLogin = useSelector(state => state.user.isLogin);
-    console.log('로그인상태',useSelector(state => state));
+    console.log('로그인상태', useSelector(state => state));
 
     return (
         <>
@@ -16,7 +17,7 @@ function UserNav({ isOpen }) {
                         <div className={UserNavCSS.naviLine}></div>
                     </div>
                     <div className={UserNavCSS.naviLink}>
-                        {isLogin && (
+                        {isLogin && (   // 추가 (로그인했을때만 해당 메뉴 보여짐)
                             <>
                                 <NavLink to="/users/verifypwd" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
                             </>
