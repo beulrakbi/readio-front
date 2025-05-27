@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styles from './AdminInterestManager.module.css';
+import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import styles from './AdminInterestManager.module.css';
 
 const AdminInterestSetting = () => {
     const [categories, setCategories] = useState([]);
