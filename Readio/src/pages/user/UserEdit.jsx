@@ -153,8 +153,7 @@ function UserEdit() {
                             name="userName"
                             value={formData.userName}
                             onChange={onChangeHandler}
-                            placeholder="이름을 입력하세요"
-                            required
+                            readOnly
                         />
                     </div>
 
