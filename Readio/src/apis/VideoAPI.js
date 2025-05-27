@@ -111,17 +111,17 @@ export async function searchNewVideos(keyword, dispatch, num) {
 
 
 export function getVideosTest(dispatch) {
-    const result = sample.items;
-    for (let i = 0; i < result.length; i++) {
-        const form = {
-            videoId: result[i].id.videoId,
-            title: result[i].snippet.title,
-            description: result[i].snippet.description,
-            channelTitle: result[i].snippet.channelTitle,
-            thumbnail: result[i].snippet.thumbnails.high.url
-        };
-        dispatch(callVideoInsertAPI({form}));
-    }
+    // const result = sample.items;
+    // for (let i = 0; i < result.length; i++) {
+    //     const form = {
+    //         videoId: result[i].id.videoId,
+    //         title: result[i].snippet.title,
+    //         description: result[i].snippet.description,
+    //         channelTitle: result[i].snippet.channelTitle,
+    //         thumbnail: result[i].snippet.thumbnails.high.url
+    //     };
+    //     dispatch(callVideoInsertAPI({form}));
+    // }
 
     return sample;
 }

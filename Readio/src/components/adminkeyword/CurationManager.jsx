@@ -55,6 +55,7 @@ function CurationManager() {
         }));
         setKeywords(savedKeywords);
         setId(savedKeywords?.length || 0);
+        console.log(curation);
     }, []);
 
     useEffect(() => {
