@@ -31,12 +31,14 @@ function UserEdit() {
 
             setFormData(prev => ({ ...prev, userId }));
 
+            // axios.get(`http://localhost:8080/users/edit?userId=${userId}`, {
             axios.get(`http://localhost:8080/users/edit?userId=${userId}`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 토큰 인증 헤더 추가
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}` // 토큰 인증 헤더 추가
                 }
             })
                 .then(response => {
+                    console.log("전체 응답", response)
                     console.log("회원정보 불러오기 성공", response.data);
                     const data = response.data;
                     setFormData(prev => ({
