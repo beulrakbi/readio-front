@@ -2,24 +2,20 @@ import AdminMainCSS from './adminmain.module.css';
 
 function TopVideo({video})
 {
-        const videoSrc = 'https://www.youtube.com/embed/' + video.id.videoId;
-        // const videoSrc = 'https://www.youtube.com/embed/xRo27Q3mvto';
-    
+        // const videoSrc = 'https://www.youtube.com/embed/' + video.videoId;
+
         return (
             <div className={AdminMainCSS.videoInnerContainer}>
-                <iframe className={AdminMainCSS.video}
-                    id="ytplayer"
-                    type="text/html"
-                    width="220"
-                    height="120"
-                    src={videoSrc}
-                    frameBorder="0"
-                    allowFullScreen
-                    title="YouTube Video"
-                    />
-                <p className={AdminMainCSS.font3}>어쩌구</p>
-                <p className={AdminMainCSS.font3}>어쩌구</p>
-                    </div>
+                <img className={AdminMainCSS.videoThumbnail} src={video.thumbnail}/>
+                <div className={AdminMainCSS.videoTitleDiv}>
+                    <p className={AdminMainCSS.videoTitleFont}>
+                        {video.title.length > 23 ? video.title.slice(0, 23) + '...' : video.title}
+                    </p>
+                </div>
+                <p className={AdminMainCSS.videoChannelFont}>
+                    {video.channelTitle}
+                </p>
+            </div>
         );
 }
 

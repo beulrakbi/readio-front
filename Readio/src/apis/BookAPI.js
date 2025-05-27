@@ -1,3 +1,4 @@
+import { callBookInsertAPI, callBooksAPI } from "./BookAPICalls";
 import sample from "./testBook.json";
 
 export function getBooks()
@@ -36,4 +37,34 @@ export function testBooksxxxx()
 export function testBooks()
 {
     return sample;
+}
+
+
+
+// --------------------------------------------------------------------------------------
+
+export async function getBooksByKeyword(keyword, dispatch, page = 1, size = 10) {
+    const result = await dispatch(callBooksAPI({ search: keyword, page, size }));
+    if (result) return result;
+}
+
+export async function getNewBooks(keyword, dispatch, num) {
+    const result = await dispatch(callBooksAPI({ search: keyword }));
+
+    if (Array.isArray(result.item)) {
+        const books = result.item.slice(0, num);
+        for (let i = 0; i < books.length; i++) {
+            const form = {
+                title: books[i].title,
+                author: books[i].author,
+                publisher: books[i].publisher,
+                description: books[i].description,
+                cover: books[i].cover
+            };
+            dispatch(callBookInsertAPI({ form }));
+        }
+        return books;
+    } else {
+        console.error('책 검색 결과가 배열이 아닙니다:', result);
+    }
 }

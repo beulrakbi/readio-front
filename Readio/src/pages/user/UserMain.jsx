@@ -1,5 +1,5 @@
 import search from '../../assets/search.png';
-import VideoList from '../../components/video/VideoLIst';
+import VideoList from '../../components/video/VideoList.jsx';
 import UserMainCSS from './UserMain.module.css';
 import {useEffect, useState} from "react";
 
@@ -7,7 +7,7 @@ function UserMain()
 {
 
     const [types, setTypes] = useState([]);
-    const allTypes = ["연예인", "굿즈", "독서방법"];
+    const allTypes = ["celeb", "goods", "habit"];
 
     const getRandomTypes = () => {
         const shuffled = [...allTypes].sort(() => 0.5 - Math.random()); // 랜덤 셔플
@@ -17,8 +17,6 @@ function UserMain()
     useEffect(() => {
         getRandomTypes();
     }, []);
-
-    console.log(types);
 
     return (
         <>
