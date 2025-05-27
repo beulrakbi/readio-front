@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../../assets/login.png';
 import LoginCSS from './Login.module.css';
 
@@ -32,7 +32,8 @@ const Login = () => {
             });
 
             if (!response.ok) {
-                throw new Error("로그인 실패");
+                const errorData = await response.json();
+                throw new Error(errorData.message || "로그인 실패");
             }
 
             const data = await response.json();
@@ -42,46 +43,17 @@ const Login = () => {
             localStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
             localStorage.setItem("isPasswordVerified", "true"); // 비밀번호 검증 플래그 설정
 
+            // navigate("/"); 로그인 성공 후 홈으로 리다이렉트
             window.location.href = "/";
 
         } catch (error) {
-            alert("로그인에 실패했습니다.");
-            console.log(error);
+            alert(error.message || "로그인에 실패했습니다.");
+            console.log("로그인 에러:",error);
         }
         console.log(formData);
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         const response = await fetch("http://localhost:8080/users/login", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body: JSON.stringify(formData),
-    //             credentials: "include"
-    //         });
-
-    //         if (!response.ok) {
-    //             throw new Error("로그인 실패");
-    //         }
-
-    //         const data = await response.json();
-
-    //         localStorage.setItem("accessToken", data.accessToken);
-
-    //         window.location.href = "/";
-
-    //     } catch (error) {
-    //         alert("로그인에 실패했습니다.");
-    //         console.log(error);
-    //     }
-    // };
-
-
-
+    
     return (
 
         <div className={LoginCSS.loginPage} style={{ backgroundImage: `url(${loginImage})` }}>
