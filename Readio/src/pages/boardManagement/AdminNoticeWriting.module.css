@@ -82,8 +82,8 @@
     cursor: pointer;
 }
 .submit {
-    background-color: #AF4C3F;
-    color: white;
+    background-color: #gray;
+    color: black;
 }
 
 .cancel {
@@ -137,4 +137,18 @@
   border-radius: 4px;
   cursor: pointer;
   white-space: nowrap;
+}
+
+.activeButton {
+    background-color: #AF4C3F;
+    color: white;
+    font-weight: bold;
+    border: 1px solid #AF4C3F;
+}
+.categoryButtons button {
+    margin-right: 8px;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    background-color: #AF4C3F;
+    cursor: pointer;
 }
