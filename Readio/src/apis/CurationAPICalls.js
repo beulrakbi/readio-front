@@ -1,4 +1,4 @@
-import {getCurationKeywords, getCurationTypes} from "../modules/video/CurationSlice.js";
+import {getAllCuration, getCurationKeywords, getCurationTypes} from "../modules/video/CurationSlice.js";
 
 
 export const callCurationTypesAPI = () => {
@@ -32,10 +32,10 @@ export const callAllCurationTypesAndKeywordsAPI = () => {
             },
         }).then((response) => response.json());
 
-        // console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
+        console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
         if (result.status === 200) {
             // console.log('[CurationAPICalls] callCurationTypesAPI SUCCESS');
-            dispatch(getCurationTypes(result));
+            dispatch(getAllCuration(result));
             return result;
         }
     };

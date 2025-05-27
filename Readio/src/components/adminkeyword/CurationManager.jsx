@@ -1,27 +1,36 @@
 import CurationCSS from "./Curation.module.css";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {callAllCurationTypesAndKeywordsAPI} from "../../apis/CurationAPICalls.js";
 
 function CurationManager()
 {
     const dispatch = useDispatch();
-    const curationTypes = useSelector(state => state.curation);
+    const curation = useSelector(state => state.curation);
+    const [type, setType] = useState('');
+    const [keywords, setKeywords] = useState([]);
+
+    const onChangeSelect = (e) => {
+        setType(e.target.name);
+        setKeywords(curation.curations.filter());
+        console.log()
+    }
+
     useEffect(() => {
         dispatch(callAllCurationTypesAndKeywordsAPI());
     }, [dispatch]);
 
     useEffect(() => {
-        console.log(curationTypes); // 실제 값이 바뀔 때마다 로그 찍힘
-    }, [curationTypes]);
+        console.log("test", curation); // 실제 값이 바뀔 때마다 로그 찍힘
+    }, [curation]);
 
     return (
         <div className={CurationCSS.container}>
             <div className={CurationCSS.fontContainer}>
                 <p className={CurationCSS.font1}>영상 키워드 관리</p>
-                <select>
-                    {curationTypes.type.map(curation => (<option key={curation.typeId}>{curation.typeName}</option>))}
+                <select onChange={onChangeSelect}>
+                    {curation.curations.map(cu => (<option key={cu.type.typeId} name={cu.type.typeId}>{cu.type.typeName}</option>))}
                 </select>
                 <div className={CurationCSS.buttonDiv}>
                 </div>
@@ -29,7 +38,11 @@ function CurationManager()
             <hr className={CurationCSS.filteringLine}/>
 
             <div className={CurationCSS.filteringDetailContent}>
-                <p className={CurationCSS.font4}>test</p>
+                <p className={CurationCSS.font4}>
+                    {keywords.map(keyword => (
+                        <p className={CurationCSS.filteringKeyword} key={keyword.curationId}>{keyword.keyword}</p>
+                     ))}
+                </p>
                 <div className={CurationCSS.filteringKeywords}>
                 </div>
             </div>

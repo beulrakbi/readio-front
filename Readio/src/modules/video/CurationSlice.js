@@ -17,20 +17,25 @@ const curationSlice = createSlice({
             state.message = action.payload.message;
         },
         getCurationKeywords: (state, action) => {
-            state.keywords = action.data;
-            state.status = action.status;
-            state.message = action.message;
+            state.keywords = action.payload.data;
+            state.status = action.payload.status;
+            state.message = action.payload.message;
         },
         getAllCuration: (state, action) => {
-            state.type = action.payload.data;
-            state.keywords = action.data;
+            state.curations = action.payload.data.map(item => ({
+                type: item.curationType,
+                keywords: item.curationKeywords
+            }));
+
+            state.status = action.payload.status;
+            state.message = action.payload.message;
         }
     }
 });
 
 
 export const {
-    getCurationKeywords, getCurationTypes
+    getCurationKeywords, getCurationTypes, getAllCuration
 } = curationSlice.actions;
 
 export default curationSlice.reducer;
