@@ -10,7 +10,7 @@ import HeaderCSS from './Header.module.css';
 function Header({toggleNav}) {
     const navigate = useNavigate();
 
-    const dispatch = useDispatch; 
+    const dispatch = useDispatch(); 
     // const loginMember = useEslector((state) => state.memberReducer);
     const isLogin = window.localStorage.getItem('accessToken');
     const [search, setSearch] = useState('');
@@ -30,7 +30,7 @@ function Header({toggleNav}) {
     };
 
     const onEnterkeyHandler = (e) => {
-        if (e.key == 'Enter') {
+        if (e.key === 'Enter') {
 
             if(!search.trim()) return; // 빈 검색어 방지
 
@@ -42,7 +42,7 @@ function Header({toggleNav}) {
             // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
             navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`); 
                         
-            window.location.reload();
+            window.location.reload(); // 없어도 되는..? 코드....
         }
     };
 
@@ -54,7 +54,7 @@ function Header({toggleNav}) {
         // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
         navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`); 
 
-        window.location.reload();
+        window.location.reload(); // 없어도 되는..? 코드...
     }
 
 
