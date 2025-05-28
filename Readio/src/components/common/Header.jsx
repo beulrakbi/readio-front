@@ -86,12 +86,15 @@ function Header({ toggleNav }) {
         }
     };
 
+    // 로그아웃 핸들러
     const onClickLogoutHandler = () => {
-        window.localStorage.removeItem('accessToken')
-        dispatch(logout());
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('userId'); // 추가
+        localStorage.removeItem('userName'); // 추가
+        localStorage.removeItem('isPasswordVerified'); // 추가
 
+        dispatch(logout());
         navigate('/', { replace: true });
-        // window.location.reload();
     };
 
     useEffect(() => {
@@ -104,14 +107,26 @@ function Header({ toggleNav }) {
                     dispatch(loginSuccess({ userId: token.sub }));
                 } else {
                     console.log('토큰이 만료되었습니다.');
+                    localStorage.removeItem('accessToken'); // 추가
+                    localStorage.removeItem('userId'); // 추가
+                    localStorage.removeItem('userName'); // 추가
+                    localStorage.removeItem('isPasswordVerified'); // 추가
                     dispatch(logout());  // 토큰 만료시 로그아웃 처리
                 }
             } catch (error) {
                 console.error('토큰 파싱 실패:', error);
+                localStorage.removeItem('accessToken'); // 추가
+                localStorage.removeItem('userId'); // 추가
+                localStorage.removeItem('userName'); // 추가
+                localStorage.removeItem('isPasswordVerified'); // 추가
                 dispatch(logout());  // 토큰 파싱 실패시 로그아웃 처리
             }
         } else {
             console.log('토큰 없음. 로그인 상태가 아닙니다.');
+            // 없을테지만 혹시 모를 상황에 대비
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('isPasswordVerified');
             dispatch(logout());  // 토큰 없으면 로그아웃 처리
         }
     }, [dispatch])
