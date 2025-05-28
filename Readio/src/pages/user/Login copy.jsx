@@ -4,8 +4,6 @@ import loginImage from '../../assets/login.png';
 import LoginCSS from './Login.module.css';
 
 const Login = () => {
-    const navigate = useNavigate();
-
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -40,49 +38,22 @@ const Login = () => {
 
             const data = await response.json();
 
-            console.log("로그인 응답 data:", data);
-
             localStorage.setItem("accessToken", data.accessToken);
             localStorage.setItem("userId", data.userId); // 로그인한 사용자 ID 저장
             localStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
             localStorage.setItem("isPasswordVerified", "true"); // 비밀번호 검증 플래그 설정
 
-            // window.location.href = "/";
-
-            const userInfoResponse = await fetch("http://localhost:8080/users/me", {
-                headers: {
-                    "Authorization": `Bearer ${data.accessToken}`
-                },
-                credentials: "include"
-            });
-
-            if (!userInfoResponse.ok) {
-                throw new Error("사용자 정보 조회 실패");
-            }
-
-            const userInfo = await userInfoResponse.json();
-            console.log("userInfo:", userInfo);
-
-            const roles = userInfo.userRole || []; // roles: ["USER"], ["ADMIN"], ["SUSPENDED"]
-            console.log("userInfo.role:", userInfo.userRole)
-
-            // 권한별 페이지로 이동
-            if (roles.includes("ADMIN")) {
-                navigate("/admin");
-            } else if (roles.includes("SUSPENDED")) {
-                navigate("/account/suspended");
-            } else {
-                navigate("/");
-            }
+            // navigate("/"); 로그인 성공 후 홈으로 리다이렉트
+            window.location.href = "/";
 
         } catch (error) {
             alert(error.message || "로그인에 실패했습니다.");
-            console.log("로그인 에러:", error);
+            console.log("로그인 에러:",error);
         }
         console.log(formData);
     };
 
-
+    
     return (
 
         <div className={LoginCSS.loginPage} style={{ backgroundImage: `url(${loginImage})` }}>

@@ -1,10 +1,10 @@
 .adminMainP {
     display: inline;
-    margin:10px;
+    margin: 10px;
 }
 
 .main {
-    width:600px;
+    width: 600px;
     min-height: 255px;
     max-height: 255px;
     align-items: center;
@@ -25,27 +25,26 @@
     font-family: 'Pretendard Variable', sans-serif;
 }
 
-.font1{
+.font1 {
     font-size: 24px;
     font-weight: 600;
     display: inline;
-    margin:10px;
+    margin: 10px;
+
 }
 
-.font2{
+.font2 {
     font-size: 18px;
     font-weight: 800;
     display: inline;
-    margin:10px;
+    margin: 10px;
 }
 
-.font3{
+.font3 {
     font-size: 18px;
     font-weight: 200;
-    margin:6px;
+    margin: 6px;
     display: inline;
-    margin:10px;
-
 }
 
 .linkFont {
@@ -56,8 +55,8 @@
 }
 
 .csTableDiv {
-    display:flex;
-    margin:auto;
+    display: flex;
+    margin: auto;
 }
 
 .csTable {
@@ -100,9 +99,9 @@
     width: 22px;
 }
 
-.csTableTr:hover{
+.csTableTr:hover {
     color: white;
-    background-color: rgb(175,76,63,0.6);
+    background-color: rgb(175, 76, 63, 0.6);
     text-decoration: underline;
     cursor: pointer;
 }
@@ -116,7 +115,7 @@
 }
 
 .videoList {
-    display:flex;
+    display: flex;
     gap: 10px;
     overflow: auto;
     scrollbar-width: none;
@@ -166,13 +165,13 @@
 
 .scrollButton {
     all: unset;
-    margin:5px;
+    margin: 5px;
     cursor: pointer;
 }
 
 .buttonImg {
-    width:20px;
-    height:auto;
+    width: 20px;
+    height: auto;
 }
 
 .scrollButton :hover {
@@ -185,12 +184,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    height:200px;
+    height: 200px;
 }
 
 .bookList {
-    height:auto;
-    display:flex;
+    height: auto;
+    display: flex;
     gap: 10px;
     overflow: auto;
     scrollbar-width: none;
@@ -208,7 +207,7 @@
 
 .bookInnerContainer:hover {
     color: white;
-    background-color: rgb(175,76,63,0.6);
+    background-color: rgb(175, 76, 63, 0.6);
     cursor: pointer;
 }
 
@@ -232,8 +231,8 @@
     display: block;
     font-size: 15px;
     font-weight: 200;
-    margin:6px;
-    
+    margin: 6px;
+
 }
 
 /* 관심분야 키워드 */

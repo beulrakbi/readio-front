@@ -6,16 +6,16 @@ import bell from '../../assets/alarm.png';
 import logo from '../../assets/Logo.png';
 import navBar from '../../assets/NavBar.png';
 import searchIcon from '../../assets/search2.png';
-import { loginSuccess, logout } from '../../modules/user/userSlice';
 import HeaderCSS from './Header.module.css';
+import { loginSuccess, logout } from '../../modules/user/userSlice';
 
 function Header({ toggleNav }) {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
     // const loginMember = useEslector((state) => state.memberReducer);
-    // const isLogin = window.localStorage.getItem('accessToken'); 
-    const isLogin = useSelector((state) => state.user.isLogin); // 추가
+    // const isLogin = window.localStorage.getItem('accessToken');
+    const isLogin = useSelector((state) => state.user.isLogin);
     const [search, setSearch] = useState('');
 
     const [searchType, setSearchType] = useState('video'); // 추가 
@@ -40,7 +40,7 @@ function Header({ toggleNav }) {
             console.log('Enter key', search);
 
             // navigate(`/search?value=${search}`, {replace: false});
-            // navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
+            navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
 
             // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
             navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`);
@@ -62,6 +62,7 @@ function Header({ toggleNav }) {
 
 
     const onClickLogoHandler = () => {
+        navigate('/', { replace: true });
         navigate('/', { replace: true });
     };
 

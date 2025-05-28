@@ -6,13 +6,14 @@ import CurationSlice from "./video/CurationSlice.js";
 import videoSlice from "./video/VideoSlice.js";
 
 
-const rootReducers = combineReducers(
-    {
-        filtering: FilteringSlice,
-        curation: CurationSlice,
-        bookSearch: bookSearchSlice,
-        video: videoSlice,
-        user: userReducer
-    });
+const rootReducers =  combineReducers(
+        {
+            filtering: FilteringSlice,
+            curation: CurationSlice,
+            bookSearch: bookSearchSlice,
+            video: videoSlice,
+            user: userReducer
+
+        });
 
 export default rootReducers;

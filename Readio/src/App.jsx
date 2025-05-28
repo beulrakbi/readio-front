@@ -53,6 +53,7 @@ import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
 import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
+import AccountSuspended from "./pages/user/AccountSuspended.jsx";
 
 
 
@@ -64,14 +65,15 @@ function App() {
           {/* 메인 페이지, 사용자 페이지 */}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
-            <Route path="users/login" element={<Login />} />                                {/* 로그인 */}
+            <Route path="users/login" element={<Login />} />                          {/* 로그인 */}
             <Route path="users/join" element={<Join />} />                            {/* 회원가입 */}
             <Route path="users/join/complete" element={<JoinComplete />} />           {/* 회원가입완료 */}
             <Route path="users/verifypwd" element={<VerifyPwd />} />                  {/* 비밀번호 확인 */}
-            <Route path="users/edit" element={<UserEdit />} />                         {/* 회원정보 수정 */}
-            <Route path="users/delete" element={<UserDelete />} />                     {/* 회원탈퇴 */}
-            <Route path="users/delete/complete" element={<UserDeleteComplete />} />    {/* 회원탈퇴완료 */}
-            <Route path="account" element={<FindAccount />}>                      {/* 계정정보찾기 */}
+            <Route path="users/edit" element={<UserEdit />} />                        {/* 회원정보 수정 */}
+            <Route path="users/delete" element={<UserDelete />} />                    {/* 회원탈퇴 */}
+            <Route path="users/delete/complete" element={<UserDeleteComplete />} />   {/* 회원탈퇴완료 */}
+            <Route path="account/suspended" element={<AccountSuspended />} />         {/* 계정정지안내*/}
+            <Route path="account" element={<FindAccount />}>                          {/* 계정정보찾기 */}
               <Route index element={<Navigate to="findid" replace />} />              {/* 기본-아이디찾기 */}
               <Route path="findid" element={<FindIdForm />} />                        {/* 아이디찾기 */}
               <Route path="findpwd" element={<FindPwdForm />} />                      {/* 비밀번호찾기 */}
@@ -132,4 +134,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

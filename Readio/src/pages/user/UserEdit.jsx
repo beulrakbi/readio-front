@@ -18,43 +18,45 @@ function UserEdit() {
 
     useEffect(() => {
         const isPasswordVerified = localStorage.getItem('isPasswordVerified');
+        const accessToken = localStorage.getItem('accessToken');
+
+        if (!accessToken) {
+            alert('로그인이 필요합니다.');
+            navigate('/users/login');
+            return;
+        }
+
         if (isPasswordVerified !== 'true') {
             // 비밀번호가 검증되지 않은 경우, 비밀번호 확인 페이지로 리다이렉트
             navigate('/users/verifypwd');
-        } else {
-            const userId = localStorage.getItem('userId');
-            if (!userId) {
-                alert('로그인이 필요합니다.');
-                navigate('/users/login');
-                return;
-            }
-
-            setFormData(prev => ({ ...prev, userId }));
-
-            axios.get(`http://localhost:8080/users/edit?userId=${userId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 토큰 인증 헤더 추가
-                }
-            })
-                .then(response => {
-                    console.log("회원정보 불러오기 성공", response.data);
-                    const data = response.data;
-                    setFormData(prev => ({
-                        ...prev,
-                        userName: data.userName || '',
-                        userEmail: data.userEmail || '',
-                        userPhone: data.userPhone || '',
-                        userBirthday: data.userBirthday || ''
-                    }));
-                })
-                .catch(() => {
-                    alert('회원정보를 불러오는 데 실패했습니다. 다시 시도해주세요.');
-                    localStorage.removeItem('userId');
-                    localStorage.removeItem('accessToken');
-                    navigate('/');
-                });
-
+            return;
         }
+
+        axios.get(`http://localhost:8080/users/edit`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}` // 토큰 인증 헤더 추가
+            },
+        })
+            .then(response => {
+                console.log("전체 응답", response)
+                console.log("회원정보 불러오기 성공", response.data);
+                const data = response.data;
+                setFormData(prev => ({
+                    ...prev,
+                    userId: data.userId || '',
+                    userName: data.userName || '',
+                    userEmail: data.userEmail || '',
+                    userPhone: data.userPhone || '',
+                    userBirthday: data.userBirthday || '',
+                }));
+            })
+            .catch(error => {
+                console.error('회원정보 불러오기 실패:', error.response ? error.response.data : error.message);
+                alert('회원정보를 불러오는 데 실패했습니다. 다시 시도해주세요.');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('accessToken');
+                navigate('/users/login');
+            });
     }, [navigate])
 
     const onChangeHandler = (e) => {
@@ -75,35 +77,61 @@ function UserEdit() {
             }
         }
 
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+            alert('로그인이 필요합니다.');
+            navigate('/users/login');
+            return;
+        }
+
         try {
             const submitData = {
                 userId: formData.userId,
                 userName: formData.userName,
-                userPwd: formData.userPwd,
                 userEmail: formData.userEmail,
                 userPhone: formData.userPhone,
                 userBirthday: formData.userBirthday,
             };
 
+            // 비밀번호 필드가 입력된 경우에만 추가
             if (formData.userPwd) {
                 submitData.userPwd = formData.userPwd;
             }
 
-
-            const response = await axios.put('/users/edit', submitData, {
+            const response = await axios.put('http://localhost:8080/users/edit', submitData, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                }
-            });
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
 
-            if (response.status === 200) {
+            if (response.status === 200) { // 백엔드가 200 OK를 보낼 때
                 alert('회원정보가 성공적으로 수정되었습니다.');
-                navigate('/users/profile'); // 수정 후 프로필 페이지로 이동
+                navigate('/users/edit');
             } else {
-                alert('회원정보 수정에 실패했습니다. 다시 시도해주세요.');
+                // 백엔드에서 200 OK가 아닌 다른 성공 코드를 보낼 경우 (ex. 204 No Content)
+                alert('회원정보 수정에 실패했습니다. (예상치 못한 응답)');
             }
         } catch (error) {
             console.error('회원정보 수정 중 오류 발생:', error);
+            // 백엔드에서 ResponseEntity.badRequest() 또는 .status(HttpStatus.INTERNAL_SERVER_ERROR) 등을 보낼 때
+            if (error.response) {
+                // 서버가 응답했지만 상태 코드가 2xx 범위 밖인 경우
+                console.error('서버 응답 데이터:', error.response.data);
+                console.error('서버 응답 상태:', error.response.status);
+                if (error.response.status === 400 || error.response.status === 404) {
+                    alert(`회원정보 수정 실패: ${error.response.data || '유효하지 않은 요청입니다.'}`);
+                } else if (error.response.status === 500) {
+                    alert('회원정보 수정 실패: 서버 내부 오류가 발생했습니다.');
+                } else {
+                    alert('회원정보 수정에 실패했습니다. 다시 시도해주세요.');
+                }
+            } else if (error.request) {
+                // 요청이 전송되었지만 응답을 받지 못한 경우 (네트워크 문제 등)
+                alert('회원정보 수정 실패: 서버에 연결할 수 없습니다. 네트워크를 확인해주세요.');
+            } else {
+                // 요청을 설정하는 중에 오류가 발생한 경우
+                alert('회원정보 수정 중 알 수 없는 오류 발생.');
+            }
         }
     };
 
@@ -125,8 +153,7 @@ function UserEdit() {
                             name="userName"
                             value={formData.userName}
                             onChange={onChangeHandler}
-                            placeholder="이름을 입력하세요"
-                            required
+                            readOnly
                         />
                     </div>
 
@@ -148,8 +175,7 @@ function UserEdit() {
                             name="userPwd"
                             value={formData.userPwd}
                             onChange={onChangeHandler}
-                            placeholder="비밀번호 입력"
-                            required
+                            placeholder="새로운 비밀번호 입력(변경 시에만 입력하세요)"
                         />
                     </div>
 
@@ -161,7 +187,6 @@ function UserEdit() {
                             value={formData.userPwdConfirm}
                             onChange={onChangeHandler}
                             placeholder="비밀번호 확인"
-                            required
                         />
                     </div>
 
