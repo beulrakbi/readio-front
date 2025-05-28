@@ -33,13 +33,16 @@ function UserMain() {
 
         if (!token || !userId) return;
 
-        const todayKey = `emotionModalShown_${new Date().toISOString().slice(0, 10)}`;
+        const todayStr = dayjs().format('YYYY-MM-DD');
+        const modalKey = `emotionModalShown_${userId}_${todayStr}`;
 
-        if (!localStorage.getItem(todayKey)) {
+        // userId + 날짜 기준으로 체크
+        if (!localStorage.getItem(modalKey)) {
             setIsModalOpen(true);
-            localStorage.setItem(todayKey, 'true');
+            localStorage.setItem(modalKey, 'true');
         }
     }, []);
+
 
     useEffect(() => {
         const getTypes = async () => {
