@@ -13,7 +13,7 @@ const BookSlice = createSlice({
       // payload 전체 응답 객체를 구조분해하여 저장
       const { item, totalResults, startIndex, itemsPerPage } = action.payload;
       state.bookList    = item           || [];        // item 배열로 설정
-      state.totalResults = totalResults || 0;         // totalResults 저장
+      state.totalResults = totalResults  || 0;         // totalResults 저장
       state.startIndex   = startIndex    || state.startIndex;   // startIndex 저장
       state.itemsPerPage = itemsPerPage  || state.itemsPerPage; // itemsPerPage 저장
     },
