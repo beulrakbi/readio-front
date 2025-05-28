@@ -19,4 +19,15 @@ axiosInstance.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
+// 응답 인터셉터 (여기서 403 처리 추가)
+axiosInstance.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && error.response.status === 403) {
+      window.location.href = '/access-denied'; // 리디렉션 (useNavigate 못 쓰므로 window.location 사용)
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;
