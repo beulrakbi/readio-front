@@ -11,7 +11,7 @@ export const callCurationTypesAPI = () => {
                 Accept: '*/*'
             },
         }).then((response) => response.json());
-
+        console.log("result", result);
         if (result.status === 200) {
             dispatch(getCurationTypes(result));
             return result;

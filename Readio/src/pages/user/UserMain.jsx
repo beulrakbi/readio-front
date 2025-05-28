@@ -4,11 +4,14 @@ import UserMainCSS from './UserMain.module.css';
 import {useEffect, useState} from "react";
 import EmotionModal from '../mylibrary/calendar/EmotionModal.jsx';
 import dayjs from 'dayjs';
+import {callCurationTypesAPI} from "../../apis/CurationAPICalls.js";
+import {useDispatch} from "react-redux";
 
 
 function UserMain() {
     const [types, setTypes] = useState([]);
-    const allTypes = ["celeb", "goods", "habit"];
+    // const allTypes = ["celeb", "goods", "habit"];
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const today = dayjs();  // import dayjs
     const token = localStorage.getItem("accessToken");
@@ -49,11 +52,10 @@ function UserMain() {
                 const types = allTypes.data;
                 const shuffled = [...types].sort(() => 0.5 - Math.random()); // 랜덤 셔플
                 setTypes(shuffled);
-                console.log("ttttttt", types);
             }
         }
-
         getTypes();
+        console.log("ttttttt", types);
     }, []);
 
     return (<>
@@ -80,8 +82,6 @@ function UserMain() {
                 당신에게 꼭 맞는 이야기를 전합니다. "</p>
                 </div>
                 <div className={UserMainCSS.videoSection}>
-
-
                         <VideoList type={types[0]}/>
                         <VideoList type={types[1]}/>
                         <VideoList type={types[2]}/>
@@ -89,8 +89,6 @@ function UserMain() {
                     </div>
                 </div>
             </div>
-            </div>
-
             {isModalOpen && (
                 <EmotionModal
                     onSelect={(emoji) => {
