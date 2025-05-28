@@ -124,50 +124,55 @@ function AdminFaqList() {
                     </div>
                 </div>
 
-                <div className={styles.line}></div>
+                <hr className={styles.line}></hr>
 
                 <div className={styles.tableBox}>
                     <table className={styles.noticeTable}>
                         <thead>
-                            <tr>
-                                <th><input type="checkbox" checked={isAllSelected} onChange={handleAllCheckboxChange} /></th>
-                                <th>번호</th>
-                                <th className={styles.titleSize}>제목</th>
-                                <th>작성자</th>
-                                <th>작성일</th>
-                            </tr>
+                        <tr>
+                            <th><input type="checkbox" checked={isAllSelected} onChange={handleAllCheckboxChange}/></th>
+                            <th>번호</th>
+                            <th className={styles.titleSize}>제목</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {faqs.length === 0 ? (
-                                <tr>
-                                    <td colSpan="5" style={{ textAlign: 'center', paddingTop: '180px' }}>
-                                        등록된 FAQ가 없습니다.
+                        {faqs.length === 0 ? (
+                            <tr>
+                                <td colSpan="5" style={{
+                                    textAlign: 'center',
+                                    paddingTop: '180px',
+                                    fontSize: '20px',
+                                    color: '#3838383'
+                                }}>
+                                    등록된 FAQ가 없습니다.
+                                </td>
+                            </tr>
+                        ) : (
+                            faqs.map((faq) => (
+                                <tr key={faq.faqId}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedIds.includes(faq.faqId)}
+                                            onChange={() => handleCheckboxChange(faq.faqId)}
+                                        />
                                     </td>
-                                </tr>
-                            ) : (
-                                faqs.map((faq) => (
-                                    <tr key={faq.faqId}>
-                                        <td>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedIds.includes(faq.faqId)}
-                                                onChange={() => handleCheckboxChange(faq.faqId)}
-                                            />
-                                        </td>
-                                        <td>{faq.faqId}</td>
-                                        <td className={styles.titleCell}>
+                                    <td>{faq.faqId}</td>
+                                    <td className={styles.titleCell}>
                                             <span
                                                 onClick={() => handleTitleClick(faq.faqId)}
-                                                style={{ cursor: 'pointer', color: 'black', textDecoration: 'none' }}
+                                                style={{cursor: 'pointer', color: 'black', textDecoration: 'none'}}
                                             >
                                                 {faq.faqTitle}
                                             </span>
-                                        </td>
-                                        <td>관리자</td>
-                                        <td>{new Date(faq.faqCreateAt).toLocaleString()}</td>
-                                    </tr>
-                                ))
-                            )}
+                                    </td>
+                                    <td>관리자</td>
+                                    <td>{new Date(faq.faqCreateAt).toLocaleString()}</td>
+                                </tr>
+                            ))
+                        )}
                         </tbody>
                     </table>
                 </div>
@@ -182,7 +187,7 @@ function AdminFaqList() {
                             onChange={handleSearchChange}
                         />
                         <button type="submit" className={styles.btn}>
-                            <img src={searchIcon} alt="검색" />
+                            <img src={searchIcon} alt="검색"/>
                         </button>
                     </form>
 
@@ -206,7 +211,7 @@ function AdminFaqList() {
                                 <button
                                     key={index}
                                     className={styles.pageButton}
-                                    style={{ fontWeight: index === page ? 'bold' : 'normal' }}
+                                    style={{fontWeight: index === page ? 'bold' : 'normal'}}
                                     onClick={() => handlePageClick(index)}
                                 >
                                     {index + 1}

@@ -123,12 +123,12 @@ function AdminNoticeList() {
                     </div>
                 </div>
 
-                <div className={styles.line}></div>
+                <hr className={styles.line}></hr>
 
                 <div className={styles.tableBox}>
                     <table className={styles.noticeTable}>
                         <thead>
-                            <tr>
+                            <tr style={{borderBottom: '1px solid #383838'}}>
                                 <th><input type="checkbox" checked={isAllSelected} onChange={handleAllCheckboxChange} /></th>
                                 <th>번호</th>
                                 <th>상태</th>
@@ -141,7 +141,7 @@ function AdminNoticeList() {
                         <tbody>
                             {notices.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7" style={{ textAlign: 'center', paddingTop: '180px' }}>
+                                    <td colSpan="7" style={{ textAlign: 'center', paddingTop: '180px', fontSize:'20px', color: '#3838383' }}>
                                         등록된 공지사항이 없습니다.
                                     </td>
                                 </tr>
