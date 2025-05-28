@@ -117,49 +117,54 @@ function AdminQnaList() {
                     </div>
                 </div>
 
-                <div className={styles.line}></div>
+                <hr className={styles.line}></hr>
 
                 <div className={styles.tableBox}>
                     <table className={styles.noticeTable}>
                         <thead>
-                            <tr>
-                                <th><input type="checkbox" checked={isAllSelected} onChange={handleAllCheckboxChange} /></th>
-                                <th>번호</th>
-                                <th className={styles.titleSize}>제목</th>
-                                <th>작성자</th>
-                                <th>작성일</th>
-                                <th>조회수</th>
-                            </tr>
+                        <tr>
+                            <th><input type="checkbox" checked={isAllSelected} onChange={handleAllCheckboxChange}/></th>
+                            <th>번호</th>
+                            <th className={styles.titleSize}>제목</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                            <th>조회수</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {qnas.length === 0 ? (
-                                <tr>
-                                    <td colSpan="6" style={{ textAlign: 'center', paddingTop: '180px' }}>
-                                        등록된 QNA가 없습니다.
+                        {qnas.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" style={{
+                                    textAlign: 'center',
+                                    paddingTop: '180px',
+                                    fontSize: '20px',
+                                    color: '#3838383'
+                                }}>
+                                    등록된 QNA가 없습니다.
+                                </td>
+                            </tr>
+                        ) : (
+                            qnas.map((qna) => (
+                                <tr key={qna.qnaId}>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedIds.includes(qna.qnaId)}
+                                            onChange={() => handleCheckboxChange(qna.qnaId)}
+                                        />
                                     </td>
+                                    <td>{qna.qnaId}</td>
+                                    <td className={styles.titleCell}>
+                                        <NavLink to={`/admin/qna/detail/${qna.qnaId}`} className={styles.contentBtn}>
+                                            {qna.qnaTitle}
+                                        </NavLink>
+                                    </td>
+                                    <td>{qna.qnaWriter || '사용자'}</td>
+                                    <td>{new Date(qna.qnaCreateAt).toLocaleDateString()}</td>
+                                    <td>{qna.qnaViewCount || 0}</td>
                                 </tr>
-                            ) : (
-                                qnas.map((qna) => (
-                                    <tr key={qna.qnaId}>
-                                        <td>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedIds.includes(qna.qnaId)}
-                                                onChange={() => handleCheckboxChange(qna.qnaId)}
-                                            />
-                                        </td>
-                                        <td>{qna.qnaId}</td>
-                                        <td className={styles.titleCell}>
-                                            <NavLink to={`/admin/qna/detail/${qna.qnaId}`} className={styles.contentBtn}>
-                                                {qna.qnaTitle}
-                                            </NavLink>
-                                        </td>
-                                        <td>{qna.qnaWriter || '사용자'}</td>
-                                        <td>{new Date(qna.qnaCreateAt).toLocaleDateString()}</td>
-                                        <td>{qna.qnaViewCount || 0}</td>
-                                    </tr>
-                                ))
-                            )}
+                            ))
+                        )}
                         </tbody>
                     </table>
                 </div>
@@ -174,21 +179,26 @@ function AdminQnaList() {
                             onChange={handleSearchChange}
                         />
                         <button type="submit" className={styles.btn}>
-                            <img src={searchIcon} alt="검색" />
+                            <img src={searchIcon} alt="검색"/>
                         </button>
                     </form>
 
                     {!isSearching && (
                         <div className={styles.pagingbox}>
-                            <button className={styles.pageButton} onClick={() => handlePageClick(0)} disabled={page === 0}>{'<<'}</button>
-                            <button className={styles.pageButton} onClick={() => handlePageClick(page - 1)} disabled={page === 0}>{'<'}</button>
+                            <button className={styles.pageButton} onClick={() => handlePageClick(0)}
+                                    disabled={page === 0}>{'<<'}</button>
+                            <button className={styles.pageButton} onClick={() => handlePageClick(page - 1)}
+                                    disabled={page === 0}>{'<'}</button>
                             {[...Array(totalPages)].map((_, index) => (
-                                <button key={index} className={styles.pageButton} onClick={() => handlePageClick(index)} style={{ fontWeight: index === page ? 'bold' : 'normal' }}>
+                                <button key={index} className={styles.pageButton} onClick={() => handlePageClick(index)}
+                                        style={{fontWeight: index === page ? 'bold' : 'normal'}}>
                                     {index + 1}
                                 </button>
                             ))}
-                            <button className={styles.pageButton} onClick={() => handlePageClick(page + 1)} disabled={page === totalPages - 1}>{'>'}</button>
-                            <button className={styles.pageButton} onClick={() => handlePageClick(totalPages - 1)} disabled={page === totalPages - 1}>{'>>'}</button>
+                            <button className={styles.pageButton} onClick={() => handlePageClick(page + 1)}
+                                    disabled={page === totalPages - 1}>{'>'}</button>
+                            <button className={styles.pageButton} onClick={() => handlePageClick(totalPages - 1)}
+                                    disabled={page === totalPages - 1}>{'>>'}</button>
                         </div>
                     )}
                 </div>

@@ -1,0 +1,32 @@
+.accessContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.accessTitle {
+    font-size: 60px;
+    size: 2rem;
+    color: #333;
+    margin: 10px;
+}
+
+.accessText {
+    font-size: 20px;
+    size: 1rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.accessButton {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}

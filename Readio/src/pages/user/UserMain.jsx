@@ -42,22 +42,27 @@ function UserMain() {
         }
     }, []);
 
-    const getRandomTypes = () => {
-        const shuffled = [...allTypes].sort(() => 0.5 - Math.random()); // 랜덤 셔플
-        setTypes(shuffled);
-    };
-
     useEffect(() => {
-        getRandomTypes();
+        const getTypes = async () => {
+            const allTypes = await dispatch(callCurationTypesAPI());
+            if (allTypes) {
+                const types = allTypes.data;
+                const shuffled = [...types].sort(() => 0.5 - Math.random()); // 랜덤 셔플
+                setTypes(shuffled);
+                console.log("ttttttt", types);
+            }
+        }
+
+        getTypes();
     }, []);
 
-    return (
-        <>
+    return (<>
             <div className={UserMainCSS.main}>
                 <div className={UserMainCSS.mainImgBox}>
                     <div className={UserMainCSS.mainSearch}>
                         <div className={UserMainCSS.buttonBox}>
-                            <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
+                            <input className={UserMainCSS.mainSearchInput} type="text" name="search"
+                                   placeholder="검색어를 입력하세요"/>
                             <button className={UserMainCSS.buttonNone}><img src={search}/></button>
                         </div>
                         <div className={UserMainCSS.buttonBox}>
@@ -76,10 +81,12 @@ function UserMain() {
                 </div>
                 <div className={UserMainCSS.videoSection}>
 
-                <VideoList type={types[0]}/>
-                <VideoList type={types[1]}/>
-                <VideoList type={types[2]}/>
 
+                        <VideoList type={types[0]}/>
+                        <VideoList type={types[1]}/>
+                        <VideoList type={types[2]}/>
+
+                    </div>
                 </div>
             </div>
             </div>
@@ -124,6 +131,7 @@ function UserMain() {
             )}
         </>
     )
+
 }
 
 export default UserMain;

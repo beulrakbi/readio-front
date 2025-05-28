@@ -11,10 +11,11 @@
 
 .fontContainer {
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-items: center;
     height:30px;
     margin-bottom: 10px;
+    gap: 20px;
 }
 
 .fontContainer2 {
@@ -29,7 +30,7 @@
     font-size: 24px;
     font-weight: 600;
     color: #383838;
-    margin: 0;
+    margin: 0px;
 }
 
 .font2 {
@@ -37,6 +38,10 @@
     font-weight: 600;
     color: #AF4C3F;
     cursor: pointer;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
 }
 
 .font3 {
@@ -216,7 +221,7 @@
     background-color: rgb(175,76,63,0.6);
     border-radius: 10px;
     height: 30px;
-    width: auto;
+    width: 300px;
     border: none;
     color: white;
     font-size: 16px;
@@ -240,7 +245,7 @@
     all: unset;
     color: #383838;
     position: absolute;
-    right: 15px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -261,6 +266,7 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    margin: 0;
 }
 
 /* 상세페이지 */
@@ -273,7 +279,7 @@
 
 .filteringDetailContent {
     width: 1300px;
-    height: 270px;
+    height: 440px;
     background-color: transparent;
     font-size: 20px;
     font-weight: 600;
@@ -287,14 +293,14 @@
 }
 
 .filteringKeywords {
-    width: 1200px;
-    height: 120px;
+    /*width: 1200px;*/
+    /*height: 120px;*/
     padding: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
     align-content: flex-start;
-    /* gap: 10px; */
+     gap: 10px;
     flex-wrap: wrap
 }
 
@@ -310,4 +316,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.curationTypeText {
+    background-color: rgb(175,76,63,0.6);
+    border-radius: 10px;
+    height: 30px;
+    width: 500px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 5px;
+}
+
+.curationTypeText:focus {
+    outline: none;
+}
+
+.curationTypeText::placeholder {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
 }
