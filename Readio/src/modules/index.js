@@ -4,6 +4,7 @@ import bookSearchSlice from "./postwriting/bookSearchSlice.js";
 import userReducer from './user/userSlice.js';
 import CurationSlice from "./video/CurationSlice.js";
 import videoSlice from "./video/VideoSlice.js";
+import BookPageSlice from "./Book/BookPageSlice.js";
 
 
 const rootReducers =  combineReducers(
@@ -12,8 +13,8 @@ const rootReducers =  combineReducers(
             curation: CurationSlice,
             bookSearch: bookSearchSlice,
             video: videoSlice,
-            user: userReducer
-
+            user: userReducer,
+            bookPage: BookPageSlice,
         });
 
 export default rootReducers;

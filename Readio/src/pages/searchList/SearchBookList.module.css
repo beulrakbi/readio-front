@@ -28,6 +28,7 @@
 .bookItem {
      display: flex;
      margin: 30px;
+    cursor: pointer;
 }
 
 .book{
@@ -98,4 +99,9 @@
 .activePage {
   font-weight: bold;        
   color: #898e67;            
+}
+
+.link {
+    all: unset;
+    cursor: pointer;
 }
