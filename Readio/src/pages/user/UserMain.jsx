@@ -28,15 +28,19 @@ function UserMain() {
         const token = localStorage.getItem("accessToken");
         const userId = localStorage.getItem("userId");
 
-        if (!token || !userId) return;
+        if (!token || !userId) {
+            console.log(" userId/token 없음 - 모달 안 뜸");
+            return;
+        }
 
-        const todayKey = `emotionModalShown_${new Date().toISOString().slice(0, 10)}`;
+        const todayKey = `emotionModalShown_${userId}_${new Date().toISOString().slice(0, 10)}`;
+        console.log(" todayKey:", todayKey);
+
         if (!localStorage.getItem(todayKey)) {
             setIsModalOpen(true);
             localStorage.setItem(todayKey, 'true');
         }
     }, []);
-
 
     const getRandomTypes = () => {
         const shuffled = [...allTypes].sort(() => 0.5 - Math.random()); // 랜덤 셔플
