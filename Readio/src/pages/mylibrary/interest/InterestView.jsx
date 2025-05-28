@@ -1,25 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import styles from './Interest.module.css';
 
 const InterestViewPage = () => {
     const navigate = useNavigate();
 
-    const viewingUserId = 'test2';       // 내가 보고 있는 서재 주인
-    const currentUserId = 'test2';       // 현재 로그인된 사용자
+    const { userId: paramUserId } = useParams();
+    const currentUserId = localStorage.getItem("userId");
+    const targetUserId = paramUserId || currentUserId;
 
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedKeywords, setSelectedKeywords] = useState([]);
 
     useEffect(() => {
-        fetch(`/api/user/interests/${viewingUserId}`)
+        if (!currentUserId) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        fetch(`/api/user/interests/${targetUserId}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setSelectedCategories(data.categories.map(c => c.name));
                 setSelectedKeywords(data.keywords.map(k => k.name));
             })
             .catch(err => console.error('관심사 불러오기 실패', err));
-    }, [viewingUserId]);
+    }, [targetUserId]);
 
     return (
         <div className={styles.InterestPageWrapper}>
@@ -49,7 +59,7 @@ const InterestViewPage = () => {
                 <hr className={styles.sectionDivider} />
 
                 {/* 본인일 경우에만 편집 버튼 노출 */}
-                {viewingUserId === currentUserId && (
+                {targetUserId === currentUserId && (
                     <button className={styles.editButton} onClick={() => navigate('/mylibrary/interest/edit')}>
                         편집
                     </button>
