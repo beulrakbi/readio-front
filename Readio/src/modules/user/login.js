@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "../../Store";
+import store from "../../Store.js";
 import { loginSuccess } from "./userSlice";
 
 export const login = (userId, password) => async (dispatch) => {
