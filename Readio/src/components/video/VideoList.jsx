@@ -9,6 +9,7 @@ import VideoListCSS from "./videoList.module.css";
 
 function VideoList({type})
 {
+    console.log(type);
     const [videoList, setVideoList] = useState([]);
     const [videoInDBList, setVideoInDBList] = useState([]);
     const [videoListTitle, setVideoListTitle] = useState('');

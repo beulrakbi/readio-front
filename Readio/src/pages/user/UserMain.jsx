@@ -4,11 +4,14 @@ import UserMainCSS from './UserMain.module.css';
 import {useEffect, useState} from "react";
 import EmotionModal from '../mylibrary/calendar/EmotionModal.jsx';
 import dayjs from 'dayjs';
+import {callCurationTypesAPI} from "../../apis/CurationAPICalls.js";
+import {useDispatch} from "react-redux";
 
 
 function UserMain() {
     const [types, setTypes] = useState([]);
-    const allTypes = ["celeb", "goods", "habit"];
+    // const allTypes = ["celeb", "goods", "habit"];
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const today = dayjs();  // import dayjs
     const token = localStorage.getItem("accessToken");
@@ -38,14 +41,17 @@ function UserMain() {
         }
     }, []);
 
-
-    const getRandomTypes = () => {
-        const shuffled = [...allTypes].sort(() => 0.5 - Math.random()); // 랜덤 셔플
-        setTypes(shuffled);
-    };
-
     useEffect(() => {
-        getRandomTypes();
+        const getTypes = async () => {
+            const allTypes = await dispatch(callCurationTypesAPI());
+            if (allTypes) {
+                const types = allTypes.data;
+                const shuffled = [...types].sort(() => 0.5 - Math.random()); // 랜덤 셔플
+                setTypes(shuffled);
+            }
+        }
+        getTypes();
+        console.log("ttttttt", types);
     }, []);
 
     return (
@@ -65,14 +71,13 @@ function UserMain() {
                     </div>
                 </div>
                 <p className={UserMainCSS.readio}>READIO</p>
-                <div className={UserMainCSS.backgroundTexture}>
-                    <div className={UserMainCSS.mainTextBox}>
-                        <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
-                            계절처럼 변하는 하루하루,
-                            당신에게 꼭 맞는 이야기를 전합니다. "</p>
-                    </div>
-                    <div className={UserMainCSS.videoSection}>
-
+            <div className={UserMainCSS.backgroundTexture}>
+                <div className={UserMainCSS.mainTextBox}>
+                <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
+                    계절처럼 변하는 하루하루,
+                당신에게 꼭 맞는 이야기를 전합니다. "</p>
+                </div>
+                <div className={UserMainCSS.videoSection}>
                         <VideoList type={types[0]}/>
                         <VideoList type={types[1]}/>
                         <VideoList type={types[2]}/>
@@ -80,7 +85,6 @@ function UserMain() {
                     </div>
                 </div>
             </div>
-
             {isModalOpen && (
                 <EmotionModal
                     onSelect={(emoji) => {
