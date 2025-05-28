@@ -52,10 +52,13 @@
     line-height: 20px;
 }
 
-.bookAuthor , .bookPublisher {
+.bookAuthor, .bookPublisher {
     font-size : 13px;
-    font-weight: 500;
+}
 
+.label {
+     font-size: 13px;
+     font-weight: 500;
 }
 
 .bookDetail {
