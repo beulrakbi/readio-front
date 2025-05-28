@@ -14,6 +14,8 @@ function VideoList({type})
     const [videoListTitle, setVideoListTitle] = useState('');
     const dispatch = useDispatch();
 
+    // const typeId = type.typeId;
+
     useEffect(() => {
         const getVideos = async () => {
             const keywords = await fetch(`http://localhost:8080/curation/${type.typeId}`)
