@@ -27,7 +27,7 @@
   /* 수평 정렬 */
   align-items: center;
   /* 세로 가운데 정렬 */
-  margin-bottom: 20px;
+  /* margin-bottom: 8px; */
   /* 항목 간 간격 통일 */
   margin-left: 40px;
   /* 약관이랑 왼쪽 여백 통일하기 */
@@ -63,6 +63,21 @@
   align-items: center;
   margin-bottom: 10px;
   /* margin-left: 40px; */
+}
+
+/* 유효성 메시지 */
+.message {
+  margin-top: 0px;
+  margin-left: 175px;
+  font-size: 13px;
+}
+
+.message.error {
+  color: rgb(194, 28, 28);
+}
+
+.message.success {
+  color: #000000;
 }
 
 /* 진한선 */

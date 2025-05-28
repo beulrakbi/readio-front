@@ -7,8 +7,7 @@ const TTB_KEY  = "ttbehfvls09271435001";
 
 export const callBooksAPI = ({ search, page = 1, size = 10 }) => {
     const start = (page - 1) * size + 1;
-
-    const corsProxy = 'https://corsproxy.io/?'; 
+    const corsProxy = 'https://corsproxy.io/?';
 
     const targetUrl = `${BASE_URL}` +
         `?ttbkey=${TTB_KEY}` +
@@ -44,12 +43,12 @@ export const callBooksAPI = ({ search, page = 1, size = 10 }) => {
             }
 
             // XML 응답인 경우
-            if (responseText.trim().toLowerCase().startsWith('<?xml')) {
-                console.error(`[BookAPICalls] JSON 예상했으나 XML 수신`, responseText.substring(0,200));
-                const m = responseText.match(/<errorstring>(.*?)<\/errorstring>/i);
-                const detail = m?.[1] || "알 수 없는 XML 오류";
-                return { item: [], totalResults: 0, error: `서버 XML 응답: ${detail}` };
-            }
+            // if (responseText.trim().toLowerCase().startsWith('<?xml')) {
+            //     console.error(`[BookAPICalls] JSON 예상했으나 XML 수신`, responseText.substring(0,200));
+            //     const m = responseText.match(/<errorstring>(.*?)<\/errorstring>/i);
+            //     const detail = m?.[1] || "알 수 없는 XML 오류";
+            //     return { item: [], totalResults: 0, error: `서버 XML 응답: ${detail}` };
+            // }
 
             // JSON 파싱
             let result = JSON.parse(responseText); //  JSON.parse 사용
@@ -86,7 +85,7 @@ export const callBooksAPI = ({ search, page = 1, size = 10 }) => {
 export const callBookInsertAPI = ({ form }) => {
     // const INSERT_URL = "http://localhost:8080/api/book/insert"; //  백엔드 엔드포인트
     // const INSERT_URL = "http://localhost:8080/search/book"; //  백엔드 엔드포인트
-    const INSERT_URL = "/api/search/book"; //  백엔드 엔드포인트
+    const INSERT_URL = "http://localhost:8080/api/search/book"; //  백엔드 엔드포인트
     return async dispatch => {
         try {
             const res = await fetch(INSERT_URL, {

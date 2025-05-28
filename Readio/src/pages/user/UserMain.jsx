@@ -2,29 +2,37 @@ import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoList.jsx';
 import UserMainCSS from './UserMain.module.css';
 import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {callCurationTypesAPI} from "../../apis/CurationAPICalls.js";
 
-function UserMain()
-{
+function UserMain() {
 
+    const dispatch = useDispatch();
     const [types, setTypes] = useState([]);
-    const allTypes = ["celeb", "goods", "habit"];
+    // let allTypes = null;
 
-    const getRandomTypes = () => {
-        const shuffled = [...allTypes].sort(() => 0.5 - Math.random()); // 랜덤 셔플
-        setTypes(shuffled);
-    };
 
     useEffect(() => {
-        getRandomTypes();
+        const getTypes = async () => {
+            const allTypes = await dispatch(callCurationTypesAPI());
+            if (allTypes) {
+                const types = allTypes.data;
+                const shuffled = [...types].sort(() => 0.5 - Math.random()); // 랜덤 셔플
+                setTypes(shuffled);
+                console.log("ttttttt", types);
+            }
+        }
+
+        getTypes();
     }, []);
 
-    return (
-        <>
+    return (<>
             <div className={UserMainCSS.main}>
                 <div className={UserMainCSS.mainImgBox}>
                     <div className={UserMainCSS.mainSearch}>
                         <div className={UserMainCSS.buttonBox}>
-                            <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
+                            <input className={UserMainCSS.mainSearchInput} type="text" name="search"
+                                   placeholder="검색어를 입력하세요"/>
                             <button className={UserMainCSS.buttonNone}><img src={search}/></button>
                         </div>
                         <div className={UserMainCSS.buttonBox}>
@@ -35,23 +43,22 @@ function UserMain()
                     </div>
                 </div>
                 <p className={UserMainCSS.readio}>READIO</p>
-            <div className={UserMainCSS.backgroundTexture}>
-                <div className={UserMainCSS.mainTextBox}>
-                <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
-                    계절처럼 변하는 하루하루, 
-                당신에게 꼭 맞는 이야기를 전합니다. "</p>
-                </div>
-                <div className={UserMainCSS.videoSection}>
+                <div className={UserMainCSS.backgroundTexture}>
+                    <div className={UserMainCSS.mainTextBox}>
+                        <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
+                            계절처럼 변하는 하루하루,
+                            당신에게 꼭 맞는 이야기를 전합니다. "</p>
+                    </div>
+                    <div className={UserMainCSS.videoSection}>
 
-                <VideoList type={types[0]}/>
-                <VideoList type={types[1]}/>
-                <VideoList type={types[2]}/>
+                        <VideoList type={types[0]}/>
+                        <VideoList type={types[1]}/>
+                        <VideoList type={types[2]}/>
 
+                    </div>
                 </div>
             </div>
-            </div>
-        </>
-    )
+        </>)
 }
 
 export default UserMain;
