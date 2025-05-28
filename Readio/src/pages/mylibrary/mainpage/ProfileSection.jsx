@@ -3,14 +3,16 @@ import styles from './MyLibrary.module.css';
 import defaultImg from '../../../assets/defaultImg.png';
 import pencilIcon from '../../../assets/pencil.png';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 
 const ProfileSection = () => {
     const navigate = useNavigate();
-    // const { userId: targetUserId } = useParams(); // /mylibrary/:userId
-    const targetUserId = 'test2';
-    const currentUserId = 'test2';
+    const { userId: paramUserId } = useParams();
+    const currentUserId = localStorage.getItem("userId");
+    const targetUserId = paramUserId || currentUserId;
+
 
     const [profile, setProfile] = useState({
         penName: '',
@@ -22,10 +24,19 @@ const ProfileSection = () => {
     const [showPopup, setShowPopup] = useState(false);
     const isOwner = currentUserId === targetUserId;
 
+
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`/api/user/profile/${targetUserId}`);
+                const token = localStorage.getItem("accessToken"); // 저장된 JWT 토큰 가져오기
+
+                const res = await axios.get(`/api/user/profile/${targetUserId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // 토큰 추가
+                    },
+                    withCredentials: true // 쿠키와 함께 보낼 경우
+                });
+
                 setProfile(res.data);
             } catch (err) {
                 console.error('프로필 조회 실패:', err);

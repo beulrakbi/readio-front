@@ -21,7 +21,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 30px;
+    height:30px;
+    font-family: 'Pretendard Variable', sans-serif;
 }
 
 .font1 {
@@ -44,8 +45,6 @@
     font-weight: 200;
     margin: 6px;
     display: inline;
-    margin: 10px;
-
 }
 
 .linkFont {

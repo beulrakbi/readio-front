@@ -54,6 +54,7 @@ import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
+import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
 
 
 
@@ -63,7 +64,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* 메인 페이지, 사용자 페이지 */}
-            <Route path="/access-denied" element={<AccessDenied />} />                {/* 404페이지*/}
+          <Route path="/access-denied" element={<AccessDenied />} />                  {/* 404페이지*/}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
             <Route path="users/login" element={<Login />} />                          {/* 로그인 */}
@@ -85,7 +86,7 @@ function App() {
             <Route path="/qna" element={<QnaList />} />
             <Route path="/qna/detail/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/writing" element={<QnaWriting />} />
-            <Route path="/qna/writing/:qnaId" element={<QnaWriting />} /> 
+            <Route path="/qna/writing/:qnaId" element={<QnaWriting />} />
             <Route path="/faq" element={<Faq />} />
             <Route path="/bookmark" element={<Bookmark />} />
             <Route path="/notice" element={<Search />} />
@@ -127,6 +128,7 @@ function App() {
             <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
             <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail />} />
             <Route path="/admin/interest" element={< AdminInterestManager />} />
+            <Route path="/admin/curation" element={<CurationManagerPage />}/>
           </Route>
         </Routes>
       </BrowserRouter >

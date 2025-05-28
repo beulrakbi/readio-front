@@ -96,11 +96,11 @@ function FilteringModify() {
             id: id + index, value: filter.keyword || filter.videoId || '', isSaved: true
         }));
 
-        console.log("DBfilterings", filtering.data.filterings);
+        // console.log("DBfilterings", filtering.data.filterings);
 
         setId(id + filtering.data.filterings.length);
         setFilterings([...filterings, ...newFilters]);
-        console.log("filterings", filterings)
+        // console.log("filterings", filterings)
     }, []);
 
     return (<div className={FListCSS.container}>
@@ -114,16 +114,11 @@ function FilteringModify() {
         <p className={FListCSS.font3}>필터링 요소 수정</p>
         <hr className={FListCSS.filteringLine}/>
         <div className={FListCSS.filteringDiv}>
-            {/*{filtering?.data.filterings.map((filter => (*/}
-            {/*    <p className={FListCSS.savedKeyword}>{filter.keyword}</p>*/}
-            {/*    // <button className={FListCSS.noneBt} type="button" onClick={() => DeleteFiltering(filtering.id)}>X</button>*/}
-            {/*)))}*/}
             {filterings.map((filtering) => (<div className={FListCSS.filteringWrapper} key={filtering.id}>
                 {filtering.isSaved ? (<p className={FListCSS.savedKeyword}>{filtering.value}</p>) : (
                     <input className={FListCSS.filteringInput} key={filtering.id} type="text"
                            placeholder="입력하세요"
                            name="value"
-                        // value={form.keyword}
                            onChange={onChangeHandler2}
                            onKeyDown={(e) => {
                                if (e.key == 'Enter') {

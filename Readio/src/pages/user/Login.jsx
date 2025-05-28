@@ -42,7 +42,7 @@ const Login = () => {
             localStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
             localStorage.setItem("isPasswordVerified", "true"); // 비밀번호 검증 플래그 설정
 
-            // window.location.href = "/";
+            window.location.href = "/";
 
             const token = localStorage.getItem("jwtToken");
             console.log("axios 토큰 확인:", token); // 토큰이 null이면 저장이 안된것 배포전 삭제필요

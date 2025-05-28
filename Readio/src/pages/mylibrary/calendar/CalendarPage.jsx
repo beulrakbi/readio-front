@@ -13,6 +13,9 @@ const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const navigate = useNavigate();
     const today = dayjs();
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("accessToken");
+
 
     const convertEmojiToEnum = (emoji) => {
         switch (emoji) {
@@ -65,18 +68,26 @@ const CalendarPage = () => {
     };
 
     const handleEmotionSelect = async (emoji) => {
+        if (!userId) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
         const key = selectedDate.format('YYYY-MM-DD');
         const requestData = {
-            userId: 'test2',
+            userId: userId,
             emotionType: convertEmojiToEnum(emoji),
             date: key
         };
         try {
             const response = await fetch('/api/user/emotions', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify(requestData)
             });
+
             if (response.ok) {
                 setEmotionData((prev) => ({ ...prev, [key]: emoji }));
             } else {
@@ -89,6 +100,11 @@ const CalendarPage = () => {
     };
 
     const handleDeleteEmotion = async () => {
+        if (!userId) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
         if (!selectedDate) {
             setShowPopup(true);
             setTimeout(() => setShowPopup(false), 2000);
@@ -96,8 +112,11 @@ const CalendarPage = () => {
         }
         const key = selectedDate.format('YYYY-MM-DD');
         try {
-            const response = await fetch(`/api/user/emotions?userId=test2&date=${key}`, {
-                method: 'DELETE'
+            const response = await fetch(`/api/user/emotions?userId=${userId}&date=${key}`, {
+                method: 'DELETE',
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
             });
             if (response.ok) {
                 setEmotionData((prev) => {
@@ -115,17 +134,43 @@ const CalendarPage = () => {
 
     useEffect(() => {
         const fetchEmotions = async () => {
+            const token = localStorage.getItem("accessToken");
+            const userId = localStorage.getItem("userId");
+
+            if (!userId || !token) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+
             const year = currentMonth.year();
             const month = currentMonth.month() + 1;
-            const response = await fetch(`/api/user/emotions?userId=test2&year=${year}&month=${month}`);
-            const data = await response.json();
-            const parsed = {};
-            console.log('백엔드 응답:', data);
-            data.forEach(({ emotionCode, date }) => {
-                parsed[date] = convertLabelToEmoji(emotionCode); // 👈 여기 수정
-            });
-            setEmotionData(parsed);
+
+            try {
+                const response = await fetch(`/api/user/emotions?userId=${userId}&year=${year}&month=${month}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    console.error("감정 데이터 불러오기 실패:", response.status);
+                    return;
+                }
+
+                const data = await response.json();
+                const parsed = {};
+                console.log('백엔드 응답:', data);
+
+                data.forEach(({ emotionCode, date }) => {
+                    parsed[date] = convertLabelToEmoji(emotionCode);
+                });
+
+                setEmotionData(parsed);
+            } catch (err) {
+                console.error("감정 조회 중 에러:", err);
+            }
         };
+
         fetchEmotions();
     }, [currentMonth]);
 

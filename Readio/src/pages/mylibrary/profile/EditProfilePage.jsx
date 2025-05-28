@@ -4,6 +4,7 @@ import styles from './EditProfilePage.module.css';
 import xIcon from '../../../assets/x.png';
 import { useNavigate } from 'react-router-dom';
 
+
 const EditProfilePage = () => {
     const navigate = useNavigate();
     const [previewImg, setPreviewImg] = useState(null);
@@ -13,6 +14,8 @@ const EditProfilePage = () => {
     const [isPublic, setIsPublic] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
     const handleImageClick = () => fileInputRef.current.click();
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("accessToken");
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -21,7 +24,11 @@ const EditProfilePage = () => {
 
     const handleImageDelete = async () => {
         try {
-            await axios.delete('/api/user/profile/image/test2');
+            await axios.delete(`/api/user/profile/image/ ${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             setPreviewImg(null);
             fileInputRef.current.value = null;
         } catch (err) {
@@ -31,7 +38,7 @@ const EditProfilePage = () => {
 
     const handleSave = async () => {
         const formData = new FormData();
-        formData.append('userId', 'test2'); // 실제 로그인 사용자 ID로 교체
+        formData.append('userId', userId);  // 실제 로그인 사용자 ID로 교체
         formData.append('penName', nickname);
         formData.append('biography', bio);
         formData.append('isPrivate', isPublic ? 'PUBLIC' : 'PRIVATE');
@@ -41,13 +48,16 @@ const EditProfilePage = () => {
 
         try {
             await axios.post('/api/user/profile', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
+                }
             });
             setShowPopup(true);
             setTimeout(() => {
                 setShowPopup(false);
                 navigate('/mylibrary'); // 저장 후 이동
-            }, 2000);
+            }, 1000);
         } catch (err) {
             alert('프로필 저장에 실패했습니다.');
             console.error(err);
@@ -58,7 +68,11 @@ const EditProfilePage = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get('/api/user/profile/test2');
+                const res = await axios.get(`/api/user/profile/${userId}`,{
+                    headers:{
+                        Authorization: `Bearer ${token}`,
+                    }
+                });
                 const data = res.data;
                 setNickname(data.penName);
                 setBio(data.biography || '');
@@ -71,7 +85,7 @@ const EditProfilePage = () => {
             }
         };
         fetchProfile();
-    }, []);
+    }, [userId]);
 
 
     return (
