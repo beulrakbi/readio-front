@@ -31,6 +31,12 @@ const curationSlice = createSlice({
             state.status = action.payload.status;
             state.message = action.payload.message;
         },
+        putAllCuration: (state, action) => {
+            state.type = action.payload.data.curationType;
+            state.keywords = action.payload.data.curationKeywords;
+            state.status = action.payload.status;
+            state.message = action.payload.message;
+        },
         putCurationType: (state, action) => {
             state.type = action.payload.data;
             state.status = action.payload.status;
@@ -51,8 +57,7 @@ const curationSlice = createSlice({
 
 
 export const {
-    getCurationKeywords, getCurationTypes, getAllCuration
-    ,putCurationType , postCurationKeywords, deleteCurationKeywords
+    getCurationKeywords, getCurationTypes, getAllCuration,putAllCuration
 } = curationSlice.actions;
 
 export default curationSlice.reducer;

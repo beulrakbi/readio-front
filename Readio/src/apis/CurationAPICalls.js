@@ -1,4 +1,4 @@
-import {getAllCuration, getCurationKeywords, getCurationTypes} from "../modules/video/CurationSlice.js";
+import {getAllCuration, getCurationKeywords, getCurationTypes, putAllCuration} from "../modules/video/CurationSlice.js";
 
 
 export const callCurationTypesAPI = () => {
@@ -12,9 +12,7 @@ export const callCurationTypesAPI = () => {
             },
         }).then((response) => response.json());
 
-        // console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
         if (result.status === 200) {
-            // console.log('[CurationAPICalls] callCurationTypesAPI SUCCESS');
             dispatch(getCurationTypes(result));
             return result;
         }
@@ -22,7 +20,7 @@ export const callCurationTypesAPI = () => {
 }
 
 export const callAllCurationTypesAndKeywordsAPI = () => {
-    const requestURL = `http://localhost:8080/curation/all`;
+    const requestURL = `http://localhost:8080/admin/curation/all`;
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
             method: 'GET',
@@ -41,7 +39,25 @@ export const callAllCurationTypesAndKeywordsAPI = () => {
     };
 }
 
-export const callUpdateCurationTypeAndKeywordsAPI = () => {
+export const callUpdateAllAPI = (curationDTO) => {
+    const requestURL = `http://localhost:8080/admin/curation/save`;
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*'
+            },
+            body: JSON.stringify(curationDTO)
+        }).then((response) => response.json());
+
+        console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
+        if (result.status === 200) {
+            // console.log('[CurationAPICalls] callCurationTypesAPI SUCCESS');
+            dispatch(putAllCuration(result));
+            return result;
+        }
+    };
 
 }
 

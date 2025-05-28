@@ -1,8 +1,7 @@
 import CurationCSS from "./Curation.module.css";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {callAllCurationTypesAndKeywordsAPI} from "../../apis/CurationAPICalls.js";
-import {callFilteringGroupUpdateAPI} from "../../apis/FilteringAPICalls.js";
+import {callAllCurationTypesAndKeywordsAPI, callUpdateAllAPI} from "../../apis/CurationAPICalls.js";
 import {useNavigate} from "react-router-dom";
 
 function CurationManager() {
@@ -13,7 +12,6 @@ function CurationManager() {
     const [keywords, setKeywords] = useState([{}]);
     const [id, setId] = useState(0);
     const [typeId, setTypeId] = useState(-1);
-    const [newKeyword, setNewKeyword] = useState([]);
 
     const onChangeSelect = (e) => {
         setTypeId(Number(e.target.value - 1));
@@ -21,23 +19,25 @@ function CurationManager() {
 
     const CreateKeyword = () => {
         if (keywords.length < 15) {
-            setKeywords(prev => [...prev, {orderNum: id, keyword: '', type: typeId, isUnsaved: true}]);
+            setKeywords(prev => [...prev, {orderNum: id, keyword: '', typeId: typeId, isUnsaved: true}]);
             setId(id + 1);
         } else {
             alert('더이상 추가할 수 없습니다');
         }
     }
 
-    const onChangeHandler2 = (e) => {
+    const onChangeHandler = (e) => {
         console.log(e.target.name, e.target.value);
-        setNewKeyword({
-            ...newKeyword, [e.target.name]: e.target.value,
+        setKeywordsType({
+            typeId : keywordsType.typeId,
+            typeName : keywordsType.typeName,
+            typeText: e.target.value
         });
     };
 
     const enterKeyword = (e, orderNum) => {
         setKeywords(prev => prev.map(word => word.orderNum === orderNum ? {
-            ...word, orderNum: id, keyword: e.target.value, type: typeId, isUnsaved: false
+            ...word, orderNum: id, keyword: e.target.value, typeId: typeId + 1, isUnsaved: false
         } : word));
     }
 
@@ -49,38 +49,45 @@ function CurationManager() {
     useEffect(() => {
         dispatch(callAllCurationTypesAndKeywordsAPI());
         setId(0);
-        setKeywordsType(curation.type[0] || []);
+        setKeywordsType(curation.type[0]);
         const savedKeywords = curation.keywords?.map((word,index) => ({
-            orderNum: index, keyword: word.keyword, isUnsaved: false, type: word.type
+            orderNum: index, keyword: word.keyword, isUnsaved: false, typeId: word.typeId
         }));
         setKeywords(savedKeywords);
-        setId(savedKeywords?.length || 0);
-        console.log(curation);
+        setId(savedKeywords?.length);
     }, []);
 
+    // 타입이 변할 때마다
     useEffect(() => {
-        setKeywords([])
+        console.log("typeId",typeId);
+        setKeywords([]);
         setId(0);
-        setKeywordsType(curation.type[typeId] || []);
+        setKeywordsType(curation.type[typeId]);
         const savedKeywords = curation.keywords[typeId]?.keywords.map((word, index) => ({
-            orderNum: index, keyword: word.keyword, isUnsaved: false, type: word.type
+            orderNum: index, keyword: word.keyword, isUnsaved: false, typeId: word.typeId
         }));
         setKeywords(savedKeywords);
-        setId(savedKeywords?.length || 0);
-
+        setId(savedKeywords?.length);
     }, [typeId]);
 
+
     const save = async () => {
+
+        console.log("Type", keywordsType);
+
         try {
 
-            const newFinal = {
-                type: {
-                    typeText: keywordsType.typeText,
+            const curationDTO = {
+                curationType: {
+                    typeText: keywordsType.type.typeText,
+                    typeId: keywordsType.type.typeId,
+                    typeName: keywordsType.type.typeName
                 },
-                keywords: keywords
+                curationKeywords: keywords
             };
 
-            dispatch(callFilteringGroupUpdateAPI({final:newFinal}));
+            console.log('전송할 데이터:', JSON.stringify(curationDTO, null, 2)); // 디버깅용
+            dispatch(callUpdateAllAPI(curationDTO));
             navigate(`/admin/curation`);
 
         } catch (error) {
@@ -105,7 +112,15 @@ function CurationManager() {
         </div>
         <hr className={CurationCSS.filteringLine}/>
         <div className={CurationCSS.filteringDetailContent}>
-            {typeId < 0 ? null : <input type="text" value={keywordsType?.type?.typeText}/>}
+            {typeId < 0 ? null : (
+                <input
+                    className={CurationCSS.curationTypeText}
+                    onChange={onChangeHandler}
+                    type="text"
+                    name="typeText"
+                    value={keywordsType?.type?.typeText} // undefined 대신 빈 문자열 사용
+                />
+            )}
             <div className={CurationCSS.filteringKeywords}>
                 {keywords?.map(word => (<div className={CurationCSS.filteringWrapper} key={word.orderNum}>
                         {!word.isUnsaved ? (<p className={CurationCSS.savedKeyword}>{word.keyword}</p>)
@@ -113,7 +128,6 @@ function CurationManager() {
                             (<input className={CurationCSS.filteringInput} type="text"
                                     placeholder="입력하세요"
                                     name="keyword"
-                                    onChange={onChangeHandler2}
                                     onKeyDown={(e) => {
                                         if (e.key == 'Enter') {
                                             enterKeyword(e, word.orderNum);
@@ -129,7 +143,7 @@ function CurationManager() {
         </div>
         <hr className={CurationCSS.filteringLine}/>
     <div className={CurationCSS.paging}>
-        <p className={CurationCSS.font2}>저장하기</p>
+        <p className={CurationCSS.font2} onClick={save}>저장하기</p>
     </div>
 </div>)
 }
