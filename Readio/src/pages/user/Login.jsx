@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../../assets/login.png';
 import LoginCSS from './Login.module.css';
 import axiosInstance from '../../apis/axiosInstance';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../modules/user/userSlice';
 
 const Login = () => {
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -20,14 +22,26 @@ const Login = () => {
         }));
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // 정상작동 
         try {
-            // axiosInstance를 사용하여 로그인 요청
-            const response = await axiosInstance.post("/users/login", formData);
-            const data = response.data; // Axios는 응답 데이터를 'data' 속성에 담습니다.
+            const response = await fetch("http://localhost:8080/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData),
+                credentials: "include" // 쿠키를 포함하여 요청
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "로그인 실패");
+            }
+
+            const data = await response.json();
 
             console.log("로그인 응답 data:", data);
 
@@ -36,13 +50,35 @@ const Login = () => {
             localStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
             localStorage.setItem("isPasswordVerified", "true"); // 비밀번호 검증 플래그 설정
 
-            // axiosInstance를 사용하여 사용자 정보 요청 (토큰은 인터셉터에 의해 자동으로 추가됨)
-            const userInfoResponse = await axiosInstance.get("/users/me");
-            const userInfo = userInfoResponse.data;
+            // window.location.href = "/";
+
+            const userInfoResponse = await fetch("http://localhost:8080/users/me", {
+                headers: {
+                    "Authorization": `Bearer ${data.accessToken}`
+                },
+                credentials: "include"
+            });
+
+            if (!userInfoResponse.ok) {
+                throw new Error("사용자 정보 조회 실패");
+            }
+
+            const userInfo = await userInfoResponse.json();
             console.log("userInfo:", userInfo);
 
             const roles = userInfo.userRole || []; // roles: ["USER"], ["ADMIN"], ["SUSPENDED"]
-            console.log("userInfo.role:", userInfo.userRole);
+            console.log("userInfo.role:", userInfo.userRole)
+
+            dispatch(loginSuccess({
+                userId: userInfo.userId, // 백엔드 응답 필드명 확인 (userID 또는 userId)
+                userName: userInfo.userName,
+                userRole: userInfo.userRole,
+                isLoggedIn: true,
+                accessToken: data.accessToken, // 로그인 상태를 true로 설정
+
+            }));
+
+
 
             // 권한별 페이지로 이동
             if (roles.includes("ADMIN")) {
@@ -54,77 +90,14 @@ const Login = () => {
             }
 
         } catch (error) {
-            // Axios 오류는 일반적으로 error.response.data에 있습니다.
-            const errorMessage = error.response?.data?.message || "로그인에 실패했습니다.";
-            alert(errorMessage);
-            console.error("로그인 에러:", error);
+            alert(error.message || "로그인에 실패했습니다.");
+            console.log("로그인 에러:", error);
         }
         console.log(formData);
     };
 
-        // 정상작동 
-    //     try {
-    //         const response = await fetch("http://localhost:8080/users/login", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body: JSON.stringify(formData),
-    //             credentials: "include" // 쿠키를 포함하여 요청
-    //         });
-
-    //         if (!response.ok) {
-    //             const errorData = await response.json();
-    //             throw new Error(errorData.message || "로그인 실패");
-    //         }
-
-    //         const data = await response.json();
-
-    //         console.log("로그인 응답 data:", data);
-
-    //         localStorage.setItem("accessToken", data.accessToken);
-    //         localStorage.setItem("userId", data.userId); // 로그인한 사용자 ID 저장
-    //         localStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
-    //         localStorage.setItem("isPasswordVerified", "true"); // 비밀번호 검증 플래그 설정
-
-    //         // window.location.href = "/";
-
-    //         const userInfoResponse = await fetch("http://localhost:8080/users/me", {
-    //             headers: {
-    //                 "Authorization": `Bearer ${data.accessToken}`
-    //             },
-    //             credentials: "include"
-    //         });
-
-    //         if (!userInfoResponse.ok) {
-    //             throw new Error("사용자 정보 조회 실패");
-    //         }
-
-    //         const userInfo = await userInfoResponse.json();
-    //         console.log("userInfo:", userInfo);
-
-    //         const roles = userInfo.userRole || []; // roles: ["USER"], ["ADMIN"], ["SUSPENDED"]
-    //         console.log("userInfo.role:", userInfo.userRole)
-
-    //         // 권한별 페이지로 이동
-    //         if (roles.includes("ADMIN")) {
-    //             navigate("/admin");
-    //         } else if (roles.includes("SUSPENDED")) {
-    //             navigate("/account/suspended");
-    //         } else {
-    //             navigate("/");
-    //         }
-
-    //     } catch (error) {
-    //         alert(error.message || "로그인에 실패했습니다.");
-    //         console.log("로그인 에러:", error);
-    //     }
-    //     console.log(formData);
-    // };
-
 
     return (
-
         <div className={LoginCSS.loginPage} style={{ backgroundImage: `url(${loginImage})` }}>
             <div className={LoginCSS.formContainer}>
                 <h1 className={LoginCSS.companyName}>Readio :</h1>

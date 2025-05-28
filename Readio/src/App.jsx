@@ -55,10 +55,41 @@ import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
 import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { loginSuccess, logout } from "./modules/user/userSlice.js";
+import axiosInstance from "./apis/axiosInstance.js";
 
 
 
 function App() {
+
+  // 새로고침해도 로그인 상태유지되게함 (삭제X)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('jwtToken');
+    const userId = localStorage.getItem('userId');
+    const userName = localStorage.getItem('userName');
+    const userRole = localStorage.getItem('userRole'); // 권한이 따로 저장된다면
+
+    if (accessToken && userId) {
+          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+      // 로그인 상태 복구
+      dispatch(loginSuccess({
+        userId,
+        userName,
+        userRole: userRole ? JSON.parse(userRole) : [], // 예: ["USER"]
+        isLoggedIn: true,
+        accessToken,
+      }));
+    } else {
+      // 토큰 없으면 로그아웃 처리
+      dispatch(logout());
+    }
+  }, [dispatch]);
+
   return (
     <>
       <BrowserRouter>
