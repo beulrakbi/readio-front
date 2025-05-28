@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../../assets/login.png';
 import LoginCSS from './Login.module.css';
-import axiosInstance from '../../apis/axiosInstance';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../modules/user/userSlice';
 
