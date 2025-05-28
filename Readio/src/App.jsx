@@ -55,7 +55,6 @@ import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
 import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
-import AccountSuspended from "./pages/user/AccountSuspended.jsx";
 
 
 
