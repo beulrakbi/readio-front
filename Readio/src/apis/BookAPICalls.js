@@ -85,7 +85,8 @@ export const callBooksAPI = ({ search, page = 1, size = 10 }) => {
 // callBookInsertAPI 는 생략합니다 (기존 동일)
 export const callBookInsertAPI = ({ form }) => {
     // const INSERT_URL = "http://localhost:8080/api/book/insert"; //  백엔드 엔드포인트
-    const INSERT_URL = "http://localhost:8080/search/book"; //  백엔드 엔드포인트
+    // const INSERT_URL = "http://localhost:8080/search/book"; //  백엔드 엔드포인트
+    const INSERT_URL = "/api/search/book"; //  백엔드 엔드포인트
     return async dispatch => {
         try {
             const res = await fetch(INSERT_URL, {

@@ -10,11 +10,6 @@ export default defineConfig({
         target: 'http://localhost:8080', // Spring 서버 주소
         changeOrigin: true,
         secure: false,
-      },
-      '/search' : {
-        target: 'http://localhost:8080', // Spring 서버 주소
-        changeOrigin: true,
-        secure: false,
       }
     }
   }

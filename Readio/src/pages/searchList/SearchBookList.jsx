@@ -35,9 +35,8 @@ function SearchBookList() {
     }
 
     setErrorMessage('');
-    fetch(`/search/book?query=${encodeURIComponent(query)}&page=${page}&size=${size}`)
+    fetch(`http://localhost:8080/search/book?query=${encodeURIComponent(query)}&page=${page}&size=${size}`)
       .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
       .then(json => {
