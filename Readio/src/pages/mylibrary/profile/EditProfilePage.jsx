@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 import styles from './EditProfilePage.module.css';
 import xIcon from '../../../assets/x.png';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +8,7 @@ const EditProfilePage = () => {
     const navigate = useNavigate();
     const [previewImg, setPreviewImg] = useState(null);
     const fileInputRef = useRef(null);
-    const [nickname, setNickname] = useState('Readio 기본 필명 001');
+    const [nickname, setNickname] = useState('');
     const [bio, setBio] = useState('');
     const [isPublic, setIsPublic] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
@@ -18,41 +19,86 @@ const EditProfilePage = () => {
         if (file) setPreviewImg(URL.createObjectURL(file));
     };
 
-    const handleImageDelete = () => {
-        setPreviewImg(null);
-        fileInputRef.current.value = null;
+    const handleImageDelete = async () => {
+        try {
+            await axios.delete('/api/user/profile/image/test2');
+            setPreviewImg(null);
+            fileInputRef.current.value = null;
+        } catch (err) {
+            console.error('이미지 삭제 실패:', err);
+        }
     };
-    const handleSave = () => {
-        // 저장 로직 넣을 곳 (API 요청 등)
-        setShowPopup(true); // 알림 보여주기
-        setTimeout(() => setShowPopup(false), 2000);
+
+    const handleSave = async () => {
+        const formData = new FormData();
+        formData.append('userId', 'test2'); // 실제 로그인 사용자 ID로 교체
+        formData.append('penName', nickname);
+        formData.append('biography', bio);
+        formData.append('isPrivate', isPublic ? 'PUBLIC' : 'PRIVATE');
+        if (fileInputRef.current?.files[0]) {
+            formData.append('image', fileInputRef.current.files[0]);
+        }
+
+        try {
+            await axios.post('/api/user/profile', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            setShowPopup(true);
+            setTimeout(() => {
+                setShowPopup(false);
+                navigate('/mylibrary'); // 저장 후 이동
+            }, 2000);
+        } catch (err) {
+            alert('프로필 저장에 실패했습니다.');
+            console.error(err);
+        }
     };
+
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const res = await axios.get('/api/user/profile/test2');
+                const data = res.data;
+                setNickname(data.penName);
+                setBio(data.biography || '');
+                setIsPublic(data.isPrivate === 'PUBLIC');
+                if (data.imageUrl) {
+                    setPreviewImg(`http://localhost:8080${data.imageUrl}`);
+                }
+            } catch (err) {
+                console.error('프로필 조회 실패:', err);
+            }
+        };
+        fetchProfile();
+    }, []);
+
 
     return (
         <div className={styles.section}>
             <h2 className={styles.title} onClick={()=>navigate('/mylibrary')} style={{ cursor: 'pointer' }}>
                 &lt; 프로필 편집</h2>
             <div className={styles.profileCard}>
-            <div className={styles.profileImageWrapper}>
-                {previewImg ? (
-                    <img src={previewImg} alt="프로필" className={styles.profileImage} />
-                ) : (
-                    <div className={styles.defaultProfile}></div>
-                )}
+                <div className={styles.profileImageWrapper}>
+                    {previewImg ? (
+                        <img src={previewImg} alt="프로필" className={styles.profileImage} />
+                    ) : (
+                        <div className={styles.defaultProfile}></div>
+                    )}
 
-                <div className={styles.imageBtns}>
-                    <button onClick={handleImageClick} className={styles.imageBtn}>사진 수정</button>
-                    <button onClick={handleImageDelete} className={styles.imageBtn}>사진 삭제</button>
+                    <div className={styles.imageBtns}>
+                        <button onClick={handleImageClick} className={styles.imageBtn}>사진 수정</button>
+                        <button onClick={handleImageDelete} className={styles.imageBtn}>사진 삭제</button>
+                    </div>
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
+                        onChange={handleFileChange}
+                    />
                 </div>
-
-                <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={handleFileChange}
-                />
-            </div>
 
                 <label className={styles.label}>*필명</label>
                 <div className={styles.inputWrapper}>

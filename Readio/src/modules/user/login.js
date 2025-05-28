@@ -1,3 +1,7 @@
+import axios from "axios";
+import store from "../../Store";
+import { loginSuccess } from "./userSlice";
+
 export const login = (userId, password) => async (dispatch) => {
     try {
         const response = await axios.post('/users/login', { userId, password });
@@ -11,9 +15,9 @@ export const login = (userId, password) => async (dispatch) => {
 
         
         // Redux 상태 갱신
-        console.log('사용자 정보:',Store.getstate());
+        console.log('사용자 정보:',store.getState());
         dispatch(loginSuccess(userInfo));
-        console.log('사용자 정보:', Store.getstate());
+        console.log('사용자 정보:', store.getState());
     } catch (error) {
         console.error('로그인 실패', error);
         alert('로그인 실패: ' + error.response?.data?.message);
