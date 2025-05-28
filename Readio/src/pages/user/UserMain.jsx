@@ -28,13 +28,9 @@ function UserMain() {
         const token = localStorage.getItem("accessToken");
         const userId = localStorage.getItem("userId");
 
-        if (!token || !userId) {
-            console.log(" userId/token 없음 - 모달 안 뜸");
-            return;
-        }
+        if (!token || !userId) return;
 
-        const todayKey = `emotionModalShown_${userId}_${new Date().toISOString().slice(0, 10)}`;
-        console.log(" todayKey:", todayKey);
+        const todayKey = `emotionModalShown_${new Date().toISOString().slice(0, 10)}`;
 
         if (!localStorage.getItem(todayKey)) {
             setIsModalOpen(true);
@@ -42,27 +38,23 @@ function UserMain() {
         }
     }, []);
 
-    useEffect(() => {
-        const getTypes = async () => {
-            const allTypes = await dispatch(callCurationTypesAPI());
-            if (allTypes) {
-                const types = allTypes.data;
-                const shuffled = [...types].sort(() => 0.5 - Math.random()); // 랜덤 셔플
-                setTypes(shuffled);
-                console.log("ttttttt", types);
-            }
-        }
 
-        getTypes();
+    const getRandomTypes = () => {
+        const shuffled = [...allTypes].sort(() => 0.5 - Math.random()); // 랜덤 셔플
+        setTypes(shuffled);
+    };
+
+    useEffect(() => {
+        getRandomTypes();
     }, []);
 
-    return (<>
+    return (
+        <>
             <div className={UserMainCSS.main}>
                 <div className={UserMainCSS.mainImgBox}>
                     <div className={UserMainCSS.mainSearch}>
                         <div className={UserMainCSS.buttonBox}>
-                            <input className={UserMainCSS.mainSearchInput} type="text" name="search"
-                                   placeholder="검색어를 입력하세요"/>
+                            <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
                             <button className={UserMainCSS.buttonNone}><img src={search}/></button>
                         </div>
                         <div className={UserMainCSS.buttonBox}>
@@ -73,14 +65,13 @@ function UserMain() {
                     </div>
                 </div>
                 <p className={UserMainCSS.readio}>READIO</p>
-            <div className={UserMainCSS.backgroundTexture}>
-                <div className={UserMainCSS.mainTextBox}>
-                <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
-                    계절처럼 변하는 하루하루,
-                당신에게 꼭 맞는 이야기를 전합니다. "</p>
-                </div>
-                <div className={UserMainCSS.videoSection}>
-
+                <div className={UserMainCSS.backgroundTexture}>
+                    <div className={UserMainCSS.mainTextBox}>
+                        <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
+                            계절처럼 변하는 하루하루,
+                            당신에게 꼭 맞는 이야기를 전합니다. "</p>
+                    </div>
+                    <div className={UserMainCSS.videoSection}>
 
                         <VideoList type={types[0]}/>
                         <VideoList type={types[1]}/>
@@ -88,7 +79,6 @@ function UserMain() {
 
                     </div>
                 </div>
-            </div>
             </div>
 
             {isModalOpen && (
@@ -111,6 +101,7 @@ function UserMain() {
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Authorization': `Bearer ${token}`
+
                             },
                             body: JSON.stringify(requestData)
                         })
@@ -131,7 +122,6 @@ function UserMain() {
             )}
         </>
     )
-
 }
 
 export default UserMain;
