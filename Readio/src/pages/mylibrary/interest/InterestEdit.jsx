@@ -24,13 +24,29 @@ const InterestEditPage = () => {
             return;
         }
 
-        fetch('/api/admin/interests/categories')
-            .then(res => res.json())
-            .then(data => setAllCategories(data));
+        fetch('/api/user/interests/categories')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => setAllCategories(data))
+            .catch(err => {
+                console.error("Failed to fetch categories:", err);
+            });
 
-        fetch('/api/admin/interests/keywords')
-            .then(res => res.json())
-            .then(data => setAllKeywords(data));
+        fetch('/api/user/interests/keywords')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => setAllKeywords(data))
+            .catch(err => {
+                console.error("Failed to fetch keywords:", err);
+            });
 
         fetch(`/api/user/interests/${userId}`, {
             headers: {
@@ -67,13 +83,14 @@ const InterestEditPage = () => {
 
         const payload = {
             userId: userId,
-            categoryIds: selectedCategories.map(name =>
-                allCategories.find(c => c.name === name)?.id
-            ),
-            keywordIds: selectedKeywords.map(name =>
-                allKeywords.find(k => k.name === name)?.id
-            )
+            categoryIds: selectedCategories
+                .map(name => allCategories.find(c => c.name === name)?.id)
+                .filter(id => id != null),
+            keywordIds: selectedKeywords
+                .map(name => allKeywords.find(k => k.name === name)?.id)
+                .filter(id => id != null),
         };
+        console.log("🟡 저장 payload:", payload);
 
         fetch('/api/user/interests', {
             method: 'PUT',
@@ -117,10 +134,9 @@ const InterestEditPage = () => {
                                     className={`${styles.tag} ${selectedCategories.includes(cat.name) ? styles.selected : ''}`}
                                     onClick={() => toggle(cat.name, selectedCategories, setSelectedCategories, 3)}
                                 >
-                                    {cat.name}
-                                </span>
+        {cat.name}
+    </span>
                             ))}
-
 
                         </div>
                     </div>
@@ -139,9 +155,10 @@ const InterestEditPage = () => {
                                     className={`${styles.tag} ${selectedKeywords.includes(kw.name) ? styles.selected : ''}`}
                                     onClick={() => toggle(kw.name, selectedKeywords, setSelectedKeywords, 5)}
                                 >
-                                    {kw.name}
-                                </span>
+        {kw.name}
+    </span>
                             ))}
+
 
                         </div>
                     </div>
