@@ -13,16 +13,46 @@ const InterestEditPage = () => {
 
     const [showPopup, setShowPopup] = useState(false);
 
+
     useEffect(() => {
-        fetch('/api/admin/interests/categories')
-            .then(res => res.json())
-            .then(data => setAllCategories(data)); // 그대로 저장 (id, name 구조 유지)
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("accessToken");
 
-        fetch('/api/admin/interests/keywords')
-            .then(res => res.json())
-            .then(data => setAllKeywords(data));
+        if (!userId || !token) {
+            alert("로그인이 필요합니다.");
+            navigate('/login');
+            return;
+        }
 
-        fetch('/api/user/interests/test2')
+        fetch('/api/user/interests/categories')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => setAllCategories(data))
+            .catch(err => {
+                console.error("Failed to fetch categories:", err);
+            });
+
+        fetch('/api/user/interests/keywords')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => setAllKeywords(data))
+            .catch(err => {
+                console.error("Failed to fetch keywords:", err);
+            });
+
+        fetch(`/api/user/interests/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setSelectedCategories(data.categories.map(c => c.name));
@@ -30,6 +60,7 @@ const InterestEditPage = () => {
             })
             .catch(err => console.error('유저 관심사 불러오기 실패', err));
     }, []);
+
 
 
     const toggle = (item, list, setList, max) => {
@@ -41,26 +72,35 @@ const InterestEditPage = () => {
     };
 
     const handleSave = () => {
-        const payload = {
-            userId: 'test2',
-            categoryIds: selectedCategories.map(name =>
-                allCategories.find(c => c.name === name)?.id
-            ),
-            keywordIds: selectedKeywords.map(name =>
-                allKeywords.find(k => k.name === name)?.id
-            )
-        };
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("accessToken");
 
+        if (!userId || !token) {
+            alert("로그인이 필요합니다.");
+            navigate('/login');
+            return;
+        }
+
+        const payload = {
+            userId: userId,
+            categoryIds: selectedCategories
+                .map(name => allCategories.find(c => c.name === name)?.id)
+                .filter(id => id != null),
+            keywordIds: selectedKeywords
+                .map(name => allKeywords.find(k => k.name === name)?.id)
+                .filter(id => id != null),
+        };
+        console.log("🟡 저장 payload:", payload);
 
         fetch('/api/user/interests', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(payload),
         })
             .then(res => {
-                console.log('응답 상태코드:', res.status);
                 if (!res.ok) throw new Error('저장 실패');
                 return res.json();
             })
@@ -73,6 +113,7 @@ const InterestEditPage = () => {
             })
             .catch(err => console.error('저장 에러:', err));
     };
+
     return (
         <div className={styles.InterestEditPageWrapper}>
             <div className={styles.wrapper}>
@@ -93,10 +134,9 @@ const InterestEditPage = () => {
                                     className={`${styles.tag} ${selectedCategories.includes(cat.name) ? styles.selected : ''}`}
                                     onClick={() => toggle(cat.name, selectedCategories, setSelectedCategories, 3)}
                                 >
-                                    {cat.name}
-                                </span>
+        {cat.name}
+    </span>
                             ))}
-
 
                         </div>
                     </div>
@@ -115,9 +155,10 @@ const InterestEditPage = () => {
                                     className={`${styles.tag} ${selectedKeywords.includes(kw.name) ? styles.selected : ''}`}
                                     onClick={() => toggle(kw.name, selectedKeywords, setSelectedKeywords, 5)}
                                 >
-                                    {kw.name}
-                                </span>
+        {kw.name}
+    </span>
                             ))}
+
 
                         </div>
                     </div>
