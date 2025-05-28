@@ -25,6 +25,11 @@ function UserMain() {
     };
 
     useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        const userId = localStorage.getItem("userId");
+
+        if (!token || !userId) return;
+
         const todayKey = `emotionModalShown_${new Date().toISOString().slice(0, 10)}`;
         if (!localStorage.getItem(todayKey)) {
             setIsModalOpen(true);
@@ -78,8 +83,14 @@ function UserMain() {
             {isModalOpen && (
                 <EmotionModal
                     onSelect={(emoji) => {
+                        const userId = localStorage.getItem("userId");
+                        if (!userId || !token) {
+                            alert("로그인이 필요합니다.");
+                            return;
+                        }
+
                         const requestData = {
-                            userId: localStorage.getItem("userId"),
+                            userId: userId,
                             emotionType: convertEmojiToEnum(emoji),
                             date: today.format('YYYY-MM-DD')
                         };
