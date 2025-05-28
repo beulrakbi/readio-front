@@ -42,6 +42,8 @@ import NoticeList from "./pages/serviceCenter/NoticeList";
 import QnaDetail from './pages/serviceCenter/QnaDetail';
 import QnaList from './pages/serviceCenter/QnaList';
 import QnaWriting from './pages/serviceCenter/QnaWriting';
+import AccessDenied from "./pages/user/AccessDenied.jsx";
+import AccountSuspended from "./pages/user/AccountSuspended.jsx";
 import FindAccount, { FindIdForm, FindPwdForm } from "./pages/user/FindAccount";
 import Join from "./pages/user/Join";
 import JoinComplete from './pages/user/JoinComplete';
@@ -63,6 +65,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* 메인 페이지, 사용자 페이지 */}
+          <Route path="/access-denied" element={<AccessDenied />} />                  {/* 404페이지*/}
           <Route path="/" element={<Layout />}>
             <Route index element={<UserMain />} />
             <Route path="users/login" element={<Login />} />                          {/* 로그인 */}
@@ -84,7 +87,7 @@ function App() {
             <Route path="/qna" element={<QnaList />} />
             <Route path="/qna/detail/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/writing" element={<QnaWriting />} />
-            <Route path="/qna/writing/:qnaId" element={<QnaWriting />} /> 
+            <Route path="/qna/writing/:qnaId" element={<QnaWriting />} />
             <Route path="/faq" element={<Faq />} />
             <Route path="/bookmark" element={<Bookmark />} />
             <Route path="/notice" element={<Search />} />
