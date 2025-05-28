@@ -1,12 +1,14 @@
 import {
     POST_POSTREVIEW,
     GET_POSTREVIEW,
-    PUT_POSTREVIEW
+    DELETE_POSTREVIEW
 } from '../modules/postwriting/PostReviewModule.js';
 
 export const callPostReviewAPI = ({ postId, currentPage }) => {
     
     const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/post/${postId}/reviews?offset=${currentPage}`;
+
+    console.log("[API Call] 요청 URL:", requestURL);
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -17,15 +19,17 @@ export const callPostReviewAPI = ({ postId, currentPage }) => {
             }
         }).then((response) => response.json());
 
+        console.log('[ReviewAPICalls] callPostCratetAPI RESULT : ', result);
+
         if (result.status === 200) {
             dispatch({ type: GET_POSTREVIEW, payload: result});
         }
     };
 };
 
-export const callPostReviewWritingAPI = ({ form }) => {
+export const callPostReviewWritingAPI = ({ postId, form }) => {
     
-    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/${postId}/reviews`;
+    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/post/${postId}/reviews`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -37,8 +41,7 @@ export const callPostReviewWritingAPI = ({ form }) => {
 					'Bearer ' + window.localStorage.getItem('accessToken')
 			},
             body: JSON.stringify({
-                postId: form,postId,
-                postReviewContent: form,postReviewContent
+                postReviewContent: form.postReviewContent
             })
         }).then((response) => response.json());
 
@@ -46,25 +49,30 @@ export const callPostReviewWritingAPI = ({ form }) => {
     };
 };
 
-export const callPostReviewUpdateAPI = ({ form }) => {
+export const callPostReviewDeleteAPI = ({ reviewId }) => {
+    
+    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/post/reviews/${reviewId}`;
 
-	const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/post/reviews/{reviewId}`;
+    console.log("[API Call] DELETE 요청 URL:", requestURL);
 
-	return async (dispatch, getState) => {
-		const result = await fetch(requestURL, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: '*/*',
-				Authorization:
-					'Bearer ' + window.localStorage.getItem('accessToken')
-			},
-			body: JSON.stringify({
-				postReviewId: form.postReviewId,
-				postReviewContent: form,postReviewContent
-			})
-		}).then((response) => response.json());
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'DELETE',
+            headers: {
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+            }
+        }).then(response => {
+            if (response.status === 204) { 
+                return { 
+                    status: 204, 
+                    message: "리뷰가 성공적으로 삭제되었습니다.", 
+                    data: { deletedReviewId: reviewId }
+                };
+            }
+            return response.json();
+        });
 
-		dispatch({ type: PUT_POSTREVIEW, payload: result });
-	};
+        console.log('[ReviewAPICalls] callPostReviewDeleteAPI RESULT : ', result);
+        dispatch({ type: DELETE_POSTREVIEW, payload: { result, reviewId } });
+    };
 };

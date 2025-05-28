@@ -534,7 +534,7 @@
 
 .postContentImg {
     /* width: 200px; */
-    height: 250px;
+    height: 200px;
     margin-left: auto;
     margin-top: 20px;
 }
@@ -542,7 +542,7 @@
 .postDetailHeartDiv {
     width: 100%;
     height: 30px;
-    padding-left: 100px;
+    padding-left: 50px;
     display: flex;
     align-items: center;
 }
@@ -553,12 +553,12 @@
 }
 
 .postDetailHeart {
-    height: 20px;
+    height: 18px;
     margin-right: 5px;
 }
 
 .postDetailReview {
-    height: 20px;
+    height: 18px;
     margin-left: 20px;
     border-style: none;
     background-color: transparent;
@@ -601,6 +601,7 @@
 .postDetailReviews {
     margin-left: 10px;
     margin-bottom: 30px;
+    margin-top: 20px;
     font-size: 20px;
 }
 
@@ -627,6 +628,9 @@
 .postDetailReviewcon {
     font-size: 15px;
     margin-bottom: 20px;
+    margin-top: 20px;
+    width: 80%;
+    margin-left: 20px;
 }
 
 .postDetailReviewLikeDiv {
@@ -682,4 +686,32 @@
     background-color: #DBDBDB;
     cursor: pointer;
 }
+
+/* Post.module.css 예시 */
+.paginationContainer {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pageButton {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background-color: #F6EEB6;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pageButton:hover {
+    background-color: #f0f0f0;
+}
+
+.pageButton:disabled { /* 현재 페이지 또는 이동 불가 버튼 */
+    cursor: default;
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-color: #ced4da;
+}
+
 

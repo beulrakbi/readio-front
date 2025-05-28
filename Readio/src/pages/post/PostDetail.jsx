@@ -92,7 +92,7 @@ function PostDetail() {
             <div className={PostCSS.postDetailContent}>{post.postContent || ''}<br />
             </div>
             {post.postImg && post.postImg.saveName &&
-                <img src={post.postImg.saveName} className={PostCSS.postContentImg} alt={post.postTitle || "게시물 이미지"} />
+                <img src={post.postImg.saveName} className={PostCSS.postContentImg} />
             }
             <div className={PostCSS.postDetailHeartDiv}>
                 <span className={PostCSS.postDetailHeartSpan}><img src={postDetailHeart} className={PostCSS.postDetailHeart} alt="좋아요 수" />15</span>
