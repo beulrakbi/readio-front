@@ -2,12 +2,36 @@ import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoList.jsx';
 import UserMainCSS from './UserMain.module.css';
 import {useEffect, useState} from "react";
+import EmotionModal from '../mylibrary/calendar/EmotionModal.jsx';
+import dayjs from 'dayjs';
 
-function UserMain()
-{
 
+function UserMain() {
     const [types, setTypes] = useState([]);
     const allTypes = ["celeb", "goods", "habit"];
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const today = dayjs();  // import dayjs
+    const token = localStorage.getItem("accessToken");
+
+    const convertEmojiToEnum = (emoji) => {
+        switch (emoji) {
+            case '🙂': return 'NORMAL';
+            case '😁': return 'HAPPY';
+            case '😭': return 'SAD';
+            case '😡': return 'ANGRY';
+            case '😵‍💫': return 'ANXIOUS';
+            default: return 'NORMAL';
+        }
+    };
+
+    useEffect(() => {
+        const todayKey = `emotionModalShown_${new Date().toISOString().slice(0, 10)}`;
+        if (!localStorage.getItem(todayKey)) {
+            setIsModalOpen(true);
+            localStorage.setItem(todayKey, 'true');
+        }
+    }, []);
+
 
     const getRandomTypes = () => {
         const shuffled = [...allTypes].sort(() => 0.5 - Math.random()); // 랜덤 셔플
@@ -38,7 +62,7 @@ function UserMain()
             <div className={UserMainCSS.backgroundTexture}>
                 <div className={UserMainCSS.mainTextBox}>
                 <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
-                    계절처럼 변하는 하루하루, 
+                    계절처럼 변하는 하루하루,
                 당신에게 꼭 맞는 이야기를 전합니다. "</p>
                 </div>
                 <div className={UserMainCSS.videoSection}>
@@ -50,6 +74,39 @@ function UserMain()
                 </div>
             </div>
             </div>
+
+            {isModalOpen && (
+                <EmotionModal
+                    onSelect={(emoji) => {
+                        const requestData = {
+                            userId: localStorage.getItem("userId"),
+                            emotionType: convertEmojiToEnum(emoji),
+                            date: today.format('YYYY-MM-DD')
+                        };
+
+                        fetch('/api/user/emotions', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify(requestData)
+                        })
+                            .then(res => {
+                                if (res.ok) {
+                                    console.log("감정 등록 성공");
+                                    setIsModalOpen(false);
+                                } else {
+                                    alert('감정 등록 실패');
+                                }
+                            })
+                            .catch(err => {
+                                console.error('감정 등록 오류:', err);
+                            });
+                    }}
+                    onCancel={() => setIsModalOpen(false)}
+                />
+            )}
         </>
     )
 }
