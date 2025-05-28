@@ -61,10 +61,13 @@ export async function getNewBooks(keyword, dispatch, num) {
                 description: books[i].description,
                 cover: books[i].cover
             };
-            dispatch(callBookInsertAPI({ form }));
+            await dispatch(callBookInsertAPI({ form }));
         }
         return books;
     } else {
         console.error('책 검색 결과가 배열이 아닙니다:', result);
     }
 }
+
+
+

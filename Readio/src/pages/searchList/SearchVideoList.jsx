@@ -1,12 +1,12 @@
-import {Fragment, useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {searchNewVideos, searchVideosByKeyword} from '../../apis/VideoAPI';
+import { Fragment, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { searchNewVideos, searchVideosByKeyword } from '../../apis/VideoAPI';
 import search from '../../assets/search.png';
+import VIdeoInDB from "../../components/video/VIdeoInDB.jsx";
 import UserMainCSS from '../user/UserMain.module.css';
 import Video from './../../components/video/Video';
 import styles from './SearchVideoList.module.css';
-import VIdeoInDB from "../../components/video/VIdeoInDB.jsx";
 
 
 function SearchVideoList() {
@@ -108,6 +108,7 @@ function SearchVideoList() {
             </div>
             <hr className={styles.SearchVideoListHr}/>
             <div className={styles.SearchVideoList}>
+
                 {videoInDBList.length > 0 ? (videoInDBList.map(video => (
                     <Fragment key={video.videoId}>
                     <div
@@ -127,7 +128,8 @@ function SearchVideoList() {
                     <hr className={styles.videoListHr}/>
                     </Fragment>
                     ))) : (<p>검색 결과가 없습니다.</p>)}
-                {videoList.length > 0 ? (videoList.map((video) => (<>
+                {videoList.length > 0 ? (videoList.map((video) => (
+                    <>
                     <div
                         key={video.etag}
                         className={styles.video}
