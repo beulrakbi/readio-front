@@ -13,16 +13,30 @@ const InterestEditPage = () => {
 
     const [showPopup, setShowPopup] = useState(false);
 
+
     useEffect(() => {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("accessToken");
+
+        if (!userId || !token) {
+            alert("로그인이 필요합니다.");
+            navigate('/login');
+            return;
+        }
+
         fetch('/api/admin/interests/categories')
             .then(res => res.json())
-            .then(data => setAllCategories(data)); // 그대로 저장 (id, name 구조 유지)
+            .then(data => setAllCategories(data));
 
         fetch('/api/admin/interests/keywords')
             .then(res => res.json())
             .then(data => setAllKeywords(data));
 
-        fetch('/api/user/interests/test2')
+        fetch(`/api/user/interests/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setSelectedCategories(data.categories.map(c => c.name));
@@ -30,6 +44,7 @@ const InterestEditPage = () => {
             })
             .catch(err => console.error('유저 관심사 불러오기 실패', err));
     }, []);
+
 
 
     const toggle = (item, list, setList, max) => {
@@ -41,8 +56,17 @@ const InterestEditPage = () => {
     };
 
     const handleSave = () => {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("accessToken");
+
+        if (!userId || !token) {
+            alert("로그인이 필요합니다.");
+            navigate('/login');
+            return;
+        }
+
         const payload = {
-            userId: 'test2',
+            userId: userId,
             categoryIds: selectedCategories.map(name =>
                 allCategories.find(c => c.name === name)?.id
             ),
@@ -51,16 +75,15 @@ const InterestEditPage = () => {
             )
         };
 
-
         fetch('/api/user/interests', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(payload),
         })
             .then(res => {
-                console.log('응답 상태코드:', res.status);
                 if (!res.ok) throw new Error('저장 실패');
                 return res.json();
             })
@@ -73,6 +96,7 @@ const InterestEditPage = () => {
             })
             .catch(err => console.error('저장 에러:', err));
     };
+
     return (
         <div className={styles.InterestEditPageWrapper}>
             <div className={styles.wrapper}>
