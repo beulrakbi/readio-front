@@ -1,79 +1,68 @@
+import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import styles from './QnaDetail.module.css';
 
 function QnaDetail() {
+    const { qnaId } = useParams();
+    const [qnaDetail, setQnaDetail] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/serviceCenter/qna/detail/${qnaId}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log('Qna Detail Data:', data);
+                setQnaDetail(data);
+            })
+            .catch(error => console.error('Qna 상세 정보 불러오기 실패:', error));
+    }, [qnaId]);
+
+    if (!qnaDetail) return <p>로딩 중...</p>;
+
+    const handleUpdateClick = () => {
+        navigate(`/qna/writing/${qnaDetail.qnaId}`);
+    };
+
     return (
-        <>
-            <div className={styles.bigContainer}>
-                <div>
-                    <p className={styles.sort}>Q&A 게시판</p>
-                    <div className={styles.updateAndDelete}>
-                        <p className={styles.title}>질문 게시판 테스트중입니다.1</p>
-                        <div className={styles.btnBox}>
-                            <span className={styles.updateBtn}>수정</span>
-                            <span className={styles.slash}>/</span>
-                            <span className={styles.deleteBtn}>삭제</span>
-                        </div>
+        <div className={styles.bigContainer}>
+            <div>
+                <p className={styles.sort}>Q&A 게시판</p>
+                <div className={styles.updateAndDelete}>
+                    <p className={styles.title}>{qnaDetail.qnaTitle}</p>
+                    <div className={styles.btnBox}>
+                        <span
+                            className={styles.updateBtn}
+                            onClick={handleUpdateClick} 
+                        >
+                            수정
+                        </span>
+                        <span className={styles.slash}>/</span>
+                        <span className={styles.deleteBtn}>삭제</span>
                     </div>
-                </div>
-                <div className={styles.line}></div>
-                <div className={styles.nameBox}>
-                    <span className={styles.userId}>User4</span>
-                    <span className={styles.role}>일반 회원</span>
-                </div>
-                <div>
-                    <span className={styles.date}>2025.04.25 13:23</span>
-                    <span className={styles.view}>조회 1</span>
-                </div>
-                <div className={styles.line2}></div>
-                <div className={styles.contentBox}>
-                    <p>안녕하시렵니까?</p>
-                </div>
-                <p className={styles.sort}>답변</p>
-                <div className={styles.line2}></div>
-                <div className={styles.qnaAnswer}>
-                    <p>처리중입니다.</p>
-                </div>
-                <div></div>
-                <div className={styles.copyLink}>
-                    <button className={styles.btn}>링크 복사</button>
-                </div>
-                <div className={styles.line2}></div>
-                <div className={styles.listBox}>
-                    <div className={styles.noticeBoard}>
-                        <p>Q&A 게시판</p>
-                    </div>
-                    <div className={styles.list}>
-                        <ul>
-                            <li>
-                                <span>[단기]</span>
-                                <span>Q&A 테스트중입니다.1</span>
-                                <span>user1</span>
-                                <span>2025.04.25</span>
-                            </li>
-                            <li>
-                                <span>[단기]</span>
-                                <span>Q&A 테스트중입니다.2</span>
-                                <span>user1</span>
-                                <span>2025.04.25</span>
-                            </li>
-                            <li>
-                                <span>[단기]</span>
-                                <span>Q&A 테스트중입니다.3</span>
-                                <span>user1</span>
-                                <span>2025.04.25</span>
-                            </li>
-                            <li>
-                                <span>[긴급]</span>
-                                <span>Q&A 테스트중입니다.4</span>
-                                <span>user1</span>
-                                <span>2025.04.25</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className={styles.num}>1 2 3 4 5 6</div>
                 </div>
             </div>
-        </>
+            <div className={styles.line}></div>
+            <div className={styles.nameBox}>
+                <span className={styles.userId}>{qnaDetail.userId}</span>
+                <span className={styles.role}>{qnaDetail.userRole}</span>
+            </div>
+            <div>
+                <span className={styles.date}>
+                    {qnaDetail.qnaCreateAt?.replace('T', ' ').substring(0, 16)}
+                </span>
+                <span className={styles.view}>조회 {qnaDetail.qnaView}</span>
+            </div>
+            <div className={styles.line2}></div>
+            <div className={styles.contentBox}>
+                <p>{qnaDetail.qnaQuestion || '질문 내용이 없습니다.'}</p>
+            </div>
+            <p className={styles.sort}>답변</p>
+            <div className={styles.line2}></div>
+            <div className={styles.qnaAnswer}>
+                <p>{qnaDetail.qnaAnswer || '아직 답변이 없습니다.'}</p>
+            </div>
+        </div>
     );
 }
+
 export default QnaDetail;

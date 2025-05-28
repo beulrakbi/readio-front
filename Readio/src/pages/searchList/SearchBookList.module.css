@@ -1,12 +1,12 @@
 .container {
      width: 80vh;
-     height : 100%;
+     height: 100%;
      margin: 40px auto;
 }
 
 .SearchListTitle {
-     font-size : 20px;
-     color : #808467;
+     font-size: 20px;
+     color: #808467;
      font-weight: 600;
 }
 
@@ -43,18 +43,20 @@
 }
 
 .bookTitle {
-     font-size : 15px;
+     font-size: 15px;
      font-weight: 700;
 }
 
 .credits {
-    margin: 20px 0 ;
-    line-height: 20px;
+     margin: 20px 0;
+     line-height: 20px;
 }
+
 
 .bookAuthor, .bookPublisher {
     font-size : 13px;
 }
+
 
 .label {
      font-size: 13px;
@@ -62,8 +64,8 @@
 }
 
 .bookDetail {
-     margin : 20px 0;
-     font-size : 12px;
+     margin: 20px 0;
+     font-size: 12px;
      line-height: 15px;
 }
 
