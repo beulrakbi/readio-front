@@ -1,5 +1,5 @@
 import sample from "./test.json";
-import {callSearchVideosAPI, callTopVideosAPI, callVideoInsertAPI, callVideosAPI} from "./VideoAPICalls.js";
+import { callSearchVideosAPI, callTopVideosAPI, callVideoInsertAPI, callVideosAPI } from "./VideoAPICalls.js";
 
 
 export async function getVideosByKeyword(type, keyword, dispatch) {
@@ -82,7 +82,7 @@ export async function searchNewVideos(keyword, dispatch, num) {
         maxResult = maxResult - num;
 
         try {
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I';
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
             const data = await fetch(baseUrl);
             const json = await data.json();
             const result = json.items;

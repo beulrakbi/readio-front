@@ -4,6 +4,7 @@ import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
 import AdminMain from "./pages/admin/AdminMain";
+import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
 import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
 import FilteringDetailPage from "./pages/admin/filtering/FilteringDetailPage";
 import FilteringListPage from "./pages/admin/filtering/FilteringListPage";
@@ -54,7 +55,6 @@ import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
-import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
 
 
 
@@ -92,7 +92,7 @@ function App() {
             <Route path="/notice" element={<Search />} />
             <Route path="/search/video" element={<SearchVideoList />} />
             <Route path="/search/book" element={<SearchBookList />} />
-            <Route path="/video" element={<PlayVideo />} />
+            <Route path="/video/:videoId" element={<PlayVideo />} />
             <Route path="mylibrary" element={<MyLibraryPage />} />
             <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
             <Route path="mylibrary/profile" element={<EditProfilePage />} />
