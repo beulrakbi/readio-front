@@ -28,10 +28,10 @@ function UserMain() {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
         const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("accessToken");
 
-        if (!token || !userId) return;
+        if (!token || !userId || token === 'undefined' || userId === 'undefined') return;
 
         const todayStr = dayjs().format('YYYY-MM-DD');
         const modalKey = `emotionModalShown_${userId}_${todayStr}`;
@@ -41,7 +41,7 @@ function UserMain() {
             setIsModalOpen(true);
             localStorage.setItem(modalKey, 'true');
         }
-    }, []);
+    }, [localStorage.getItem("userId")]);
 
 
     useEffect(() => {
