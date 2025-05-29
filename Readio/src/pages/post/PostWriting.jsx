@@ -35,6 +35,7 @@ function PostWriting() {
         setSelectedBook(book);
         setIsBookSearchOpen(false);
     };
+    // console (book)
 
     /* 등록 책 삭제 */
     const removeSelectedBook = () => {
