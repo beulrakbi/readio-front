@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink , useNavigate} from "react-router-dom";
 import UserNavCSS from './navi.module.css';
 
 
@@ -7,6 +7,15 @@ function UserNav({ isOpen }) {
 
     const isLogin = useSelector(state => state.user.isLogin);
     console.log('로그인상태', useSelector(state => state));
+
+    const navigate = useNavigate();
+    const handleLibraryClick = () => {
+        if (isLogin) {
+            navigate('/mylibrary');
+        } else {
+            navigate('/guestlibrary');
+        }
+    };
 
     return (
         <>
@@ -23,7 +32,13 @@ function UserNav({ isOpen }) {
                             </>
 
                         )}
-                        <NavLink to="/mylibrary" className={UserNavCSS.naviLinkText}>내 서재</NavLink>
+                        <div
+                            onClick={handleLibraryClick}
+                            className={UserNavCSS.naviLinkText}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            내 서재
+                        </div>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>피드</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>소식</NavLink>
                         <ul style={{ fontSize: '20px', paddingInlineStart: '0px' }}>고객센터

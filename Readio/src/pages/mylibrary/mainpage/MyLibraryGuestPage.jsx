@@ -1,8 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './MyLibraryGuest.module.css'
 import dayjs from "dayjs";
+import {useNavigate} from "react-router-dom";
 
 function MyLibraryGuestPage() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        alert("로그인 후 이용하실 수 있습니다.");
+        navigate("/"); // ✅ 메인으로 이동
+    }, [navigate]);
+
     const today = dayjs();
     const year = today.year();
     const month = today.month(); // 0~11
