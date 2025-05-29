@@ -1,13 +1,13 @@
-p {
+/* p {
     margin:5px;
-}
+} */
 .adminFooter {
     background-color: #E8E8E1;
     display: flex;
     border-top: 1px solid #383838;
     border-left: 1px solid #383838;
     height: 171px;
-    width: 120%;
+    width: 150%;
     flex-direction: row;
 }
 
@@ -19,27 +19,41 @@ p {
 }
 
 .footerDiv {
+    height:171px;
     padding-left: 20px;
-    font-family: 'Pretendard';
+    font-family: 'Pretendard Variable', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap:5px;
+
 }
 
 .readio {
     color: #383838;
     font-weight: 900;
     font-size: 30px;
+    display: block;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+
 }
 
 .info {
     color: #383838;
     font-size: 16px;
     font-weight: 500;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+
 }
 
 .line {
     width: 545px;
-    padding:0px;
-    margin:0px;
+    padding:0;
+    margin:0;
 }

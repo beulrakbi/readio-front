@@ -8,11 +8,11 @@ function FilteringCreate()
 {
 
     const dispatch = useDispatch();
-
     const [groupForm, setGroupForm] = useState({
         title: "",
         content: "",
     });
+    const navigate = useNavigate();
 
     const onChangeHandler = (e) => {
         console.log(e.target.name, e.target.value);
@@ -21,18 +21,6 @@ function FilteringCreate()
             [e.target.name]: e.target.value,
         });
     };
-
-    // const saveFilteringGroup = () => {
-    //     console.log("[FilteringGroupCreate] SaveFilteringGroup Start!!");
-    //
-    //     dispatch(
-    //         callFilteringGroupCreateAPI({groupForm})
-    //     );
-    //
-    //     // alert("필터링 그룹 등록이 완료되었습니다.");
-    //
-    //     console.log("[FilteringGroupCreate] SaveFilteringGroup End!!");
-    // };
 
     // 필터링 추가 및 저장
 
@@ -107,15 +95,13 @@ function FilteringCreate()
                     groupId: groupId,
                     filterings: newFinal
                 }));
+
+                navigate('/admin/filtering');
             }
         } catch (error) {
             console.error("Error in saveAll:", error);
         }
     };
-
-    useEffect(() => {
-        console.log('filterings 업데이트됨:', filterings);
-    }, [filterings]);
 
     return (
         <div className={FListCSS.container}>

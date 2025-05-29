@@ -3,32 +3,38 @@
 * {
     box-sizing: border-box;
 }
+
 .main{
-    background-color:  #E8E8E1;
+    background-color: #E8E8E1;
+    display: flex;
+    justify-content: center;
 }
 .bigContainer{
-    padding-top: 3%;
-    margin:auto;
-    /* margin-left: 2%; */
-    width: 80%;
-    /*height: 80vh;*/
+    padding: 150px;
+    width: 100%;
 }
 .line{
-    margin-top: 2px;
-    margin-bottom: 1.5%;
-    border: 1px solid #676767;
     width: 100%;
+    border-bottom: 0 solid #383838;
+    margin:5px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
 }
 .smallHeader{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 10px;
 }
 .smallHeaderElement{
-    font-size: 25px;
-    color: #383838;
+    font-size: 24px;
     font-weight: 600;
+    color: #383838;
+    margin: 0;
 }
+
 .inputGroup {
     display: flex;
     justify-content: space-between;
@@ -42,7 +48,7 @@
     padding: 8px 12px;
     font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 
 .categoryButtons button {
@@ -51,7 +57,7 @@
     font-size: 12px;
     background-color: #e8e8e3;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -61,7 +67,7 @@
     padding: 12px;
     font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 10px;
     resize: none;
     margin-bottom: 24px;
     background-color: white;
@@ -77,30 +83,32 @@
     padding: 6px 16px;
     font-size: 14px;
     margin-left: 8px;
-    border-radius: 4px;
+    border-radius: 10px;
     border: 1px solid gray;
     cursor: pointer;
 }
+
 .submit {
-    background-color: #AF4C3F;
-    color: white;
+    background-color: #af4c3f;
+    color: black;
 }
 
 .cancel {
     background-color: #f1f1f1;
     color: #333;
 }
+
 .imageUploadBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed #ccc;
-  border-radius: 8px;
-  width: 120px;
-  height: 60px;  
-  cursor: pointer;
-  background-color: #fdfdfd;
-  box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #ccc;
+    border-radius: 10px;
+    width: 120px;
+    height: 60px;
+    cursor: pointer;
+    background-color: #fdfdfd;
+    box-sizing: border-box;
 }
 
 .uploadLabel {
@@ -113,28 +121,45 @@
 .uploadInput {
     display: none;
 }
+
 .previewWrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* 이미지와 버튼 간격 */
-  width: 100%;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 이미지와 버튼 간격 */
+    width: 100%;
+    justify-content: center;
 }
+
 .previewImage {
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  object-fit: cover;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
 .deleteImageBtn {
-  height: 30px;
-  padding: 4px 10px;
-  font-size: 12px;
-  background-color: #AF4C3F;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  white-space: nowrap;
+    height: 30px;
+    padding: 4px 10px;
+    font-size: 12px;
+    background-color: #AF4C3F;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.activeButton {
+    background-color: #AF4C3F;
+    color: white;
+    font-weight: bold;
+    border: 1px solid #AF4C3F;
+}
+
+.categoryButtons button {
+    margin-right: 8px;
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    background-color: #AF4C3F;
+    cursor: pointer;
 }

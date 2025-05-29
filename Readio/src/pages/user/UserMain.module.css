@@ -4,6 +4,7 @@
     width:100%;
     /* height:auto; */
     overflow: hidden;
+    font-family: 'Pretendard Variable', sans-serif;
 }
 
 .mainImgBox {
@@ -13,6 +14,7 @@
     background-image: url('../../assets/bgimg.png');
     background-size: cover;
     background-position: center 30%; /* 좌우 중앙, 상단에서 40% 위치 */
+    display: flex;
 }
 
 .backgroundTexture{
@@ -32,7 +34,7 @@
     font-weight: 900;
     position: absolute;
     left:100px;
-    top:460px;
+    top:335px;
 
 }
 
@@ -54,23 +56,23 @@
 .mainSearch{
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items:stretch;
     align-content: center;
     justify-content: center;
     justify-items:center;
     margin:auto;
     position: relative;
-    top:30%;
+    /*top:30%;*/
 }
 
 .mainSearchInput{
-    width: 490px;
+    width: 493px;
     height: 35px;
     background-color: #D9D9D9;
     border: none;
     border-radius: 10px;
     opacity: 0.8;
-    padding: 3px;
+    padding: 5px;
 }
 
 .mainKeywordButton{

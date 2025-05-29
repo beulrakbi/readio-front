@@ -1,117 +1,147 @@
-import { useNavigate } from 'react-router-dom';
-import search from '../../assets/search.png';
+import {Fragment, useEffect, useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import searchIcon from '../../assets/search.png';
 import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchBookList.module.css';
 
 function SearchBookList() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [input, setInput] = useState('');    // 검색창 입력값
+    const [query, setQuery] = useState('');    // 실제 요청에 쓰일 키워드
+    const [page, setPage] = useState(1);
+    const [books, setBooks] = useState([]);    // API 응답 도서 목록
+    const [totalCount, setTotalCount] = useState(0);
+    const [errorMessage, setErrorMessage] = useState('');
+    const size = 20;
 
-     const navigate = useNavigate();
-     
-     // const [searchVideo, setSearchVideo] = useState('');
+    // URL 쿼리 파싱: query, page 초기화
+    useEffect(() => {
+        const qp = new URLSearchParams(location.search);
+        const q = qp.get('query') || '';
+        const p = parseInt(qp.get('page'), 10) || 1;
+        setInput(q);
+        setQuery(q);
+        setPage(p);
+    }, [location.search]);
 
-     // 책 상세 페이지로 이동하게 하기 
-     // const onClickVideoPage = () => {
-     //      navigate(`/video`);
-     // }
+    // 실제 API 호출: query 또는 page 가 바뀔 때마다
+    useEffect(() => {
+        if (!query) {
+            setBooks([]);
+            setTotalCount(0);
+            return;
+        }
 
+        setErrorMessage('');
+        fetch(`http://localhost:8080/search/book?query=${encodeURIComponent(query)}&page=${page}&size=${size}`)
+            .then(res => {
+                return res.json();
+            })
+            .then(json => {
+                // ResponseDTO { status, message, data: { books, total } }
+                const {data} = json;
+                const refinedData = data.books.filter((book, index, self) => index === self.findIndex(b => b.bookIsbn === book.bookIsbn));
+                setBooks(refinedData);
+                setTotalCount(refinedData.length);
+            })
+            .catch(err => {
+                console.error(err);
+                setErrorMessage('데이터 조회 중 오류가 발생했습니다.');
+                setBooks([]);
+                setTotalCount(0);
+            });
+    }, [query, page]);
 
-     // 검색하면 영상 검색 결과 리스트 뜨게 코드 작성....
-     // const onSearchChangeHandler = (e) => {
-     //      setSearchVideo(e.target.value);
-     // }
+    // 페이지 버튼 렌더
+    const renderPagination = () => {
+        const totalPages = Math.ceil(totalCount / 10);
+        console.log("totalCount", totalCount);
+        console.log("pages", totalPages);
+        if (totalPages <= 1) return null;
+        return Array.from({length: totalPages}, (_, i) => {
+            const num = i + 1;
+            return (<button
+                    key={num}
+                    className={`${styles.pageButton} ${page === num ? styles.activePage : ''}`}
+                    onClick={() => {
+                        navigate(`/search/book?query=${encodeURIComponent(query)}&page=${num}`);
+                    }}
+                >
+                    {num}
+                </button>);
+        });
+    };
 
-     // const onEnterkeyHandler = (e) => {
-     //      if (e.key == 'Enter') {
-     //           console.log('Enter key', searchVideo);
+    // 검색 버튼 클릭
+    const onSearch = () => {
+        if (!input.trim()) {
+            setErrorMessage('검색어를 입력해주세요.');
+            return;
+        }
+        // URL 바꿔서 useEffect → fetch 트리거
+        navigate(`/search/book?query=${encodeURIComponent(input)}&page=1`);
+    };
 
-     //           navigate(`/search/video`);
-     //      }
-     // };
-
-     const onSearchClickHandler = () => {
-          navigate(`/search/video`);
-     }
-
-     
-
-    return (
-              <>
-                    <div className={UserMainCSS.mainImgBox}>
-                                   <div className={UserMainCSS.mainSearch}>
-                                        <div className={UserMainCSS.buttonBox}>
-                                             <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
-                                             <button className={UserMainCSS.buttonNone} onClick={onSearchClickHandler}><img src={search}/></button>
-                                        </div>
-                                        <div className={UserMainCSS.buttonBox}>
-                                           <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                                           <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                                           <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                                        </div>
-                                   </div>
+    return (<>
+            <div className={UserMainCSS.mainImgBox}>
+                <div className={UserMainCSS.mainSearch}>
+                    <div className={UserMainCSS.buttonBox}>
+                        <input
+                            className={UserMainCSS.mainSearchInput}
+                            type="text"
+                            value={input}
+                            onChange={e => setInput(e.target.value)}
+                            onKeyDown={e => e.key === 'Enter' && onSearch()}
+                            placeholder="검색어를 입력하세요"
+                        />
+                        <button className={UserMainCSS.buttonNone} onClick={onSearch}>
+                            <img src={searchIcon} alt="검색"/>
+                        </button>
                     </div>
+                </div>
+            </div>
 
+            {errorMessage && (<div className={styles.noResults} style={{color: 'red', margin: '1rem 0'}}>
+                    {errorMessage}
+                </div>)}
 
-                   <div className={styles.container}>
+            <div className={styles.container}>
+                <div className={styles.SearchListTitle}>
+                    {query ? `# ${query} 검색 결과` : '# 도서 전체 목록'}
+                </div>
+                <hr className={styles.SearchbookListHr}/>
 
-                        <div className={styles.SearchListTitle}># 키워드에 대한 검색 결과</div>
-                        <hr />
-                        <div className={styles.SearchBookList}>
-    
-                             <div className={styles.bookList}>
-                                  <div className={styles.book}></div>
-                                  <div className={styles.bookInfo}>
-                                       <div className={styles.bookTitle}>그리고 바통은 넘겨졌다.</div>
-                                       <div className={styles.credits}>
-                                            <div className={styles.bookAuthor}>세오 마이코</div> {/* 저자 */}
-                                            <div className={styles.bookPublisher}>스토리텔러</div> {/* 출판사 */}
-                                       </div>
-                                       <div className={styles.bookDetail}>“부모 역할에 대해 생각해 보게 하는 소설”이 소설의 재미는 
-                                                                            기둥 줄거리를 이끌어 가는 37세 아버지와 17세 딸이 각각 아버지 역할과
-                                                                            딸 역할에 최선을 다하면서 만들어내는 미묘한 분위기에 있다....   
-                                                                        </div>
-                                  </div>
-                             </div>
-                             <hr />
+                <div className={styles.SearchBookList}>
+                    {books.length > 0 ? (books.map((b, idx) => (<Fragment key={b.bookIsbn ?? idx}>
+                                <div className={styles.bookItem}>
+                                    <img
+                                        className={styles.book}
+                                        src={b.bookCover?.replace('coversum', 'cover500') ?? '/default-cover.png'}
+                                        alt={`${b.bookTitle} 표지`}
+                                    />
+                                    <div className={styles.bookInfo}>
+                                        <div className={styles.bookTitle}>{b.bookTitle}</div>
+                                        <div className={styles.credits}>
+                                            <div className={styles.bookAuthor}>
+                                                <span className={styles.label}>저자</span> {b.bookAuthor}
+                                            </div>
+                                            <div className={styles.bookPublisher}>
+                                                <span className={styles.label}>출판사</span> {b.bookPublisher}
+                                            </div>
+                                        </div>
+                                        <p className={styles.bookDetail}>{b.bookDescription}</p>
+                                    </div>
+                                </div>
+                                <hr className={styles.bookListHr}/>
+                            </Fragment>))) : (!errorMessage && (<div className={styles.noResults}>
+                                {query ? '검색 결과가 없습니다.' : '검색어를 입력하여 도서를 찾아보세요.'}
+                            </div>))}
+                </div>
 
-
-                             <div className={styles.bookList}>
-                                  <div className={styles.book}></div>
-                                  <div className={styles.bookInfo}>
-                                       <div className={styles.bookTitle}>그리고 바통은 넘겨졌다.</div>
-                                       <div className={styles.credits}>
-                                            <div className={styles.bookAuthor}>세오 마이코</div> {/* 저자 */}
-                                            <div className={styles.bookPublisher}>스토리텔러</div> {/* 출판사 */}
-                                       </div>
-                                       <div className={styles.bookDetail}>“부모 역할에 대해 생각해 보게 하는 소설”이 소설의 재미는 
-                                                                            기둥 줄거리를 이끌어 가는 37세 아버지와 17세 딸이 각각 아버지 역할과
-                                                                            딸 역할에 최선을 다하면서 만들어내는 미묘한 분위기에 있다....   
-                                                                        </div>
-                                  </div>
-                             </div>
-                             <hr />
-
-
-                             <div className={styles.bookList}>
-                                  <div className={styles.book}></div>
-                                  <div className={styles.bookInfo}>
-                                       <div className={styles.bookTitle}>그리고 바통은 넘겨졌다.</div>
-                                       <div className={styles.credits}>
-                                            <div className={styles.bookAuthor}>세오 마이코</div>
-                                            <div className={styles.bookPublisher}>스토리텔러</div>
-                                       </div>
-                                       <div className={styles.bookDetail}>“부모 역할에 대해 생각해 보게 하는 소설”이 소설의 재미는 
-                                                                            기둥 줄거리를 이끌어 가는 37세 아버지와 17세 딸이 각각 아버지 역할과
-                                                                            딸 역할에 최선을 다하면서 만들어내는 미묘한 분위기에 있다....   
-                                                                        </div>
-                                  </div>
-                             </div>
-    
-     
-                        </div>
-                        <hr />
-                   </div>
-              </>
-         )
+                <div className={styles.paginationContainer}>{renderPagination()}</div>
+            </div>
+        </>);
 }
 
 export default SearchBookList;

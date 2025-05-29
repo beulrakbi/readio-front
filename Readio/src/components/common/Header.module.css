@@ -6,6 +6,7 @@ html, body, #root {
 }
 
 .headerDiv {
+    font-family: 'Pretendard Variable', sans-serif;
     width: 100%;
     height: 60px;
     background-color: #808467;
@@ -66,7 +67,7 @@ html, body, #root {
 .headerLogin {
     width: auto; /* 고정 너비 대신 내용에 맞게 조정 */
     display: flex;
-    gap: 10px;
+    gap: 2px;
 }
 
 .headerLoginBt {

@@ -1,55 +1,101 @@
 .container {
      width: 80vh;
-     height : 100%;
+     height: 100%;
      margin: 40px auto;
 }
 
 .SearchListTitle {
-     font-size : 20px;
-     color : #808467;
+     font-size: 20px;
+     color: #808467;
      font-weight: 600;
 }
 
-/*hr {*/
-/*     width : 80vh;*/
-/*     height: 1px;*/
-/*}*/
-
-.bookList {
-     padding : 20px 40px;
-     display:  flex;
+.SearchbookListhr {
+     width : 90vh;
+     height: 1px;
 }
 
-.book {
-     width : 200px;
+
+.bookListHr {
+     width : 80vh;
+     height: 1px;
+}
+
+.bookList {
+     padding : 10px 30px;
+}
+
+.bookItem {
+     display: flex;
+     margin: 30px;
+}
+
+.book{
+     width : 130px;
      height : 200px;
-     background-color: #4f4f4f;
      border-radius: 3px;
+     box-shadow: 1px 1px 1px 1px #9d9d9d;
 }
 
 .bookInfo {
-     margin: 0 0 0 40px;
+     margin: 0 0 0 30px;
      cursor: pointer;
 }
 
 .bookTitle {
-     font-size : 15px;
+     font-size: 15px;
      font-weight: 700;
 }
 
 .credits {
-    margin: 20px 0 ;
-    line-height: 20px;
+     margin: 20px 0;
+     line-height: 20px;
 }
 
-.bookAuthor , .bookPublisher {
-    font-size : 13px;
-    font-weight: 500;
 
+.bookAuthor, .bookPublisher {
+    font-size : 13px;
+}
+
+
+.label {
+     font-size: 13px;
+     font-weight: 500;
 }
 
 .bookDetail {
-     margin : 20px 0;
-     font-size : 12px;
+     margin: 20px 0;
+     font-size: 12px;
      line-height: 15px;
+}
+
+/* SearchBookList.module.css */
+
+/* 기존 paginationContainer가 있다면 덮어쓰기 */
+.paginationContainer {
+  display: flex;              
+  justify-content: center;    
+  margin-top: 70px;           
+}
+
+/* 페이지 번호 버튼 스타일 */
+.pageButton {
+  background: none;           
+  border: none;               
+  margin: 0 10px;    /* 번호 사이 간격 조정정*/
+  padding: 10px 0;    
+  font-size: 17px;      
+  cursor: pointer;     
+  color: #000000;                  
+}
+
+/* 호버 시 색 변경 */
+.pageButton:hover {
+  color: #898e67;             
+}
+
+/* 현재 페이지 표시 */
+.activePage {
+  font-weight: bold;        
+  color: #898e67;            
 }
