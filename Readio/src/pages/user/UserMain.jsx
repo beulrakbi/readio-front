@@ -28,10 +28,10 @@ function UserMain() {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
         const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("accessToken");
 
-        if (!token || !userId) return;
+        if (!token || !userId || token === 'undefined' || userId === 'undefined') return;
 
         const todayStr = dayjs().format('YYYY-MM-DD');
         const modalKey = `emotionModalShown_${userId}_${todayStr}`;
@@ -41,8 +41,7 @@ function UserMain() {
             setIsModalOpen(true);
             localStorage.setItem(modalKey, 'true');
         }
-    }, []);
-
+    }, [localStorage.getItem("userId")]);
 
     useEffect(() => {
         const getTypes = async () => {
@@ -74,13 +73,13 @@ function UserMain() {
                     </div>
                 </div>
                 <p className={UserMainCSS.readio}>READIO</p>
-            <div className={UserMainCSS.backgroundTexture}>
-                <div className={UserMainCSS.mainTextBox}>
-                <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
-                    계절처럼 변하는 하루하루,
-                당신에게 꼭 맞는 이야기를 전합니다. "</p>
-                </div>
-                <div className={UserMainCSS.videoSection}>
+                <div className={UserMainCSS.backgroundTexture}>
+                    <div className={UserMainCSS.mainTextBox}>
+                        <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
+                            계절처럼 변하는 하루하루,
+                            당신에게 꼭 맞는 이야기를 전합니다. "</p>
+                    </div>
+                    <div className={UserMainCSS.videoSection}>
                         <VideoList type={types[0]}/>
                         <VideoList type={types[1]}/>
                         <VideoList type={types[2]}/>
