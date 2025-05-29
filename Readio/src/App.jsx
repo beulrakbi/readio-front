@@ -69,10 +69,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    const userId = localStorage.getItem('userId');
-    const userName = localStorage.getItem('userName');
-    const userRole = localStorage.getItem('userRole'); // 권한이 따로 저장된다면
+    const accessToken = sessionStorage.getItem('accessToken');
+    const userId = sessionStorage.getItem('userId');
+    const userName = sessionStorage.getItem('userName');
+    const userRole = sessionStorage.getItem('userRole'); // 권한이 따로 저장된다면
 
     if (accessToken && userId) {
           axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
