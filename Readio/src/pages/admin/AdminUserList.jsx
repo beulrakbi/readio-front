@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 // 회원목록 조회 테스트용 
 function AdminUserList() {
@@ -13,11 +13,12 @@ function AdminUserList() {
         fetchUserList();
     }, [currentPage, search]);
 
-    const token = localStorage.getItem('jwtToken'); // 로그인 후 저장된 토큰 예시
+    const BACKEND_URL = 'http://localhost:8080'; 
+    const token = localStorage.getItem('accessToken'); // 로그인 후 저장된 토큰 예시
 
     const fetchUserList = async () => {
         try {
-            const response = await axios.get('/admin/users/list', {
+            const response = await axios.get(`${BACKEND_URL}/admin/users/listt`, {
                 headers: {
                     Authorization: `Bearer ${token}`,  // 토큰 붙이기
                 },
@@ -27,7 +28,8 @@ function AdminUserList() {
                     search: search
                 }
             });
-            setUsers(response.data.users);
+            console.log('응답 데이터:', response.data);
+            setUsers(response.data);
             setTotalPages(response.data.totalPages);
         } catch (error) {
             console.error('회원 목록 불러오기 오류', error);

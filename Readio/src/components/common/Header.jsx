@@ -1,13 +1,13 @@
 import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import bell from '../../assets/alarm.png';
 import logo from '../../assets/Logo.png';
 import navBar from '../../assets/NavBar.png';
 import searchIcon from '../../assets/search2.png';
-import HeaderCSS from './Header.module.css';
 import { logout } from '../../modules/user/userSlice';
+import HeaderCSS from './Header.module.css';
 
 function Header({ toggleNav }) {
     const navigate = useNavigate();

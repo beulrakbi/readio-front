@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../../assets/login.png';
-import LoginCSS from './Login.module.css';
-import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../modules/user/userSlice';
+import LoginCSS from './Login.module.css';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -44,6 +44,7 @@ const Login = () => {
 
             console.log("로그인 응답 data:", data);
 
+            // 이거 있어야 로그인 가능
             localStorage.setItem("accessToken", data.accessToken);
             localStorage.setItem("userId", data.userId); // 로그인한 사용자 ID 저장
             localStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
@@ -53,7 +54,7 @@ const Login = () => {
 
             const userInfoResponse = await fetch("http://localhost:8080/users/me", {
                 headers: {
-                    "Authorization": `Bearer ${data.accessToken}`
+                    "Authorization": `Bearer ${data.accessToken}`   //토큰
                 },
                 credentials: "include"
             });

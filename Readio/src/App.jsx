@@ -1,9 +1,15 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import BookPage from '../src/pages/book/BookPage';
+import axiosInstance from "./apis/axiosInstance.js";
 import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
+import { loginSuccess, logout } from "./modules/user/userSlice.js";
 import AdminMain from "./pages/admin/AdminMain";
+import AdminUserList from "./pages/admin/AdminUserList.jsx";
+import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
 import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
 import FilteringDetailPage from "./pages/admin/filtering/FilteringDetailPage";
 import FilteringListPage from "./pages/admin/filtering/FilteringListPage";
@@ -54,11 +60,6 @@ import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
-import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { loginSuccess, logout } from "./modules/user/userSlice.js";
-import axiosInstance from "./apis/axiosInstance.js";
 
 
 
@@ -68,7 +69,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('jwtToken');
+    const accessToken = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('userId');
     const userName = localStorage.getItem('userName');
     const userRole = localStorage.getItem('userRole'); // 권한이 따로 저장된다면
@@ -141,6 +142,7 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminMain />} />
             <Route path="users/list" element={<UserManagement />} />
+            <Route path="users/listt" element={<AdminUserList />}/>
             <Route path="filtering" element={<FilteringListPage />} />
             <Route path="filtering/create" element={<FilteringCreatePage />} />
             <Route path="filtering/:groupId" element={<FilteringDetailPage />} />

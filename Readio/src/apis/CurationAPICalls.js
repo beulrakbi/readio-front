@@ -1,7 +1,7 @@
-import {getAllCuration, getCurationKeywords, getCurationTypes, putAllCuration} from "../modules/video/CurationSlice.js";
+import { getAllCuration, getCurationKeywords, getCurationTypes, putAllCuration } from "../modules/video/CurationSlice.js";
 
 const getAuthHeader = () => {
-    const token = localStorage.getItem('jwtToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    const token = localStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
     console.log("큐레이션 토큰 :",  token)
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };

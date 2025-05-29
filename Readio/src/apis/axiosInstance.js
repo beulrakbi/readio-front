@@ -16,7 +16,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('jwtToken'); // 토큰 저장 위치에 맞게 변경
+    const token = localStorage.getItem('accessToken'); // 토큰 저장 위치에 맞게 변경
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // 변경 금지
     }

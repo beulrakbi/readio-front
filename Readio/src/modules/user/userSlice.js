@@ -5,7 +5,7 @@ import axiosInstance from "../../apis/axiosInstance";
 const initialState = {
     isLogin: false, // 로그인 상태 초기값
     userInfo: null, // 사용자 정보 초기값
-    jwtToken: null,
+    accessToken: null,
 };
 
 const userSlice = createSlice({
@@ -13,13 +13,13 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         loginSuccess: (state, action) => {
-            const { userId, userName, userRole, isLoggedIn, accessToken  } = action.payload;
+            const { userId, userName, userRole, accessToken  } = action.payload;
 
             state.isLogin = true;
             state.userInfo = { userId, userName, userRole };
-            state.jwtToken = accessToken;
+            state.accessToken = accessToken;
 
-            localStorage.setItem("jwtToken", accessToken);
+            localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("userId", userId);
             localStorage.setItem("userName", userName);
             localStorage.setItem("userRole", JSON.stringify(userRole)); // 권한 배열 저장
@@ -28,10 +28,10 @@ const userSlice = createSlice({
         logout: (state) => {
             state.isLogin = false;
             state.userInfo = null;
-            state.jwtToken = null;
+            state.accessToken = null;
 
             // localStorage 정리
-            localStorage.removeItem("jwtToken");
+            // localStorage.removeItem("jwtToken"); 중복 삭제
             localStorage.removeItem("accessToken");
             localStorage.removeItem("userId");
             localStorage.removeItem("userName");
@@ -58,8 +58,7 @@ export const login = (userId, password) => async (dispatch) => {
             userId: userInfo.userId,
             userName: userInfo.userName,
             userRole: userInfo.userRole,
-            isLoggedIn: true,
-            jwtToken: accessToken,
+            accessToken,
         }));
     } catch (error) {
         console.error('로그인 실패', error);
@@ -69,6 +68,6 @@ export const login = (userId, password) => async (dispatch) => {
 
 export const callLogoutAPI = () => (dispatch) => {
     // 토큰 삭제
-    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('accessToken');
     dispatch(logout());
 };
