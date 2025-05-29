@@ -26,6 +26,7 @@ const userSlice = createSlice({
             localStorage.setItem("isPasswordVerified", "true");
         },
         logout: (state) => {
+            // 리듀서는 오직 Redux 스토어의 상태만 변경할 것
             state.isLogin = false;
             state.userInfo = null;
             state.accessToken = null;
@@ -45,29 +46,31 @@ export const { loginSuccess, logout } = userSlice.actions;
 export default userSlice.reducer;
 
 // 비동기 thunk 함수 (login, logout)
-export const login = (userId, password) => async (dispatch) => {
-    try {
-        const response = await axios.post('/users/login', { userId, password });
-        const { accessToken } = response.data;
-        console.log('로그인 성공', response.data);
+// export const login = (userId, password) => async (dispatch) => {
+//     try {
+//         const response = await axios.post('/users/login', { userId, password });
+//         const { accessToken } = response.data;
+//         console.log('로그인 성공', response.data);
 
-        const userInfoResponse = await axiosInstance.get('/users/me');
-        const userInfo = userInfoResponse.data;
+//         const userInfoResponse = await axiosInstance.get('/users/me');
+//         const userInfo = userInfoResponse.data;
 
-        dispatch(loginSuccess({
-            userId: userInfo.userId,
-            userName: userInfo.userName,
-            userRole: userInfo.userRole,
-            accessToken,
-        }));
-    } catch (error) {
-        console.error('로그인 실패', error);
-        alert('로그인 실패: ' + error.response?.data?.message);
-    }
-};
+//         dispatch(loginSuccess({
+//             userId: userInfo.userId,
+//             userName: userInfo.userName,
+//             userRole: userInfo.userRole,
+//             accessToken,
+//         }));
+//     } catch (error) {
+//         console.error('로그인 실패', error);
+//         alert('로그인 실패: ' + error.response?.data?.message);
+//     }
+// };
 
 export const callLogoutAPI = () => (dispatch) => {
+
     // 토큰 삭제
-    localStorage.removeItem('accessToken');
+    // localStorage.removeItem('accessToken');
+
     dispatch(logout());
 };

@@ -68,21 +68,19 @@ function App() {
   // 새로고침해도 로그인 상태유지되게함 (삭제X)
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const accessToken = sessionStorage.getItem('accessToken');
-    const userId = sessionStorage.getItem('userId');
-    const userName = sessionStorage.getItem('userName');
-    const userRole = sessionStorage.getItem('userRole'); // 권한이 따로 저장된다면
+    useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    const userId = localStorage.getItem('userId');
+    const userName = localStorage.getItem('userName');
+    const userRole = localStorage.getItem('userRole'); // 권한이 따로 저장된다면
 
-    if (accessToken && userId) {
-          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
-      // 로그인 상태 복구
+    // 로그인 상태 복구
+    if (accessToken && userId) {         
       dispatch(loginSuccess({
         userId,
         userName,
         userRole: userRole ? JSON.parse(userRole) : [], // 예: ["USER"]
-        isLoggedIn: true,
         accessToken,
       }));
     } else {

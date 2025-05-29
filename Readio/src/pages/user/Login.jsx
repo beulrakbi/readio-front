@@ -44,17 +44,11 @@ const Login = () => {
 
             console.log("로그인 응답 data:", data);
 
-            // 이거 있어야 로그인 가능
+            // 이거 있어야 로그인 가능 ? localStorage에 직접 정보 저장 (여기서 저장하는 것이 가장 명확)
             // localStorage.setItem("accessToken", data.accessToken);
             // localStorage.setItem("userId", data.userId); // 로그인한 사용자 ID 저장
             // localStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
             // localStorage.setItem("isPasswordVerified", "true"); // 비밀번호 검증 플래그 설정
-
-            sessionStorage.setItem("accessToken", data.accessToken);
-            sessionStorage.setItem("userId", data.userId); // 로그인한 사용자 ID 저장
-            sessionStorage.setItem("userName", data.userName); // 로그인한 사용자 이름 저장
-            sessionStorage.setItem("isPasswordVerified", "true"); // 비밀번호 검증 플래그 설정
-
 
             const userInfoResponse = await fetch("http://localhost:8080/users/me", {
                 headers: {
