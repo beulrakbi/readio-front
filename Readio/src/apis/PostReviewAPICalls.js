@@ -4,9 +4,15 @@ import {
     DELETE_POSTREVIEW
 } from '../modules/postwriting/PostReviewModule.js';
 
+const getAuthHeader = () => {
+const token = localStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+console.log("PostAPICall 토큰 :",  token)
+return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
 export const callPostReviewAPI = ({ postId, currentPage }) => {
     
-    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/post/${postId}/reviews?offset=${currentPage}`;
+    const requestURL = `http://localhost:8080/post/${postId}/reviews?offset=${currentPage}`;
 
     console.log("[API Call] 요청 URL:", requestURL);
 
@@ -15,7 +21,8 @@ export const callPostReviewAPI = ({ postId, currentPage }) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
+                ...getAuthHeader
             }
         }).then((response) => response.json());
 
@@ -29,7 +36,7 @@ export const callPostReviewAPI = ({ postId, currentPage }) => {
 
 export const callPostReviewWritingAPI = ({ postId, form }) => {
     
-    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/post/${postId}/reviews`;
+    const requestURL = `http://localhost:8080/post/${postId}/reviews`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -51,7 +58,7 @@ export const callPostReviewWritingAPI = ({ postId, form }) => {
 
 export const callPostReviewDeleteAPI = ({ reviewId }) => {
     
-    const requestURL = `http://${import.meta.env.VITE_APP_RESTAPI_IP}:8080/post/reviews/${reviewId}`;
+    const requestURL = `http://localhost:8080/post/reviews/${reviewId}`;
 
     console.log("[API Call] DELETE 요청 URL:", requestURL);
 

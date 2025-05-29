@@ -77,7 +77,7 @@ function PostWriting() {
 
         formData.append('postTitle', form.postTitle);
         formData.append('postContent', form.postContent);
-        formData.append('bookIsbn', selectedBook.title);
+        formData.append('bookIsbn', selectedBook.isbn);
 
         if (imageUrl && imageUrl.file) {
             formData.append('postImage', imageUrl.file);
@@ -154,7 +154,7 @@ function PostWriting() {
                             className={PostCSS.selectedBookCover}
                         />
                         <div className={PostCSS.selectedBookInfo}>
-                            <p className={PostCSS.selectedBookTitle} dangerouslySetInnerHTML={{ __html: selectedBook.title }}></p>
+                            <p className={PostCSS.selectedBookTitle} dangerouslySetInnerHTML={{ __html: selectedBook.isbn }}></p>
                             <p className={PostCSS.selectedBookAuthor}>{selectedBook.author} </p>
                             {selectedBook.publisher && <p className={PostCSS.selectedBookPublisher}>출판사 : {selectedBook.publisher}</p>}
                         </div>
