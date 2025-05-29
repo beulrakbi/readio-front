@@ -2,104 +2,84 @@ import { useState } from 'react';
 import styles from './Bookmark.module.css';
 
 function Bookmark() {
-    const [activeTab, setActiveTab] = useState('book'); // 'book' or 'video'
+  const [activeTab, setActiveTab] = useState('book'); // 'book' or 'video'
 
-    const [bookmarkState, setBookmarkState] = useState({
-        '강적99': false,
-        '토리_tory': false
-    });
+  // 아이템 목록 상태로 관리 (삭제 가능하도록)
+  const [items, setItems] = useState({
+    book: [
+      { id: 1, title: '역행자', subtitle: '저자 : 재용' },
+      { id: 2, title: '개미1', subtitle: '저자 : 재용' },
+    ],
+    video: [
+      { id: 3, title: '죽기 전에 꼭 읽어야 할 책 TOP5', subtitle: '채널명 : 용튜브' },
+      { id: 4, title: '죽으면 꼭 읽어야 할 책 TOP5', subtitle: '채널명 : 용튜브' },
+    ],
+  });
 
-    const toggleBookmark = (item) => {
-        setBookmarkState((prev) => ({
-            ...prev,
-            [item]: !prev[item]
-        }));
-    };
+  // 삭제 함수
+  const deleteItem = (tab, id) => {
+    setItems((prev) => ({
+      ...prev,
+      [tab]: prev[tab].filter((item) => item.id !== id),
+    }));
+  };
 
-    return (
-        <div className={styles.bookmarkContainer}>
-            <button className={styles.backButton}>&lt; cOwsun</button>
+  return (
+    <div className={styles.bookmarkContainer}>
+      <button className={styles.backButton}>&lt; cOwsun</button>
 
-            <div className={styles.tabContainer}>
-                <div className={styles.tabButtonWrapper}>
-                    <button
-                        className={`${styles.tabButton} ${activeTab === 'book' ? styles.activeTab : ''}`}
-                        onClick={() => setActiveTab('book')}
-                    >
-                        책 2
-                    </button>
-                </div>
-                <div className={styles.tabButtonWrapper}>
-                    <button
-                        className={`${styles.tabButton} ${activeTab === 'video' ? styles.activeTab : ''}`}
-                        onClick={() => setActiveTab('video')}
-                    >
-                        영상 4
-                    </button>
-                </div>
-            </div>
-
-            {activeTab === 'book' ? (
-                <>
-                    <div className={styles.bookmarkItem}>
-                        <div className={styles.imgbox}></div>
-                        <div className={styles.bookmarkInfo}>
-                            <li className={styles.bookmarkTitle}>역행자</li>
-                            <li className={styles.bookmarkSubtitle}>저자 : 재용</li>
-                        </div>
-                        <button
-                            className={`${styles.bookmarkActionButton} ${bookmarkState["역행자"] ? styles.bookmarked : ''}`}
-                            onClick={() => toggleBookmark("역행자")}
-                        >
-                            {bookmarkState["역행자"] ? '등록' : '삭제'}
-                        </button>
-                    </div>
-                    <div className={styles.bookmarkItem}>
-                        <div className={styles.imgbox}></div>
-                        <div className={styles.bookmarkInfo}>
-                            <li className={styles.bookmarkTitle}>개미1</li>
-                            <li className={styles.bookmarkSubtitle}>저자 : 재용</li>
-                        </div>
-                        <button
-                            className={`${styles.bookmarkActionButton} ${bookmarkState["개미1"] ? styles.bookmarked : ''}`}
-                            onClick={() => toggleBookmark("개미1")}
-                        >
-                            {bookmarkState["개미1"] ? '등록' : '삭제'}
-                        </button>
-                    </div>
-                </> 
-            ) : (
-                <>
-                    <div className={styles.bookmarkItem}>
-                        <div className={styles.videoBox}></div>
-                        <div className={styles.bookmarkInfo}>
-                            <li className={styles.bookmarkTitle}>죽기 전에 꼭 읽어야 할 책 TOP5</li>
-                            <li className={styles.bookmarkSubtitle}>채널명 : 용튜브</li>
-                        </div>
-                        <button
-                            className={`${styles.bookmarkActionButton} ${bookmarkState["죽기 전에 꼭 읽어야 할 책 TOP5"] ? styles.bookmarked : ''}`}
-                            onClick={() => toggleBookmark("죽기 전에 꼭 읽어야 할 책 TOP5")}
-                        >
-                            {bookmarkState["죽기 전에 꼭 읽어야 할 책 TOP5"] ? '등록' : '삭제'}
-                        </button>
-                    </div>
-                    <div className={styles.bookmarkItem}>
-                        <div className={styles.videoBox}></div>
-                        <div className={styles.bookmarkInfo}>
-                            <li className={styles.bookmarkTitle}>죽으면 꼭 읽어야 할 책 TOP5</li>
-                            <li className={styles.bookmarkSubtitle}>채널명 : 용튜브</li>
-                        </div>
-                        <button
-                            className={`${styles.bookmarkActionButton} ${bookmarkState["죽으면 꼭 읽어야 할 책 TOP5"] ? styles.bookmarked : ''}`}
-                            onClick={() => toggleBookmark("죽으면 꼭 읽어야 할 책 TOP5")}
-                        >
-                            {bookmarkState["죽으면 꼭 읽어야 할 책 TOP5"] ? '등록' : '삭제'}
-                        </button>
-                    </div>
-                </>
-            )}
+      <div className={styles.tabContainer}>
+        <div className={styles.tabButtonWrapper}>
+          <button
+            className={`${styles.tabButton} ${activeTab === 'book' ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab('book')}
+          >
+            책 {items.book.length}
+          </button>
         </div>
-    );
+        <div className={styles.tabButtonWrapper}>
+          <button
+            className={`${styles.tabButton} ${activeTab === 'video' ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab('video')}
+          >
+            영상 {items.video.length}
+          </button>
+        </div>
+      </div>
+
+      {activeTab === 'book'
+        ? items.book.map((item) => (
+            <div key={item.id} className={styles.bookmarkItem}>
+              <div className={styles.imgbox}></div>
+              <div className={styles.bookmarkInfo}>
+                <li className={styles.bookmarkTitle}>{item.title}</li>
+                <li className={styles.bookmarkSubtitle}>{item.subtitle}</li>
+              </div>
+              <button
+                className={styles.bookmarkActionButton}
+                onClick={() => deleteItem('book', item.id)}
+              >
+                삭제
+              </button>
+            </div>
+          ))
+        : items.video.map((item) => (
+            <div key={item.id} className={styles.bookmarkItem}>
+              <div className={styles.videoBox}></div>
+              <div className={styles.bookmarkInfo}>
+                <li className={styles.bookmarkTitle}>{item.title}</li>
+                <li className={styles.bookmarkSubtitle}>{item.subtitle}</li>
+              </div>
+              <button
+                className={styles.bookmarkActionButton}
+                onClick={() => deleteItem('video', item.id)}
+              >
+                삭제
+              </button>
+            </div>
+          ))}
+    </div>
+  );
 }
 
 export default Bookmark;
