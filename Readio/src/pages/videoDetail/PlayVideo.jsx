@@ -5,7 +5,6 @@ import bookMarkX from '../../assets/bookMarkX.png';
 import styles from './PlayVideo.module.css';
 import RecommandedVideoList from './RecommandedVideoList';
 
-
      function PlayVideo() { 
 
           const { videoId } = useParams();

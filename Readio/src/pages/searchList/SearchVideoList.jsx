@@ -62,7 +62,7 @@ function SearchVideoList() {
         fetchVideos();
     }, [searchQuery, dispatch]);
 
-    // 페이지네이션 계산
+    // 페이지네이션 
     const combined = [...videoInDBList, ...videoList];
     const totalCount = combined.length;
     const totalPages = Math.ceil(totalCount / size);
