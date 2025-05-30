@@ -15,7 +15,7 @@ export const callPostCreateAPI = ({ form }) => {
      // 👇 VITE_APP_RESTAPI_IP 값이 제대로 들어오는지 확인!
     console.log('VITE_APP_RESTAPI_IP:', import.meta.env.VITE_APP_RESTAPI_IP); 
 	
-	const requestURL = `http://localhost:8080/post/writing`;
+	const requestURL = `http://localhost:8080/mylibrary/post/writing`;
 
         // 👇 실제로 만들어진 URL 확인!
     console.log('Request URL:', requestURL); 
@@ -38,7 +38,7 @@ console.log("VITE_APP_RESTAPI_IP 환경 변수 값:", import.meta.env.VITE_APP_R
 };
 
 export const callPostDetailAPI = ({ postId }) => {
-	const requestURL = `http://localhost:8080/post/${postId}`;
+	const requestURL = `http://localhost:8080/mylibrary/post/${postId}`;
 
 	        // 👇 실제로 만들어진 URL 확인!
     console.log('Request URL:', requestURL); 
