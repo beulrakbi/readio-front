@@ -5,12 +5,10 @@ import styles from './AdminInterestManager.module.css';
 const AdminInterestSetting = () => {
     const [categories, setCategories] = useState([]);
     const [categoryInput, setCategoryInput] = useState('');
-
     const [keywords, setKeywords] = useState([]);
     const [keywordInput, setKeywordInput] = useState('');
-
     const [editingId, setEditingId] = useState(null);
-    const [editType, setEditType] = useState(null); // 'category' | 'keyword'
+    const [editType, setEditType] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
@@ -21,7 +19,6 @@ const AdminInterestSetting = () => {
             }
         })
             .then(res => {
-                console.log("응답 상태 코드:", res.status);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
             })
@@ -34,7 +31,6 @@ const AdminInterestSetting = () => {
             }
         })
             .then(res => {
-                console.log("응답 상태 코드:", res.status);
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
             })
@@ -44,10 +40,7 @@ const AdminInterestSetting = () => {
 
     const handleAddCategory = () => {
         const trimmed = categoryInput.trim();
-        if (
-            trimmed !== '' &&
-            !categories.some(c => c.name === trimmed)
-        ) {
+        if (trimmed !== '' && !categories.some(c => c.name === trimmed)) {
             setCategories([...categories, { id: uuidv4(), name: trimmed }]);
             setCategoryInput('');
         } else if (trimmed !== '') {
@@ -57,10 +50,7 @@ const AdminInterestSetting = () => {
 
     const handleAddKeyword = () => {
         const trimmed = keywordInput.trim();
-        if (
-            trimmed !== '' &&
-            !keywords.some(k => k.name === trimmed)
-        ) {
+        if (trimmed !== '' && !keywords.some(k => k.name === trimmed)) {
             setKeywords([...keywords, { id: uuidv4(), name: trimmed }]);
             setKeywordInput('');
         } else if (trimmed !== '') {
@@ -69,14 +59,14 @@ const AdminInterestSetting = () => {
     };
 
     const handleRemoveCategory = async (id) => {
-        const item = categories.find(c => c.id === id);
-        if (!item || String(id).startsWith('temp-')) {
-            setCategories(categories.filter(c => c.id !== id));
-            return;
-        }
-
+        const token = localStorage.getItem("accessToken");
         try {
-            const res = await fetch(`/api/admin/interests/category/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/interests/category/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             if (!res.ok) throw new Error();
             setCategories(categories.filter(c => c.id !== id));
         } catch {
@@ -85,14 +75,14 @@ const AdminInterestSetting = () => {
     };
 
     const handleRemoveKeyword = async (id) => {
-        const item = keywords.find(k => k.id === id);
-        if (!item || String(id).startsWith('temp-')) {
-            setKeywords(keywords.filter(k => k.id !== id));
-            return;
-        }
-
+        const token = localStorage.getItem("accessToken");
         try {
-            const res = await fetch(`/api/admin/interests/keyword/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/interests/keyword/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             if (!res.ok) throw new Error();
             setKeywords(keywords.filter(k => k.id !== id));
         } catch {
@@ -106,29 +96,44 @@ const AdminInterestSetting = () => {
     };
 
     const handleEditSave = async (id, newValue) => {
-        if (!newValue.trim()) return;
+        const trimmed = newValue.trim();
+        if (!trimmed) return;
+
+        const token = localStorage.getItem("accessToken");
 
         if (editType === 'category') {
+            const exists = categories.some(c => c.name === trimmed && c.id !== id);
+            if (exists) return alert('이미 존재하는 관심분야입니다.');
+
             try {
                 const res = await fetch(`/api/admin/interests/category/${id}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ newName: newValue }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ newName: trimmed }),
                 });
                 if (!res.ok) throw new Error();
-                setCategories(categories.map(c => c.id === id ? { ...c, name: newValue } : c));
+                setCategories(categories.map(c => c.id === id ? { ...c, name: trimmed } : c));
             } catch {
                 alert('카테고리 수정 실패');
             }
         } else if (editType === 'keyword') {
+            const exists = keywords.some(k => k.name === trimmed && k.id !== id);
+            if (exists) return alert('이미 존재하는 키워드입니다.');
+
             try {
                 const res = await fetch(`/api/admin/interests/keyword/${id}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ newName: newValue }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ newName: trimmed }),
                 });
                 if (!res.ok) throw new Error();
-                setKeywords(keywords.map(k => k.id === id ? { ...k, name: newValue } : k));
+                setKeywords(keywords.map(k => k.id === id ? { ...k, name: trimmed } : k));
             } catch {
                 alert('키워드 수정 실패');
             }
@@ -139,6 +144,7 @@ const AdminInterestSetting = () => {
     };
 
     const handleSave = async () => {
+        const token = localStorage.getItem("accessToken");
         const payload = {
             categories: categories.map(c => c.name),
             keywords: keywords.map(k => k.name),
@@ -147,13 +153,14 @@ const AdminInterestSetting = () => {
         try {
             const res = await fetch('/api/admin/interests', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify(payload),
             });
 
             if (!res.ok) throw new Error();
-            const result = await res.json();
-            console.log('서버 응답:', result);
             alert('관심 정보가 성공적으로 저장되었습니다!');
         } catch {
             alert('저장에 실패했습니다.');
@@ -170,26 +177,28 @@ const AdminInterestSetting = () => {
                 <div className={styles.inputRow}>
                     {categories.map((cat) => (
                         <span key={cat.id} className={styles.tag}>
-                            <span
-                                contentEditable={editingId === cat.id && editType === 'category'}
-                                suppressContentEditableWarning={true}
-                                onDoubleClick={() => startEditing(cat.id, 'category')}
-                                onBlur={(e) => handleEditSave(cat.id, e.target.textContent)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                        handleEditSave(cat.id, e.target.textContent);
-                                    }
-                                }}
-                                style={{
-                                    outline: 'none',
-                                    cursor: editingId === cat.id ? 'text' : 'pointer',
-                                    backgroundColor:
-                                        editingId === cat.id && editType === 'category' ? '#B4B4B4' : 'transparent',
-                                }}
-                            >
-                                {cat.name}
-                            </span>
+                            {editingId === cat.id && editType === 'category' ? (
+                                <input
+                                    type="text"
+                                    autoFocus
+                                    defaultValue={cat.name}
+                                    onBlur={(e) => handleEditSave(cat.id, e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleEditSave(cat.id, e.target.value);
+                                        }
+                                    }}
+                                    className={styles.inputInline}
+                                />
+                            ) : (
+                                <span
+                                    onDoubleClick={() => startEditing(cat.id, 'category')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    {cat.name}
+                                </span>
+                            )}
                             <button onClick={() => handleRemoveCategory(cat.id)} className={styles.removeBtn}>×</button>
                         </span>
                     ))}
@@ -212,24 +221,28 @@ const AdminInterestSetting = () => {
                 <div className={styles.inputRow}>
                     {keywords.map((kw) => (
                         <span key={kw.id} className={styles.tag}>
-                            <span
-                                contentEditable={editingId === kw.id && editType === 'keyword'}
-                                suppressContentEditableWarning={true}
-                                onDoubleClick={() => startEditing(kw.id, 'keyword')}
-                                onBlur={(e) => handleEditSave(kw.id, e.target.textContent)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                        handleEditSave(kw.id, e.target.textContent);
-                                    }
-                                }}
-                                style={{
-                                    outline: 'none',
-                                    cursor: editingId === kw.id ? 'text' : 'pointer'
-                                }}
-                            >
-                                {kw.name}
-                            </span>
+                            {editingId === kw.id && editType === 'keyword' ? (
+                                <input
+                                    type="text"
+                                    autoFocus
+                                    defaultValue={kw.name}
+                                    onBlur={(e) => handleEditSave(kw.id, e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleEditSave(kw.id, e.target.value);
+                                        }
+                                    }}
+                                    className={styles.inputInline}
+                                />
+                            ) : (
+                                <span
+                                    onDoubleClick={() => startEditing(kw.id, 'keyword')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    {kw.name}
+                                </span>
+                            )}
                             <button onClick={() => handleRemoveKeyword(kw.id)} className={styles.removeBtn}>×</button>
                         </span>
                     ))}
