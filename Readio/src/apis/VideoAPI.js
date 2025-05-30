@@ -57,7 +57,9 @@ export async function getNewVideos(type, keyword, dispatch, num) {
                         title: result[i].snippet.title,
                         description: result[i].snippet.description,
                         channelTitle: result[i].snippet.channelTitle,
-                        thumbnail: result[i].snippet.thumbnails.high.url
+                        thumbnail: result[i].snippet.thumbnails.high.url,
+                        viewCount: 0,
+                        uploadDate: result[i].snippet.publishedAt
                     };
                     dispatch(callVideoInsertAPI({form}));
                 }
@@ -82,7 +84,7 @@ export async function searchNewVideos(keyword, dispatch, num) {
         maxResult = maxResult - num;
 
         try {
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I';
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
             const data = await fetch(baseUrl);
             const json = await data.json();
             const result = json.items;
@@ -95,7 +97,9 @@ export async function searchNewVideos(keyword, dispatch, num) {
                         title: result[i].snippet.title,
                         description: result[i].snippet.description,
                         channelTitle: result[i].snippet.channelTitle,
-                        thumbnail: result[i].snippet.thumbnails.high.url
+                        thumbnail: result[i].snippet.thumbnails.high.url,
+                        viewCount: 0,
+                        uploadDate: result[i].snippet.publishedAt
                     };
                     dispatch(callVideoInsertAPI({form}));
                 }

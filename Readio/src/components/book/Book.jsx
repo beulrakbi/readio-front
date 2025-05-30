@@ -39,18 +39,17 @@ function Book() {
                 </div>
                 <div className={BookCSS.bookInfo}>
                     <p className={BookCSS.bookTitle}>{book.bookTitle}</p>
-                    <p className={BookCSS.reviewAndBookmark}>리뷰 15 북마크 3 <button className={BookCSS.buttonNone}><img
-                        className={BookCSS.bookmarkImg} src={bookmark2}/></button></p>
+                    <p className={BookCSS.reviewAndBookmark}>리뷰 15 북마크 3 <button className={BookCSS.buttonNone}>
+                        <img className={BookCSS.bookmarkImg} src={bookmark2}/></button></p>
                     <p className={BookCSS.infoBold}>{book.bookAuthor}</p>
-                    <p className={BookCSS.infoBold}>{book.bookPublisher} <p className={BookCSS.infoLight}>출판</p></p>
-                    <p></p>
+                    <span className={BookCSS.infoBold}>{book.bookPublisher} <p className={BookCSS.infoLight}>출판</p></span>
                     <p className={BookCSS.infoBold}>작품 소개</p>
                     <div className={BookCSS.bookDescription}>
                         <p className={BookCSS.infoLight}>{book.bookDescription}</p>
                         <button className={BookCSS.more}>더보기</button>
                     </div>
                     <p className={BookCSS.infoBold}>관련 영상</p>
-                    <VideosInBook/>
+                    <VideosInBook keyword={book.bookTitle}/>
                 </div>
             </div>
         </div>)

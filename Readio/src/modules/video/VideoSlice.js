@@ -6,7 +6,9 @@ const initialState = {
         title: '',
         channelTitle: '',
         description: '',
-        thumbnail: ''
+        thumbnail: '',
+        viewCount: 0,
+        uploadDate: ''
     }],
     num: 0
 };
@@ -41,6 +43,7 @@ const videoSlice = createSlice({
         },
         postVideo: (state, action) => {
             state.data.push(action.payload);
+            console.log("postVideo", action.payload);
         },
         postVideos: (state, action) => {
             state.data.push(...action.payload);
