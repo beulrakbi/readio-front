@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { getNewVideos, getVideosByKeyword } from "../../apis/VideoAPI.js";
 import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
@@ -14,6 +15,7 @@ function VideoList({type})
     const [videoInDBList, setVideoInDBList] = useState([]);
     const [videoListTitle, setVideoListTitle] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // 추가 ! 
 
     // const typeId = type.typeId;
 
@@ -71,8 +73,42 @@ function VideoList({type})
                 <p className={VideoListCSS.videoFont}>{videoListTitle}</p>
                 <div className={VideoListCSS.line}></div>
                 <div className={VideoListCSS.videoList} ref={scrollRef}>
-                    {videoList?.map(video => {return <Video key={video.etag} video={video}/>})}
-                    {videoInDBList?.map(video => {return <VIdeoInDB key={video.videoId} videoInDB={video}/>})}
+
+
+                    {/* {videoList?.map(video => {
+                        return <Video key={video.id.videoId} video={video}/>}
+                    )}
+                    {videoInDBList?.map(video => {
+                        return <VIdeoInDB key={video.videoId} videoInDB={video}/>}
+                    )} */}
+
+                    {videoList?.map(video => {
+                       const vid = video.id.videoId;
+                        return (
+                            <div
+                                key={vid}
+                                style={{ cursor: "pointer" }}
+                                onClick={() => navigate(`/video/${vid}`)}
+                           >
+                                <Video video={video} />
+                            </div>
+                        );
+                    })}
+                    {videoInDBList?.map(video => {
+                        const vid = video.videoId;
+                        return (
+                            <div
+                                key={vid}
+                                style={{ cursor: "pointer" }}
+                               onClick={() => navigate(`/video/${vid}`)}
+                            >
+                                <VIdeoInDB videoInDB={video} />
+                            </div>
+                        );
+                    })}
+
+
+
                 </div>
                 <div className={VideoListCSS.line}></div>
                 </div>

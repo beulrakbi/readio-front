@@ -10,7 +10,7 @@ function NoticeDetail() {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(0); // 0부터 시작
     const noticesPerPage = 4; // 한 페이지에 보일 공지 개수
-
+    const userId = localStorage.getItem('userId'); 
     const indexOfLastNotice = (currentPage + 1) * noticesPerPage;
     const indexOfFirstNotice = currentPage * noticesPerPage;
     const currentNotices = relatedNotices.slice(indexOfFirstNotice, indexOfLastNotice);
@@ -70,7 +70,7 @@ function NoticeDetail() {
 
             <div className={styles.nameBox}>
                 <span className={styles.userId}>{noticeDetail.userId}</span>
-                <span className={styles.role}>관리자</span>
+                <span className={styles.role}>{userId}</span>
             </div>
 
             <div>

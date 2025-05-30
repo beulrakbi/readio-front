@@ -124,7 +124,7 @@ function App() {
             <Route path="/notice" element={<Search />} />
             <Route path="/search/video" element={<SearchVideoList />} />
             <Route path="/search/book" element={<SearchBookList />} />
-            <Route path="/video" element={<PlayVideo />} />
+            <Route path="/video/:videoId" element={<PlayVideo />} />
             <Route path="mylibrary" element={<MyLibraryPage />} />
             <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
             <Route path="mylibrary/profile" element={<EditProfilePage />} />

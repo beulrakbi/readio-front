@@ -11,13 +11,26 @@ function AdminFaqList() {
     const [totalPages, setTotalPages] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearching, setIsSearching] = useState(false);
+    const userId = localStorage.getItem('userId'); 
 
     const pageSize = 7;
     const navigate = useNavigate();
 
+    // ✅ ✅ ✅ 추가: Authorization 헤더 처리
+    const getAuthHeader = () => {
+        const token = localStorage.getItem('accessToken');
+        return token ? { 'Authorization': `Bearer ${token}` } : {};
+    };
+
     const fetchFaqPage = async (pageNumber = 0) => {
         try {
-            const response = await fetch(`http://localhost:8080/serviceCenter/faq/list/paging?page=${pageNumber}&size=${pageSize}`);
+            const response = await fetch(`http://localhost:8080/serviceCenter/faq/list/paging?page=${pageNumber}&size=${pageSize}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeader(), // ✅ 추가
+                },
+            });
             if (!response.ok) throw new Error('서버 오류');
             const data = await response.json();
             setFaqs(data.content);
@@ -31,7 +44,13 @@ function AdminFaqList() {
 
     const fetchFaqSearch = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/serviceCenter/faq/search?keyword=${encodeURIComponent(searchQuery)}`);
+            const response = await fetch(`http://localhost:8080/serviceCenter/faq/search?keyword=${encodeURIComponent(searchQuery)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeader(), // ✅ 추가
+                },
+            });
             if (!response.ok) throw new Error('서버 오류');
             const data = await response.json();
             setFaqs(data);
@@ -77,6 +96,9 @@ function AdminFaqList() {
             for (const id of selectedIds) {
                 await fetch(`http://localhost:8080/serviceCenter/faq/delete/${id}`, {
                     method: 'DELETE',
+                    headers: {
+                        ...getAuthHeader(), // ✅ 추가
+                    },
                 });
             }
             alert('삭제가 완료되었습니다.');
@@ -168,7 +190,7 @@ function AdminFaqList() {
                                                 {faq.faqTitle}
                                             </span>
                                     </td>
-                                    <td>관리자</td>
+                                    <td>{faq.userId}</td>
                                     <td>{new Date(faq.faqCreateAt).toLocaleString()}</td>
                                 </tr>
                             ))

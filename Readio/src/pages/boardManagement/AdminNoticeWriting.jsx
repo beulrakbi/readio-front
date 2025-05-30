@@ -14,6 +14,7 @@ function AdminNoticeWriting() {
 
     // 수정 모드면 기존 데이터 불러오기
     useEffect(() => {
+        // GET 요청이므로 토큰이 필요 없을 가능성이 높습니다.
         if (noticeId) {
             fetch(`http://localhost:8080/serviceCenter/notice/detail/${noticeId}`)
                 .then((res) => {
@@ -61,9 +62,6 @@ function AdminNoticeWriting() {
             return;
         }
 
-        // FormData 쓰는 경우도 있지만, 지금은 JSON만 보내는 예시입니다.
-        // 이미지 업로드 기능을 완성하려면 별도의 API가 필요합니다.
-
         const data = {
             noticeId: noticeId ? Number(noticeId) : 0,
             noticeTitle: title,
@@ -78,6 +76,16 @@ function AdminNoticeWriting() {
                 : null,
         };
 
+        // ✅ 1. localStorage에서 JWT 토큰 가져오기 및 유효성 검사 (매우 중요!)
+        const accessToken = localStorage.getItem('accessToken');
+        console.log('가져온 토큰:', accessToken); // ✅ 이 로그를 추가하여 값 확인!
+
+        if (!accessToken) {
+            alert('공지사항을 등록/수정하려면 로그인이 필요합니다.');
+            navigate('/users/login');
+            return;
+        }
+
         try {
             const url = noticeId
                 ? 'http://localhost:8080/serviceCenter/notice/update'
@@ -87,22 +95,30 @@ function AdminNoticeWriting() {
 
             const response = await fetch(url, {
                 method,
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`, // 👈 이 줄이 핵심입니다!
+                },
                 body: JSON.stringify(data),
             });
 
-            if (!response.ok) throw new Error('서버 오류');
+            if (!response.ok) {
+                const errorData = await response.text();
+                // 서버에서 보낸 "로그인이 필요합니다." 메시지를 직접 보여줍니다.
+                throw new Error(`서버 오류: ${response.status} - ${errorData}`);
+            }
 
             const resultText = await response.text();
-            alert(resultText);
-            navigate('/admin/notice');
+            alert(resultText); // 백엔드에서 보낸 성공 메시지
+            navigate('/admin/notice'); // 성공 후 목록 페이지로 이동
         } catch (error) {
-            console.error(error);
-            alert('공지사항 등록/수정 중 오류가 발생했습니다.');
+            console.error('공지사항 등록/수정 중 오류 발생:', error);
+            alert(`공지사항 등록/수정 중 오류가 발생했습니다: ${error.message}`);
         }
     };
 
     return (
+        // ... (JSX 렌더링 부분은 그대로 유지) ...
         <div className={styles.main}>
             <div className={styles.bigContainer}>
                 <div className={styles.smallHeader}>

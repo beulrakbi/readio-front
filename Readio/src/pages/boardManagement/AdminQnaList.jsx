@@ -159,7 +159,7 @@ function AdminQnaList() {
                                             {qna.qnaTitle}
                                         </NavLink>
                                     </td>
-                                    <td>{qna.qnaWriter || '사용자'}</td>
+                                    <td>{qna.userId}</td>
                                     <td>{new Date(qna.qnaCreateAt).toLocaleDateString()}</td>
                                     <td>{qna.qnaViewCount || 0}</td>
                                 </tr>

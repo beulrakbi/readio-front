@@ -1,102 +1,102 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
-.bigContainer{
-    padding-top: 4%;
-    margin:auto;
-    width: 80%;
-    height: 80vh;
-    background-image: url('../../assets/texture.png');
-    background-repeat: repeat;
-    background-size: auto;
-    font-family: 'Pretendard Variable', sans-serif;
+.bigContainer {
+  padding-top: 4%;
+  margin: auto;
+  width: 50%;
+  min-height: 80vh;
+  background-image: url('../../assets/texture.png');
+  background-repeat: repeat;
+  background-size: auto;
+  font-family: 'Pretendard Variable', sans-serif;
 }
-.smallHeader{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.smallHeaderElement{
-    font-size: 25px;
-}
-.writing{
-    border: none;
-    background-color: white;
-    color: #676767;
-    cursor: pointer;
-    font-size: 12px;
-}
-.slash{
-    color: #676767;
-    font-size: 12px;
-}
-.line{
-    margin-top: 2px;
-    margin-bottom: 1.5%;
-    border: 1px solid #676767;
-    width: 100%;
-}
-.board {
-    padding: 0;
-    margin: 0;
-}
-.boardLi {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #676767;
-    font-size: 20px;
-  }
-.boardLi2{
-    display: flex;
-    justify-content: space-between;
-    min-width: 200px; 
-}
-.postLi2{
-    display: flex;
-    gap: 13px;
-}
-.postLi{
-    font-size: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #676767;
-    margin-top: 20px
 
+.smallHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.postContext{
-    display: flex;
-    justify-content: left;
-    flex: 2;
+
+.smallHeaderElement {
+  font-size: 25px;
 }
-.postLi span{
-    text-align: left;
-    flex: 1;
+
+.writing {
+  border: none;
+  background-color: white;
+  color: #676767;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: none;
 }
-.postLi2 span{
-    width: 61px;
-    text-align: center;
+
+.line {
+  margin: 2px 0 1.5% 0;
+  border: 1px solid #676767;
+  width: 100%;
 }
-.mcontainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    /* text-align: center; */
-    width: 100%;
-    /* height: 60%; */
-}
-.titlecolor{
-    color: black;
-    text-decoration: none;
-}
-.titlecolor{
-    color: black;
-    text-decoration: none;
-}
-.writing{
-    color: #676767;
-    text-decoration: none;
-}
+
 .board {
-    min-height: 400px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-height: 400px;
+}
+
+.boardLi, .postLi {
+  display: grid;
+  /* 번호(80px), 제목(남은 공간의 2배), 작성자(100px), 작성일(100px), 조회수(80px) */
+  grid-template-columns: 80px 2fr 100px 100px 80px;
+  align-items: center;
+  border-bottom: 1px solid #676767;
+  color: #676767;
+}
+
+.boardLi {
+  font-weight: bold;
+  font-size: 16px;
+  /* background-color: #f4f4f4; */
+  padding: 10px 0;
+}
+
+/* boardLi 내부 span들 기본적으로 가운데 정렬 */
+.boardLi span {
+  text-align: center;
+}
+
+/* boardLi 내부 제목(두 번째 span)만 왼쪽 정렬 및 좌측 패딩 */
+.boardLi span:nth-child(2) {
+    text-align: left;
+    padding-left: 10px;
+}
+
+
+.postLi {
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+/* 🚩 핵심 변경: .postLi 내부의 span 중에서 .title 클래스를 가진 span을 제외하고 가운데 정렬 */
+.postLi span:not(.title) {
+  text-align: center;
+}
+
+.noPost {
+  text-align: center;
+  width: 100%;
+  grid-column: 1 / -1; /* 열 전체 차지 */
+  padding: 50px 0;
+}
+
+.title {
+  text-align: left; /* 제목은 왼쪽 정렬 유지 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-left: 10px; /* 좌측 패딩 추가 */
+}
+
+.titleLink {
+  color: black;
+  text-decoration: none;
 }
