@@ -45,3 +45,35 @@
      margin: 20px 0;
      font-size: 12px;
 }
+
+
+/* SearchVideoList.module.css */
+
+/* 기존 스타일 위에 덮어쓰기 */
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+}
+
+/* 페이지 번호 버튼 스타일 */
+.pageButton {
+  background: none;
+  border: none;
+  margin: 0 10px;
+  padding: 10px 0;
+  font-size: 17px;
+  cursor: pointer;
+  color: #000000;
+}
+
+/* 호버 시 색 변경 */
+.pageButton:hover {
+  color: #898e67;
+}
+
+/* 현재 페이지 표시 */
+.activePage {
+  font-weight: bold;
+  color: #898e67;
+}
