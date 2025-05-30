@@ -7,11 +7,26 @@ function AdminFaqWriting() {
     const [content, setContent] = useState('');
     const navigate = useNavigate();
     const { faqId } = useParams();
+ 
+
+    // 토큰
+    const getAuthHeader = () => {
+    const token = localStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    console.log("faq 토큰 :",  token)
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
 
     // 수정 모드일 경우 기존 데이터 불러오기
     useEffect(() => {
         if (faqId) {
-            fetch(`http://localhost:8080/serviceCenter/faq/detail/${faqId}`)
+            fetch(`http://localhost:8080/serviceCenter/faq/detail/${faqId}`,{
+                method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                ...getAuthHeader(), // ← 여기에 토큰 포함
+            },
+            })
+
                 .then((res) => {
                     if (!res.ok) throw new Error('FAQ 조회 실패');
                     return res.json();
@@ -46,10 +61,12 @@ function AdminFaqWriting() {
 
             const method = faqId ? 'PUT' : 'POST';
 
+
             const response = await fetch(url, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
+                    ...getAuthHeader(),
                 },
                 body: JSON.stringify(data),
             });
