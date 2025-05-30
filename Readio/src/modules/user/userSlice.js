@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import axiosInstance from "../../apis/axiosInstance";
 
 const initialState = {
     isLogin: false, // 로그인 상태 초기값
