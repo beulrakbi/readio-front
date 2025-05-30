@@ -28,18 +28,20 @@ function UserMain() {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
         const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("accessToken");
 
-        if (!token || !userId) return;
+        if (!token || !userId || token === 'undefined' || userId === 'undefined') return;
 
-        const todayKey = `emotionModalShown_${new Date().toISOString().slice(0, 10)}`;
+        const todayStr = dayjs().format('YYYY-MM-DD');
+        const modalKey = `emotionModalShown_${userId}_${todayStr}`;
 
-        if (!localStorage.getItem(todayKey)) {
+        // userId + 날짜 기준으로 체크
+        if (!localStorage.getItem(modalKey)) {
             setIsModalOpen(true);
-            localStorage.setItem(todayKey, 'true');
+            localStorage.setItem(modalKey, 'true');
         }
-    }, []);
+    }, [localStorage.getItem("userId")]);
 
     useEffect(() => {
         const getTypes = async () => {
@@ -71,13 +73,13 @@ function UserMain() {
                     </div>
                 </div>
                 <p className={UserMainCSS.readio}>READIO</p>
-            <div className={UserMainCSS.backgroundTexture}>
-                <div className={UserMainCSS.mainTextBox}>
-                <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
-                    계절처럼 변하는 하루하루,
-                당신에게 꼭 맞는 이야기를 전합니다. "</p>
-                </div>
-                <div className={UserMainCSS.videoSection}>
+                <div className={UserMainCSS.backgroundTexture}>
+                    <div className={UserMainCSS.mainTextBox}>
+                        <p className={UserMainCSS.mainText}>" readio는 책과 영상을 통해 마음을 연결하는 공간입니다.
+                            계절처럼 변하는 하루하루,
+                            당신에게 꼭 맞는 이야기를 전합니다. "</p>
+                    </div>
+                    <div className={UserMainCSS.videoSection}>
                         <VideoList type={types[0]}/>
                         <VideoList type={types[1]}/>
                         <VideoList type={types[2]}/>

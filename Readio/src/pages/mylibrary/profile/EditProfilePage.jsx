@@ -24,7 +24,7 @@ const EditProfilePage = () => {
 
     const handleImageDelete = async () => {
         try {
-            await axios.delete(`/api/user/profile/image/${userId}`, {
+            await axios.delete(`/api/user/profile/image/ ${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
