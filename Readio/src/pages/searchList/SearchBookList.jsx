@@ -120,7 +120,7 @@ function SearchBookList() {
 
                 <div className={styles.SearchBookList}>
                     {books.length > 0 ? (books.map((b, idx) => (<Fragment key={b.bookIsbn ?? idx}>
-                                <div className={styles.bookItem}>
+                                <div className={styles.bookItem} onClick={() => navigate(`/bookPage/${b.bookIsbn}`)}>
                                     <img
                                         className={styles.book}
                                         src={b.bookCover?.replace('coversum', 'cover500') ?? '/default-cover.png'}

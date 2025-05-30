@@ -57,7 +57,9 @@ export async function getNewVideos(type, keyword, dispatch, num) {
                         title: result[i].snippet.title,
                         description: result[i].snippet.description,
                         channelTitle: result[i].snippet.channelTitle,
-                        thumbnail: result[i].snippet.thumbnails.high.url
+                        thumbnail: result[i].snippet.thumbnails.high.url,
+                        viewCount: 0,
+                        uploadDate: result[i].snippet.publishedAt
                     };
                     dispatch(callVideoInsertAPI({form}));
                 }
@@ -95,7 +97,9 @@ export async function searchNewVideos(keyword, dispatch, num) {
                         title: result[i].snippet.title,
                         description: result[i].snippet.description,
                         channelTitle: result[i].snippet.channelTitle,
-                        thumbnail: result[i].snippet.thumbnails.high.url
+                        thumbnail: result[i].snippet.thumbnails.high.url,
+                        viewCount: 0,
+                        uploadDate: result[i].snippet.publishedAt
                     };
                     dispatch(callVideoInsertAPI({form}));
                 }

@@ -112,7 +112,7 @@ function App() {
               <Route path="findid" element={<FindIdForm />} />                        {/* 아이디찾기 */}
               <Route path="findpwd" element={<FindPwdForm />} />                      {/* 비밀번호찾기 */}
             </Route>
-            <Route path="bookPage" element={<BookPage />} />
+            <Route path="/bookPage/:bookIsbn" element={<BookPage />} />
             <Route path="/notice" element={<NoticeList />} />
             <Route path="/notice/detail/:noticeId" element={<NoticeDetail />} />
             <Route path="/qna" element={<QnaList />} />

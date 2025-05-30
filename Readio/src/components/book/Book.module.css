@@ -170,6 +170,38 @@
     margin: 5px;
 }
 
+
+.videoTitleDiv {
+    height:30px;
+}
+.videoTitleFont {
+    font-size: 16px;
+    font-weight: 600;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+}
+.videoChannelFont {
+    font-size: 14px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+
+}
+
+
+.videoThumbnail {
+    border-radius: 10px;
+    margin: 3px;
+    width: 220px !important;
+    height: 130px;
+    object-fit: cover;
+}
+
+
+
 .scrollButton {
     all: unset;
     margin:5px;

@@ -19,7 +19,7 @@ const BookSlice = createSlice({
     },
     postBook: (state, action) => {
       state.bookList.push(action.payload); // 도서 하나를 리스트에 추가
-    }
+    },
   }
 });
 
