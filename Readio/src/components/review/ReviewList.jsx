@@ -24,9 +24,6 @@ function ReviewList({bookIsbn})
     return (
         <div>
             {bookReviews.map(bookReview => (bookReview.isHidden === "Y" ? null : (<Review key={bookReview.reviewId} review={bookReview}/>)))}
-            {/*<Review/>*/}
-            {/*<Review/>*/}
-            {/*<Review/>*/}
         </div>
     )
 }

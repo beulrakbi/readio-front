@@ -15,12 +15,17 @@ const BookReviewSlice = createSlice({
             state.reviews = action.payload.data;
             state.status = action.payload.status;
             state.message = action.payload.message;
+        },
+        putReportingReview: (state, action) => {
+            state.reviews = action.payload.data;
+            state.status = action.payload.status;
+            state.message = action.payload.message;
         }
     }
 });
 
 export const {
-    getBookReviews
+    getBookReviews, putReportingReview
 } = BookReviewSlice.actions;
 
 export default BookReviewSlice.reducer;
