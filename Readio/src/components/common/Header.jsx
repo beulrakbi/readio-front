@@ -14,8 +14,6 @@ function Header({ toggleNav }) {
 
     const dispatch = useDispatch();
 
-    // const loginMember = useEslector((state) => state.memberReducer);
-    // const isLogin = window.localStorage.getItem('accessToken');
     const isLogin = useSelector((state) => state.user.isLogin);
     const [search, setSearch] = useState('');
 
@@ -70,7 +68,7 @@ function Header({ toggleNav }) {
 
     const onclickMypageHandler = () => {
         try {
-            const token = jwtDecode(window.localStorage.getItem('accessToken'));
+            const token = jwtDecode(window.sessionStorage.getItem('accessToken'));
 
             if (token.exp * 1000 < Date.now()) {
                 setLoginModal(true);
@@ -87,8 +85,8 @@ function Header({ toggleNav }) {
 
     // 로그아웃 핸들러
     const onClickLogoutHandler = () => {
-
         dispatch(logout());
+        sessionStorage.clear();     // userInfo 삭제하려면 필요함
         navigate('/', { replace: true });
     };
 
@@ -157,12 +155,6 @@ function Header({ toggleNav }) {
                         <img src={bell} />
                     </button>
                     {isLogin ? (<AfterLogin />) : (<BeforeLogin />)}
-
-                    {/* {isLogin == null || isLogin === undefined ? (  // 이렇게 하면 에러나요 
-                        <BeforeLogin />
-                    ) : (
-                        <AfterLogin />
-                    )} */}
 
                 </div>
             </div>

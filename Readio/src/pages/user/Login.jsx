@@ -73,10 +73,15 @@ const Login = () => {
                 userRole: userInfo.userRole,
                 isLoggedIn: true,
                 accessToken: data.accessToken, // 로그인 상태를 true로 설정
-
             }));
 
-
+            // 로그인 상태 저장
+            sessionStorage.setItem("accessToken", data.accessToken);
+            sessionStorage.setItem("userInfo", JSON.stringify({
+                userId: userInfo.userId,
+                userName: userInfo.userName,
+                userRole: userInfo.userRole,
+            }));
 
             // 권한별 페이지로 이동
             if (roles.includes("ADMIN")) {
