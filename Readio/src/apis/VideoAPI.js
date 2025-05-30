@@ -87,7 +87,15 @@ export async function searchNewVideos(keyword, dispatch, num) {
             const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
             const data = await fetch(baseUrl);
             const json = await data.json();
+
+            if (!Array.isArray(json.items)) {
+            console.error("YouTube API 에러:", json.error || json);
+            return null;
+            }
+
+            
             const result = json.items;
+
 
             if (Array.isArray(result)) {
 

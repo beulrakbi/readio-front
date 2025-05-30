@@ -53,7 +53,7 @@ import RecommandedVideoList from './RecommandedVideoList';
 
                const handlePlayClick = async () =>{
                     try {
-                         await fetch(`http://localhost:8080/video/view/${videoId}`, {
+                         await fetch(`http://localhost:8080/video/id/${videoId}`, {
                               method : 'POST'
                          });
                     } catch (err) {
@@ -114,6 +114,12 @@ import RecommandedVideoList from './RecommandedVideoList';
                          </div> {/* videoInfo 영역 끝 */}
                          <div className={styles.videoDetail}> 
                               {/* {videoInfo.snippet.description} */}
+
+                              <div className={styles.videoStats}>
+                                   <div className = {styles.videoViewCount}>조회수: {videoInfo.viewCount.toLocaleString()}회</div>
+                                   <div className = {styles.videoUploadDate}> {new Date(videoInfo.uploadDate).toLocaleDateString()}</div>
+                              </div>
+
                               {videoInfo.description}
                          </div> {/* videoDetail 영역 끝 */}
                          
