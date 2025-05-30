@@ -2,6 +2,7 @@
 
 import { getBooks, postBook } from "../components/book/BookSlice";
 import {getBook} from "../modules/Book/BookPageSlice.js";
+import {getBookReviews} from "../modules/Book/BookReviewSlice.js";
 
 const BASE_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx";
 const TTB_KEY  = "ttbehfvls09271435001"; 
@@ -117,11 +118,29 @@ export const callBookAPI = ({bookIsbn}) => {
             }
         }).then((response) => response.json());
 
-        console.log("result", result);
+        // console.log("result", result);
         if (result.status === 200) {
             dispatch(getBook(result.data));
             return result.data;
         }
     };
+}
 
+export const callBookReviewsAPI = ({bookIsbn}) => {
+    const requestURL = `http://localhost:8080/bookReview/${bookIsbn}`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*'
+            }
+        }).then((response) => response.json());
+
+        console.log("bookreviews", result);
+        if (result.status === 200) {
+            dispatch(getBookReviews(result));
+        }
+    };
 }

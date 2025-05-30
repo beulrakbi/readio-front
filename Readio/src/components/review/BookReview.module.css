@@ -61,7 +61,7 @@
 .reviewInfo {
     display: flex;
     flex-direction: column;
-    width:400px;
+    width:200px;
     align-items: center;
     justify-content: center;
     margin-right:20px;

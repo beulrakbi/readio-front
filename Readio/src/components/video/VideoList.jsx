@@ -35,15 +35,15 @@ function VideoList({type})
                     const getNewVideoAwait = await getNewVideos(type.typeId, keyword, dispatch, videosInDB? videosInDB.length : 0);
                     if (videosInDB)
                     {
-                        videosInDB.filter((video, index, self) =>
+                        const result = videosInDB.filter((video, index, self) =>
                             index === self.findIndex(v => v.videoId === video.videoId));
-                        allVideosInDB.push(...videosInDB); // 배열에 쌓기
+                        allVideosInDB.push(...result); // 배열에 쌓기
                     }
                     if (getNewVideoAwait)
                     {
-                        getNewVideoAwait.filter((video, index, self) =>
+                        const result = getNewVideoAwait.filter((video, index, self) =>
                             index === self.findIndex(v => v.id.videoId === video.id.videoId));
-                        allVideos.push(...getNewVideoAwait);
+                        allVideos.push(...result);
                     }
                 }
                 setVideoInDBList(allVideosInDB); // 딱 한 번만 상태 갱신
@@ -71,7 +71,7 @@ function VideoList({type})
                 <p className={VideoListCSS.videoFont}>{videoListTitle}</p>
                 <div className={VideoListCSS.line}></div>
                 <div className={VideoListCSS.videoList} ref={scrollRef}>
-                    {videoList?.map(video => {return <Video key={video.id.videoId} video={video}/>})}
+                    {videoList?.map(video => {return <Video key={video.etag} video={video}/>})}
                     {videoInDBList?.map(video => {return <VIdeoInDB key={video.videoId} videoInDB={video}/>})}
                 </div>
                 <div className={VideoListCSS.line}></div>

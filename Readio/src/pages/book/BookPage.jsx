@@ -9,14 +9,14 @@ import {useParams} from "react-router-dom";
 function BookPage()
 {
     const param = useParams();
-    console.log("param", param);
+    // console.log("param", param);
 
     return (
         <>
             <div className={BookPageCSS.bookPage}>
                 <Book/>
                 <BookReview/>
-                <ReviewList/>
+                <ReviewList bookIsbn={param.bookIsbn}/>
             </div>
         </>
     )

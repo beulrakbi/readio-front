@@ -7,6 +7,7 @@ import userReducer from './user/userSlice.js';
 import CurationSlice from "./video/CurationSlice.js";
 import videoSlice from "./video/VideoSlice.js";
 import BookPageSlice from "./Book/BookPageSlice.js";
+import BookReviewSlice from "./Book/BookReviewSlice.js";
 
 
 const rootReducers =  combineReducers(
@@ -19,6 +20,7 @@ const rootReducers =  combineReducers(
             video: videoSlice,
             user: userReducer,
             bookPage: BookPageSlice,
+            bookReview: BookReviewSlice,
         });
 
 export default rootReducers;

@@ -11,19 +11,14 @@ function Book() {
     const [bookCover, setBookCover] = useState('');
     const param = useParams();
     const dispatch = useDispatch();
-    console.log("param", param.bookIsbn);
+    // console.log("param", param.bookIsbn);
 
     useEffect(() => {
 
         const getBookInfo = async () => {
             const test = await dispatch(callBookAPI({bookIsbn: param.bookIsbn}));
             setBook(test);
-            console.log("bookkkk", book);
         }
-        // testBook()
-        // .then(data => {
-        //     setBook(data.item[0]);
-        //     console.log("book", book);
         if (book && book.bookCover) {
             setBookCover(book.bookCover.replace("coversum", "cover500"));
         }
