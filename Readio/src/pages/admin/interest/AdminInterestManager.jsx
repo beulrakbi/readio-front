@@ -13,13 +13,31 @@ const AdminInterestSetting = () => {
     const [editType, setEditType] = useState(null); // 'category' | 'keyword'
 
     useEffect(() => {
-        fetch('/api/admin/interests/categories')
-            .then(res => res.json())
+        const token = localStorage.getItem("accessToken");
+
+        fetch('/api/admin/interests/categories', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                console.log("응답 상태 코드:", res.status);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
             .then(data => setCategories(data))
             .catch(err => console.error('카테고리 조회 실패:', err));
 
-        fetch('/api/admin/interests/keywords')
-            .then(res => res.json())
+        fetch('/api/admin/interests/keywords', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                console.log("응답 상태 코드:", res.status);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            })
             .then(data => setKeywords(data))
             .catch(err => console.error('키워드 조회 실패:', err));
     }, []);
