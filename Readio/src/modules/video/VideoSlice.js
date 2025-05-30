@@ -24,7 +24,9 @@ const videoSlice = createSlice({
                         title: action.payload.title,
                         channelTitle: action.payload.channelTitle,
                         description: action.payload.description,
-                        thumbnail: action.payload.thumbnail
+                        thumbnail: action.payload.thumbnail,
+                        viewCount: action.payload.viewCount,
+                        uploadDate: action.payload.uploadDate
                     }
                 ],
                 num: 1
