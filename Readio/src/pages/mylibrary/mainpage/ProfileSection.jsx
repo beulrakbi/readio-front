@@ -97,7 +97,7 @@ const ProfileSection = () => {
 
                 <div className={styles.buttons}>
                     {isOwner && (
-                        <button className={styles.postBtn}>+ 포스트 작성하기</button>
+                        <button className={styles.postBtn} onClick={() => navigate('post/writing')}>+ 포스트 작성하기</button>
                     )}
                     <button className={styles.interestBtn} onClick={() => navigate('/mylibrary/interest')}>
                         📌 나의 관심사

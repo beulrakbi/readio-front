@@ -26,20 +26,9 @@ function UserNav({ isOpen }) {
                         <div className={UserNavCSS.naviLine}></div>
                     </div>
                     <div className={UserNavCSS.naviLink}>
-                        {isLogin && (   // 추가 (로그인했을때만 해당 메뉴 보여짐)
-                            <>
-                                <NavLink to="/users/verifypwd" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
-                            </>
-
-                        )}
-                        <div
-                            onClick={handleLibraryClick}
-                            className={UserNavCSS.naviLinkText}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            내 서재
-                        </div>
-                        <NavLink to="/" className={UserNavCSS.naviLinkText}>피드</NavLink>
+                        <NavLink to="/users/edit" className={UserNavCSS.naviLinkText}>내 정보 수정</NavLink>
+                        <NavLink to="/mylibrary" className={UserNavCSS.naviLinkText}>내 서재</NavLink>
+                        <NavLink to="/feed" className={UserNavCSS.naviLinkText}>피드</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>소식</NavLink>
                         <ul style={{ fontSize: '20px', paddingInlineStart: '0px' }}>고객센터
                             <li className={UserNavCSS.naviLinkText}><NavLink to="/notice" className={UserNavCSS.naviLinkText}>공지사항</NavLink></li>
