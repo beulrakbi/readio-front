@@ -8,6 +8,7 @@ function AdminNoticeList() {
     const [selectedIds, setSelectedIds] = useState([]);
     const [isAllSelected, setIsAllSelected] = useState(false);
     const navigate = useNavigate();
+    const userId = localStorage.getItem('userId'); 
 
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -166,7 +167,7 @@ function AdminNoticeList() {
                                                 {notice.noticeTitle}
                                             </span>
                                         </td>
-                                        <td>관리자</td>
+                                        <td>{notice.userId}</td>
                                         <td>{new Date(notice.noticeCreateAt).toLocaleString()}</td>
                                         <td>{notice.noticeView}</td>
                                     </tr>

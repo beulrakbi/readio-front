@@ -6,9 +6,15 @@ function QnaWriting() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const navigate = useNavigate();
-    const { qnaId } = useParams(); // 수정 모드 여부 확인
+    const { qnaId } = useParams();
 
-    // 수정 모드일 때 기존 데이터 불러오기
+    // ✅ Authorization 헤더 처리
+    const getAuthHeader = () => {
+        const token = localStorage.getItem('accessToken');
+        return token ? { 'Authorization': `Bearer ${token}` } : {};
+    };
+
+    // ✅ 수정 모드일 때 기존 데이터 불러오기
     useEffect(() => {
         if (qnaId) {
             fetch(`http://localhost:8080/serviceCenter/qna/detail/${qnaId}`)
@@ -27,7 +33,7 @@ function QnaWriting() {
         }
     }, [qnaId, navigate]);
 
-    // 등록/수정 제출
+    // ✅ 등록/수정 제출
     const handleSubmit = () => {
         if (!title.trim() || !content.trim()) {
             alert('제목과 내용을 모두 입력해주세요.');
@@ -35,15 +41,18 @@ function QnaWriting() {
         }
 
         const url = qnaId
-            ? `http://localhost:8080/serviceCenter/qna/update` // 예: 수정 엔드포인트
-            : `http://localhost:8080/serviceCenter/qna/question`; // 등록 엔드포인트
+            ? `http://localhost:8080/serviceCenter/qna/update`
+            : `http://localhost:8080/serviceCenter/qna/question`;
         const method = qnaId ? 'PUT' : 'POST';
 
         fetch(url, {
             method,
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                ...getAuthHeader(), // ✅ Authorization 헤더 추가!
+            },
             body: JSON.stringify({
-                qnaId: qnaId ? Number(qnaId) : 0, // 수정 시 ID 필요
+                qnaId: qnaId ? Number(qnaId) : 0,
                 qnaTitle: title,
                 qnaQuestion: content
             }),
