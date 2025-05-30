@@ -14,6 +14,8 @@ import RecommandedVideoList from './RecommandedVideoList';
           const [isBookmarked, setIsBookmarked] = useState(true); 
           const [bookmarkCount, setBookmarkCount] = useState(15); // 초기 북마크 수 설정 => 15
           const [videoInfo, setVideoInfo] = useState(null); // 선택된 비디오 정보 
+
+          const [hasPlayed, setHasPlayed] = useState(false); // 영상 재생 여부 상태 확인
           
                console.log('북마크 버튼 활성화');
 
@@ -48,6 +50,17 @@ import RecommandedVideoList from './RecommandedVideoList';
 
                     setIsBookmarked(!isBookmarked);
                }; // true => bookMark X / false => bookMark O
+
+               const handlePlayClick = async () =>{
+                    try {
+                         await fetch(`http://localhost:8080/video/view/${videoId}`, {
+                              method : 'POST'
+                         });
+                    } catch (err) {
+                         console.error('조회수 증가 실패' , err);
+                    }
+                    setHasPlayed(true);
+               }
                
 
           return(
@@ -56,7 +69,17 @@ import RecommandedVideoList from './RecommandedVideoList';
                <div className={styles.backgroundTexture}>
                     <div className={styles.container}>
                          <div className={styles.video}> {/* video 박스 */}
-                                   <iframe
+                              {!hasPlayed
+                                   ? (
+                                        <button
+                                             className={styles.playButton}
+                                             onClick={handlePlayClick}
+                                        >
+                                        ▶ 재생하기
+                                        </button>     
+                                   )
+                              :
+                                   (<iframe
                                         width="100%"
                                         height="100%"
                                         src={`https://www.youtube.com/embed/${videoId}`}
@@ -64,8 +87,10 @@ import RecommandedVideoList from './RecommandedVideoList';
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowFullScreen
-                                   ></iframe>
+                                   ></iframe>)
+                              }
                          </div> 
+
                          <div className={styles.videoInfo}>
                               <div className={styles.videoTitle}> 
                                         {/* {videoInfo.snippet.title} */}
