@@ -1,4 +1,4 @@
-.BookP {
+.BookP { /* 이 클래스는 현재 Book.jsx에 사용되지 않는 것 같습니다. */
     display: flex;
     align-items: center;
     margin-block-start: 5px;
@@ -12,39 +12,40 @@
     width:100vw;
     height: auto;
     font-family: 'Pretendard';
-    display: inline-block;
-    align-items: center;
-    justify-content: center;
+    display: inline-block; /* flex 또는 grid로 변경하여 내부 중앙 정렬이 더 좋을 수 있습니다. */
+    align-items: center; /* display:inline-block에서는 작동하지 않음 */
+    justify-content: center; /* display:inline-block에서는 작동하지 않음 */
 }
 
 .bookSection {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    padding-top: 85px; /* aladin과 bookInfo의 margin-top 대신 여기에 패딩 */
 }
 
-.aladin
-{
+.aladin {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* margin-top: 85px; */
-    /* margin-left: 145px; */
-        justify-content: center;
-
+    justify-content: center;
+    /* margin-left: 145px; // 필요 시 주석 해제 */
 }
 
 .bookCover {
     border-radius: 10px;
-    width:368px;
-    height:524px;
+    width:250px; /* 기존 368px에서 줄여서 적절한 크기 설정 */
+    height:350px; /* 기존 524px에서 줄여서 적절한 크기 설정 */
+    object-fit: contain; /* 이미지가 잘리지 않고 비율 유지하며 박스에 맞춤 */
+    display: block; /* img 태그 아래 불필요한 여백 제거 */
 }
 
 .bookInfo {
     display: flex;
     flex-direction: column;
-    margin-top:85px;
+    /* margin-top:85px; // bookSection에 padding-top으로 대체 */
     margin-left:30px;
+    width: 700px; /* bookDescription과 같은 너비로 통일 */
 }
 
 .bookTitle {
@@ -55,83 +56,105 @@
 .reviewAndBookmark {
     font-size:15px;
     font-weight:300;
-    display: flex;
-    gap: 10px;
+    display: flex; /* 내부 요소 정렬을 위해 flex 유지 */
+    gap: 10px; /* 요소들 사이 간격 */
     align-items: center;
-        display: flex;
-    align-items: center;
-    margin-block-start: 5px;
+    /* 기존 margin-block-start, end, margin-inline-start, end는 불필요할 수 있습니다. */
+    margin-block-start: 5px; /* p 태그 기본 마진을 덮어쓰기 */
     margin-block-end: 5px;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-
 }
 
 .infoBold {
     font-size: 18px;
     font-weight: 600;
     gap:5px;
-        display: flex;
+    display: flex;
     align-items: center;
     margin-block-start: 5px;
     margin-block-end: 5px;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-
 }
 
 .infoLight {
     font-size: 18px;
     font-weight: 200;
-        display: flex;
+    display: flex;
     align-items: center;
     margin-block-start: 5px;
     margin-block-end: 5px;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-
 }
 
 .infoLight2 {
     font-size: 12px;
     font-weight: 200;
-        display: flex;
+    display: flex;
     align-items: center;
     margin-block-start: 5px;
     margin-block-end: 5px;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-
 }
 
 .buttonNone {
-    all: unset;
+    all: unset; /* 버튼의 기본 스타일 제거 */
     cursor: pointer;
+    display: inline-flex; /* 이미지와 텍스트가 함께 있다면 인라인 플렉스로 정렬 용이 */
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* 패딩 제거 */
 }
 
 .bookmarkImg {
-    width:15px;
-    height: auto;
+    width: 24px; /* 비디오 북마크 이미지 크기에 맞춰 조정 */
+    height: 24px; /* 비디오 북마크 이미지 크기에 맞춰 조정 */
+    cursor: pointer;
+    vertical-align: middle; /* 텍스트와 이미지 정렬 */
+    margin-left: 5px; /* 북마크 텍스트와의 간격 */
+    transition: transform 0.2s ease-in-out; /* 호버 애니메이션 */
 }
 
+.bookmarkImg:hover {
+    transform: scale(1.1); /* 호버 시 약간 확대 */
+}
+
+
 .bookDescription {
-    width:700px;
-    height:100px;
-    margin-bottom:50px;
+    width:100%; /* 부모 bookInfo에 맞춰 100% 사용 */
+    max-height:100px; /* 높이 제한으로 스크롤바가 필요하다면 overflow-y: auto; 추가 */
+    overflow: hidden; /* 더보기 버튼 구현을 위해 숨김 */
+    margin-bottom:20px; /* 기존 50px에서 줄여서 간격 조정 */
 }
 
 .more {
-    width:700px;
-    height:50px;
+    width:100%; /* 부모 bookInfo에 맞춰 100% 사용 */
+    height:40px; /* 50px에서 줄임 */
     background-color: #808467;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    margin-top: 10px; /* 설명과의 간격 */
 }
 
-/* 비디오부분 */
+/* 이미지 없을 경우 대체 스타일 (Book.jsx에서 .noBookCover 클래스 사용) */
+.noBookCover {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    color: #a0a0a0;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 10px; /* bookCover와 동일하게 */
+}
 
+
+/* 비디오부분 - 기존 스타일 유지 */
 .videoContainer {
     display: flex;
     flex-direction: row;

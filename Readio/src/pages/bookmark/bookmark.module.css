@@ -92,9 +92,7 @@
 
 /* 기존 imgbox 스타일 유지 (책 북마크용) */
 .imgbox{
-    border: 1px solid black;
-    width: 100px;
-    height: 100px;
+    margin: 20px;
     flex-shrink: 0;
 }
 
