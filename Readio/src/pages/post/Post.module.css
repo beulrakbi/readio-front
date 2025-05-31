@@ -409,6 +409,7 @@
 
 .postProfileIcon {
     height: 60px;
+    border-radius: 50px;
 }
 
 .postProfile {
@@ -614,6 +615,7 @@
 
 .postDetailReviewIcon {
     height: 60px;
+    border-radius: 50%;
 }
 
 .postDetailReviewProfile {

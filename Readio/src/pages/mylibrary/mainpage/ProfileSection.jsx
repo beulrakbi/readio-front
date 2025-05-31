@@ -88,7 +88,7 @@ const ProfileSection = () => {
             <div className={styles.outProfileInfo}>
                 <div className={styles.stats}>
                     <div className={styles.statItem} onClick={handlePostClick} style={{ cursor: 'pointer' }}>
-                        <strong>3</strong><span>포스트</span>
+                        <strong >3</strong><span>포스트</span>
                     </div>
                     <div className={styles.statItem}><strong>5</strong><span>리뷰</span></div>
                     <div className={styles.statItem}><strong>3</strong><span>관심 영상</span></div>
