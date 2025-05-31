@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './AdminInterestManager.module.css';
 
+// admin 경로에만 헤더 추가
+const getAuthHeader = () => {
+    const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    console.log("필터링 토큰 :", token)
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
 const AdminInterestSetting = () => {
     const [categories, setCategories] = useState([]);
     const [categoryInput, setCategoryInput] = useState('');
@@ -13,7 +20,8 @@ const AdminInterestSetting = () => {
     const [editType, setEditType] = useState(null); // 'category' | 'keyword'
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
+        const token = sessionStorage.getItem("accessToken");
+        // const token = localStorage.getItem("accessToken");
 
         fetch('/api/admin/interests/categories', {
             headers: {
@@ -76,7 +84,12 @@ const AdminInterestSetting = () => {
         }
 
         try {
-            const res = await fetch(`/api/admin/interests/category/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/interests/category/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    ...getAuthHeader()      //5.30 토큰 추가
+                }
+            });
             if (!res.ok) throw new Error();
             setCategories(categories.filter(c => c.id !== id));
         } catch {
@@ -92,7 +105,12 @@ const AdminInterestSetting = () => {
         }
 
         try {
-            const res = await fetch(`/api/admin/interests/keyword/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/interests/keyword/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    ...getAuthHeader()      //5.30 토큰 추가
+                }
+            });
             if (!res.ok) throw new Error();
             setKeywords(keywords.filter(k => k.id !== id));
         } catch {
@@ -112,7 +130,10 @@ const AdminInterestSetting = () => {
             try {
                 const res = await fetch(`/api/admin/interests/category/${id}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...getAuthHeader()      //5.30 토큰 추가
+                    },
                     body: JSON.stringify({ newName: newValue }),
                 });
                 if (!res.ok) throw new Error();
@@ -124,7 +145,10 @@ const AdminInterestSetting = () => {
             try {
                 const res = await fetch(`/api/admin/interests/keyword/${id}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...getAuthHeader()      //5.30 토큰 추가
+                    },
                     body: JSON.stringify({ newName: newValue }),
                 });
                 if (!res.ok) throw new Error();
@@ -147,7 +171,10 @@ const AdminInterestSetting = () => {
         try {
             const res = await fetch('/api/admin/interests', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeader()      //5.30 토큰 추가
+                },
                 body: JSON.stringify(payload),
             });
 

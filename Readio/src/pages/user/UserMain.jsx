@@ -1,11 +1,11 @@
+import dayjs from 'dayjs';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { callCurationTypesAPI } from "../../apis/CurationAPICalls.js";
 import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoList.jsx';
-import UserMainCSS from './UserMain.module.css';
-import {useEffect, useState} from "react";
 import EmotionModal from '../mylibrary/calendar/EmotionModal.jsx';
-import dayjs from 'dayjs';
-import {callCurationTypesAPI} from "../../apis/CurationAPICalls.js";
-import {useDispatch} from "react-redux";
+import UserMainCSS from './UserMain.module.css';
 
 
 function UserMain() {
@@ -14,7 +14,8 @@ function UserMain() {
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const today = dayjs();  // import dayjs
-    const token = localStorage.getItem("accessToken");
+    const token = sessionStorage.getItem("accessToken");   //5.30 변경 테스트중
+    // const token = localStorage.getItem("accessToken");
 
     const convertEmojiToEnum = (emoji) => {
         switch (emoji) {
@@ -28,8 +29,10 @@ function UserMain() {
     };
 
     useEffect(() => {
-        const userId = localStorage.getItem("userId");
-        const token = localStorage.getItem("accessToken");
+        const userId = sessionStorage.getItem("userId");   //5.30 변경 테스트중
+        const token = sessionStorage.getItem("accessToken");   //5.30 변경 테스트중
+        // const userId = localStorage.getItem("userId");
+        // const token = localStorage.getItem("accessToken");
 
         if (!token || !userId || token === 'undefined' || userId === 'undefined') return;
 
@@ -41,7 +44,8 @@ function UserMain() {
             setIsModalOpen(true);
             localStorage.setItem(modalKey, 'true');
         }
-    }, [localStorage.getItem("userId")]);
+    }, [sessionStorage.getItem("userId")]);   //5.30 변경 테스트중
+    // }, [localStorage.getItem("userId")]);
 
     useEffect(() => {
         const getTypes = async () => {
@@ -90,7 +94,8 @@ function UserMain() {
             {isModalOpen && (
                 <EmotionModal
                     onSelect={(emoji) => {
-                        const userId = localStorage.getItem("userId");
+                        const userId = sessionStorage.getItem("userId");   //5.30 변경 테스트중
+                        // const userId = localStorage.getItem("userId");
                         if (!userId || !token) {
                             alert("로그인이 필요합니다.");
                             return;
