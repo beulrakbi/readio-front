@@ -1,8 +1,14 @@
+/* Bookmark.module.css */
+
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 .bookmarkContainer {
     width: 60%;
     height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: auto;
 }
 
 .backButton {
@@ -13,6 +19,7 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
+    align-self: flex-start;
 }
 
 .tabContainer {
@@ -43,30 +50,105 @@
     border-bottom: 4px solid #d44b4b;
 }
 
+.scrollableContent {
+  flex-grow: 1;
+  overflow-y: auto;
+  /* padding-right: 10px;  필요 시 스크롤바와 내용 간격 조절 */
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.scrollableContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollableContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.scrollableContent::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.scrollableContent::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
 .bookmarkItem {
     width: 80%;
-    height: 80px;
+    height: 80px; /* 기존 높이 유지 */
     display: flex;
-    text-align: center;
-    align-items: center;
+    align-items: center; /* 아이템 중앙 정렬 */
     margin: auto;
     margin-top: 30px;
+    /* padding: 10px; */ /* 내부 패딩 추가하면 더 보기 좋음 */
+    /* background-color: #fff; */
+    /* border-radius: 8px; */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); */
 }
+
+/* 기존 imgbox 스타일 유지 (책 북마크용) */
+.imgbox{
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+/* 새로 추가: 영상 섬네일 Wrapper */
+.videoThumbnailWrapper {
+    width: 140px; /* 섬네일 너비 지정 (videoBox 기존 200px보다 줄임) */
+    height: 80px; /* bookmarkItem 높이에 맞춤 */
+    margin-right: 20px; /* 정보와의 간격 */
+    flex-shrink: 0;
+    overflow: hidden; /* 이미지 잘림 방지 (필요 시) */
+    border-radius: 4px; /* 모서리 둥글게 */
+    display: flex; /* 이미지를 중앙 정렬하기 위해 flexbox 사용 */
+    justify-content: center;
+    align-items: center;
+    background-color: #ddd; /* 로딩 중 또는 이미지 없을 때 배경 */
+}
+
+/* 새로 추가: 실제 영상 섬네일 이미지 */
+.videoThumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 잘리지 않고 div에 꽉 차게 */
+    display: block; /* img 태그 아래 여백 제거 */
+}
+
+/* 기존 videoBox는 사용하지 않으므로 삭제해도 무방 */
+/* .videoBox{
+    border: 1px solid black;
+    width: 200px;
+    height: 100px;
+    flex-shrink: 0;
+} */
+
 
 .bookmarkInfo {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* 텍스트를 위쪽에 정렬 */
     flex-direction: column;
-    margin-left: 40px;
-    list-style-type: none;
+    margin-left: 0; /* 섬네일 Wrapper에 마진이 있으므로 여기는 0 */
+    flex-grow: 1;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
 }
 
 .bookmarkTitle {
     font-size: 18px;
+    font-weight: bold; /* 제목을 더 두껍게 */
+    margin-bottom: 5px; /* 제목과 채널명 사이 간격 */
+    list-style: none;
 }
 
 .bookmarkSubtitle {
     font-size: 15px;
+    list-style: none;
+    color: #666; /* 채널명 색상 연하게 */
 }
 
 .bookmarkActionButton {
@@ -80,6 +162,7 @@
     border-radius: 10px;
     font-size: 15px;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .bookmarked {
@@ -87,13 +170,9 @@
     color: #000000;
 }
 
-.imgbox{
-    border: 1px solid black;
-    width: 100px;
-    height: 100px;
-}
-.videoBox{
-    border: 1px solid black;
-    width: 200px;
-    height: 100px;
+.noContent {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+  font-size: 16px;
 }
