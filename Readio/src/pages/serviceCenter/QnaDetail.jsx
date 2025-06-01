@@ -6,7 +6,7 @@ function QnaDetail() {
     const { qnaId } = useParams();
     const [qnaDetail, setQnaDetail] = useState(null);
     const navigate = useNavigate();
-    const userId = localStorage.getItem('userId'); 
+    const userId = sessionStorage.getItem('userId'); 
 
     useEffect(() => {
         fetch(`http://localhost:8080/serviceCenter/qna/detail/${qnaId}`)

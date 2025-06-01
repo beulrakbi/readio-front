@@ -10,7 +10,7 @@ function QnaWriting() {
 
     // ✅ Authorization 헤더 처리
     const getAuthHeader = () => {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         return token ? { 'Authorization': `Bearer ${token}` } : {};
     };
 

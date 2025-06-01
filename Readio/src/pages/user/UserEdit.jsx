@@ -19,8 +19,6 @@ function UserEdit() {
     useEffect(() => {
         const isPasswordVerified = sessionStorage.getItem('isPasswordVerified');   //5.30 변경 테스트중
         const accessToken = sessionStorage.getItem('accessToken');   //5.30 변경 테스트중
-        // const isPasswordVerified = localStorage.getItem('isPasswordVerified');
-        // const accessToken = localStorage.getItem('accessToken');
 
         if (!accessToken) {
             alert('로그인이 필요합니다.');

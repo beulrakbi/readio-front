@@ -9,7 +9,7 @@ function QnaList() {
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [keyword, setKeyword] = useState('');
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
 
     const fetchQnaList = () => {
         let url = `http://localhost:8080/serviceCenter/qna/list/paging?page=${page}&size=7`;

@@ -17,7 +17,7 @@ function PlayVideo() {
     const [userBookmarkId, setUserBookmarkId] = useState(null); 
     
     const getAuthToken = () => {
-        return localStorage.getItem('accessToken'); 
+        return sessionStorage.getItem('accessToken'); 
     };
     
     console.log('북마크 버튼 활성화');
