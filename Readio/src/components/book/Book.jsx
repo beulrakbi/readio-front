@@ -26,6 +26,9 @@ function Book() {
     // 로그인 상태 (BookReview 컴포넌트로 전달)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    // 리뷰 개수를 저장할 상태
+    const [reviewsCount, setReviewsCount] = useState(0); 
+
     // 로컬 스토리지에서 인증 토큰을 가져오는 함수 (BookReview 컴포넌트로 전달)
     const getAuthToken = () => {
         const token = localStorage.getItem('accessToken');
@@ -178,8 +181,7 @@ function Book() {
                 <div className={BookCSS.bookInfo}>
                     <p className={BookCSS.bookTitle}>{book.bookTitle}</p>
                     <p className={BookCSS.reviewAndBookmark}>
-                        {/* 리뷰 개수는 BookReview 컴포넌트에서 관리할 수 있음 */}
-                        리뷰 ? &nbsp; 북마크 {bookBookmarkCount}
+                        리뷰 {reviewsCount} &nbsp; 북마크 {bookBookmarkCount} {/* 리뷰 개수를 reviewsCount로 변경 */}
                         <button className={BookCSS.buttonNone} onClick={handleBookBookmarkClick}>
                             <img
                                 className={BookCSS.bookmarkImg}
@@ -205,6 +207,7 @@ function Book() {
                 bookIsbn={param.bookIsbn}
                 isLoggedIn={isLoggedIn}
                 getAuthToken={getAuthToken}
+                onReviewsLoaded={setReviewsCount}
             />
         </div>
     );
