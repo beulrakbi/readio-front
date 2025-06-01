@@ -87,11 +87,12 @@
 }
 
 .deleteButton {
-    background-color: #ef4444;
+    background-color: #AF4C3F;
     color: white;
-    padding: 3px 9px;
+    padding: 5px 15px;
     border-radius: 5px;
     border-style: none;
+    cursor: pointer;
 }
 
 .rowGroup {

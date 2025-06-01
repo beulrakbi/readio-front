@@ -34,12 +34,14 @@ function UserManagement() {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
+
     // 한글 표시용 매핑 객체
     const roleDisplayName = {
         USER: "일반회원",
         ADMIN: "관리자",
         SUSPENDED: "정지회원",
     };
+
 
 
     const fetchUserList = async (page = currentPage) => {
@@ -73,20 +75,25 @@ function UserManagement() {
         }
     };
 
+
+
     useEffect(() => {
         fetchUserList();
     }, [currentPage]);
 
+
+    /* 검색 버튼 */
     const handleSearch = () => {
         setCurrentPage(1);
         fetchUserList(1);
     };
 
+
     const handleUserTypeChange = (type) => {
         setUserTypes((prev) => ({ ...prev, [type]: !prev[type] }));
     };
 
-    // 권한변경부분
+    /* 권한 변경 */
     const handleRoleChange = async (userId, newEnglishRole) => {
         try {
             // 권한 변경 API 호출
@@ -121,6 +128,7 @@ function UserManagement() {
         }
     };
 
+    /* 검색할때 권한 체크박스 */
     const handleUserClick = (user) => {
         setSelectedUser(user);
         setIsModalOpen(true);
@@ -132,6 +140,24 @@ function UserManagement() {
     };
 
     const [roleChangeRequest, setRoleChangeRequest] = useState(null);
+
+    {/* t삭제 버튼 */ }
+    const handleDeleteUser = async (userId) => {
+        const confirmDelete = window.confirm("정말 회원을 삭제하시겠습니까?");
+        if (!confirmDelete) return;
+
+        try {
+            await axios.delete(`${BACKEND_URL}/admin/users/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            alert("회원이 삭제되었습니다.");
+            fetchUserList(currentPage);  // 삭제 후 목록 갱신
+        } catch (error) {
+            console.error("회원 삭제 실패", error);
+            alert("회원 삭제에 실패했습니다.");
+        }
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -258,7 +284,9 @@ function UserManagement() {
                                 </td>
 
 
-                                <td><button className={styles.deleteButton}>삭제</button></td>
+                                <td><button
+                                    className={styles.deleteButton}
+                                    onClick={() => handleDeleteUser(user.userId)}>삭제</button></td>
                             </tr>
                         ))
                     ) : (
@@ -303,7 +331,7 @@ function UserManagement() {
                 <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>&gt;</button>
             </div>
 
-            {/* 모달 */}
+            {/* 회원 상세정보 확인 모달 */}
             {isModalOpen && selectedUser && (
                 <div className={styles.modalOverlay} onClick={closeModal}>
                     <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
