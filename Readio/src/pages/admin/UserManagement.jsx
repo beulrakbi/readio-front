@@ -425,7 +425,7 @@ function UserManagement() {
 
             const params = {
                 page: page,
-                size: 10,
+                size: 20,
                 searchType: searchType,
                 searchValue: searchValue.trim() ? searchValue.trim() : undefined,
                 startDate: startDate || undefined,
