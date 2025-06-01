@@ -28,6 +28,28 @@ function UserManagement() {
     const BACKEND_URL = "http://localhost:8080";        // 백엔드 서버
     const token = sessionStorage.getItem("accessToken");  // 5.30 변경 테스트중
 
+    // 회원가입일자 한국시간대로 변경
+    function formatToKST(utcDateStr) {
+        if (!utcDateStr) return "";
+
+        // UTC 기준 Date 객체 생성
+        const date = new Date(utcDateStr);
+
+        // 한국은 UTC+9시간
+        const kstTimestamp = date.getTime() + 9 * 60 * 60 * 1000; // UTC+9시간
+        const kstDate = new Date(kstTimestamp);
+
+        // 월/일 시:분 포맷
+        const year = kstDate.getFullYear();
+        const month = String(kstDate.getMonth() + 1).padStart(2, "0");
+        const day = String(kstDate.getDate()).padStart(2, "0");
+        const hours = String(kstDate.getHours()).padStart(2, "0");
+        const minutes = String(kstDate.getMinutes()).padStart(2, "0");
+        const seconds = String(kstDate.getSeconds()).padStart(2, "0");
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+
     const fetchUserList = async () => {
         try {
             // 회원구분 체크박스 필터링: 선택된 유형만 배열로 만들기
@@ -213,7 +235,7 @@ function UserManagement() {
                                     </span>
                                 </td>
                                 <td>{user.userEmail}</td>
-                                <td>{user.userEnrollDate}</td>
+                                <td>{formatToKST(user.userEnrollDate)}</td>
                                 <td>{user.userRoleName}</td>
                                 <td>{user.reportCount}</td>
                                 <td>
@@ -303,7 +325,7 @@ function UserManagement() {
                                 </tr>
                                 <tr>
                                     <td className={styles.modalLabel}>가입일자</td>
-                                    <td>{selectedUser.userEnrollDate}</td>
+                                    <td>{formatToKST(selectedUser.userEnrollDate)}</td>
                                 </tr>
                             </tbody>
                         </table>
