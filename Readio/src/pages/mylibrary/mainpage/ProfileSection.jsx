@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import styles from './MyLibrary.module.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import defaultImg from '../../../assets/defaultImg.png';
 import pencilIcon from '../../../assets/pencil.png';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import styles from './MyLibrary.module.css';
 
 
 const ProfileSection = () => {
     const navigate = useNavigate();
     const { userId: paramUserId } = useParams();
-    const currentUserId = localStorage.getItem("userId");
+    const currentUserId = sessionStorage.getItem("userId");   //5.30 변경_이상있으면 말해주세요
+    // const currentUserId = localStorage.getItem("userId");
     const targetUserId = paramUserId || currentUserId;
 
 
@@ -28,7 +28,8 @@ const ProfileSection = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const token = localStorage.getItem("accessToken"); // 저장된 JWT 토큰 가져오기
+                const token = sessionStorage.getItem("accessToken");    //5.30 변경_이상있으면 말해주세요
+                // const token = localStorage.getItem("accessToken"); // 저장된 JWT 토큰 가져오기
 
                 const res = await axios.get(`/api/user/profile/${targetUserId}`, {
                     headers: {

@@ -8,6 +8,7 @@ import CurationSlice from "./video/CurationSlice.js";
 import videoSlice from "./video/VideoSlice.js";
 import BookPageSlice from "./Book/BookPageSlice.js";
 import BookReviewSlice from "./Book/BookReviewSlice.js";
+import ReportedReviewSlice from "./reported/ReportedReviewSlice.js";
 
 
 const rootReducers =  combineReducers(
@@ -21,6 +22,7 @@ const rootReducers =  combineReducers(
             user: userReducer,
             bookPage: BookPageSlice,
             bookReview: BookReviewSlice,
+            reportedReview: ReportedReviewSlice,
         });
 
 export default rootReducers;

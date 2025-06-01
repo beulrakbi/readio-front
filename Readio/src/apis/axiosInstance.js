@@ -16,7 +16,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken'); // 토큰 저장 위치에 맞게 변경
+    const token = sessionStorage.getItem('accessToken'); // 토큰 저장 위치에 맞게 변경
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // 변경 금지
     }
@@ -27,6 +27,7 @@ axiosInstance.interceptors.request.use(
 );
 
 // 응답 인터셉터 (여기서 403 처리 추가)
+// axiosInstance 사용했을때 403 에러 뜨면 403에러(/access-denied) 페이지로 이동됨
 axiosInstance.interceptors.response.use(
   response => response,
   error => {

@@ -11,11 +11,14 @@ function AdminMain() {
 
     
     // 공통적으로 axios 인스턴스를 사용하여 Authorization 헤더(토큰)를 자동 추가함
-    // 필요 시 axiosInstance.get('/api/endpoint')로 요청하시면 됩니다.
+    // 필요 시 axiosInstance.get('/api/endpoint')<-해당되는 경로로 요청하시면 됩니다.
     // 페이지 안 나올시 import 확인해보세요
+    // USER로 로그인하면 콘솔창에 403 에러 발생
+    // 예)로그인 안 한 상태거나, USER 권한으로 /admin 호출해서 403 
     // ----------------------- 시작
     const [userData, setUserData] = useState(null);
 
+    <p>{userData?.userName}</p> // 옵셔널 체이닝으로 null 방지
     useEffect(() => {
         axiosInstance.get('/admin')
             .then(response => setUserData(response.data))

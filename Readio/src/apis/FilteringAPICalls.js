@@ -7,6 +7,13 @@ import {
     putFilteringGroup
 } from "../modules/filtering/FilteringSlice.js";
 
+// admin 경로에만 헤더 추가
+const getAuthHeader = () => {
+    const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    console.log("필터링 토큰 :",  token)
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
 export const callFilteringsCreateAPI = ({groupId, filterings}) => {
 
     const requestURL = `http://localhost:8080/admin/filtering/${groupId}`;
@@ -15,7 +22,8 @@ export const callFilteringsCreateAPI = ({groupId, filterings}) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
             },
             body: JSON.stringify(filterings)
         }).then((response) => response.json());
@@ -39,6 +47,7 @@ export const callFilteringGroupCreateAPI = ({ groupForm }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
             },
             body: JSON.stringify({
                 title: groupForm.title,
@@ -65,6 +74,7 @@ export const callFilteringGroupActiveStateUpdateAPI = ({ groupForm }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
             },
             body: JSON.stringify(groupForm)
         }).then((response) => response.json());
@@ -87,6 +97,7 @@ export const callFilteringGroupUpdateAPI = ({ final }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
             },
             body: JSON.stringify(final)
         }).then((response) => response.json());
@@ -107,6 +118,7 @@ export const callFilteringGroupDeleteAPI = ({groupId}) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
             }
         }).then((response) => response.json());
 
@@ -132,7 +144,8 @@ export const callFilteringGroupsAPI = ({ currentPage }) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
             }
         }).then((response) => response.json());
 
@@ -152,7 +165,8 @@ export const callFilteringGroupAPI = ({groupId}) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
             }
         }).then((response) => response.json());
 
