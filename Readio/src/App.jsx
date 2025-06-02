@@ -121,7 +121,7 @@ function App() {
             <Route path="/qna/writing" element={<QnaWriting />} />
             <Route path="/qna/writing/:qnaId" element={<QnaWriting />} />
             <Route path="/faq" element={<Faq />} />
-            <Route path="/bookmark" element={<Bookmark />} />
+            <Route path="/bookmark/:targetUserId" element={<Bookmark />} />
             <Route path="/notice" element={<Search />} />
             <Route path="/search/video" element={<SearchVideoList />} />
             <Route path="/search/book" element={<SearchBookList />} />

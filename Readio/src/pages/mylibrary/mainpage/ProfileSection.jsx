@@ -92,8 +92,8 @@ const ProfileSection = () => {
                         <strong >3</strong><span>포스트</span>
                     </div>
                     <div className={styles.statItem}><strong>5</strong><span>리뷰</span></div>
-                    <div className={styles.statItem}><strong>3</strong><span>관심 영상</span></div>
-                    <div className={styles.statItem}><strong>4</strong><span>관심 책</span></div>
+                    <div className={styles.statItem}><strong onClick={() => navigate(`/bookmark/${targetUserId}`)}>3</strong><span onClick={() => navigate(`/bookmark/${targetUserId}`)}>관심 영상</span></div>
+                    <div className={styles.statItem}><strong onClick={() => navigate(`/bookmark/${targetUserId}`)}>4</strong><span onClick={() => navigate(`/bookmark/${targetUserId}`)}>관심 책</span></div>
                 </div>
 
                 <div className={styles.buttons}>
