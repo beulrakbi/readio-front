@@ -1,7 +1,8 @@
 import { getAllCuration, getCurationKeywords, getCurationTypes, putAllCuration } from "../modules/video/CurationSlice.js";
 
+// admin 경로에만 헤더 추가 완료
 const getAuthHeader = () => {
-    const token = localStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
     console.log("큐레이션 토큰 :",  token)
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
@@ -13,8 +14,7 @@ export const callCurationTypesAPI = () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*',
-                ...getAuthHeader()
+                Accept: '*/*'
             },
         }).then((response) => response.json());
         console.log("result", result);
@@ -33,7 +33,7 @@ export const callAllCurationTypesAndKeywordsAPI = () => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader()
+                ...getAuthHeader()      // 5.30 토큰 추가
             },
         }).then((response) => response.json());
 
@@ -54,7 +54,7 @@ export const callUpdateAllAPI = (curationDTO) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader()
+                ...getAuthHeader()      // 5.30 토큰 추가
             },
             body: JSON.stringify(curationDTO)
         }).then((response) => response.json());
@@ -76,8 +76,7 @@ export const callCurationKeywordsAPI = ({typeId}) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*',
-                ...getAuthHeader()
+                Accept: '*/*'
             },
         }).then((response) => response.json());
 

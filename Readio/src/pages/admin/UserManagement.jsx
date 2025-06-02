@@ -26,9 +26,7 @@ function UserManagement() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const BACKEND_URL = "http://localhost:8080";        // 백엔드 서버
-    const token = localStorage.getItem("accessToken");  // 토큰
-
-
+    const token = sessionStorage.getItem("accessToken");  // 5.30 변경 테스트중
 
     const fetchUserList = async () => {
         try {

@@ -6,6 +6,7 @@ function QnaDetail() {
     const { qnaId } = useParams();
     const [qnaDetail, setQnaDetail] = useState(null);
     const navigate = useNavigate();
+    const userId = localStorage.getItem('userId'); 
 
     useEffect(() => {
         fetch(`http://localhost:8080/serviceCenter/qna/detail/${qnaId}`)
@@ -43,7 +44,7 @@ function QnaDetail() {
             </div>
             <div className={styles.line}></div>
             <div className={styles.nameBox}>
-                <span className={styles.userId}>{qnaDetail.userId}</span>
+                <span className={styles.userId}>{userId}</span>
                 <span className={styles.role}>{qnaDetail.userRole}</span>
             </div>
             <div>

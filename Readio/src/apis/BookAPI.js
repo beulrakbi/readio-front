@@ -11,11 +11,6 @@ export function getBooks()
     .then(data => data.item);
 }
 
-export function getBook(ISBN)
-{
-
-}
-
 export function testBook() {
     // CORS 프록시 서비스를 통해 요청
     const corsProxy = 'https://corsproxy.io/?';
@@ -68,6 +63,5 @@ export async function getNewBooks(keyword, dispatch, num) {
         console.error('책 검색 결과가 배열이 아닙니다:', result);
     }
 }
-
 
 

@@ -2,13 +2,11 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import BookPage from '../src/pages/book/BookPage';
-import axiosInstance from "./apis/axiosInstance.js";
 import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
 import { loginSuccess, logout } from "./modules/user/userSlice.js";
 import AdminMain from "./pages/admin/AdminMain";
-import AdminUserList from "./pages/admin/AdminUserList.jsx";
 import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
 import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
 import FilteringDetailPage from "./pages/admin/filtering/FilteringDetailPage";
@@ -69,26 +67,29 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    const userId = localStorage.getItem('userId');
-    const userName = localStorage.getItem('userName');
-    const userRole = localStorage.getItem('userRole'); // 권한이 따로 저장된다면
+    const accessToken = sessionStorage.getItem('accessToken');
+    const userInfoRaw = sessionStorage.getItem('userInfo');
 
-    if (accessToken && userId) {
-          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    // 로그인 상태 복구
+    if (accessToken && userInfoRaw) {
+      try {
+        const userInfo = JSON.parse(userInfoRaw);
 
-      // 로그인 상태 복구
-      dispatch(loginSuccess({
-        userId,
-        userName,
-        userRole: userRole ? JSON.parse(userRole) : [], // 예: ["USER"]
-        isLoggedIn: true,
-        accessToken,
-      }));
+        dispatch(loginSuccess({
+          userId: userInfo.userId,
+          userName: userInfo.userName,
+          userRole: userInfo.userRole,
+          accessToken,
+        }));
+      } catch (err) {
+        console.error("유저 정보 파싱 오류:", err);
+        dispatch(logout());
+      }
     } else {
-      // 토큰 없으면 로그아웃 처리
       dispatch(logout());
     }
+    console.log("복원 accessToken:", accessToken);
+    console.log("복원 userInfo:", userInfoRaw);
   }, [dispatch]);
 
   return (
@@ -112,7 +113,7 @@ function App() {
               <Route path="findid" element={<FindIdForm />} />                        {/* 아이디찾기 */}
               <Route path="findpwd" element={<FindPwdForm />} />                      {/* 비밀번호찾기 */}
             </Route>
-            <Route path="bookPage" element={<BookPage />} />
+            <Route path="/bookPage/:bookIsbn" element={<BookPage />} />
             <Route path="/notice" element={<NoticeList />} />
             <Route path="/notice/detail/:noticeId" element={<NoticeDetail />} />
             <Route path="/qna" element={<QnaList />} />
@@ -124,7 +125,7 @@ function App() {
             <Route path="/notice" element={<Search />} />
             <Route path="/search/video" element={<SearchVideoList />} />
             <Route path="/search/book" element={<SearchBookList />} />
-            <Route path="/video" element={<PlayVideo />} />
+            <Route path="/video/:videoId" element={<PlayVideo />} />
             <Route path="mylibrary" element={<MyLibraryPage />} />
             <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
             <Route path="mylibrary/profile" element={<EditProfilePage />} />
@@ -142,7 +143,6 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<AdminMain />} />
             <Route path="users/list" element={<UserManagement />} />
-            <Route path="users/listt" element={<AdminUserList />}/>
             <Route path="filtering" element={<FilteringListPage />} />
             <Route path="filtering/create" element={<FilteringCreatePage />} />
             <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
@@ -161,7 +161,7 @@ function App() {
             <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
             <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail />} />
             <Route path="/admin/interest" element={< AdminInterestManager />} />
-            <Route path="/admin/curation" element={<CurationManagerPage />}/>
+            <Route path="/admin/curation" element={<CurationManagerPage />} />
           </Route>
         </Routes>
       </BrowserRouter >

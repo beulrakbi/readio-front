@@ -17,8 +17,10 @@ function UserEdit() {
     });
 
     useEffect(() => {
-        const isPasswordVerified = localStorage.getItem('isPasswordVerified');
-        const accessToken = localStorage.getItem('accessToken');
+        const isPasswordVerified = sessionStorage.getItem('isPasswordVerified');   //5.30 변경 테스트중
+        const accessToken = sessionStorage.getItem('accessToken');   //5.30 변경 테스트중
+        // const isPasswordVerified = localStorage.getItem('isPasswordVerified');
+        // const accessToken = localStorage.getItem('accessToken');
 
         if (!accessToken) {
             alert('로그인이 필요합니다.');
@@ -53,8 +55,10 @@ function UserEdit() {
             .catch(error => {
                 console.error('회원정보 불러오기 실패:', error.response ? error.response.data : error.message);
                 alert('회원정보를 불러오는 데 실패했습니다. 다시 시도해주세요.');
-                localStorage.removeItem('userId');
-                localStorage.removeItem('accessToken');
+                sessionStorage.removeItem('userId');   //5.30 변경 테스트중
+                sessionStorage.removeItem('accessToken');   //5.30 변경 테스트중
+                // localStorage.removeItem('userId');
+                // localStorage.removeItem('accessToken');
                 navigate('/users/login');
             });
     }, [navigate])
@@ -77,7 +81,8 @@ function UserEdit() {
             }
         }
 
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = sessionStorage.getItem('accessToken');   //5.30 변경 테스트중
+        // const accessToken = localStorage.getItem('accessToken');
         if (!accessToken) {
             alert('로그인이 필요합니다.');
             navigate('/users/login');

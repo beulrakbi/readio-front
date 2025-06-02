@@ -103,7 +103,7 @@ function CurationManager() {
             <select onChange={onChangeSelect} defaultValue={typeId} style={{"border": "none"}}
                     className={CurationCSS.filteringKeyword}>
                 <option value="0">None</option>
-                {curation.type?.map(cu => (<option key={cu.type.typeId} value={cu.type.typeId}>
+                {curation.type?.map(cu => (<option key={cu.type.typeId} defaultValue={cu.type.typeId} value={cu.type.typeId}>
                     {cu.type.typeName}
                 </option>))}
             </select>

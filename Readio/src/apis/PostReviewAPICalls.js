@@ -5,8 +5,8 @@ import {
 } from '../modules/postwriting/PostReviewModule.js';
 
 const getAuthHeader = () => {
-const token = localStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
-console.log("PostAPICall 토큰 :",  token)
+const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+console.log("PostReviewAPICalls 토큰 :",  token)
 return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
@@ -44,8 +44,9 @@ export const callPostReviewWritingAPI = ({ postId, form }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization:
-					'Bearer ' + window.localStorage.getItem('accessToken')
+                ...getAuthHeader
+                // Authorization:
+					// 'Bearer ' + window.localStorage.getItem('accessToken')
 			},
             body: JSON.stringify({
                 postReviewContent: form.postReviewContent
@@ -66,7 +67,8 @@ export const callPostReviewDeleteAPI = ({ reviewId }) => {
         const result = await fetch(requestURL, {
             method: 'DELETE',
             headers: {
-                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+                ...getAuthHeader
+                // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
             }
         }).then(response => {
             if (response.status === 204) { 

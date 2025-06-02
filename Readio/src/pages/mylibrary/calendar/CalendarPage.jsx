@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styles from './Calendar.module.css';
 import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './Calendar.module.css';
 import EmotionModal from './EmotionModal';
 
 const CalendarPage = () => {
@@ -13,8 +13,9 @@ const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const navigate = useNavigate();
     const today = dayjs();
-    const userId = localStorage.getItem("userId");
-    const token = localStorage.getItem("accessToken");
+    const userId = sessionStorage.getItem("userId");        //5.30 변경_이상있으면 말해주세요
+    const token = sessionStorage.getItem("accessToken");    //5.30 변경_이상있으면 말해주세요
+    // const token = localStorage.getItem("accessToken");
 
 
     const convertEmojiToEnum = (emoji) => {
@@ -134,8 +135,10 @@ const CalendarPage = () => {
 
     useEffect(() => {
         const fetchEmotions = async () => {
-            const token = localStorage.getItem("accessToken");
-            const userId = localStorage.getItem("userId");
+            const token = sessionStorage.getItem("accessToken");    // 5.30 변경테스트중
+            const userId = sessionStorage.getItem("userId");        // 5.30 변경테스트중
+            // const token = localStorage.getItem("accessToken");
+            // const userId = localStorage.getItem("userId");
 
             if (!userId || !token) {
                 alert("로그인이 필요합니다.");
