@@ -11,7 +11,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         loginSuccess: (state, action) => {
-            const { userId, userName, userRole, accessToken  } = action.payload;
+            const { userId, userName, userRole, accessToken } = action.payload;
 
             state.isLogin = true;
             state.userInfo = { userId, userName, userRole };
@@ -45,7 +45,7 @@ export const { loginSuccess, logout } = userSlice.actions;
 export const callLogoutAPI = () => (dispatch) => {
 
     // 토큰 삭제
-    // localStorage.removeItem('accessToken');
+    // sessionStorage.removeItem('accessToken');
 
     dispatch(logout());
 };

@@ -58,6 +58,8 @@ import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
+import VerifyPwdForDelete from "./pages/user/VerifyPwdForDelete.jsx";
+import PasswordReset from "./pages/user/PasswordReset.jsx";
 
 function App() {
 
@@ -90,53 +92,57 @@ function App() {
         console.log("복원 userInfo:", userInfoRaw);
     }, [dispatch]);
 
-    return (
-        <>
-            <BrowserRouter>
-                <Routes>
-                    {/* 메인 페이지, 사용자 페이지 */}
-                    <Route path="/access-denied" element={<AccessDenied/>}/> {/* 404페이지*/}
-                    <Route path="/" element={<Layout/>}>
-                        <Route index element={<UserMain/>}/>
-                        <Route path="users/login" element={<Login/>}/> {/* 로그인 */}
-                        <Route path="users/join" element={<Join/>}/> {/* 회원가입 */}
-                        <Route path="users/join/complete" element={<JoinComplete/>}/> {/* 회원가입완료 */}
-                        <Route path="users/verifypwd" element={<VerifyPwd/>}/> {/* 비밀번호 확인 */}
-                        <Route path="users/edit" element={<UserEdit/>}/> {/* 회원정보 수정 */}
-                        <Route path="users/delete" element={<UserDelete/>}/> {/* 회원탈퇴 */}
-                        <Route path="users/delete/complete" element={<UserDeleteComplete/>}/> {/* 회원탈퇴완료 */}
-                        <Route path="account/suspended" element={<AccountSuspended/>}/> {/* 계정정지안내*/}
-                        <Route path="account" element={<FindAccount/>}>                          {/* 계정정보찾기 */}
-                            <Route index element={<Navigate to="findid" replace/>}/> {/* 기본-아이디찾기 */}
-                            <Route path="findid" element={<FindIdForm/>}/> {/* 아이디찾기 */}
-                            <Route path="findpwd" element={<FindPwdForm/>}/> {/* 비밀번호찾기 */}
-                        </Route>
-                        <Route path="/bookPage/:bookIsbn" element={<BookPage/>}/>
-                        <Route path="/notice" element={<NoticeList/>}/>
-                        <Route path="/notice/detail/:noticeId" element={<NoticeDetail/>}/>
-                        <Route path="/qna" element={<QnaList/>}/>
-                        <Route path="/qna/detail/:qnaId" element={<QnaDetail/>}/>
-                        <Route path="/qna/writing" element={<QnaWriting/>}/>
-                        <Route path="/qna/writing/:qnaId" element={<QnaWriting/>}/>
-                        <Route path="/faq" element={<Faq/>}/>
-                        <Route path="/bookmark/:targetUserId" element={<Bookmark/>}/>
-                        <Route path="/notice" element={<Search/>}/>
-                        <Route path="/search/video" element={<SearchVideoList/>}/>
-                        <Route path="/search/book" element={<SearchBookList/>}/>
-                        <Route path="/video/:videoId" element={<PlayVideo/>}/>
-                        <Route path="mylibrary" element={<MyLibraryPage/>}/>
-                        <Route path="guestlibrary" element={<MyLibraryGuestPage/>}/>
-                        <Route path="mylibrary/profile" element={<EditProfilePage/>}/>
-                        <Route path="mylibrary/interest" element={<InterestViewPage/>}/>
-                        <Route path="mylibrary/interest/edit" element={<InterestEditPage/>}/>
-                        <Route path="mylibrary/calendar" element={<CalendarPage/>}/>
-                        <Route path="mylibrary/post/writing" element={<PostWriting/>}/>
-                        <Route path="mylibrary/post/writing/book" element={<PostWritingBook/>}/>
-                        <Route path="mylibrary/post/:postId" element={<PostDetail/>}/>
-                        <Route path="feed" element={<FeedMain/>}/>
-                        <Route path="mylibrary/follow" element={<FollowList/>}/>
-                        <Route path="mylibrary/postlist" element={<PostList/>}/>
-                    </Route>
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          {/* 메인 페이지, 사용자 페이지 */}
+          <Route path="/access-denied" element={<AccessDenied />} />                  {/* 404페이지*/}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<UserMain />} />
+            <Route path="users/login" element={<Login />} />                          {/* 로그인 */}
+            <Route path="users/join" element={<Join />} />                            {/* 회원가입 */}
+            <Route path="users/join/complete" element={<JoinComplete />} />           {/* 회원가입완료 */}
+            <Route path="users/verifypwd" element={<VerifyPwd />} />                  {/* 비밀번호 확인 */}
+            <Route path="users/edit" element={<UserEdit />} />                        {/* 회원정보 수정 */}
+            <Route path="users/delete" element={<UserDelete />} />                    {/* 회원탈퇴 */}
+            <Route path="users/verifypwd/delete" element={<VerifyPwdForDelete />} />  {/* 회원탈퇴 전 비밀번호 확인 */}
+            <Route path="users/delete/complete" element={<UserDeleteComplete />} />   {/* 회원탈퇴완료 */}
+            <Route path="account/suspended" element={<AccountSuspended />} />         {/* 계정정지안내*/}
+
+            <Route path="users/reset-password" element={<PasswordReset />} />         {/* 계정정지안내*/}
+
+            <Route path="account" element={<FindAccount />}>                          {/* 계정정보찾기 */}
+              <Route index element={<Navigate to="findId" replace />} />              {/* 기본-아이디찾기 */}
+              <Route path="findId" element={<FindIdForm />} />                        {/* 아이디찾기 */}
+              <Route path="findPwd" element={<FindPwdForm />} />                      {/* 비밀번호찾기 */}
+            </Route>
+            <Route path="/bookPage/:bookIsbn" element={<BookPage />} />
+            <Route path="/notice" element={<NoticeList />} />
+            <Route path="/notice/detail/:noticeId" element={<NoticeDetail />} />
+            <Route path="/qna" element={<QnaList />} />
+            <Route path="/qna/detail/:qnaId" element={<QnaDetail />} />
+            <Route path="/qna/writing" element={<QnaWriting />} />
+            <Route path="/qna/writing/:qnaId" element={<QnaWriting />} />
+            <Route path="/faq" element={<Faq />} />
+            <Route path="/bookmark/:targetUserId" element={<Bookmark />} />
+            <Route path="/notice" element={<Search />} />
+            <Route path="/search/video" element={<SearchVideoList />} />
+            <Route path="/search/book" element={<SearchBookList />} />
+            <Route path="/video/:videoId" element={<PlayVideo />} />
+            <Route path="mylibrary" element={<MyLibraryPage />} />
+            <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
+            <Route path="mylibrary/profile" element={<EditProfilePage />} />
+            <Route path="mylibrary/interest" element={<InterestViewPage />} />
+            <Route path="mylibrary/interest/edit" element={<InterestEditPage />} />
+            <Route path="mylibrary/calendar" element={<CalendarPage />} />
+            <Route path="mylibrary/post/writing" element={<PostWriting />} />
+            <Route path="mylibrary/post/writing/book" element={<PostWritingBook />} />
+            <Route path="mylibrary/post/:postId" element={<PostDetail />} />
+            <Route path="feed" element={<FeedMain />} />
+            <Route path="mylibrary/follow" element={<FollowList />} />
+            <Route path="mylibrary/postlist" element={<PostList />} />
+          </Route>
 
                     <Route path="/admin" element={<AdminLayout/>}>
                         <Route index element={<AdminMain/>}/>

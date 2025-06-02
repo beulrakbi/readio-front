@@ -53,7 +53,8 @@
 
 .inputCell {
     width: 600px;
-    text-align: left;   /* 삭제 금지 input을 왼쪽 정렬 */
+    text-align: left;
+    /* 삭제 금지 input을 왼쪽 정렬 */
 }
 
 /* 탭 기본 스타일*/
@@ -104,8 +105,10 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 30px auto 0;    /* 상단 여백과 중앙 정렬 */
-    margin-bottom: 400px;   /* 하단 여백 */
+    margin: 30px auto 0;
+    /* 상단 여백과 중앙 정렬 */
+    /* margin-bottom: 300px; */
+    /* 하단 여백 */
     display: flex;
     justify-content: center;
     text-align: center;
@@ -141,4 +144,51 @@
 
 .verifyButton:hover {
     background-color: #AF4C3F;
+}
+
+/* 버튼 및 결과 */
+.resultContainer {
+    margin-bottom: 300px;
+}
+
+.resultBox {
+    margin-top: 70px;
+}
+
+.line2 {
+    width: 100%;
+    background-color: #B4B4B4;
+    margin-bottom: 20px;
+}
+
+/* 입력하신 정보와~*/
+.resultMessage {
+    font-weight: 500;
+    text-align: center;
+}
+
+.result {
+    font-weight: bold;
+    text-align: center;
+    color: #808467;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.extraButtons {
+    width: 150px;
+    padding: 5px;
+    background-color: #808467;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.linkButton {
+    color: white;
+    text-decoration: none;
 }

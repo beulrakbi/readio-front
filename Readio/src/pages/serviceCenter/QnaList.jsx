@@ -13,7 +13,7 @@ function QnaList() {
 
     // accessToken의 존재 여부로 로그인 상태를 판단합니다.
     // userId만으로는 토큰 만료 여부를 알 수 없으므로 accessToken을 사용하는 것이 더 정확합니다.
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
 
     const fetchQnaList = () => {
         let url = `http://localhost:8080/serviceCenter/qna/list/paging?page=${page}&size=7`;
