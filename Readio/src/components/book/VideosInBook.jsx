@@ -6,9 +6,12 @@ import VideoInBookCSS from "./Book.module.css";
 import {useDispatch} from "react-redux";
 import VideoInBookInDB from "./VideoInBookInDB.jsx";
 import VideoInBook from "./VideoInBook.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 function VideosInBook({keyword}) {
+
+    const navigate = useNavigate();
     if (keyword) {
         const keywordArray = keyword.split(" - ");
         keyword = keywordArray[0];
@@ -38,21 +41,33 @@ function VideosInBook({keyword}) {
     }
 
     return (<>
-            <div className={VideoInBookCSS.videoContainer}>
-                <button className={VideoInBookCSS.scrollButton} onClick={leftButtonHandler}><img src={leftButton}/>
-                </button>
-                <div className={VideoInBookCSS.videoInnerContainer}>
-                    <div className={VideoInBookCSS.videoList} ref={scrollRef}>
-                        {videosInDB?.map(video => {
-                            return <VideoInBookInDB key={video.videoId} videoInDB={video}/>
-                        })}
-                        {videos?.map(video => {return <VideoInBook key={video.id.videoId} video={video}/>})}
-                    </div>
+        <div className={VideoInBookCSS.videoContainer}>
+            <button className={VideoInBookCSS.scrollButton} onClick={leftButtonHandler}>
+                <img src={leftButton}/>
+            </button>
+            <div className={VideoInBookCSS.videoInnerContainer}>
+                <div className={VideoInBookCSS.videoList} ref={scrollRef}>
+                    {videosInDB?.map(video => {
+                        return (<div key={video.videoId}
+                                     style={{cursor: "pointer"}}
+                                     onClick={() => navigate(`/video/${video.videoId}`)}>
+                                <VideoInBookInDB key={video.videoId} videoInDB={video}/>
+                            </div>)
+                    })}
+                    {videos?.map(video => {
+                        return (<div key={video.id.videoId}
+                                     style={{cursor: "pointer"}}
+                                     onClick={() => navigate(`/video/${video.id.videoId}`)}>
+                                <VideoInBook key={video.id.videoId} video={video}/>
+                            </div>)
+                    })}
                 </div>
-                <button className={VideoInBookCSS.scrollButton} onClick={rightButtonHandler}><img src={rightButton}/>
-                </button>
             </div>
-        </>)
+            <button className={VideoInBookCSS.scrollButton} onClick={rightButtonHandler}>
+                <img src={rightButton}/>
+            </button>
+        </div>
+    </>)
 }
 
 export default VideosInBook;

@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import styles from './EditProfilePage.module.css';
-import xIcon from '../../../assets/x.png';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import xIcon from '../../../assets/x.png';
+import styles from './EditProfilePage.module.css';
 
 
 const EditProfilePage = () => {
@@ -14,8 +14,10 @@ const EditProfilePage = () => {
     const [isPublic, setIsPublic] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
     const handleImageClick = () => fileInputRef.current.click();
-    const userId = localStorage.getItem("userId");
-    const token = localStorage.getItem("accessToken");
+    const userId = sessionStorage.getItem("userId");        //5.30 변경_이상있으면 말해주세요
+    const token = sessionStorage.getItem("accessToken");   //5.30 변경_이상있으면 말해주세요
+    // const userId = localStorage.getItem("userId");
+    // const token = localStorage.getItem("accessToken");
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];

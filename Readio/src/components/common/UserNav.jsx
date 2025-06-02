@@ -39,7 +39,7 @@ function UserNav({ isOpen }) {
                         >
                             내 서재
                         </div>
-                        <NavLink to="/" className={UserNavCSS.naviLinkText}>피드</NavLink>
+                        <NavLink to="/feed" className={UserNavCSS.naviLinkText}>피드</NavLink>
                         <NavLink to="/" className={UserNavCSS.naviLinkText}>소식</NavLink>
                         <ul style={{ fontSize: '20px', paddingInlineStart: '0px' }}>고객센터
                             <li className={UserNavCSS.naviLinkText}><NavLink to="/notice" className={UserNavCSS.naviLinkText}>공지사항</NavLink></li>

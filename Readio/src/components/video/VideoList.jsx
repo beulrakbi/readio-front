@@ -74,14 +74,6 @@ function VideoList({type})
                 <div className={VideoListCSS.line}></div>
                 <div className={VideoListCSS.videoList} ref={scrollRef}>
 
-
-                    {/* {videoList?.map(video => {
-                        return <Video key={video.id.videoId} video={video}/>}
-                    )}
-                    {videoInDBList?.map(video => {
-                        return <VIdeoInDB key={video.videoId} videoInDB={video}/>}
-                    )} */}
-
                     {videoList?.map(video => {
                        const vid = video.id.videoId;
                         return (
@@ -100,12 +92,13 @@ function VideoList({type})
                             <div
                                 key={vid}
                                 style={{ cursor: "pointer" }}
-                               onClick={() => navigate(`/video/${vid}`)}
+                                onClick={() => navigate(`/video/${vid}`)}
                             >
                                 <VIdeoInDB videoInDB={video} />
                             </div>
                         );
                     })}
+
 
 
 

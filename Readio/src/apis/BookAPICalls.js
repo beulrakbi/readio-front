@@ -2,7 +2,7 @@
 
 import { getBooks, postBook } from "../components/book/BookSlice";
 import {getBook} from "../modules/Book/BookPageSlice.js";
-import {getBookReviews} from "../modules/Book/BookReviewSlice.js";
+import {getBookReviews, putReportingReview} from "../modules/Book/BookReviewSlice.js";
 
 const BASE_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx";
 const TTB_KEY  = "ttbehfvls09271435001"; 
@@ -135,7 +135,7 @@ export const callBookReviewsAPI = ({bookIsbn}) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*'
-            }
+            },
         }).then((response) => response.json());
 
         console.log("bookreviews", result);
@@ -144,3 +144,22 @@ export const callBookReviewsAPI = ({bookIsbn}) => {
         }
     };
 }
+
+export const callBookReviewReportAPI = ({ reviewId }) => {
+    const requestURL = `http://localhost:8080/bookReview/${reviewId}/report`;
+
+    return async () => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*'
+            }
+        });
+        console.log("resulttttt", result);
+        if (!result.ok) {
+            throw new Error("리뷰 신고 실패");
+        }
+    };
+};
+

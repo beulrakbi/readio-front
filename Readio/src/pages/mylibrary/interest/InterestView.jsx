@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './Interest.module.css';
 
 const InterestViewPage = () => {
     const navigate = useNavigate();
 
     const { userId: paramUserId } = useParams();
-    const currentUserId = localStorage.getItem("userId");
+    const currentUserId = sessionStorage.getItem("userId");          //5.30 변경_이상있으면 말해주세요
+    // const currentUserId = localStorage.getItem("userId");        
     const targetUserId = paramUserId || currentUserId;
 
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -20,7 +21,8 @@ const InterestViewPage = () => {
 
         fetch(`/api/user/interests/${targetUserId}`, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+                'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`          //5.30 변경_이상있으면 말해주세요
+                // 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
             .then(res => res.json())
