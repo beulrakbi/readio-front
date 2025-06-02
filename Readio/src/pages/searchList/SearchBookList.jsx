@@ -1,5 +1,5 @@
-import {Fragment, useEffect, useState} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import { Fragment, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import searchIcon from '../../assets/search.png';
 import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchBookList.module.css';
@@ -13,7 +13,9 @@ function SearchBookList() {
     const [books, setBooks] = useState([]);    // API 응답 도서 목록
     const [totalCount, setTotalCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
-    const size = 20;
+    const size = 10;
+    const MAX_TOTAL = 100; // 최대 전체 결과 개수
+    const MAX_PAGES = 10; // 최대 페이지 수수
 
     // URL 쿼리 파싱: query, page 초기화
     useEffect(() => {
@@ -43,7 +45,9 @@ function SearchBookList() {
                 const {data} = json;
                 const refinedData = data.books.filter((book, index, self) => index === self.findIndex(b => b.bookIsbn === book.bookIsbn));
                 setBooks(refinedData);
-                setTotalCount(refinedData.length);
+                // setTotalCount(refinedData.length);
+                setTotalCount(Math.min(data.total));
+
             })
             .catch(err => {
                 console.error(err);
@@ -53,15 +57,17 @@ function SearchBookList() {
             });
     }, [query, page]);
 
-    // 페이지 버튼 렌더
-    const renderPagination = () => {
-        const totalPages = Math.ceil(totalCount / 10);
-        console.log("totalCount", totalCount);
-        console.log("pages", totalPages);
+    // 페이지 버튼 렌더링
+     const renderPagination = () => {
+        // 실제 페이지 수 계산 후 최대 MAX_PAGES 로 클램핑
+        const realPages = Math.ceil(totalCount / size);
+        const totalPages = Math.min(realPages, MAX_PAGES);
         if (totalPages <= 1) return null;
-        return Array.from({length: totalPages}, (_, i) => {
+
+        return Array.from({ length: totalPages }, (_, i) => {
             const num = i + 1;
-            return (<button
+            return (
+                <button
                     key={num}
                     className={`${styles.pageButton} ${page === num ? styles.activePage : ''}`}
                     onClick={() => {
@@ -69,10 +75,10 @@ function SearchBookList() {
                     }}
                 >
                     {num}
-                </button>);
+                </button>
+            );
         });
     };
-
     // 검색 버튼 클릭
     const onSearch = () => {
         if (!input.trim()) {
@@ -114,7 +120,7 @@ function SearchBookList() {
 
                 <div className={styles.SearchBookList}>
                     {books.length > 0 ? (books.map((b, idx) => (<Fragment key={b.bookIsbn ?? idx}>
-                                <div className={styles.bookItem}>
+                                <div className={styles.bookItem} onClick={() => navigate(`/bookPage/${b.bookIsbn}`)}>
                                     <img
                                         className={styles.book}
                                         src={b.bookCover?.replace('coversum', 'cover500') ?? '/default-cover.png'}

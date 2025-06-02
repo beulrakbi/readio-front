@@ -11,7 +11,8 @@ function AdminFaqWriting() {
 
     // 토큰
     const getAuthHeader = () => {
-    const token = localStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    const token = sessionStorage.getItem('accessToken'); // 5/30 변경 테스트중
+    // const token = localStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
     console.log("faq 토큰 :",  token)
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
@@ -23,7 +24,8 @@ function AdminFaqWriting() {
                 method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                ...getAuthHeader(), // ← 여기에 토큰 포함
+                      ...getAuthHeader()
+
             },
             })
 

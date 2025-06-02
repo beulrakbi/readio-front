@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './InterestEdit.module.css';
 
@@ -15,8 +15,10 @@ const InterestEditPage = () => {
 
 
     useEffect(() => {
-        const userId = localStorage.getItem("userId");
-        const token = localStorage.getItem("accessToken");
+        const userId = sessionStorage.getItem("userId");          //5.30 변경_이상있으면 말해주세요
+        const token = sessionStorage.getItem("accessToken");     //5.30 변경_이상있으면 말해주세요
+        // const userId = localStorage.getItem("userId");
+        // const token = localStorage.getItem("accessToken");
 
         if (!userId || !token) {
             alert("로그인이 필요합니다.");
@@ -72,8 +74,10 @@ const InterestEditPage = () => {
     };
 
     const handleSave = () => {
-        const userId = localStorage.getItem("userId");
-        const token = localStorage.getItem("accessToken");
+        const userId = sessionStorage.getItem("userId");        // 5.30 변경테스트중
+        const token = sessionStorage.getItem("accessToken");    // 5.30 변경테스트중
+        // const userId = localStorage.getItem("userId");
+        // const token = localStorage.getItem("accessToken");
 
         if (!userId || !token) {
             alert("로그인이 필요합니다.");
