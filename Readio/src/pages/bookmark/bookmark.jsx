@@ -14,6 +14,13 @@ function Bookmark() {
     return localStorage.getItem('accessToken');
   };
 
+  const getAuthHeader = () => {
+    const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    console.log("필터링 토큰 :",  token)
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+  };
+
+
   const fetchBookmarks = async () => {
     setLoading(true);
     setError(null);
@@ -28,10 +35,16 @@ function Bookmark() {
     try {
       // 1. 영상 북마크 목록 가져오기 (기존 로직)
       const videoRes = await fetch('http://localhost:8080/videoBookmark/list', {
+        method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          ...getAuthHeader()      // 5.30 토큰 추가
+        },
       });
+
+      console.log("videoRes", await videoRes);
+
       if (!videoRes.ok) {
         const errorText = await videoRes.text();
         throw new Error(`영상 북마크 목록 조회 실패: ${videoRes.status} ${errorText}`);
@@ -43,9 +56,12 @@ function Bookmark() {
       const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${localStorage.getItem('userId')}`, { // userId를 직접 보내는 경우
       // OR 만약 백엔드 Controller가 @AuthenticationPrincipal UserDetails를 사용한다면 userId 파라미터는 필요 없음
       // const bookRes = await fetch('http://localhost:8080/bookBookmark/list', {
+        method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          ...getAuthHeader()      // 5.30 토큰 추가
+        },
       });
       if (!bookRes.ok) {
         const errorText = await bookRes.text();
@@ -64,7 +80,7 @@ function Bookmark() {
 
   useEffect(() => {
     fetchBookmarks();
-  }, []);
+  }, [localStorage.getItem('userId')]);
 
   const deleteItem = async (tab, id) => {
     const token = getAuthToken();
