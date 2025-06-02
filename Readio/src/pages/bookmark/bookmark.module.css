@@ -79,7 +79,7 @@
 
 .bookmarkItem {
     width: 80%;
-    height: 80px; /* 기존 높이 유지 */
+    height: 120px; /* 기존 높이 유지 */
     display: flex;
     align-items: center; /* 아이템 중앙 정렬 */
     margin: auto;
