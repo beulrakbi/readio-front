@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import FListCSS from './Filtering.module.css';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {callFilteringGroupCreateAPI, callFilteringsCreateAPI} from "../../apis/FilteringAPICalls.js";
 
-function FilteringCreate()
-{
+function FilteringCreate() {
 
     const dispatch = useDispatch();
     const [groupForm, setGroupForm] = useState({
-        title: "",
+        title  : "",
         content: "",
     });
     const navigate = useNavigate();
@@ -32,13 +31,10 @@ function FilteringCreate()
     const [filterings, setFilterings] = useState([]);
     const [id, setId] = useState(1);
     const createFiltering = () => {
-        if (filterings.length < 15)
-        {
-            setFilterings(prev => [...prev, { id: id, value: '', isSaved: false }]);
+        if (filterings.length < 15) {
+            setFilterings(prev => [...prev, {id: id, value: '', isSaved: false}]);
             setId(id + 1);
-        }
-        else
-        {
+        } else {
             alert('더이상 추가할 수 없습니다');
         }
     }
@@ -58,14 +54,14 @@ function FilteringCreate()
     const saveFiltering = (e, id) => {
         setFilterings(prev => prev.map(filtering =>
             filtering.id === id
-                ? { ...filtering, keyword:e.target.value, isSaved: true }
+                ? {...filtering, keyword: e.target.value, isSaved: true}
                 : filtering
         ));
     }
 
     const saveAll = async () => {
         try {
-            const result = await dispatch(callFilteringGroupCreateAPI({ groupForm }));
+            const result = await dispatch(callFilteringGroupCreateAPI({groupForm}));
             console.log("result", result);
 
             await new Promise(resolve => setTimeout(resolve, 500));
@@ -92,7 +88,7 @@ function FilteringCreate()
 
                 setFinal(newFinal);
                 await dispatch(callFilteringsCreateAPI({
-                    groupId: groupId,
+                    groupId   : groupId,
                     filterings: newFinal
                 }));
 
@@ -106,39 +102,43 @@ function FilteringCreate()
     return (
         <div className={FListCSS.container}>
             <div className={FListCSS.fontContainer}>
-            <input className={FListCSS.filteringTitle} onChange={onChangeHandler} type="text" name="title" value={groupForm.title} placeholder="제목을 입력하세요"/>
+                <input className={FListCSS.filteringTitle} onChange={onChangeHandler} type="text" name="title"
+                       value={groupForm.title} placeholder="제목을 입력하세요"/>
             </div>
             <hr className={FListCSS.filteringLine}/>
-            <textarea className={FListCSS.filteringContent} onChange={onChangeHandler} name="content" value={groupForm.content} placeholder="내용을 입력하세요" />
+            <textarea className={FListCSS.filteringContent} onChange={onChangeHandler} name="content"
+                      value={groupForm.content} placeholder="내용을 입력하세요"/>
             <p className={FListCSS.font3}>필터링 요소 추가</p>
             <hr className={FListCSS.filteringLine}/>
             <div className={FListCSS.filteringDiv}>
                 {filterings.map((filtering) => (
                     <div className={FListCSS.filteringWrapper} key={filtering.id}>
-                        {filtering.isSaved ? 
+                        {filtering.isSaved ?
                             (
                                 <p className={FListCSS.savedKeyword}>{filtering.keyword}</p>
                             )
                             :
                             (
-                                <input className={FListCSS.filteringInput} key={filtering.id} type="text" placeholder="입력하세요"
-                                    name="keyword"
+                                <input className={FListCSS.filteringInput} key={filtering.id} type="text"
+                                       placeholder="입력하세요"
+                                       name="keyword"
                                     // value={form.keyword}
-                                    onChange={onChangeHandler2}
-                                    onKeyDown={(e) => {
-                                            if (e.key == 'Enter')
-                                            {
-                                                saveFiltering(e, filtering.id);
-                                            }
-                                        }
-                                    }
+                                       onChange={onChangeHandler2}
+                                       onKeyDown={(e) => {
+                                           if (e.key == 'Enter') {
+                                               saveFiltering(e, filtering.id);
+                                           }
+                                       }
+                                       }
                                 />
                             )
                         }
-                        <button className={FListCSS.noneBt} type="button" onClick={() => deleteFiltering(filtering.id)}>X</button>
+                        <button className={FListCSS.noneBt} type="button"
+                                onClick={() => deleteFiltering(filtering.id)}>X
+                        </button>
                     </div>
                 ))}
-            <button className={FListCSS.redBt} onClick={createFiltering}>+</button>
+                <button className={FListCSS.redBt} onClick={createFiltering}>+</button>
             </div>
             <hr className={FListCSS.filteringLine}/>
             <div className={FListCSS.paging}>

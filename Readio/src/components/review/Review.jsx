@@ -18,7 +18,7 @@ function Review({review})
     return (
         <div className={ReviewCSS.review}>
             <div className={ReviewCSS.reviewInfo}>
-                <p className={ReviewCSS.reviewInfoFont1}>{review.profileId}님의 리뷰</p>
+                <p className={ReviewCSS.reviewInfoFont1}>{review.penName}님의 리뷰</p>
                 <p className={ReviewCSS.reviewInfoFont2}>{formatted}</p>
                 <div>
                     {/* 별 */}

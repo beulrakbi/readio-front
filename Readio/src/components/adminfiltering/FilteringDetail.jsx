@@ -64,7 +64,7 @@ function FilteringDetail()
                 </div>
             <hr className={FListCSS.filteringLine}/>
             <div className={FListCSS.paging}>
-                <p className={FListCSS.font2}><Link className={FListCSS.link} to="/"></Link></p>
+                <p className={FListCSS.font2} onClick={() => navigate(-1)}>뒤로가기</p>
             </div>
         </div>
     )
