@@ -4,6 +4,13 @@ import { getBooks, postBook } from "../components/book/BookSlice";
 import {getBook} from "../modules/Book/BookPageSlice.js";
 import {getBookReviews, putReportingReview} from "../modules/Book/BookReviewSlice.js";
 
+const getAuthHeader = () => {
+    const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    console.log("필터링 토큰 :",  token)
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
+
 const BASE_URL = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx";
 const TTB_KEY  = "ttbehfvls09271435001"; 
 
@@ -92,7 +99,11 @@ export const callBookInsertAPI = ({ form }) => {
         try {
             const res = await fetch(INSERT_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    ...getAuthHeader()      // 5.30 토큰 추가
+                },
                 body: JSON.stringify(form)
             });
             if (!res.ok) throw new Error(`저장 실패 ${res.status}`);
@@ -114,8 +125,9 @@ export const callBookAPI = ({bookIsbn}) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
-            }
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
+            },
         }).then((response) => response.json());
 
         // console.log("result", result);
@@ -134,7 +146,8 @@ export const callBookReviewsAPI = ({bookIsbn}) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
             },
         }).then((response) => response.json());
 
@@ -153,8 +166,9 @@ export const callBookReviewReportAPI = ({ reviewId }) => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
-            }
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
+            },
         });
         console.log("resulttttt", result);
         if (!result.ok) {

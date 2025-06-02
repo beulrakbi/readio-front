@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import BookPage from '../src/pages/book/BookPage';
 import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
-import { loginSuccess, logout } from "./modules/user/userSlice.js";
+import {loginSuccess, logout} from "./modules/user/userSlice.js";
 import AdminMain from "./pages/admin/AdminMain";
 import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
 import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
@@ -48,7 +48,7 @@ import QnaList from './pages/serviceCenter/QnaList';
 import QnaWriting from './pages/serviceCenter/QnaWriting';
 import AccessDenied from "./pages/user/AccessDenied.jsx";
 import AccountSuspended from "./pages/user/AccountSuspended.jsx";
-import FindAccount, { FindIdForm, FindPwdForm } from "./pages/user/FindAccount";
+import FindAccount, {FindIdForm, FindPwdForm} from "./pages/user/FindAccount";
 import Join from "./pages/user/Join";
 import JoinComplete from './pages/user/JoinComplete';
 import Login from "./pages/user/Login";
@@ -61,38 +61,36 @@ import PlayVideo from "./pages/videoDetail/PlayVideo";
 import VerifyPwdForDelete from "./pages/user/VerifyPwdForDelete.jsx";
 import PasswordReset from "./pages/user/PasswordReset.jsx";
 
-
-
 function App() {
 
-  // 새로고침해도 로그인 상태유지되게함 (삭제X)
-  const dispatch = useDispatch();
+    // 새로고침해도 로그인 상태유지되게함 (삭제X)
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    const accessToken = sessionStorage.getItem('accessToken');
-    const userInfoRaw = sessionStorage.getItem('userInfo');
+    useEffect(() => {
+        const accessToken = sessionStorage.getItem('accessToken');
+        const userInfoRaw = sessionStorage.getItem('userInfo');
+        console.log("access Token", accessToken);
 
-    // 로그인 상태 복구
-    if (accessToken && userInfoRaw) {
-      try {
-        const userInfo = JSON.parse(userInfoRaw);
+        if (accessToken && userInfoRaw) {
+            try {
+                const userInfo = JSON.parse(userInfoRaw);
 
-        dispatch(loginSuccess({
-          userId: userInfo.userId,
-          userName: userInfo.userName,
-          userRole: userInfo.userRole,
-          accessToken,
-        }));
-      } catch (err) {
-        console.error("유저 정보 파싱 오류:", err);
-        dispatch(logout());
-      }
-    } else {
-      dispatch(logout());
-    }
-    console.log("복원 accessToken:", accessToken);
-    console.log("복원 userInfo:", userInfoRaw);
-  }, [dispatch]);
+                dispatch(loginSuccess({
+                    userId  : userInfo.userId,
+                    userName: userInfo.userName,
+                    userRole: userInfo.userRole,
+                    accessToken,
+                }));
+            } catch (err) {
+                console.error("유저 정보 파싱 오류:", err);
+                dispatch(logout());
+            }
+        } else {
+            dispatch(logout());
+        }
+        console.log("복원 accessToken:", accessToken);
+        console.log("복원 userInfo:", userInfoRaw);
+    }, [dispatch]);
 
   return (
     <>
@@ -146,33 +144,33 @@ function App() {
             <Route path="mylibrary/postlist" element={<PostList />} />
           </Route>
 
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminMain />} />
-            <Route path="users/list" element={<UserManagement />} />
-            <Route path="filtering" element={<FilteringListPage />} />
-            <Route path="filtering/create" element={<FilteringCreatePage />} />
-            <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
-            <Route path="filtering/:groupId/edit" element={<FilteringModifyPage />} />
-            <Route path="reported/review" element={<ReportedReviewListPage />} />
-            <Route path="reported/review/:reportId" element={<ReportedReviewDetailPage />} />
-            <Route path="reported/post" element={<ReportedPostListPage />} />
-            <Route path="reported/post/:reportId" element={<ReportedPostDetailPage />} />
-            <Route path="/admin/notice" element={<AdminNoticeList />} />
-            <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
-            <Route path="/admin/faq" element={<AdminFaqList />} />
-            <Route path="/admin/faq/writing" element={<AdminFaqWriting />} />
-            <Route path="/admin/faq/edit/:faqId" element={<AdminFaqWriting />} />
-            <Route path="/admin/notice/edit/:noticeId" element={<AdminNoticeWriting />} />
-            <Route path="/admin/qna" element={<AdminQnaList />} />
-            <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
-            <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail />} />
-            <Route path="/admin/interest" element={< AdminInterestManager />} />
-            <Route path="/admin/curation" element={<CurationManagerPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter >
-    </>
-  );
+                    <Route path="/admin" element={<AdminLayout/>}>
+                        <Route index element={<AdminMain/>}/>
+                        <Route path="users/list" element={<UserManagement/>}/>
+                        <Route path="filtering" element={<FilteringListPage/>}/>
+                        <Route path="filtering/create" element={<FilteringCreatePage/>}/>
+                        <Route path="filtering/:groupId" element={<FilteringDetailPage/>}/>
+                        <Route path="filtering/:groupId/edit" element={<FilteringModifyPage/>}/>
+                        <Route path="reported/review" element={<ReportedReviewListPage/>}/>
+                        <Route path="reported/review/:reportId" element={<ReportedReviewDetailPage/>}/>
+                        <Route path="reported/post" element={<ReportedPostListPage/>}/>
+                        <Route path="reported/post/:reportId" element={<ReportedPostDetailPage/>}/>
+                        <Route path="/admin/notice" element={<AdminNoticeList/>}/>
+                        <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
+                        <Route path="/admin/faq" element={<AdminFaqList/>}/>
+                        <Route path="/admin/faq/writing" element={<AdminFaqWriting/>}/>
+                        <Route path="/admin/faq/edit/:faqId" element={<AdminFaqWriting/>}/>
+                        <Route path="/admin/notice/edit/:noticeId" element={<AdminNoticeWriting/>}/>
+                        <Route path="/admin/qna" element={<AdminQnaList/>}/>
+                        <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
+                        <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail/>}/>
+                        <Route path="/admin/interest" element={< AdminInterestManager/>}/>
+                        <Route path="/admin/curation" element={<CurationManagerPage/>}/>
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;

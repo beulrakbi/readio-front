@@ -15,11 +15,9 @@ function Bookmark() {
     return localStorage.getItem('accessToken');
   };
 
-  // getAuthHeader 함수는 sessionStorage에서 토큰을 가져와 헤더 객체를 반환합니다.
-  // 이 함수는 컴포넌트 스코프의 최상단에 선언되어 모든 요청에서 재사용될 수 있어야 합니다.
   const getAuthHeader = () => {
     const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
-    console.log("필터링 토큰 :", token);
+    console.log("필터링 토큰 :",  token)
     return token ? { 'Authorization': `Bearer ${token}` } : {};
   };
 
@@ -47,9 +45,11 @@ function Bookmark() {
         headers: {
           'Content-Type': 'application/json',
           Accept: '*/*',
-          ...authHeader // getAuthHeader에서 생성된 헤더 객체 사용
+          ...getAuthHeader()      // 5.30 토큰 추가
         },
       });
+
+      console.log("videoRes", await videoRes);
 
       if (!videoRes.ok) {
         const errorText = await videoRes.text();
@@ -59,15 +59,15 @@ function Bookmark() {
       setBookmarkedVideos(videoData);
 
       // 2. 책 북마크 목록 가져오기 (새로운 로직 추가)
-      // userId 파라미터가 필요한지 백엔드 API 명세에 따라 확인하세요.
-      // 만약 백엔드 Controller가 @AuthenticationPrincipal UserDetails를 사용한다면 userId 파라미터는 필요 없음.
-      const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${localStorage.getItem('userId')}`, {
-      // 또는 userId 없이 호출: const bookRes = await fetch('http://localhost:8080/bookBookmark/list', {
+      const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${localStorage.getItem('userId')}`, { // userId를 직접 보내는 경우
+      // OR 만약 백엔드 Controller가 @AuthenticationPrincipal UserDetails를 사용한다면 userId 파라미터는 필요 없음
+      // const bookRes = await fetch('http://localhost:8080/bookBookmark/list', {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json', // 책 북마크에도 Content-Type 추가 (필요시)
-          Accept: '*/*', // 책 북마크에도 Accept 추가 (필요시)
-          ...authHeader // getAuthHeader에서 생성된 헤더 객체 사용
-        }
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          ...getAuthHeader()      // 5.30 토큰 추가
+        },
       });
       if (!bookRes.ok) {
         const errorText = await bookRes.text();
@@ -86,7 +86,7 @@ function Bookmark() {
 
   useEffect(() => {
     fetchBookmarks();
-  }, []);
+  }, [localStorage.getItem('userId')]);
 
   const deleteItem = async (tab, id) => {
     const authHeader = getAuthHeader(); // 삭제 요청 시에도 인증 헤더 사용

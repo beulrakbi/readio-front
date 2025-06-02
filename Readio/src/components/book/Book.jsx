@@ -45,6 +45,13 @@ function Book() {
         return token;
     };
 
+    const getAuthHeader = () => {
+        const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+        console.log("필터링 토큰 :",  token)
+        return token ? { 'Authorization': `Bearer ${token}` } : {};
+    };
+
+
     // 책 정보 및 북마크 상태/개수를 가져오는 비동기 함수
     useEffect(() => {
         const fetchBookInfoAndBookmarkStatus = async () => {
@@ -76,8 +83,17 @@ function Book() {
                 }
                 console.log("[Book.jsx] 책 기본 정보 로딩 성공.");
 
-                // 2. 총 북마크 개수 가져오기 (publicCount API) - 인증 불필요
-                const publicCountRes = await fetch(`http://localhost:8080/bookBookmark/publicCount/${param.bookIsbn}`);
+
+                // 2. 총 북마크 개수 가져오기 (publicCount API)
+                const publicCountRes = await fetch(`http://localhost:8080/bookBookmark/publicCount/${param.bookIsbn}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: '*/*',
+                        ...getAuthHeader()      // 5.30 토큰 추가
+                    },
+                });
+
                 if (publicCountRes.ok) {
                     const publicCount = await publicCountRes.json();
                     setBookBookmarkCount(publicCount);
@@ -92,12 +108,12 @@ function Book() {
                 if (authHeader['Authorization']) {
                     console.log("[Book.jsx] 토큰 존재. 사용자 북마크 상태 조회 시도.");
                     const bookmarkStatusRes = await fetch(`http://localhost:8080/bookBookmark/status/${param.bookIsbn}`, {
-                        method: 'GET', // 명시적으로 GET 메서드 지정 (선택 사항)
+                        method: 'GET',
                         headers: {
-                            'Content-Type': 'application/json', // 필요시 추가
-                            Accept: '*/*', // Accept 헤더 추가
-                            ...authHeader // 인증 헤더 적용
-                        }
+                            'Content-Type': 'application/json',
+                            Accept: '*/*',
+                            ...getAuthHeader()      // 5.30 토큰 추가
+                        },
                     });
                     if (!bookmarkStatusRes.ok) {
                         console.error(`[Book.jsx] 책 북마크 상태 조회 API 응답 실패: Status ${bookmarkStatusRes.status}, Text: ${bookmarkStatusRes.statusText}`);
