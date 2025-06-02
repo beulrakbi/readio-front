@@ -14,6 +14,7 @@ import defaultImg from '../../assets/defaultImg.png';
 import PostCSS from './Post.module.css';
 import { callPostDetailAPI } from '../../apis/PostAPICalls';
 import { apiFollowUser, apiUnfollowUser, apiIsFollowingStatus } from '../../apis/FollowAPICalls';
+import { apiGetPostLikeInfo } from '../../apis/PostLikeAPICalls';
 import LikeButton from '../../components/postlike/PostLikeButton';
 import ReviewSection from './PostReview';
 
@@ -73,6 +74,44 @@ function PostDetail() {
             setLoggedInUserProfile(null);
         }
     }, [loggedInUserSystemId]);
+
+    // --- 게시물 상세 관련 useEffect ---
+    useEffect(() => {
+        const isLoggedIn = !!localStorage.getItem("accessToken"); // 로그인 상태 확인
+        // ★★★ 이 로그는 매우 중요합니다. useEffect 진입 및 postId, isLoggedIn 상태 확인 ★★★
+        console.log('[useEffect @PostDetail] For main post & like info. postId:', postId, 'isLoggedIn:', isLoggedIn);
+
+        if (postId) { // postId가 유효한 경우
+            // 게시물 상세 정보 로드 (기존 로직)
+            console.log('[useEffect @PostDetail] Dispatching callPostDetailAPI for postId:', postId);
+            dispatch(callPostDetailAPI({ postId: postId })); // params.postId 대신 이미 변환된 postId 사용
+
+            // ⭐⭐⭐ '좋아요' 정보 로드 (이 부분이 중요합니다!) ⭐⭐⭐
+            if (isLoggedIn) { // 로그인한 경우에만 사용자별 좋아요 상태와 전체 개수 요청
+                console.log('[useEffect @PostDetail] Dispatching apiGetPostLikeInfo for postId:', postId);
+                console.log('[useEffect @PostDetail] typeof apiGetPostLikeInfo:', typeof apiGetPostLikeInfo);
+
+                if (typeof apiGetPostLikeInfo === 'function') {
+                    dispatch(apiGetPostLikeInfo(postId)); 
+                } else {
+                    console.error('[useEffect @PostDetail] apiGetPostLikeInfo is NOT a function! Check import path or export in LikeAPICalls.js');
+                }
+            } else {
+                // 비로그인 시 (선택적: '좋아요 개수'만 가져오는 API가 있다면 호출 또는 기본값 처리)
+                console.log('[useEffect @PostDetail] Not logged in, SKIPPING user-specific apiGetPostLikeInfo. Consider fetching public like count if available.');
+                // 만약 비로그인 사용자에게도 게시물의 '총 좋아요 수'를 보여주고 싶다면,
+                // LikeAPICalls.js에 해당 API만 호출하는 별도의 Thunk를 만들거나,
+                // 여기서 getPostLikeInfoSuccess와 유사한 액션을 likeCount만 채워서 디스패치할 수 있습니다.
+                // (현재 apiGetPostLikeInfo는 isLiked와 likeCount를 모두 가져오려 하고, isLiked는 인증이 필요할 수 있음)
+                // 가장 간단하게는, PostDetail에서 likeCount만 보여주므로, 비로그인 시 likeCount를 0 또는 서버에서 받은 초기값으로 둔다.
+                // 아니면, post 객체에 likeCount가 포함되어 있다면 그것을 초기값으로 활용 (위 useSelector에서 이미 반영 시도)
+            }
+        } else {
+            console.log('[useEffect @PostDetail] No postId, SKIPPING API calls.');
+        }
+    }, [dispatch, postId]); // postId가 변경될 때마다 이 useEffect가 재실행됩니다.
+                           // 만약 로그인 상태(isLoggedIn) 변경 시에도 재호출이 필요하면 의존성 배열에 isLoggedIn 추가.
+
 
     // --- 초기 팔로우 상태 확인 useEffect ---
     useEffect(() => {

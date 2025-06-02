@@ -1,6 +1,6 @@
 import {
-    getPostLikeInfoRequest,      // 추가
-    updatePostLikeStatusRequest, // 추가
+    getPostLikeInfoRequest,
+    updatePostLikeStatusRequest,
     getPostLikeInfoSuccess,
     updatePostLikeStatusSuccess,
     postLikeFailure
@@ -23,6 +23,7 @@ export const apiGetPostLikeInfo = (postId) => {
     return async (dispatch) => {
         console.log(`[LikeAPICalls] apiGetPostLikeInfo THUNK for postId: ${postId}`);
         dispatch(getPostLikeInfoRequest(postId)); // API 호출 시작 알림
+        
 
         try {
             const [statusResponse, countResponse] = await Promise.all([
@@ -35,9 +36,6 @@ export const apiGetPostLikeInfo = (postId) => {
                     headers: { 'Content-Type': 'application/json', Accept: '*/*' }
                 })
             ]);
-
-            // isLiked와 likeCount를 개별적으로 처리하여 하나가 실패해도 다른 하나는 반영될 수 있도록 고려
-            // 또는 둘 다 성공해야만 상태를 업데이트하도록 할 수도 있습니다. 여기서는 각각 처리 시도.
 
             let isLiked = false; // 기본값
             if (statusResponse.ok) {
@@ -124,8 +122,10 @@ export const apiUnlikePost = (postId) => {
     return async (dispatch) => {
         console.log(`[LikeAPICalls] apiUnlikePost THUNK for postId: ${postId}`);
         dispatch(updatePostLikeStatusRequest(postId)); // API 호출 시작 알림
+        console.log(`[LikeAPICalls] Dispatched getPostLikeInfoRequest for postId: ${postId}`);
 
         try {
+            console.log(`[LikeAPICalls] Attempting Promise.all for postId: ${postId}`);
             const response = await fetch(requestURL, {
                 method: 'DELETE',
                 headers: { ...getAuthHeader(), 'Content-Type': 'application/json', Accept: '*/*' }
@@ -137,7 +137,7 @@ export const apiUnlikePost = (postId) => {
             if (!response.ok) {
                 throw new Error(responseData.message || `좋아요 취소 요청 실패 (상태: ${response.status})`);
             }
-
+            console.log(`[LikeAPICalls] Promise.all COMPLETED for postId: ${postId}`);
             const payload = {
                 postId: postId, // payload에 postId 추가
                 isLiked: responseData.isLiked,

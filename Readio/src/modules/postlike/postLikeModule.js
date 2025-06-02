@@ -17,21 +17,30 @@ export const GET_POST_LIKE_INFO_SUCCESS = 'like/GET_POST_LIKE_INFO_SUCCESS';
 export const UPDATE_POST_LIKE_STATUS_SUCCESS = 'like/UPDATE_POST_LIKE_STATUS_SUCCESS';
 export const POST_LIKE_FAILURE = 'like/POST_LIKE_FAILURE';
 
-const actionCreators = createActions({
-    [GET_POST_LIKE_INFO_REQUEST]: (postId) => ({ postId }),
-    [UPDATE_POST_LIKE_STATUS_REQUEST]: (postId) => ({ postId }),
-    [GET_POST_LIKE_INFO_SUCCESS]: (payload) => payload,
-    [UPDATE_POST_LIKE_STATUS_SUCCESS]: (payload) => payload,
-    [POST_LIKE_FAILURE]: (payload) => payload,
+export const getPostLikeInfoRequest = (postId) => ({
+    type: GET_POST_LIKE_INFO_REQUEST,
+    payload: { postId }
 });
 
-export const {
-    getPostLikeInfoRequest,
-    updatePostLikeStatusRequest,
-    getPostLikeInfoSuccess,
-    updatePostLikeStatusSuccess,
-    postLikeFailure
-} = actionCreators;
+export const updatePostLikeStatusRequest = (postId) => ({
+    type: UPDATE_POST_LIKE_STATUS_REQUEST,
+    payload: { postId }
+});
+
+export const getPostLikeInfoSuccess = (payload) => ({ // payload: { postId, isLiked, likeCount }
+    type: GET_POST_LIKE_INFO_SUCCESS,
+    payload
+});
+
+export const updatePostLikeStatusSuccess = (payload) => ({ // payload: { postId, isLiked, likeCount }
+    type: UPDATE_POST_LIKE_STATUS_SUCCESS,
+    payload
+});
+
+export const postLikeFailure = (payload) => ({ // payload: { postId, error }
+    type: POST_LIKE_FAILURE,
+    payload
+});
 
 const likeReducer = handleActions(
     {
