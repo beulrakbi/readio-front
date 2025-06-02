@@ -1,13 +1,32 @@
 import { useEffect, useState } from "react";
 import BookReviewCSS from "./BookReview.module.css";
-// JWT 토큰 디코딩 라이브러리 임포트 (예시, 실제 설치 필요: npm install jwt-decode)
-// import { jwtDecode } from 'jwt-decode'; // jwt-decode 라이브러리를 사용한다면 주석 해제
 
 // 좋아요 이미지 (예시 경로, 실제 경로로 대체 필요)
 import heartIcon from '../../assets/likes2.png'; // 좋아요 아이콘 (빈)
 import filledHeartIcon from '../../assets/likes.png'; // 좋아요 아이콘 (꽉 찬)
 
-function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
+// getAuthHeader 함수를 BookReview 컴포넌트 외부에서 정의하여 재사용 가능하게 하거나,
+// BookReview 컴포넌트 내부에서 정의하되, props로 받는 getAuthToken 함수와의 역할 분담을 명확히 해야 합니다.
+// 현재 질문 맥락상, getAuthToken이 Bearer 토큰 문자열 자체를 반환하는 것이 아니라
+// { 'Authorization': 'Bearer <token>' } 형태의 헤더 객체를 반환하는 함수라고 가정하고 수정합니다.
+// 만약 getAuthToken이 순수하게 토큰 문자열만 반환한다면, 아래 getAuthHeader 함수를 새로 정의해야 합니다.
+
+// 임시로 이 파일 내부에 getAuthHeader를 정의합니다.
+// 만약 이 함수가 여러 컴포넌트에서 사용된다면, 별도의 유틸리티 파일로 분리하는 것이 좋습니다.
+const getAuthHeader = () => {
+    const token = sessionStorage.getItem('accessToken'); // 또는 localStorage.getItem('accessToken');
+                                                         // 프로젝트의 토큰 저장 방식에 맞춰 선택하세요.
+    // console.log("BookReview.jsx: getAuthHeader 토큰:", token); // 디버깅용
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
+
+function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
+    // getAuthToken prop이 더 이상 필요 없을 수 있습니다. (외부에서 getAuthHeader를 사용하기 때문에)
+    // 그러나 현재 코드에서는 jwtDecode를 위해 token 문자열이 필요하므로,
+    // getAuthToken prop은 그대로 유지하고, API 호출에는 getAuthHeader를 사용하는 것이 좋습니다.
+    // 여기서는 getAuthToken이 토큰 문자열을 반환한다고 가정합니다.
+
     const [reviewContent, setReviewContent] = useState('');
     const [reviews, setReviews] = useState([]);
     const [loadingReviews, setLoadingReviews] = useState(true);
@@ -27,7 +46,18 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
         setReviewsError(null);
         try {
             console.log(`[BookReview.jsx] 리뷰 목록 조회 시작: bookIsbn=${bookIsbn}`);
-            const reviewsRes = await fetch(`http://localhost:8080/bookReview/${bookIsbn}`);
+            
+            // 리뷰 조회는 인증이 필수는 아닐 수 있으므로, 헤더를 조건부로 추가합니다.
+            // 하지만 백엔드에서 `isLiked` 정보를 주려면 토큰이 필요합니다.
+            const headers = getAuthHeader(); // 인증 헤더 가져오기
+
+            const reviewsRes = await fetch(`http://localhost:8080/bookReview/${bookIsbn}`, {
+                method: 'GET',
+                // 토큰이 존재할 경우에만 Authorization 헤더를 추가합니다.
+                // 이렇게 하면 로그인하지 않은 사용자도 리뷰를 볼 수 있습니다.
+                headers: Object.keys(headers).length > 0 ? headers : {}
+            });
+
             if (!reviewsRes.ok) {
                 throw new Error(`리뷰 목록을 불러오는 데 실패했습니다: ${reviewsRes.status} ${reviewsRes.statusText}`);
             }
@@ -60,15 +90,19 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
         }
     };
 
-    // 컴포넌트 마운트 시, 또는 bookIsbn/getAuthToken 변경 시 리뷰 목록 및 사용자 정보 로드
+    // 컴포넌트 마운트 시, 또는 bookIsbn 변경 시 리뷰 목록 및 사용자 정보 로드
     useEffect(() => {
         const loadReviewsAndUser = async () => {
             // 사용자 정보 설정
-            const token = getAuthToken(); // 이 함수가 isLoggedIn 상태도 업데이트합니다.
+            const token = localStorage.getItem('accessToken'); // 여기서는 직접 localStorage에서 가져옵니다.
+                                                              // getAuthToken prop을 사용하지 않는 경우
             if (token) {
                 try {
+                    // JWT 토큰 디코딩 라이브러리를 사용한다면
+                    // const decodedToken = jwtDecode(token);
+                    // 또는 수동 디코딩
                     const decodedToken = JSON.parse(atob(token.split('.')[1]));
-                    setCurrentLoggedInUserId(decodedToken.sub);
+                    setCurrentLoggedInUserId(decodedToken.sub); // 'sub'는 보통 userId를 나타냅니다.
                     console.log("[BookReview.jsx] 로그인된 사용자 ID (토큰 디코딩 - decodedToken.sub):", decodedToken.sub);
                 } catch (e) {
                     console.error("JWT 토큰 디코딩 실패 또는 토큰 형식 오류:", e);
@@ -85,8 +119,7 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
         if (bookIsbn) {
             loadReviewsAndUser();
         }
-    }, [bookIsbn, getAuthToken]);
-
+    }, [bookIsbn, isLoggedIn]); // isLoggedIn도 의존성 배열에 추가하여 로그인 상태 변화 시 리뷰 목록 새로고침
 
     // 리뷰 내용 변경 핸들러
     const handleReviewContentChange = (e) => {
@@ -95,8 +128,8 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
 
     // 리뷰 작성 버튼 클릭 핸들러
     const handleReviewSubmit = async () => {
-        const token = getAuthToken();
-        if (!token) {
+        const authHeader = getAuthHeader(); // 인증 헤더 가져오기
+        if (!authHeader['Authorization']) { // 헤더에 Authorization이 없으면 토큰이 없는 것
             alert("로그인 후 리뷰를 작성할 수 있습니다.");
             return;
         }
@@ -111,7 +144,7 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    ...authHeader // 인증 헤더 적용
                 },
                 body: JSON.stringify({
                     bookIsbn: bookIsbn,
@@ -146,8 +179,8 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
 
     // 좋아요 버튼 클릭 핸들러 (수정)
     const handleLikeClick = async (reviewId) => {
-        const token = getAuthToken();
-        if (!token) {
+        const authHeader = getAuthHeader(); // 인증 헤더 가져오기
+        if (!authHeader['Authorization']) {
             alert("로그인 후 좋아요를 누를 수 있습니다.");
             return;
         }
@@ -170,13 +203,13 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
                 console.log(`[BookReview.jsx] 좋아요 해제 시도: reviewId=${reviewId}`);
                 res = await fetch(`http://localhost:8080/bookReview/review/${reviewId}/like`, { // DELETE 요청
                     method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: authHeader // 인증 헤더 적용
                 });
             } else { // 좋아요를 누르지 않았다면, 좋아요 등록 (POST)
                 console.log(`[BookReview.jsx] 좋아요 등록 시도: reviewId=${reviewId}`);
                 res = await fetch(`http://localhost:8080/bookReview/reviews/${reviewId}/like`, { // POST 요청
                     method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: authHeader // 인증 헤더 적용
                 });
             }
 
@@ -185,7 +218,7 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
                 throw new Error(`좋아요 처리 실패: ${res.status} ${errorText}`);
             }
 
-            alert(reviewToToggle.isLiked ? "좋아요가 해제되었습니다." : "좋아요 처리되었습니다.");
+            // alert(reviewToToggle.isLiked ? "좋아요가 해제되었습니다." : "좋아요 처리되었습니다.");
             fetchReviews(); // 좋아요 상태 및 카운트 업데이트를 위해 리뷰 목록 새로고침
 
         } catch (err) {
@@ -196,8 +229,8 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
 
     // 신고 버튼 클릭 핸들러
     const handleReportClick = async (reviewId) => {
-        const token = getAuthToken();
-        if (!token) {
+        const authHeader = getAuthHeader(); // 인증 헤더 가져오기
+        if (!authHeader['Authorization']) {
             alert("로그인 후 리뷰를 신고할 수 있습니다.");
             return;
         }
@@ -206,9 +239,7 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
             try {
                 const res = await fetch(`http://localhost:8080/bookReview/${reviewId}/report`, {
                     method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: authHeader // 인증 헤더 적용
                 });
                 if (!res.ok) {
                     const errorText = await res.text();
@@ -225,8 +256,8 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
 
     // 리뷰 삭제 핸들러
     const handleDeleteClick = async (reviewId, reviewerUserId) => {
-        const token = getAuthToken();
-        if (!token) {
+        const authHeader = getAuthHeader(); // 인증 헤더 가져오기
+        if (!authHeader['Authorization']) {
             alert("로그인이 필요합니다.");
             return;
         }
@@ -242,9 +273,7 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
                 console.log(`[BookReview.jsx] 리뷰 삭제 시도: ID ${reviewId}`);
                 const res = await fetch(`http://localhost:8080/bookReview/delete/${reviewId}`, {
                     method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: authHeader // 인증 헤더 적용
                 });
 
                 if (!res.ok) {
@@ -256,7 +285,7 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
                 fetchReviews(); // 삭제 후 리뷰 목록 새로고침
 
             } catch (err) {
-                    alert(`리뷰 삭제 중 오류 발생: ${err.message}`);
+                alert(`리뷰 삭제 중 오류 발생: ${err.message}`);
                 console.error("[BookReview.jsx] 리뷰 삭제 중 오류 발생:", err);
             }
         }
@@ -304,7 +333,7 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
                             <div className={BookReviewCSS.reviewerInfo}>
                                 <p className={BookReviewCSS.reviewInfoFont1}>
                                     {/* penName이 없으면 profileId 또는 userId로 대체 */}
-                                    {review.penName ? review.penName : (review.profileId ? `User_${review.profileId}` : '익명')}의 리뷰
+                                    {review.penName ? review.penName : (review.reviewerUserId ? `User_${review.reviewerUserId}` : '익명')}의 리뷰
                                 </p>
                                 <p className={BookReviewCSS.reviewInfoFont2}>
                                     {formatReviewDate(review.createdAt)}
@@ -325,8 +354,8 @@ function BookReview({ bookIsbn, isLoggedIn, getAuthToken, onReviewsLoaded }) {
                                     신고하기
                                 </button>
                                 {/* --- 삭제 버튼 (조건부 렌더링) --- */}
-                                {console.log(`Review ID: ${review.reviewId}, Reviewer: ${review.reviewerUserId}, Current User: ${currentLoggedInUserId}, Condition: ${isLoggedIn && currentLoggedInUserId === review.reviewerUserId}`)} {/* <-- 각 리뷰별 조건 확인 로그 */}
-                                {isLoggedIn && currentLoggedInUserId === review.reviewerUserId && (
+                                {/* console.log(`Review ID: ${review.reviewId}, Reviewer: ${review.reviewerUserId}, Current User: ${currentLoggedInUserId}, Condition: ${isLoggedIn && currentLoggedInUserId === review.reviewerUserId}`); // <-- 각 리뷰별 조건 확인 로그 */}
+                                {isLoggedIn && currentLoggedInUserId && (currentLoggedInUserId.toString() === review.reviewerUserId.toString()) && (
                                     <button
                                         className={BookReviewCSS.reviewBt}
                                         onClick={() => handleDeleteClick(review.reviewId, review.reviewerUserId)}

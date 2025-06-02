@@ -10,16 +10,31 @@ function Bookmark() {
   const [error, setError] = useState(null); // 에러 상태
   const navigate = useNavigate(); // useNavigate 훅 초기화
 
+  // getAuthToken 함수는 localStorage에서 토큰을 가져옵니다.
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
+  };
+
+  // getAuthHeader 함수는 sessionStorage에서 토큰을 가져와 헤더 객체를 반환합니다.
+  // 이 함수는 컴포넌트 스코프의 최상단에 선언되어 모든 요청에서 재사용될 수 있어야 합니다.
+  const getAuthHeader = () => {
+    const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    console.log("필터링 토큰 :", token);
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
   };
 
   const fetchBookmarks = async () => {
     setLoading(true);
     setError(null);
-    const token = getAuthToken();
+    const token = getAuthToken(); // localStorage에서 토큰 가져오기 (만약 getAuthHeader가 sessionStorage 사용한다면 이 부분과 충돌 확인)
 
-    if (!token) {
+    // getAuthHeader는 sessionStorage에서 가져오므로, getAuthToken과의 사용처를 명확히 해야 합니다.
+    // 여기서는 getAuthHeader에서 토큰을 직접 가져오므로, 위 getAuthToken 호출은 불필요할 수 있습니다.
+    // 일관성을 위해 모든 인증 관련 토큰은 getAuthHeader()를 통해 가져오는 것을 권장합니다.
+    const authHeader = getAuthHeader(); // 인증 헤더 미리 생성
+
+    // 토큰이 없을 경우 바로 에러 처리
+    if (!authHeader['Authorization']) { // 'Authorization' 키의 존재 여부로 토큰 유무 확인
       setError("로그인이 필요합니다.");
       setLoading(false);
       return;
@@ -28,10 +43,14 @@ function Bookmark() {
     try {
       // 1. 영상 북마크 목록 가져오기 (기존 로직)
       const videoRes = await fetch('http://localhost:8080/videoBookmark/list', {
+        method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          ...authHeader // getAuthHeader에서 생성된 헤더 객체 사용
+        },
       });
+
       if (!videoRes.ok) {
         const errorText = await videoRes.text();
         throw new Error(`영상 북마크 목록 조회 실패: ${videoRes.status} ${errorText}`);
@@ -40,11 +59,14 @@ function Bookmark() {
       setBookmarkedVideos(videoData);
 
       // 2. 책 북마크 목록 가져오기 (새로운 로직 추가)
-      const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${localStorage.getItem('userId')}`, { // userId를 직접 보내는 경우
-      // OR 만약 백엔드 Controller가 @AuthenticationPrincipal UserDetails를 사용한다면 userId 파라미터는 필요 없음
-      // const bookRes = await fetch('http://localhost:8080/bookBookmark/list', {
+      // userId 파라미터가 필요한지 백엔드 API 명세에 따라 확인하세요.
+      // 만약 백엔드 Controller가 @AuthenticationPrincipal UserDetails를 사용한다면 userId 파라미터는 필요 없음.
+      const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${localStorage.getItem('userId')}`, {
+      // 또는 userId 없이 호출: const bookRes = await fetch('http://localhost:8080/bookBookmark/list', {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json', // 책 북마크에도 Content-Type 추가 (필요시)
+          Accept: '*/*', // 책 북마크에도 Accept 추가 (필요시)
+          ...authHeader // getAuthHeader에서 생성된 헤더 객체 사용
         }
       });
       if (!bookRes.ok) {
@@ -67,8 +89,9 @@ function Bookmark() {
   }, []);
 
   const deleteItem = async (tab, id) => {
-    const token = getAuthToken();
-    if (!token) {
+    const authHeader = getAuthHeader(); // 삭제 요청 시에도 인증 헤더 사용
+
+    if (!authHeader['Authorization']) {
       alert("로그인이 필요합니다.");
       return;
     }
@@ -88,9 +111,7 @@ function Bookmark() {
 
       const res = await fetch(url, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: authHeader // 인증 헤더 적용
       });
 
       if (!res.ok) {
@@ -126,7 +147,7 @@ function Bookmark() {
     <div className={styles.bookmarkContainer}>
       {/* 뒤로가기 버튼: navigate(-1)을 사용하면 이전 페이지로 이동합니다. */}
       {/* <button className={styles.backButton} onClick={() => navigate(-1)}>< cOwsun</button> */}
-      <button className={styles.backButton}>&lt; cOwsun</button>
+      <button className={styles.backButton}>< cOwsun/></button>
 
       <div className={styles.tabContainer}>
         <div className={styles.tabButtonWrapper}>
@@ -196,6 +217,8 @@ function Bookmark() {
                     style={{ cursor: 'pointer' }} // 시각적 피드백
                   >
                     <img
+                      // 주의: 'https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg' 부분의 '0'을 확인해주세요.
+                      // 실제 YouTube 썸네일 URL 형식은 다를 수 있습니다. 일반적으로 'https://img.youtube.com/vi/{videoId}/mqdefault.jpg' 입니다.
                       src={`https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`}
                       alt={item.videoTitle}
                       className={styles.videoThumbnail}
