@@ -89,7 +89,7 @@ const ProfileSection = () => {
             <div className={styles.outProfileInfo}>
                 <div className={styles.stats}>
                     <div className={styles.statItem} onClick={handlePostClick} style={{ cursor: 'pointer' }}>
-                        <strong>3</strong><span>포스트</span>
+                        <strong >3</strong><span>포스트</span>
                     </div>
                     <div className={styles.statItem}><strong>5</strong><span>리뷰</span></div>
                     <div className={styles.statItem}><strong>3</strong><span>관심 영상</span></div>
@@ -98,7 +98,7 @@ const ProfileSection = () => {
 
                 <div className={styles.buttons}>
                     {isOwner && (
-                        <button className={styles.postBtn}>+ 포스트 작성하기</button>
+                        <button className={styles.postBtn} onClick={() => navigate('post/writing')}>+ 포스트 작성하기</button>
                     )}
                     <button className={styles.interestBtn} onClick={() => navigate('/mylibrary/interest')}>
                         📌 나의 관심사
