@@ -58,6 +58,7 @@ import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
+import VerifyPwdForDelete from "./pages/user/VerifyPwdForDelete.jsx";
 
 
 
@@ -106,12 +107,13 @@ function App() {
             <Route path="users/verifypwd" element={<VerifyPwd />} />                  {/* 비밀번호 확인 */}
             <Route path="users/edit" element={<UserEdit />} />                        {/* 회원정보 수정 */}
             <Route path="users/delete" element={<UserDelete />} />                    {/* 회원탈퇴 */}
+            <Route path="users/verifypwd/delete" element={<VerifyPwdForDelete />} />  {/* 회원탈퇴 전 비밀번호 확인 */}
             <Route path="users/delete/complete" element={<UserDeleteComplete />} />   {/* 회원탈퇴완료 */}
             <Route path="account/suspended" element={<AccountSuspended />} />         {/* 계정정지안내*/}
             <Route path="account" element={<FindAccount />}>                          {/* 계정정보찾기 */}
-              <Route index element={<Navigate to="findid" replace />} />              {/* 기본-아이디찾기 */}
-              <Route path="findid" element={<FindIdForm />} />                        {/* 아이디찾기 */}
-              <Route path="findpwd" element={<FindPwdForm />} />                      {/* 비밀번호찾기 */}
+              <Route index element={<Navigate to="findId" replace />} />              {/* 기본-아이디찾기 */}
+              <Route path="findId" element={<FindIdForm />} />                        {/* 아이디찾기 */}
+              <Route path="findPwd" element={<FindPwdForm />} />                      {/* 비밀번호찾기 */}
             </Route>
             <Route path="/bookPage/:bookIsbn" element={<BookPage />} />
             <Route path="/notice" element={<NoticeList />} />

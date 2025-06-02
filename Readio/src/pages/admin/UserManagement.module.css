@@ -87,11 +87,12 @@
 }
 
 .deleteButton {
-    background-color: #ef4444;
+    background-color: #AF4C3F;
     color: white;
-    padding: 3px 9px;
+    padding: 5px 15px;
     border-radius: 5px;
     border-style: none;
+    cursor: pointer;
 }
 
 .rowGroup {
@@ -175,7 +176,7 @@
     /* border-radius: 10px; */
     min-width: 500px;
     max-width: 600px;
-    
+
 }
 
 .modalTitle {
@@ -187,9 +188,9 @@
 }
 
 .sectionTitle {
-  font-size: 14pt;
-  font-weight: 500;
-  margin: 10px 15px;
+    font-size: 14pt;
+    font-weight: 500;
+    margin: 10px 15px;
 }
 
 .line2 {
@@ -240,5 +241,51 @@
     cursor: pointer;
 }
 
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
 
+.modalRoleTitleBox {
+    background: white;
+    padding: 15px 40px;
+    border-radius: 8px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
 
+.modalRoleTitle {
+    margin-bottom: 35px;
+}
+
+.modalRoleContent {
+    line-height: 2.5;
+}
+
+.modalButtons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.modalButtons button {
+    background-color: #808467;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: white;
+    border: none;
+}
+
+.modalButtons button:hover {
+    background-color: #AF4C3F;
+}

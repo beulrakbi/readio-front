@@ -23,8 +23,8 @@ const CalendarSection = () => {
 
     useEffect(() => {
         const fetchEmotions = async () => {
-            const token = localStorage.getItem("accessToken");
-            const userId = localStorage.getItem("userId");
+            const token = sessionStorage.getItem("accessToken");
+            const userId = sessionStorage.getItem("userId");
             if (!token || !userId) return;
 
             try {
