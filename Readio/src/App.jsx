@@ -147,10 +147,10 @@ function App() {
             <Route path="filtering/create" element={<FilteringCreatePage />} />
             <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
             <Route path="filtering/:groupId/edit" element={<FilteringModifyPage />} />
-            <Route path="reported/review/list" element={<ReportedReviewListPage />} />
-            <Route path="reported/review/detail" element={<ReportedReviewDetailPage />} />
-            <Route path="reported/post/list" element={<ReportedPostListPage />} />
-            <Route path="reported/post/detail" element={<ReportedPostDetailPage />} />
+            <Route path="reported/review" element={<ReportedReviewListPage />} />
+            <Route path="reported/review/:reportId" element={<ReportedReviewDetailPage />} />
+            <Route path="reported/post" element={<ReportedPostListPage />} />
+            <Route path="reported/post/:reportId" element={<ReportedPostDetailPage />} />
             <Route path="/admin/notice" element={<AdminNoticeList />} />
             <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
             <Route path="/admin/faq" element={<AdminFaqList />} />

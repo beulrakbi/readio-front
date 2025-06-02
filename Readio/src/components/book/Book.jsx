@@ -16,8 +16,8 @@ function Book() {
     useEffect(() => {
 
         const getBookInfo = async () => {
-            const test = await dispatch(callBookAPI({bookIsbn: param.bookIsbn}));
-            setBook(test);
+            const foundBook = await dispatch(callBookAPI({bookIsbn: param.bookIsbn}));
+            setBook(foundBook);
         }
         if (book && book.bookCover) {
             setBookCover(book.bookCover.replace("coversum", "cover500"));
