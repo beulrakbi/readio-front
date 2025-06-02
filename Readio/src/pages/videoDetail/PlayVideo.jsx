@@ -20,32 +20,26 @@ function PlayVideo() {
         return sessionStorage.getItem('accessToken'); 
     };
     
-    console.log('북마크 버튼 활성화');
-
     useEffect(() => {
         const fetchVideoAndBookmarkStatus = async () => {
             try {
-                // 1. 비디오 기본 정보 가져오기 (변동 없음)
+                // 1. 비디오 기본 정보 가져오기
                 const videoRes = await fetch(`http://localhost:8080/video/id/${videoId}`); 
                 if (!videoRes.ok) throw new Error(`Status ${videoRes.status}`);         
                 const videoResDto = await videoRes.json();
                 setVideoInfo(videoResDto.data);
 
-                // 2. 로그인 여부와 상관없이 총 북마크 개수 가져오기 (새로운 publicCount API 사용)
+                // 2. 총 북마크 개수 가져오기
                 const publicCountRes = await fetch(`http://localhost:8080/videoBookmark/publicCount/${videoId}`);
                 if (publicCountRes.ok) {
                     const publicCount = await publicCountRes.json();
                     setBookmarkCount(publicCount);
-                    console.log("useEffect: 총 북마크 개수 설정됨 (publicCount API):", publicCount);
                 } else {
-                    console.error("총 북마크 개수 불러오기 실패:", publicCountRes.status, publicCountRes.statusText);
                     setBookmarkCount(0);
                 }
 
-                // 3. 토큰이 있을 경우에만 사용자별 북마크 상태 가져오기 (status API는 이제 인증 필요)
+                // 3. 토큰 있을 경우 사용자별 북마크 상태 가져오기
                 const token = getAuthToken();
-                console.log("useEffect: 현재 토큰:", token);
-
                 if (token) {
                     const bookmarkStatusRes = await fetch(`http://localhost:8080/videoBookmark/status/${videoId}`, {
                         headers: {
@@ -53,25 +47,19 @@ function PlayVideo() {
                         }
                     });
                     if (!bookmarkStatusRes.ok) {
-                        console.error("사용자 북마크 상태 불러오기 실패:", bookmarkStatusRes.status, await bookmarkStatusRes.text());
                         setIsBookmarked(false);
-                        console.log("useEffect: isBookmarked 설정됨 (status API 실패): false");
+                        setUserBookmarkId(null);
                     } else {
                         const bookmarkData = await bookmarkStatusRes.json();
-                        // !!! 이 부분 변경: bookmarkData.isBookmarked -> bookmarkData.bookmarked
-                        setIsBookmarked(bookmarkData.bookmarked); // <-- 여기를 수정했습니다!
-                        console.log("useEffect: isBookmarked 설정됨 (status API 응답):", bookmarkData.bookmarked); // 로그도 수정
+                        setIsBookmarked(bookmarkData.bookmarked);
                         setUserBookmarkId(bookmarkData.bookmarkId);
-                        console.log("useEffect: 받은 북마크 상태 데이터:", bookmarkData);
                     }
                 } else {
                     setIsBookmarked(false);
-                    console.log("useEffect: isBookmarked 설정됨 (토큰 없음): false");
                     setUserBookmarkId(null);
                 }
 
             } catch (err) {
-                console.error("초기 데이터 로드 중 오류 발생:", err);
                 setError(err.message);
             }
         };
@@ -82,8 +70,8 @@ function PlayVideo() {
     if (error) return <div>오류 발생: {error}</div>;
     if (!videoInfo) return <div>로딩 중…</div>;
 
+    
     const handleImageClick = async () => {
-        console.log('북마크 버튼 활성화');
         const token = getAuthToken();
         if (!token) {
             alert("로그인이 필요합니다.");
@@ -91,45 +79,50 @@ function PlayVideo() {
         }
 
         try {
-            let updatedBookmarkCount;
-
-            if (isBookmarked) { // 현재 북마크 되어있으면 -> 삭제 요청
+            if (isBookmarked) {
+                // 북마크 삭제
                 if (!userBookmarkId) {
                     alert("북마크 ID를 찾을 수 없어 삭제할 수 없습니다. (재로그인 필요)");
                     return;
                 }
                 const res = await fetch(`http://localhost:8080/videoBookmark/delete/${userBookmarkId}`, {
                     method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (!res.ok) throw new Error(`북마크 삭제 실패: ${res.status}`);
-                
-                updatedBookmarkCount = await res.json();
+
                 alert("즐겨찾기가 삭제되었습니다.");
                 setIsBookmarked(false);
-                console.log("handleImageClick: isBookmarked 설정됨 (삭제 성공): false");
+                setBookmarkCount(prev => Math.max(prev - 1, 0));
                 setUserBookmarkId(null);
-            } else { // 현재 북마크 안 되어있으면 -> 등록 요청
+
+            } else {
+                // 북마크 생성
                 const res = await fetch('http://localhost:8080/videoBookmark/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ videoId: videoId })
+                    body: JSON.stringify({ videoId })
                 });
                 if (!res.ok) throw new Error(`북마크 등록 실패: ${res.status}`);
-                
-                updatedBookmarkCount = await res.json();
+
+                // 서버가 bookmarkId를 안 주므로, 생성 후 상태 다시 조회
+                const statusRes = await fetch(`http://localhost:8080/videoBookmark/status/${videoId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!statusRes.ok) throw new Error(`북마크 상태 조회 실패: ${statusRes.status}`);
+
+                const statusData = await statusRes.json();
+
+                setIsBookmarked(statusData.bookmarked);
+                setUserBookmarkId(statusData.bookmarkId);
+                setBookmarkCount(prev => prev + 1);
+
                 alert("즐겨찾기가 성공적으로 등록되었습니다.");
-                setIsBookmarked(true);
-                console.log("handleImageClick: isBookmarked 설정됨 (등록 성공): true");
             }
-            setBookmarkCount(updatedBookmarkCount);
         } catch (err) {
-            console.error('북마크 처리 실패', err);
             setError(err.message);
             alert(`오류 발생: ${err.message}`);
         }
@@ -141,7 +134,7 @@ function PlayVideo() {
                 method : 'POST'
             });
         } catch (err) {
-            console.error('조회수 증가 실패' , err);
+            console.error('조회수 증가 실패', err);
         }
         setHasPlayed(true);
     }
@@ -184,7 +177,7 @@ function PlayVideo() {
                             <div className={styles.BookMark}>
                                 북마크 {bookmarkCount}
                                 <img 
-                                    src={isBookmarked ? bookMarkO : bookMarkX} // isBookmarked 상태에 따라 이미지 소스 결정
+                                    src={isBookmarked ? bookMarkO : bookMarkX}
                                     alt="BookMark"
                                     onClick={handleImageClick}
                                     className={styles.bookmark}
@@ -197,14 +190,10 @@ function PlayVideo() {
                     </div>
                     
                     <RecommandedVideoList keyword = {videoInfo.title} />
-
                 </div>
-
             </div>
         </>
     );
 }
 
 export default PlayVideo;
-
-//커밋용 주석

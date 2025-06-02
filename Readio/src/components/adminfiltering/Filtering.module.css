@@ -268,7 +268,7 @@
 .buttonDiv {
     display: flex;
     flex-direction: row;
-    /* gap: 10px; */
+     gap: 10px;
 }
 
 .filteringDetailContent {

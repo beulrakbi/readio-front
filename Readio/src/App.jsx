@@ -127,7 +127,7 @@ function App() {
             <Route path="/qna/writing" element={<QnaWriting />} />
             <Route path="/qna/writing/:qnaId" element={<QnaWriting />} />
             <Route path="/faq" element={<Faq />} />
-            <Route path="/bookmark" element={<Bookmark />} />
+            <Route path="/bookmark/:targetUserId" element={<Bookmark />} />
             <Route path="/notice" element={<Search />} />
             <Route path="/search/video" element={<SearchVideoList />} />
             <Route path="/search/book" element={<SearchBookList />} />
@@ -138,9 +138,9 @@ function App() {
             <Route path="mylibrary/interest" element={<InterestViewPage />} />
             <Route path="mylibrary/interest/edit" element={<InterestEditPage />} />
             <Route path="mylibrary/calendar" element={<CalendarPage />} />
-            <Route path="post/writing" element={<PostWriting />} />
-            <Route path="post/writing/book" element={<PostWritingBook />} />
-            <Route path="post" element={<PostDetail />} />
+            <Route path="mylibrary/post/writing" element={<PostWriting />} />
+            <Route path="mylibrary/post/writing/book" element={<PostWritingBook />} />
+            <Route path="mylibrary/post/:postId" element={<PostDetail />} />
             <Route path="feed" element={<FeedMain />} />
             <Route path="mylibrary/follow" element={<FollowList />} />
             <Route path="mylibrary/postlist" element={<PostList />} />
@@ -153,10 +153,10 @@ function App() {
             <Route path="filtering/create" element={<FilteringCreatePage />} />
             <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
             <Route path="filtering/:groupId/edit" element={<FilteringModifyPage />} />
-            <Route path="reported/review/list" element={<ReportedReviewListPage />} />
-            <Route path="reported/review/detail" element={<ReportedReviewDetailPage />} />
-            <Route path="reported/post/list" element={<ReportedPostListPage />} />
-            <Route path="reported/post/detail" element={<ReportedPostDetailPage />} />
+            <Route path="reported/review" element={<ReportedReviewListPage />} />
+            <Route path="reported/review/:reportId" element={<ReportedReviewDetailPage />} />
+            <Route path="reported/post" element={<ReportedPostListPage />} />
+            <Route path="reported/post/:reportId" element={<ReportedPostDetailPage />} />
             <Route path="/admin/notice" element={<AdminNoticeList />} />
             <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
             <Route path="/admin/faq" element={<AdminFaqList />} />
