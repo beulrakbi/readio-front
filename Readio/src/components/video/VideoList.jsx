@@ -7,14 +7,18 @@ import rightButton from "../../assets/arrow-right.png";
 import Video from "./Video";
 import VIdeoInDB from "./VIdeoInDB.jsx";
 import VideoListCSS from "./videoList.module.css";
+import { saveClickLog } from '../../apis/StatisticsAPICalls';
 
 function VideoList({type, userId})
 {
+    console.log(type);
     const [videoList, setVideoList] = useState([]);
     const [videoInDBList, setVideoInDBList] = useState([]);
     const [videoListTitle, setVideoListTitle] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate(); // 추가 !
+
+    // const typeId = type.typeId;
 
     useEffect(() => {
 
@@ -78,6 +82,30 @@ function VideoList({type, userId})
     const rightButtonHandler = () => {
         scrollRef.current.scrollBy({ left: 800, behavior: 'smooth' });
     }
+    function getOrCreateAnonymousUserId() {
+        return "guest";
+    }
+
+
+    const handleClickVideo = async (videoId) => {
+        // 1. userId 가져오기 or anonymous 생성
+        const userId = sessionStorage.getItem("userId") || getOrCreateAnonymousUserId();
+
+        try {
+            await saveClickLog({
+                contentId: videoId,
+                contentType: 'video',
+                action: 'click',
+                userId: userId,
+                timestamp: new Date().toISOString()
+            });
+        } catch (err) {
+            console.error(" 클릭 로그 저장 실패:", err);
+        }
+
+        navigate(`/video/${videoId}`);
+    };
+
 
     return (
         videoInDBList && videoList &&
