@@ -177,6 +177,7 @@ const FindPwdForm = () => {
       console.log(res.data);
       alert('인증번호 발송이 완료되었습니다.');
       setTimer(1800);
+      // setMessage('인증번호가 이메일로 전송되었습니다.');
     } catch (err) {
       console.log(err)
       const errorMessage = err.response?.data?.message || '인증번호 전송 실패';

@@ -187,6 +187,16 @@ function Join() {
     // 아이디 중복확인 핸들러
     const onClickCheckId = async () => {
 
+        // 중복확인 시에도 유효성검사 체크 필요
+        const idRegExp = /^[a-zA-Z0-9]{6,20}$/;
+
+        if (!idRegExp.test(form.userId)) {
+            setIdMessage("아이디 형식이 올바르지 않습니다. 6~20자의 영문 또는 숫자만 사용 가능합니다.");
+            setIsId(false);
+            setIsIdChecked(false);
+            return;
+        }
+
         try {
             const response = await axios.get(`http://localhost:8080/users/join/check-id`, {
                 params: { userId: form.userId },
@@ -212,8 +222,19 @@ function Join() {
         }
     }
 
-    // 이메일 중복확인
+    // 이메일 중복확인 핸들러
     const onClickCheckEmail = async () => {
+
+        // 중복확인 시에도 유효성검사 체크 필요
+        const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (!emailRegExp.test(form.userEmail)) {
+            setEmailMessage("유효한 이메일 주소를 입력해 주세요.");
+            setIsEmail(false);
+            setIsEmailChecked(false);
+            return;
+        }
+
         try {
             const response = await axios.get(`http://localhost:8080/users/join/check-email`, {
                 params: { userEmail: form.userEmail },
@@ -239,8 +260,18 @@ function Join() {
         }
     }
 
-    // 전화번호 중복확인
+    // 전화번호 중복확인 핸들러
     const onClickCheckPhone = async () => {
+
+        const phoneRegExp = /^(01[016789]|02|0[3-9][0-9])-[0-9]{3,4}-[0-9]{4}$/;
+
+        if (!phoneRegExp.test(form.userPhone)) {
+            setPhoneMessage("'-'를 포함한 올바른 전화번호를 입력해 주세요.");
+            setIsPhone(false);
+            setIsphoneChecked(false);
+            return;
+        }
+
         try {
             const response = await axios.get(`http://localhost:8080/users/join/check-phone`, {
                 params: { userPhone: form.userPhone },
