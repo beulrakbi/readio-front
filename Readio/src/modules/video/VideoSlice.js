@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {callVideosAPI} from "../../apis/VideoAPICalls.js";
 
 const initialState = {
     data:[{
@@ -48,7 +49,7 @@ const videoSlice = createSlice({
         postVideos: (state, action) => {
             state.data.push(...action.payload);
         }
-    }
+    },
 });
 
 export const {
