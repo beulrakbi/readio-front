@@ -187,6 +187,16 @@ function Join() {
     // 아이디 중복확인 핸들러
     const onClickCheckId = async () => {
 
+        // 중복확인 시에도 유효성검사 체크 필요
+        const idRegExp = /^[a-zA-Z0-9]{6,20}$/;
+
+        if (!idRegExp.test(form.userId)) {
+            setIdMessage("아이디 형식이 올바르지 않습니다. 6~20자의 영문 또는 숫자만 사용 가능합니다.");
+            setIsId(false);
+            setIsIdChecked(false);
+            return;
+        }
+
         try {
             const response = await axios.get(`http://localhost:8080/users/join/check-id`, {
                 params: { userId: form.userId },
