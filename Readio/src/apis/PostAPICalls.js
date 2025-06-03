@@ -23,7 +23,7 @@ export const callPostCreateAPI = ({ form }) => {
 			method: 'POST',
 			headers: {
 				Accept: '*/*',
-				...getAuthHeader
+				...getAuthHeader()
 			},
 			body: form
 		}).then((response) => response.json());
