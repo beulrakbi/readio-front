@@ -28,7 +28,8 @@ function Book() {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [bookBookmarkCount, setBookBookmarkCount] = useState(0);
     const [userBookBookmarkId, setUserBookBookmarkId] = useState(null);
-
+    const [description, setDescription] = useState('');
+    const [more, setMore] = useState(false);
     // 로딩 상태 변수
     const [loading, setLoading] = useState(true);
 
@@ -50,7 +51,6 @@ function Book() {
         console.log("필터링 토큰 :",  token)
         return token ? { 'Authorization': `Bearer ${token}` } : {};
     };
-
 
     // 책 정보 및 북마크 상태/개수를 가져오는 비동기 함수
     useEffect(() => {
@@ -144,6 +144,21 @@ function Book() {
         fetchBookInfoAndBookmarkStatus();
     }, [param.bookIsbn, dispatch]);
 
+    useEffect(() => {
+        if (book)
+        {
+            let desc;
+            if (!more)
+            {
+                desc = book.bookDescription.length > 55 ? book.bookDescription.slice(0, 55) + '...' : book.bookDescription;
+            }
+            else
+                desc = book.bookDescription;
+
+            setDescription(desc);
+        }
+    }, [book, more]);
+
     // 북마크 이미지 클릭 핸들러 (생성/삭제)
     const handleBookBookmarkClick = async () => {
         const authHeader = getAuthHeader(); // 인증 헤더 가져오기
@@ -210,6 +225,16 @@ function Book() {
     if (error) return <div>오류 발생: {error}</div>;
     if (!book) return <div>책 정보를 불러올 수 없습니다.</div>;
 
+    const onClickMore = () => {
+        setMore(true);
+        // setDescription(d);
+    }
+    const onClickFold = () => {
+        setMore(false);
+        // const desc = d.length > 55 ? d.slice(0, 55) + '...' : d;
+        // setDescription(desc);
+    }
+
     return (
         <div className={BookCSS.bookPage}>
             <div className={BookCSS.bookSection}>
@@ -233,8 +258,9 @@ function Book() {
                     <span className={BookCSS.infoBold}>{book.bookPublisher} <p className={BookCSS.infoLight}>출판</p></span>
                     <p className={BookCSS.infoBold}>작품 소개</p>
                     <div className={BookCSS.bookDescription}>
-                        <p className={BookCSS.infoLight}>{book.bookDescription}</p>
-                        <button className={BookCSS.more}>더보기</button>
+                        <p className={BookCSS.infoLight}>{JSON.stringify(description)}</p>
+                        {!more ? <button className={BookCSS.more} onClick={() => onClickMore(description)}>더보기</button> :
+                            <button className={BookCSS.more} onClick={() => onClickFold(description)}>접기</button>}
                     </div>
                     <p className={BookCSS.infoBold}>관련 영상</p>
                     <VideosInBook keyword={book.bookTitle} />
