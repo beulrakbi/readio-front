@@ -26,7 +26,7 @@ function VideosInBook({keyword}) {
         const getVideos = async () => {
             const inDB = await searchVideosByKeyword(keyword, dispatch);
             setVideosInDB(inDB.data.videoDTOList);
-            setVideos(await searchNewVideos(keyword, dispatch, 0));
+            setVideos(await searchNewVideos(keyword, dispatch, 0, videosInDB));
         }
         getVideos();
     }, [keyword])

@@ -118,7 +118,6 @@ export const callReportedPostAPI = ({reportId}) => {
         console.log("reportedPost result", result);
         if (result.status === 200) {
             dispatch(getReportedPost(result));
-            // return result.data;
         }
     };
 

@@ -23,7 +23,7 @@ export async function getTopVideos(dispatch) {
 }
 
 
-export async function getNewVideos(type, keyword, dispatch, num, resistVideos) {
+export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I
@@ -36,9 +36,9 @@ export async function getNewVideos(type, keyword, dispatch, num, resistVideos) {
             keyword = keyword + '|낭독|리뷰'
         }
 
-        for (let i = 0; i < resistVideos.length; i++)
+        for (let i = 0; i < foundVideos.length; i++)
         {
-            keyword += "- " + resistVideos[i].videoId;
+            keyword += "- " + foundVideos[i].videoId;
         }
         maxResult = maxResult - num;
 
@@ -73,7 +73,7 @@ export async function getNewVideos(type, keyword, dispatch, num, resistVideos) {
     }
 }
 
-export async function searchNewVideos(keyword, dispatch, num) {
+export async function searchNewVideos(keyword, dispatch, num, foundVideos) {
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I
@@ -82,6 +82,18 @@ export async function searchNewVideos(keyword, dispatch, num) {
 
     if (maxResult <= num) return null; else {
         maxResult = maxResult - num;
+
+        const keywordArray = keyword.split(" : ");
+        const keywordArray2 = keyword.split(" - ");
+        if (keywordArray[0].length > keywordArray2[0].length)
+            keyword = keywordArray2[0];
+        else
+            keyword = keywordArray[0];
+
+        for (let i = 0; i < foundVideos.length; i++)
+        {
+            keyword += "- " + foundVideos[i].videoId;
+        }
 
         try {
             const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';

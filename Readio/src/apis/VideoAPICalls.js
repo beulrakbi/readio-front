@@ -39,6 +39,13 @@ export const callVideosAPI = ({type, search}) => {
 
 export const callSearchVideosAPI = ({search}) => {
 
+    const keywordArray = search.split(" : ");
+    const keywordArray2 = search.split(" - ");
+    if (keywordArray[0].length > keywordArray2[0].length)
+        search = keywordArray2[0];
+    else
+        search = keywordArray[0];
+
     let requestURL = `http://localhost:8080/video/query/${search}`;
 
     return async (dispatch, getState) => {
@@ -50,7 +57,7 @@ export const callSearchVideosAPI = ({search}) => {
             }
         }).then((response) => response.json());
 
-        // console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
+        console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
         if (result.status === 200) {
             // console.log('[VideoAPICalls] callVideosAPI SUCCESS');
             dispatch(getVideos(result));
