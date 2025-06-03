@@ -1,22 +1,26 @@
 import { useState, useEffect } from 'react';
 import styles from './Bookmark.module.css';
-import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
+import { useNavigate, useLocation } from 'react-router-dom'; // useNavigate, useLocation 임포트
 
 function Bookmark() {
-  const [activeTab, setActiveTab] = useState('book'); // 'book' or 'video'
+  const location = useLocation(); // ✨ useLocation 훅 추가
+  // ✨ 전달받은 state에서 activeTab 값을 읽어오거나, 없으면 기본값 'book' 사용
+  const initialActiveTab = location.state?.activeTab || 'book';
+  const [activeTab, setActiveTab] = useState(initialActiveTab); // 'book' or 'video'
   const [bookmarkedBooks, setBookmarkedBooks] = useState([]); // 책 북마크 목록
   const [bookmarkedVideos, setBookmarkedVideos] = useState([]); // 영상 북마크 목록
   const [loading, setLoading] = useState(true); // 로딩 상태
   const [error, setError] = useState(null); // 에러 상태
   const navigate = useNavigate(); // useNavigate 훅 초기화
 
-  // getAuthToken 함수는 localStorage에서 토큰을 가져옵니다.
+  // ... (getAuthToken, getAuthHeader 함수는 동일) ...
+
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };
 
   const getAuthHeader = () => {
-    const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    const token = sessionStorage.getItem('accessToken');
     console.log("필터링 토큰 :",  token)
     return token ? { 'Authorization': `Bearer ${token}` } : {};
   };
@@ -24,32 +28,23 @@ function Bookmark() {
   const fetchBookmarks = async () => {
     setLoading(true);
     setError(null);
-    const token = getAuthToken(); // localStorage에서 토큰 가져오기 (만약 getAuthHeader가 sessionStorage 사용한다면 이 부분과 충돌 확인)
+    const authHeader = getAuthHeader();
 
-    // getAuthHeader는 sessionStorage에서 가져오므로, getAuthToken과의 사용처를 명확히 해야 합니다.
-    // 여기서는 getAuthHeader에서 토큰을 직접 가져오므로, 위 getAuthToken 호출은 불필요할 수 있습니다.
-    // 일관성을 위해 모든 인증 관련 토큰은 getAuthHeader()를 통해 가져오는 것을 권장합니다.
-    const authHeader = getAuthHeader(); // 인증 헤더 미리 생성
-
-    // 토큰이 없을 경우 바로 에러 처리
-    if (!authHeader['Authorization']) { // 'Authorization' 키의 존재 여부로 토큰 유무 확인
+    if (!authHeader['Authorization']) {
       setError("로그인이 필요합니다.");
       setLoading(false);
       return;
     }
 
     try {
-      // 1. 영상 북마크 목록 가져오기 (기존 로직)
       const videoRes = await fetch('http://localhost:8080/videoBookmark/list', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           Accept: '*/*',
-          ...getAuthHeader()      // 5.30 토큰 추가
+          ...authHeader
         },
       });
-
-      console.log("videoRes", await videoRes);
 
       if (!videoRes.ok) {
         const errorText = await videoRes.text();
@@ -58,15 +53,12 @@ function Bookmark() {
       const videoData = await videoRes.json();
       setBookmarkedVideos(videoData);
 
-      // 2. 책 북마크 목록 가져오기 (새로운 로직 추가)
-      const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${localStorage.getItem('userId')}`, { // userId를 직접 보내는 경우
-      // OR 만약 백엔드 Controller가 @AuthenticationPrincipal UserDetails를 사용한다면 userId 파라미터는 필요 없음
-      // const bookRes = await fetch('http://localhost:8080/bookBookmark/list', {
+      const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${localStorage.getItem('userId')}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           Accept: '*/*',
-          ...getAuthHeader()      // 5.30 토큰 추가
+          ...authHeader
         },
       });
       if (!bookRes.ok) {
@@ -88,8 +80,10 @@ function Bookmark() {
     fetchBookmarks();
   }, [localStorage.getItem('userId')]);
 
+  // ... (deleteItem, handleVideoClick, handleBookClick 함수는 동일) ...
+
   const deleteItem = async (tab, id) => {
-    const authHeader = getAuthHeader(); // 삭제 요청 시에도 인증 헤더 사용
+    const authHeader = getAuthHeader();
 
     if (!authHeader['Authorization']) {
       alert("로그인이 필요합니다.");
@@ -100,7 +94,7 @@ function Bookmark() {
       let url = '';
       if (tab === 'video') {
         url = `http://localhost:8080/videoBookmark/delete/${id}`;
-      } else if (tab === 'book') { // 책 삭제 로직 추가
+      } else if (tab === 'book') {
         url = `http://localhost:8080/bookBookmark/delete/${id}`;
       }
 
@@ -111,7 +105,7 @@ function Bookmark() {
 
       const res = await fetch(url, {
         method: 'DELETE',
-        headers: authHeader // 인증 헤더 적용
+        headers: authHeader
       });
 
       if (!res.ok) {
@@ -120,34 +114,27 @@ function Bookmark() {
       }
 
       alert("북마크가 성공적으로 삭제되었습니다.");
-      fetchBookmarks(); // 삭제 후 목록 다시 불러오기
-
+      fetchBookmarks();
     } catch (err) {
       console.error("북마크 삭제 중 오류 발생:", err);
       alert(`북마크 삭제 실패: ${err.message}`);
     }
   };
 
-  // 영상 클릭 시 상세 페이지로 이동하는 핸들러
   const handleVideoClick = (videoId) => {
-    navigate(`/video/${videoId}`); // 상세 페이지 라우트 경로에 맞게 수정
+    navigate(`/video/${videoId}`);
   };
 
-  // 책 클릭 시 상세 페이지로 이동하는 핸들러 (새로 추가)
   const handleBookClick = (bookIsbn) => {
     navigate(`/bookPage/${bookIsbn}`);
   };
 
-
-  // 로딩 및 에러 UI
   if (loading) return <div className={styles.bookmarkContainer}>로딩 중...</div>;
   if (error) return <div className={styles.bookmarkContainer}>오류 발생: {error}</div>;
 
   return (
     <div className={styles.bookmarkContainer}>
-      {/* 뒤로가기 버튼: navigate(-1)을 사용하면 이전 페이지로 이동합니다. */}
-      {/* <button className={styles.backButton} onClick={() => navigate(-1)}>< cOwsun</button> */}
-      <button className={styles.backButton}>< cOwsun/></button>
+      <button className={styles.backButton}>&lt; 뒤로가기</button> {/* <cOwsun 대신 뒤로가기 텍스트로 임시 변경 */}
 
       <div className={styles.tabContainer}>
         <div className={styles.tabButtonWrapper}>
@@ -172,30 +159,26 @@ function Bookmark() {
         {activeTab === 'book'
           ? bookmarkedBooks.length > 0 ? (
               bookmarkedBooks.map((item) => (
-                <div key={item.bookmarkId} className={styles.bookmarkItem}> {/* key를 bookmarkId로 변경 */}
-                  {/* 책 이미지 클릭 시 상세 페이지로 이동 */}
+                <div key={item.bookmarkId} className={styles.bookmarkItem}>
                   <div
-                    className={styles.imgbox} // 기존 imgbox 스타일 사용
-                    onClick={() => handleBookClick(item.bookIsbn)} // 클릭 핸들러 추가
-                    style={{ cursor: 'pointer' }} // 시각적 피드백
+                    className={styles.imgbox}
+                    onClick={() => handleBookClick(item.bookIsbn)}
+                    style={{ cursor: 'pointer' }}
                   >
-                    {/* 백엔드에서 받은 bookCover URL 사용 */}
                     {item.bookCover && <img src={item.bookCover} alt={item.bookTitle} className={styles.bookCoverImage} />}
-                    {/* 이미지 없을 경우 대체 텍스트 또는 아이콘 */}
                     {!item.bookCover && <div className={styles.noBookCover}>No Image</div>}
                   </div>
-                  {/* 책 제목/저자 정보 클릭 시 상세 페이지로 이동 */}
                   <div
                     className={styles.bookmarkInfo}
-                    onClick={() => handleBookClick(item.bookIsbn)} // 클릭 핸들러 추가
-                    style={{ cursor: 'pointer' }} // 시각적 피드백
+                    onClick={() => handleBookClick(item.bookIsbn)}
+                    style={{ cursor: 'pointer' }}
                   >
-                    <li className={styles.bookmarkTitle}>{item.bookTitle}</li>     {/* bookTitle 사용 */}
-                    <li className={styles.bookmarkSubtitle}>{item.bookAuthor}</li> {/* bookAuthor 사용 */}
+                    <li className={styles.bookmarkTitle}>{item.bookTitle}</li>
+                    <li className={styles.bookmarkSubtitle}>{item.bookAuthor}</li>
                   </div>
                   <button
                     className={styles.bookmarkActionButton}
-                    onClick={() => deleteItem('book', item.bookmarkId)} // 삭제 시 bookmarkId 사용
+                    onClick={() => deleteItem('book', item.bookmarkId)}
                   >
                     삭제
                   </button>
@@ -210,25 +193,22 @@ function Bookmark() {
           ? bookmarkedVideos.length > 0 ? (
               bookmarkedVideos.map((item) => (
                 <div key={item.bookmarkId} className={styles.bookmarkItem}>
-                  {/* 섬네일 클릭 시 상세 페이지로 이동 */}
                   <div
                     className={styles.videoThumbnailWrapper}
-                    onClick={() => handleVideoClick(item.videoId)} // 클릭 핸들러 추가
-                    style={{ cursor: 'pointer' }} // 시각적 피드백
+                    onClick={() => handleVideoClick(item.videoId)}
+                    style={{ cursor: 'pointer' }}
                   >
+                    {/* YouTube 썸네일 URL의 '0'을 확인하세요. 보통 '1' 또는 'default' 입니다. */}
                     <img
-                      // 주의: 'https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg' 부분의 '0'을 확인해주세요.
-                      // 실제 YouTube 썸네일 URL 형식은 다를 수 있습니다. 일반적으로 'https://img.youtube.com/vi/{videoId}/mqdefault.jpg' 입니다.
                       src={`https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`}
                       alt={item.videoTitle}
                       className={styles.videoThumbnail}
                     />
                   </div>
-                  {/* 제목/채널명 정보 클릭 시 상세 페이지로 이동 */}
                   <div
                     className={styles.bookmarkInfo}
-                    onClick={() => handleVideoClick(item.videoId)} // 클릭 핸들러 추가
-                    style={{ cursor: 'pointer' }} // 시각적 피드백
+                    onClick={() => handleVideoClick(item.videoId)}
+                    style={{ cursor: 'pointer' }}
                   >
                     <li className={styles.bookmarkTitle}>{item.videoTitle}</li>
                     <li className={styles.bookmarkSubtitle}>{item.channelTitle}</li>

@@ -6,7 +6,7 @@ function QnaDetail() {
     const { qnaId } = useParams();
     const [qnaDetail, setQnaDetail] = useState(null);
     const navigate = useNavigate();
-    const userId = sessionStorage.getItem('userId'); 
+    const userId = sessionStorage.getItem('userId'); // ✅ userId를 여기서 가져오고 있습니다.
 
     useEffect(() => {
         fetch(`http://localhost:8080/serviceCenter/qna/detail/${qnaId}`)
@@ -35,7 +35,9 @@ function QnaDetail() {
                 method: 'DELETE',
                 headers: {
                     // 필요한 경우 JWT 토큰 등 인증 헤더 추가
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // 예시: 토큰이 있다면 추가
+                    // 현재 localStorage.getItem('accessToken')으로 되어 있는데,
+                    // 다른 컴포넌트들에서 sessionStorage를 사용하고 있다면 일관성을 위해 sessionStorage로 변경하는 것을 고려할 수 있습니다.
+                    'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}` // ✅ sessionStorage로 변경 (선택 사항, 일관성 위함)
                 },
             })
             .then(res => {
@@ -54,7 +56,8 @@ function QnaDetail() {
     };
 
     // 현재 로그인한 사용자가 게시글 작성자인지 확인
-    const isAuthor = currentUserId === qnaDetail.userId;
+    // ✅ currentUserId 대신 userId 사용
+    const isAuthor = userId === qnaDetail.userId; 
 
     return (
         <div className={styles.bigContainer}>
