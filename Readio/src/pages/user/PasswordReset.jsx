@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 export default function PasswordReset() {
@@ -17,6 +18,7 @@ export default function PasswordReset() {
             setMessage(res.data);
             setStep(2);
         } catch (err) {
+            console.log("에러:", err);
             setError(err.response?.data || "인증번호 전송 실패");
         }
     };
@@ -29,6 +31,7 @@ export default function PasswordReset() {
             setMessage(res.data);
             setStep(3);
         } catch (err) {
+            console.log("에러:", err);
             setError(err.response?.data || "인증 실패");
         }
     };
@@ -48,6 +51,7 @@ export default function PasswordReset() {
             setUserId("");
             setNewPassword("");
         } catch (err) {
+            console.log("에러:", err);
             setError(err.response?.data || "비밀번호 재설정 실패");
         }
     };
