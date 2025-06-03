@@ -73,7 +73,7 @@ export const searchAladinBooks = createAsyncThunk(
             }
 
             const items = (data.item || []).map(item => ({
-                isbn: item.isbn13 || item.isbn,
+                isbn: item.isbn,
                 title: item.title,
                 author: item.author,
                 publisher: item.publisher,

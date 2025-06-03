@@ -7,26 +7,25 @@ function AdminFaqWriting() {
     const [content, setContent] = useState('');
     const navigate = useNavigate();
     const { faqId } = useParams();
- 
+
 
     // 토큰
     const getAuthHeader = () => {
-    const token = sessionStorage.getItem('accessToken'); // 5/30 변경 테스트중
-    // const token = localStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
-    console.log("faq 토큰 :",  token)
-    return token ? { 'Authorization': `Bearer ${token}` } : {};
-};
+        const token = sessionStorage.getItem('accessToken'); // 5/30 변경 테스트중
+        console.log("faq 토큰 :", token)
+        return token ? { 'Authorization': `Bearer ${token}` } : {};
+    };
 
     // 수정 모드일 경우 기존 데이터 불러오기
     useEffect(() => {
         if (faqId) {
-            fetch(`http://localhost:8080/serviceCenter/faq/detail/${faqId}`,{
+            fetch(`http://localhost:8080/serviceCenter/faq/detail/${faqId}`, {
                 method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                      ...getAuthHeader()
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...getAuthHeader()
 
-            },
+                },
             })
 
                 .then((res) => {

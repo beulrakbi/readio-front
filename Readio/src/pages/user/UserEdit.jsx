@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import styles from './UserEdit.module.css';
 
 function UserEdit() {
@@ -19,8 +19,6 @@ function UserEdit() {
     useEffect(() => {
         const isPasswordVerified = sessionStorage.getItem('isPasswordVerified');   //5.30 변경 테스트중
         const accessToken = sessionStorage.getItem('accessToken');   //5.30 변경 테스트중
-        // const isPasswordVerified = localStorage.getItem('isPasswordVerified');
-        // const accessToken = localStorage.getItem('accessToken');
 
         if (!accessToken) {
             alert('로그인이 필요합니다.');
@@ -57,8 +55,6 @@ function UserEdit() {
                 alert('회원정보를 불러오는 데 실패했습니다. 다시 시도해주세요.');
                 sessionStorage.removeItem('userId');   //5.30 변경 테스트중
                 sessionStorage.removeItem('accessToken');   //5.30 변경 테스트중
-                // localStorage.removeItem('userId');
-                // localStorage.removeItem('accessToken');
                 navigate('/users/login');
             });
     }, [navigate])
@@ -105,6 +101,7 @@ function UserEdit() {
 
             const response = await axios.put('http://localhost:8080/users/edit', submitData, {
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
             })
@@ -239,8 +236,8 @@ function UserEdit() {
                 <section className={styles.termsSection}>
                     <p className={styles.description}>
                         • 회원탈퇴 후 동일 아이디로 재가입이 불가합니다.
-                        <NavLink to={"/users/verify-pwd"} className={styles.deleteAccount}>회원탈퇴 &gt;
-                        </NavLink>
+                        <Link to={"/users/delete"} className={styles.deleteAccount}>회원탈퇴 &gt;
+                        </Link>
                     </p>
                 </section>
 

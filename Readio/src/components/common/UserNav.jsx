@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink , useNavigate} from "react-router-dom";
 import UserNavCSS from './navi.module.css';
+
 
 function UserNav({ isOpen }) {
 
@@ -8,7 +9,6 @@ function UserNav({ isOpen }) {
     console.log('로그인상태', useSelector(state => state));
 
     const navigate = useNavigate();
-
     const handleLibraryClick = () => {
         if (isLogin) {
             navigate('/mylibrary');

@@ -1,10 +1,14 @@
-import { Link } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import ReportedCSS from './Reported.module.css';
 
 
 
 function ReportedPostDetail()
 {
+    const param = useParams();
+    console.log("param", param);
+
+
     return (
         <div className={ReportedCSS.container}>
             <div className={ReportedCSS.fontContainer}>

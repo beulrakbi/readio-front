@@ -1,11 +1,23 @@
-import {useEffect, useState} from "react";
-import bookmark2 from "../../assets/bookmark2.png";
+import { useEffect, useState } from "react";
+import bookMarkO from '../../assets/bookMarkO.png';
+import bookMarkX from '../../assets/bookMarkX.png';
 import BookCSS from "./Book.module.css";
 import VideosInBook from "./VideosInBook";
-import {useParams} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {callBookAPI} from "../../apis/BookAPICalls.js";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { callBookAPI } from "../../apis/BookAPICalls.js";
+import BookReview from "../review/BookReview.jsx"; // BookReview 컴포넌트 임포트
 import { saveClickLog } from '../../apis/StatisticsAPICalls';
+// getAuthHeader 함수를 컴포넌트 외부에서 정의하여 재사용 가능하게 합니다.
+// 이는 토큰을 가져와 Authorization 헤더 형식으로 반환하는 유틸리티 함수 역할을 합니다.
+const getAuthHeader = () => {
+    // ⭐ 중요: 비디오 북마크와 동일하게 sessionStorage를 사용하도록 통일합니다.
+    const token = sessionStorage.getItem('accessToken'); // <- 여기가 통일의 핵심
+    // console.log("Book.jsx: getAuthHeader 토큰:", token); // 디버깅용
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
+
 function Book() {
     const [book, setBook] = useState([]);
     const [bookCover, setBookCover] = useState('');
@@ -13,9 +25,37 @@ function Book() {
     const dispatch = useDispatch();
     // console.log("param", param.bookIsbn);
 
+    // 책 북마크 관련 상태
+    const [error, setError] = useState(null);
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [bookBookmarkCount, setBookBookmarkCount] = useState(0);
+    const [userBookBookmarkId, setUserBookBookmarkId] = useState(null);
+
+    // 로딩 상태 변수
+    const [loading, setLoading] = useState(true);
+
+    // 로그인 상태 (BookReview 컴포넌트로 전달)
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     function getOrCreateAnonymousUserId() {
         return "guest";
     }
+    // 리뷰 개수를 저장할 상태
+    const [reviewsCount, setReviewsCount] = useState(0);
+
+    // BookReview에 props로 전달하기 위해 토큰 문자열 자체를 반환하는 함수를 유지합니다.
+    const getAuthToken = () => {
+        // ⭐ 중요: 이 함수도 getAuthHeader와 동일한 저장소(sessionStorage)에서 토큰을 가져오도록 통일합니다.
+        const token = sessionStorage.getItem('accessToken');
+        return token;
+    };
+
+    const getAuthHeader = () => {
+        const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+        console.log("필터링 토큰 :",  token)
+        return token ? { 'Authorization': `Bearer ${token}` } : {};
+    };
+
 
     useEffect(() => {
         const getBookInfo = async () => {
@@ -41,17 +81,121 @@ function Book() {
 
         getBookInfo();
     }, [param.bookIsbn]);
+// 책 정보 및 북마크 상태/개수를 가져오는 비동기 함수
+    useEffect(() => {
+        const fetchBookInfoAndBookmarkStatus = async () => {
+            setBook(null);
+            setError(null);
+            setLoading(true);
+
+            const token = getAuthToken(); // BookReview에 전달할 토큰 문자열
+            setIsLoggedIn(!!token); // 토큰 유무에 따라 로그인 상태 업데이트
+
+            const authHeader = getAuthHeader(); // API 호출에 사용할 헤더 객체
+
+            try {
+                console.log("--- [Book.jsx] 책 정보 및 북마크 상태 로딩 시작 ---");
+
+                // 1. 책 기본 정보 가져오기 (Redux Thunk 사용)
+                const bookInfoResult = await dispatch(callBookAPI({ bookIsbn: param.bookIsbn }));
+                const bookDataFromApi = bookInfoResult;
+
+                if (!bookDataFromApi || !bookDataFromApi.bookIsbn) {
+                    throw new Error("책 기본 정보를 불러오는 데 실패했습니다. (데이터 부족 또는 잘못된 형식)");
+                }
+
+                setBook(bookDataFromApi);
+                if (bookDataFromApi.bookCover) {
+                    setBookCover(bookDataFromApi.bookCover.replace("coversum", "cover500"));
+                } else {
+                    setBookCover('');
+                }
+                console.log("[Book.jsx] 책 기본 정보 로딩 성공.");
+
+
+                // 2. 총 북마크 개수 가져오기 (publicCount API)
+                const publicCountRes = await fetch(`http://localhost:8080/bookBookmark/publicCount/${param.bookIsbn}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: '*/*',
+                        ...getAuthHeader()      // 5.30 토큰 추가
+                    },
+                });
+
+                if (publicCountRes.ok) {
+                    const publicCount = await publicCountRes.json();
+                    setBookBookmarkCount(publicCount);
+                    console.log(`[Book.jsx] 총 북마크 개수: ${publicCount}`);
+                } else {
+                    console.error(`[Book.jsx] publicCount API 호출 실패: Status ${publicCountRes.status}, Text: ${publicCountRes.statusText}`);
+                    setBookBookmarkCount(0);
+                }
+
+                // 3. 토큰 있을 경우 사용자별 북마크 상태 가져오기
+                // authHeader에 Authorization 키가 있다면 토큰이 있는 것으로 간주
+                if (authHeader['Authorization']) {
+                    console.log("[Book.jsx] 토큰 존재. 사용자 북마크 상태 조회 시도.");
+                    const bookmarkStatusRes = await fetch(`http://localhost:8080/bookBookmark/status/${param.bookIsbn}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Accept: '*/*',
+                            ...getAuthHeader()      // 5.30 토큰 추가
+                        },
+                    });
+                    if (!bookmarkStatusRes.ok) {
+                        console.error(`[Book.jsx] 책 북마크 상태 조회 API 응답 실패: Status ${bookmarkStatusRes.status}, Text: ${bookmarkStatusRes.statusText}`);
+                        setIsBookmarked(false);
+                        setUserBookBookmarkId(null);
+                    } else {
+                        const bookmarkData = await bookmarkStatusRes.json();
+                        setIsBookmarked(bookmarkData.bookmarked);
+                        setUserBookBookmarkId(bookmarkData.bookmarkId);
+                        console.log(`[Book.jsx] 사용자 북마크 상태: ${bookmarkData.bookmarked}, ID: ${bookmarkData.bookmarkId}`);
+                    }
+                } else {
+                    setIsBookmarked(false);
+                    setUserBookBookmarkId(null);
+                    console.log("[Book.jsx] 토큰 없음. 사용자는 북마크 안 된 상태로 표시.");
+                }
+
+                console.log("--- [Book.jsx] 책 정보 및 북마크 상태 로딩 완료 ---");
+
+            } catch (err) {
+                setError(err.message);
+                console.error("[Book.jsx] 책 정보, 북마크 로딩 중 최종 오류 발생:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBookInfoAndBookmarkStatus();
+    }, [param.bookIsbn, dispatch]);
+
+    // 로딩 및 에러 UI 처리
+    if (loading) return <div>로딩 중…</div>;
+    if (error) return <div>오류 발생: {error}</div>;
+    if (!book) return <div>책 정보를 불러올 수 없습니다.</div>;
 
     return (book && <div className={BookCSS.bookPage}>
             <div className={BookCSS.bookSection}>
                 <div className={BookCSS.aladin}>
                     <p className={BookCSS.infoLight2}>도서 DB 제공 : 알라딘 인터넷서점(www.aladin.co.kr)</p>
-                    <img className={BookCSS.bookCover} src={bookCover} alt={book.bookTitle}/>
+                    <img className={BookCSS.bookCover} src={bookCover} alt={book.bookTitle} />
                 </div>
                 <div className={BookCSS.bookInfo}>
                     <p className={BookCSS.bookTitle}>{book.bookTitle}</p>
-                    <p className={BookCSS.reviewAndBookmark}>리뷰 15 북마크 3 <button className={BookCSS.buttonNone}>
-                        <img className={BookCSS.bookmarkImg} src={bookmark2}/></button></p>
+                    <p className={BookCSS.reviewAndBookmark}>
+                        리뷰 {reviewsCount} &nbsp; 북마크 {bookBookmarkCount} {/* 리뷰 개수를 reviewsCount로 변경 */}
+                        <button className={BookCSS.buttonNone} onClick={handleBookBookmarkClick}>
+                            <img
+                                className={BookCSS.bookmarkImg}
+                                src={isBookmarked ? bookMarkO : bookMarkX}
+                                alt="BookMark"
+                            />
+                        </button>
+                    </p>
                     <p className={BookCSS.infoBold}>{book.bookAuthor}</p>
                     <span className={BookCSS.infoBold}>{book.bookPublisher} <p className={BookCSS.infoLight}>출판</p></span>
                     <p className={BookCSS.infoBold}>작품 소개</p>
@@ -60,10 +204,19 @@ function Book() {
                         <button className={BookCSS.more}>더보기</button>
                     </div>
                     <p className={BookCSS.infoBold}>관련 영상</p>
-                    <VideosInBook keyword={book.bookTitle}/>
+                    <VideosInBook keyword={book.bookTitle} />
                 </div>
             </div>
-        </div>)
+
+            {/* BookReview 컴포넌트를 여기에 렌더링하고 필요한 props 전달 */}
+            <BookReview
+                bookIsbn={param.bookIsbn}
+                isLoggedIn={isLoggedIn}
+                getAuthToken={getAuthToken} // BookReview에서 토큰 문자열이 필요하므로 여전히 전달
+                onReviewsLoaded={setReviewsCount}
+            />
+        </div>
+    );
 }
 
 export default Book;

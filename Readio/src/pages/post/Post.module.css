@@ -1,0 +1,719 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
+
+.postWritingDiv {
+    width: 60%;
+    height: auto;
+    border: 1px solid #808467;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.iconDiv {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px #808467;
+}
+
+.iconBt {
+    margin-left: 2%;
+    border-style: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.postbt {
+    border-style: none;
+    background-color: #808467;
+    color: #F6EEB6;
+    height: 30px;
+    width: 60px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: 2%;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.icon {
+    height: 35px;
+    border-style: none;
+}
+
+.postDiv {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.postContentDiv {
+    width: 80%;
+    height: auto;
+}
+
+.postTitle {
+    width: 100%;
+    height: 60px;
+    margin-top: 20px;
+    border-style: none;
+    border-bottom: solid 1px #808467;
+    font-size: 1.4em;
+    font-weight: bold;
+    outline: none;
+}
+
+.postContent {
+    width: 100%;
+    min-height: 500px;
+    max-height: 1000px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    border-style: none;
+    resize: none;
+    font-size: 17px;
+    box-sizing: border-box;
+    outline: none;
+    font-weight: 400;
+    font-family: 'Pretendard Variable', sans-serif;
+    overflow: hidden; /* 스크롤 없애기 */
+}
+
+.imageUploadLabel {
+  font-size: 24px;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.imagePreview {
+  display: flex;
+  justify-content: end;
+  width: 150px;
+  margin-left: auto;
+  margin-bottom: 50px;
+  background-color: white;
+}
+
+.imagePreviewImg {
+  width: 150px;
+  height: auto;
+  border-radius: 5px;
+  display: block;
+}
+
+.removeBtn {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/*body {*/
+/*    background-image: url('../../assets/texture.png');*/
+/*    background-repeat: repeat;*/
+/*    background-size: auto;*/
+/*    font-family: 'Pretendard Variable', sans-serif;*/
+/*}*/
+
+.loadMoreBtn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+.loadMoreBtn:hover {
+  background-color: #e0e0e0;
+}
+.loadMoreBtn:disabled {
+  background-color: #f8f8f8;
+  cursor: not-allowed;
+  color: #aaa;
+}
+
+/* 선택된 책 미리보기 스타일 (사용자 이미지와 유사하게) */
+.selectedBookPreview {
+  display: flex; /* 책표지와 정보 영역을 가로로 배치 */
+  align-items: flex-start; /* 위쪽 정렬 */
+  padding: 12px;
+  border: 1px solid #dadada; /* 약간 더 진한 테두리 */
+  border-radius: 8px;
+  margin-top: 10px; /* 이미지 미리보기가 있다면 그 아래, 없다면 내용 아래 */
+  margin-bottom: 20px; /* 다음 요소와의 간격 */
+  background-color: #f9f9f9; /* 약간의 배경색 */
+  width: 100%; /* 적절한 최대 너비 설정 */
+  position: relative; /* X 버튼 위치 기준 */
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* 은은한 그림자 */
+}
+
+.selectedBookCover {
+  height: 130px; /* 비율에 맞춰 높이 자동 */
+  object-fit: cover; /* 이미지가 잘리더라도 비율 유지하며 채움 */
+  border-radius: 4px; /* 표지 모서리 둥글게 */
+  margin-right: 12px; /* 표지와 텍스트 정보 사이 간격 */
+  border: 1px solid #eee; /* 표지 자체에도 얇은 테두리 */
+}
+
+.selectedBookInfo {
+  flex-grow: 1; /* 남은 공간을 모두 차지하도록 */
+  display: flex;
+  flex-direction: column; /* 제목, 저자, 출판사를 세로로 배치 */
+  justify-content: center; /* 수직 중앙 정렬 (선택적) */
+}
+
+.selectedBookTitle {
+  font-size: 0.95em; /* 제목 글자 크기 */
+  font-weight: 600; /* 약간 굵게 */
+  color: #333;
+  margin: 0 0 4px 0; /* 아래쪽 여백 */
+  line-height: 1.3;
+}
+
+.selectedBookAuthor,
+.selectedBookPublisher {
+  font-size: 0.8em; /* 저자/출판사 글자 크기 */
+  color: #555;
+  margin: 0 0 2px 0; /* 아래쪽 여백 */
+  line-height: 1.2;
+}
+
+.removeSelectedBookBtn { /* 선택된 책 제거 버튼 (이미지 제거 버튼과 유사하게) */
+  position: absolute;
+  top: 8px; /* 위치 조정 */
+  right: 8px; /* 위치 조정 */
+  background-color: transparent; /* 배경 투명 */
+  color: #888; /* 아이콘 색상 */
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px; /* X 글자 크기 */
+  line-height: 1;
+}
+.removeSelectedBookBtn:hover {
+  color: #333;
+  background-color: rgba(0,0,0,0.05); /* 호버 시 약간의 배경 */
+}
+
+/* ------------------------------------------------- */
+
+.writingBookDiv { /* PostWritingBook 컴포넌트의 루트 */
+    width: 100%; /* 모달 내부에서 100% */
+    height: auto; /* 내용을 전부 보여주기 위해 auto 또는 min-height/max-height 사용 */
+    min-height: 400px; /* 최소 높이 (1000px은 너무 클 수 있음) */
+    max-height: 80vh; /* 화면 높이의 80%를 넘지 않도록 */
+    display: flex;
+    align-items: center; /* 내부 아이템(select, input, ul)을 가로축 중앙 정렬 */
+    flex-direction: column;
+    padding: 20px 0; /* 상하 패딩, 좌우는 내부 요소에서 80% 너비 */
+    box-sizing: border-box;
+    /* background-color: white; /* 모달 배경색은 .bookSearchModalOverlay .writingBookDiv 에서 정의 */
+}
+
+.writingBook { /* select 태그 */
+    width: 80%;
+    height: 50px;
+    margin-top: 20px; /* 상단 여백 조정 (100px은 너무 클 수 있음) */
+    border-radius: 10px;
+    border: 1px solid #808467; /* border-color 대신 border 사용 */
+    padding-left: 20px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: white; /* 배경색 명시 */
+}
+
+.writingBook:focus {
+    outline: none;
+    border-color: #5c5f4a; /* 포커스 시 테두리 색 변경 */
+    box-shadow: 0 0 0 2px rgba(128, 132, 103, 0.3); /* 포커스 시 그림자 */
+}
+
+.writingSearch { /* input 태그 */
+    width: 80%;
+    height: 50px;
+    margin-top: 15px; /* 간격 조정 (30px보다 작게) */
+    border-radius: 10px;
+    padding-left: 20px;
+    box-sizing: border-box;
+    border: 1px solid #808467;
+    font-size: 1rem;
+}
+.writingSearch:focus {
+    outline: none;
+    border-color: #5c5f4a;
+    box-shadow: 0 0 0 2px rgba(128, 132, 103, 0.3);
+}
+
+
+/* 추가/수정된 스타일 (PostWritingBook.js 내부 요소들) */
+.closeBookSearchBtn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #777;
+    padding: 5px;
+}
+.closeBookSearchBtn:hover {
+    color: #333;
+}
+
+.searchResultsList { /* ul 태그 (검색 결과 목록) */
+    width: 80%; /* .writingSearch와 동일한 너비 */
+    margin-top: 20px; /* 검색창과의 간격 */
+    list-style: none;
+    padding: 0;
+    flex-grow: 1; /* 남은 공간을 채우고 스크롤 가능하도록 */
+    overflow-y: auto; /* 스크롤 */
+    border: 1px solid #e0e0e0; /* 목록 전체 테두리 (선택적) */
+    border-radius: 8px; /* 목록 전체 모서리 둥글게 (선택적) */
+    min-height: 150px; /* 결과가 없을 때도 최소한의 높이 (선택적) */
+}
+
+.searchResultItem { /* li 태그 (각 검색 결과) */
+    display: flex;
+    align-items: flex-start; /* 표지 상단과 텍스트 상단 정렬 */
+    padding: 12px 15px; /* 내부 여백 */
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+.searchResultItem:hover {
+    background-color: #f9f9f9;
+}
+.searchResultItem:last-child {
+    border-bottom: none;
+}
+
+.searchResultCover { /* 책 표지 이미지 */
+    width: 50px;
+    height: auto;
+    max-height: 70px;
+    object-fit: contain;
+    margin-right: 15px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+.searchResultInfo { /* 책 제목, 저자 감싸는 div */
+    flex-grow: 1;
+}
+
+.searchResultTitle {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+}
+
+.searchResultAuthor {
+    font-size: 0.8rem;
+    color: #555;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.loadMoreBtn { /* 더보기 버튼 */
+    width: 80%; /* 다른 입력 요소들과 너비 맞춤 */
+    padding: 12px;
+    margin-top: 15px; /* 목록과의 간격 */
+    margin-bottom: 10px; /* 모달 하단과의 간격 */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.95rem;
+}
+.loadMoreBtn:hover {
+    background-color: #e0e0e0;
+}
+.loadMoreBtn:disabled {
+    background-color: #f8f8f8;
+    cursor: not-allowed;
+    color: #aaa;
+}
+
+/* 모달 오버레이 스타일 */
+.bookSearchModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65); /* 약간 더 어둡게 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* 다른 요소들 위에 오도록 */
+    padding: 20px; /* 화면 가장자리와 모달 사이 여백 (모바일 고려) */
+    box-sizing: border-box;
+}
+
+/* 모달 오버레이 내부의 .writingBookDiv (PostWritingBook 컴포넌트 루트) */
+.bookSearchModalOverlay > .writingBookDiv { /* 직계 자손 선택자로 명확히 */
+    background-color: white; /* 모달창 배경색 */
+    border-radius: 12px; /* 모달창 모서리 */
+    width: 100%; /* 오버레이 패딩 안에서 100% */
+    max-width: 550px; /* 모달 최대 너비 */
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    /* height, min-height, max-height는 .writingBookDiv 자체에 이미 정의됨 */
+    /* display, align-items, flex-direction도 .writingBookDiv 자체에 정의 */
+    /* padding은 .writingBookDiv 자체의 것으로 사용 */
+    position: relative; /* 닫기 버튼 기준 */
+}
+
+/* ------------------------------------------------- */
+
+.postDetailDiv {
+    width: 60%;
+    height: 2000px;
+        display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.postProfileDiv {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin-top: 50px;
+    border-bottom: solid 1px #808467;
+    padding-left: 100px;
+}
+
+.postProfileIcon {
+    height: 60px;
+    border-radius: 50px;
+}
+
+.postProfile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 20px;
+    list-style-type: none;
+    font-size: 15px;
+}
+
+.postDetailBtDiv {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.postDetailLikebt {
+    margin-right: 20px;
+    border-style: none;
+    background-color: transparent;
+    display: flex;
+    cursor: pointer;
+}
+
+.postDetailLike {
+    height: 35px;
+}
+
+.postDetailFollwbt {
+    margin-right: 20px;
+    border-style: none;
+    background-color: #F6EEB6;
+    color: #000000;
+    height: 35px;
+    width: 65px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.followingBt {
+  background-color: #b5b5b5;
+  color: #000000;
+}
+
+.postDetailOptionbt {
+    margin-right: 20px;
+    border-style: none;
+    background-color: transparent;
+    display: flex;
+    cursor: pointer;
+}
+
+.postDetailOption {
+    height: 25px;
+}
+
+.postDetailList {
+    top: 100%;
+    width: 80px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    left: 0;
+    background-color: white;
+    border: 1px solid #808467;
+    border-radius: 10px;
+    position: absolute; 
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15); 
+}
+
+.postOptionList {
+    top: 100%;
+    width: 80px;
+    /* padding-left: 10px; */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    left: 0;
+    background-color: white;
+    border: 1px solid #808467;
+    border-radius: 10px;
+    position: absolute; 
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15); 
+}
+
+.postOptionModify {
+    width: 90%;
+    height: 30px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: solid 1px #808467;
+    left: 50%;
+}
+
+.postOptionDelete {
+    width: 90%;
+    height: 30px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.postDetailTitle {
+    width: 80%;
+    height: 50px;
+    margin-top: 50px;
+}
+
+.postDetailContent {
+    width: 90%;
+    height: auto;
+    white-space: pre-line;
+    word-break: break-all;
+    font-size: 17px;
+}
+
+.postContentImg {
+    /* width: 200px; */
+    height: 200px;
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+.postDetailHeartDiv {
+    width: 100%;
+    height: 30px;
+    padding-left: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.postDetailHeartSpan {
+    display: flex;
+    align-items: center;
+}
+
+.postDetailHeart {
+    height: 18px;
+    margin-right: 5px;
+}
+
+.postDetailReview {
+    height: 18px;
+    margin-left: 20px;
+    border-style: none;
+    background-color: transparent;
+    margin-right: 5px;
+}
+
+.postDetailBookDiv {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #808467;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.postDetailBook {
+    height: 200px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.postDetailBookTitle {
+    list-style: none;
+    font-size: 17px;
+}
+
+.postDetailReviewDiv {
+    width: 100%;
+    height: auto;
+    border: 1px solid #808467;
+    border-radius: 10px;
+    margin-top: 30px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.postDetailReviews {
+    margin-left: 10px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.postDetailReviewProDiv {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.postDetailReviewIcon {
+    height: 60px;
+    border-radius: 50%;
+}
+
+.postDetailReviewProfile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 20px;
+    list-style-type: none;
+    font-size: 15px;
+}
+
+.postDetailReviewcon {
+    font-size: 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 80%;
+    margin-left: 20px;
+}
+
+.postDetailReviewLikeDiv {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #808467;
+    padding-bottom: 10px;
+}
+
+.postDetailReviewLike {
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.postDetailReviewBtDiv {
+    margin-left: auto;
+}
+
+.postDetailReviewBt {
+    border-style: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.postDetailReviewReDiv {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #808467;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+
+.postDetailReviewRe {
+    border-style: none;
+    width: 90%;
+    height: auto;
+    outline: none;
+}
+
+.postDetailReviewReBt {
+    width: 50px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: 10px;
+    border-style: none;
+    border-radius: 15px;
+    background-color: #DBDBDB;
+    cursor: pointer;
+}
+
+/* Post.module.css 예시 */
+.paginationContainer {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.pageButton {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background-color: #F6EEB6;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pageButton:hover {
+    background-color: #f0f0f0;
+}
+
+.pageButton:disabled { /* 현재 페이지 또는 이동 불가 버튼 */
+    cursor: default;
+    background-color: #e9ecef;
+    color: #6c757d;
+    border-color: #ced4da;
+}
+
+

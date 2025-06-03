@@ -1,14 +1,21 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'; // Redux 상태를 사용하기 위해 추가
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'; // Redux 상태를 사용하기 위해 추가
+import { useLocation, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../apis/axiosInstance'; // axios 대신 axiosInstance 사용
-import styles from './VerifyPwd.module.css';
+import styles from './VerifyPwdForDelete.module.css';
+import { logout } from '../../modules/user/userSlice';
 
-function VerifyPwd() {
+function VerifyPwdForDelete() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const isLogin = useSelector((state) => state.user.isLogin);
     const userIdFromRedux = useSelector((state) => state.user.userInfo?.userId);
+    const isReduxReady = useSelector(state => state.user.accessToken !== null);
+
+    const location = useLocation(); // location 객체 가져오기
+    const purpose = location.state?.purpose || 'edit'; // 기본값은 'edit'
 
     // 디버깅을 위해 Redux 상태만 로그에 남기기
     console.log("VerifyPwd: Redux isLogin:", isLogin);
@@ -17,7 +24,6 @@ function VerifyPwd() {
 
     // 해당 페이지에서 새로고침 시 redux가 초기화되면서 로그인 안내 에러
     // 아래 코드 추가
-    const isReduxReady = useSelector(state => state.user.accessToken !== null);
 
     useEffect(() => {
         if (isReduxReady && (!isLogin || !userIdFromRedux)) {
@@ -36,18 +42,24 @@ function VerifyPwd() {
         console.log("비밀번호 확인 요청 전");
 
         try {
-            // userId는 Redux에서 가져온 값을 사용합니다.
-            // axiosInstance를 사용하면 Authorization 헤더는 자동으로 추가됩니다.
-            const response = await axiosInstance.post('/users/verifypwd', {
+
+            const response = await axiosInstance.post('/users/verifypwd/delete', {
                 userId: userIdFromRedux,
                 password
             });
 
-            console.log("비밀번호 확인 요청 후", response.data);
+            console.log("비밀번호 확인 및 탈퇴 성공:", response.data);
 
-            sessionStorage.setItem('isPasswordVerified', 'true');
+            const deleteResponse = await axiosInstance.delete(`/users/${userIdFromRedux}`);
+            console.log("탈퇴 성공:", deleteResponse.data);
 
-            navigate('/users/edit');
+            alert(deleteResponse.data?.message || '회원 탈퇴가 완료되었습니다.');
+
+            dispatch(logout());
+            sessionStorage.clear();
+
+            navigate('/users/delete/complete');
+
         } catch (error) {
             console.error("비밀번호 확인 실패:", error);
             console.log("상태 코드:", error.response?.status, "서버 메시지:", error.response?.data);
@@ -58,10 +70,11 @@ function VerifyPwd() {
             else if (error.response?.status === 401) {
                 alert(error.response.data?.message || '비밀번호가 일치하지 않습니다.');
             } else {
-                alert('비밀번호 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                alert('탈퇴 요청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
             }
         }
     };
+
 
     return (
         <div className={styles.VerifyPwdPage}>
@@ -93,4 +106,4 @@ function VerifyPwd() {
         </div>
     );
 }
-export default VerifyPwd;
+export default VerifyPwdForDelete;

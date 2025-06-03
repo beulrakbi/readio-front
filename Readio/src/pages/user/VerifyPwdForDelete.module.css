@@ -1,0 +1,70 @@
+.VerifyPwdPage {
+    width: 100%;
+    max-width: 800px;
+    height: 80vh;
+    margin: 0 auto;
+}
+
+.formSection {
+    margin-top: 100px;
+}
+
+.title {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.description {
+    margin: 15px 10px;
+    color: #555555;
+}
+
+/* 진한선 */
+.line1 {
+    margin: 20px 0px 20px 0px;
+    border-top: 3px solid #000000;
+}
+
+/* 연한선 */
+.line2 {
+    margin: 20px 0px 20px 0px;
+    border-top: 2px solid #ccc;
+}
+
+.formGroup {
+    margin: 20px 10px;
+}
+
+.formGroup label {
+    width: 100px;
+    /* 레이블 크기 고정 */
+    margin-right: 30px;
+}
+
+.formGroup input {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+}
+
+.submitBtnWrap {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.submitBtn {
+    padding: 5px 20px;
+    background-color: #808467;
+    color: white;
+    border: none;
+    /* border-radius: 5px; */
+    font-size: 1.1rem;
+    cursor: pointer;
+    /* margin-bottom: 100px; */
+}
+
+.submitBtn:hover {
+    background-color: #AF4C3F;
+}

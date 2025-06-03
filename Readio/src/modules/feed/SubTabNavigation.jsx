@@ -23,7 +23,7 @@ function SubTabNavigation(props) {
             >
                 리뷰
             </button>
-            <NavLink to={"/post/writing"} className={FeedCSS.feedWritingBt}>
+            <NavLink to={"/mylibrary/post/writing"} className={FeedCSS.feedWritingBt}>
                 <img src={FeedRecWriting} alt="글쓰기" />
             </NavLink>
         </div>

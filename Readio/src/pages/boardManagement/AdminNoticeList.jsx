@@ -8,7 +8,7 @@ function AdminNoticeList() {
     const [selectedIds, setSelectedIds] = useState([]);
     const [isAllSelected, setIsAllSelected] = useState(false);
     const navigate = useNavigate();
-    const userId = localStorage.getItem('userId'); 
+    const userId = sessionStorage.getItem('userId'); 
 
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
