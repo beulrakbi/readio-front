@@ -177,7 +177,6 @@ const FindPwdForm = () => {
       console.log(res.data);
       alert('인증번호 발송이 완료되었습니다.');
       setTimer(1800);
-      setMessage('인증번호가 이메일로 전송되었습니다.');
     } catch (err) {
       console.log(err)
       const errorMessage = err.response?.data?.message || '인증번호 전송 실패';
@@ -193,7 +192,7 @@ const FindPwdForm = () => {
     if (code === sentCode) {
       setIsCodeVerified(true);
       setTimer(0);  // 타이머 멈추기
-      setMessage('인증번호가 확인되었습니다.');
+      // setMessage('인증번호가 확인되었습니다.');
       alert('인증번호 확인이 완료되었습니다.')
       passwordInputRef.current?.focus();
     } else {
