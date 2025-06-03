@@ -1,6 +1,23 @@
 import {getVideos, postVideo} from "../modules/video/VideoSlice.js";
 
-export const callVideosAPI = ({search}) => {
+export const callVideosAPI = ({type, search}) => {
+
+    type = parseInt(type);
+    if (type === 1) {
+        const keywordArray = search.split(" ");
+        search = keywordArray[0];
+    }
+    else if (type === 4)
+    {
+        const keywordsArray = search.split(" ");
+        search = keywordsArray[0] + " ";
+        for (let i = 1; i < keywordsArray.length - 1; i++)
+        {
+            search += keywordsArray[i];
+            if (i < keywordsArray.length - 2)
+                search += " ";
+        }
+    }
 
     let requestURL = `http://localhost:8080/video/${search}`;
 
@@ -13,11 +30,9 @@ export const callVideosAPI = ({search}) => {
             }
         }).then((response) => response.json());
 
-        // console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
         if (result.status === 200) {
-            // console.log('[VideoAPICalls] callVideosAPI SUCCESS');
-            dispatch(getVideos(result));
-            return result;
+            dispatch(getVideos(result.data));
+            return result.data;
         }
     };
 }
