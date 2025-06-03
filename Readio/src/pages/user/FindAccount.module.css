@@ -106,7 +106,7 @@
     border-radius: 5px;
     cursor: pointer;
     margin: 30px auto 0;
-    margin-bottom: 300px;
+    margin-bottom: 100px;
     /* 상단 여백과 중앙 정렬 */
     /* margin-bottom: 300px; */
     /* 하단 여백 */
@@ -149,7 +149,7 @@
 
 /* 버튼 및 결과 */
 .resultContainer {
-    margin-bottom: 300px;
+    margin-bottom: 250px;
 }
 
 .resultBox {
@@ -219,7 +219,7 @@
 
 .modalContent {
     background: white;
-    padding: 35px 0px;
+    padding: px 0px;
     border-radius: 5px;
     text-align: center; /* 모달 내용 위치 */
     max-width: 400px;
