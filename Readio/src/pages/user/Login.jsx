@@ -36,8 +36,19 @@ const Login = () => {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "로그인 실패");
+                let errorMessage = "로그인 실패";
+                let errorData = null;
+                
+                try {
+                    errorData = await response.json();
+                    if (errorData && errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+
+                } catch {
+
+                }
+                throw new Error(errorMessage);
             }
 
             const data = await response.json();
