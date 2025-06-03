@@ -8,7 +8,7 @@ function MyLibraryGuestPage() {
 
     useEffect(() => {
         alert("로그인 후 이용하실 수 있습니다.");
-        navigate("/"); // ✅ 메인으로 이동
+        navigate("/");
     }, [navigate]);
 
     const today = dayjs();
@@ -55,7 +55,7 @@ function MyLibraryGuestPage() {
                 </div>
 
                 <div className={styles.buttons}>
-                    <button className={styles.postBtn}>+ 포스트 작성하기</button>
+                    <button className={styles.postBtn} >+ 포스트 작성하기</button>
                     <button className={styles.interestBtn}>📌 나의 관심사</button>
                 </div>
             </div>

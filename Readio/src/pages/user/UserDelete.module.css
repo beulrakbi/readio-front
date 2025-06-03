@@ -45,8 +45,9 @@
 }
 
 .terms {
-    line-height: 1.5;
+    line-height: 2;
     font-size: 11pt;
+    margin-bottom: 17px;
 }
 
 /* 약관 앞 체크표시 */
@@ -120,18 +121,18 @@
 
 .modalContent {
     background: white;
-    padding: 30px;
+    /* padding: 30px; */
     border-radius: 12px;
     text-align: center;
     width: 300px;
-    height: 350px;
+    height: 380px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .eraserImg {
-    width: 90px;
+    width: 80px;
     height: auto;
-    margin-top: 10px;
+    margin-top: 30px;
     margin-bottom: 10px;
 }
 

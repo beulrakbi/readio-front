@@ -47,9 +47,6 @@ function VerifyPwd() {
 
             sessionStorage.setItem('isPasswordVerified', 'true');
 
-            // 비밀번호 확인이 성공했으므로, 이제 UserEdit 페이지로 이동
-            // 이 시점에서는 isLogin과 userIdFromRedux가 유효하므로, 
-            // UserEdit 페이지의 PrivateRoute (만약 있다면) 검사를 통과할 것입니다.
             navigate('/users/edit');
         } catch (error) {
             console.error("비밀번호 확인 실패:", error);

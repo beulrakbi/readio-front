@@ -1,14 +1,14 @@
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import searchIcon from '../../assets/search3.png';
 import ReportedCSS from './Reported.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {callReportedReviewAPI} from "../../apis/ReportedReviewAPICalls.js";
+import {callReportedReviewsAPI} from "../../apis/ReportedAPICalls.js";
 import FListCSS from "../adminfiltering/Filtering.module.css";
 
 function ReportedReviewList() {
     const dispatch = useDispatch();
-    const reportedReviews = useSelector(state => state.reportedReview);
+    const reportedReviews = useSelector(state => state.reported);
     const navigate = useNavigate();
 
     const pageInfo = reportedReviews.pageInfo;
@@ -16,7 +16,7 @@ function ReportedReviewList() {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageEnd, setPageEnd] = useState(1);
     const [filter, setFilter] = useState("2");
-
+    const location = useLocation();
     const pageNumber = [];
     if (pageInfo) {
         for (let i = 1; i <= pageInfo.pageEnd; i++) {
@@ -26,22 +26,13 @@ function ReportedReviewList() {
 
     useEffect(() => {
         setStart((currentPage - 1) * 5);
-        dispatch(callReportedReviewAPI({currentPage: currentPage}));
-
-
-    }, [currentPage]);
-
-    useEffect(() => {
-        console.log("reportedReviewssss", reportedReviews);
-    }, [reportedReviews])
+        dispatch(callReportedReviewsAPI({currentPage: currentPage}));
+        console.log("location", location);
+    }, [currentPage, location.key]);
 
     const onCheckHandler = (e) => {
         setFilter(e.target.id);
     }
-
-    // const onClickFilteringGroupHandler = (groupId) => {
-    //     navigate(`/admin/filtering/${groupId}`);
-    // }
 
     return (
 
@@ -73,23 +64,12 @@ function ReportedReviewList() {
                 </tr>
                 </thead>
                 <tbody className={ReportedCSS.reportedTbody}>
-                {filter === "2" ? reportedReviews.data?.map(reportedReview => {
-                    let date = new Date(reportedReview.reportedDate);
-                    const formatted = `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, '0')}. ${String(date.getDate()).padStart(2, '0')}`;
-                    return (<tr key={reportedReview.reportId}>
-                            <td>{reportedReview.reportId}</td>
-                            <td>{reportedReview.reportedCount}</td>
-                            <td>{formatted}</td>
-                            <td>{reportedReview.userId}</td>
-                            <td>{reportedReview.isHidden === "Y" ? "숨김" : "노출"}</td>
-                            <td>{reportedReview.reviewContent}</td>
-                        </tr>);
-                }) : reportedReviews.data
-                    ?.filter(reportedReview => reportedReview.isHidden === "Y")
-                    .map(reportedReview => {
-                        let date = new Date(reportedReview.reportedDate);
-                        const formatted = `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, '0')}. ${String(date.getDate()).padStart(2, '0')}`;
-                        return (<tr key={reportedReview.reportId}>
+                {Array.isArray(reportedReviews?.data) ?
+                    (filter === "2" ? reportedReviews?.data?.map(reportedReview => {
+                            let date = new Date(reportedReview.reportedDate);
+                            const formatted = `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, '0')}. ${String(date.getDate()).padStart(2, '0')}`;
+                            return (<tr key={reportedReview.reportId}
+                                        onClick={() => navigate(`/admin/reported/review/${reportedReview.reportId}`)}>
                                 <td>{reportedReview.reportId}</td>
                                 <td>{reportedReview.reportedCount}</td>
                                 <td>{formatted}</td>
@@ -97,8 +77,27 @@ function ReportedReviewList() {
                                 <td>{reportedReview.isHidden === "Y" ? "숨김" : "노출"}</td>
                                 <td>{reportedReview.reviewContent}</td>
                             </tr>);
-                    })}
+                        }) :
+                        (reportedReviews?.data?.filter(reportedReview => reportedReview.isHidden === "Y")
+                            .map(reportedReview => {
+                                let date = new Date(reportedReview.reportedDate);
+                                const formatted = `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, '0')}. ${String(date.getDate()).padStart(2, '0')}`;
+                                return (<tr key={reportedReview.reportId}
+                                            onClick={() => navigate(`/admin/reported/review/${reportedReview.reportId}`)}>
+                                    <td>{reportedReview.reportId}</td>
+                                    <td>{reportedReview.reportedCount}</td>
+                                    <td>{formatted}</td>
+                                    <td>{reportedReview.userId}</td>
+                                    <td>{reportedReview.isHidden === "Y" ? "숨김" : "노출"}</td>
+                                    <td>{reportedReview.reviewContent}</td>
+                                </tr>);
+                            })))
+                    : (
+                        <tr>
+                            <td colSpan="6">데이터를 불러오는 중입니다...</td>
+                        </tr>
 
+                    )}
                 </tbody>
             </table>
             <div className={ReportedCSS.radioBoxesDiv}>
@@ -113,31 +112,31 @@ function ReportedReviewList() {
                 </div>
                 <div className={ReportedCSS.paging1}>
                     {Array.isArray(reportedReviews) && (<button
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            className={FListCSS.pagingBtn}
-                        >
-                            &lt;
-                        </button>)}
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={FListCSS.pagingBtn}
+                    >
+                        &lt;
+                    </button>)}
                     {pageNumber.map((num) => (<li
-                            style={{all: "unset"}}
-                            key={num}
-                            onClick={() => setCurrentPage(num)}
-                        >
-                            <button
-                                style={currentPage === num ? {backgroundColor: '#AF4C3F'} : null}
-                                className={FListCSS.pagingBtn}
-                            >
-                                {num}
-                            </button>
-                        </li>))}
-                    {Array.isArray(reportedReviews) && (<button
+                        style={{all: "unset"}}
+                        key={num}
+                        onClick={() => setCurrentPage(num)}
+                    >
+                        <button
+                            style={currentPage === num ? {backgroundColor: '#AF4C3F'} : null}
                             className={FListCSS.pagingBtn}
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            disabled={currentPage === pageInfo.pageEnd || pageInfo.total == 0}
                         >
-                            &gt;
-                        </button>)}
+                            {num}
+                        </button>
+                    </li>))}
+                    {Array.isArray(reportedReviews) && (<button
+                        className={FListCSS.pagingBtn}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === pageInfo.pageEnd || pageInfo.total == 0}
+                    >
+                        &gt;
+                    </button>)}
                 </div>
             </div>
         </div>)

@@ -11,14 +11,14 @@ function AdminFaqList() {
     const [totalPages, setTotalPages] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearching, setIsSearching] = useState(false);
-    const userId = localStorage.getItem('userId'); 
+    const userId = sessionStorage.getItem('userId'); 
 
     const pageSize = 7;
     const navigate = useNavigate();
 
     // ✅ ✅ ✅ 추가: Authorization 헤더 처리
     const getAuthHeader = () => {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         return token ? { 'Authorization': `Bearer ${token}` } : {};
     };
 

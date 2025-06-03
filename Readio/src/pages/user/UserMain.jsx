@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { callCurationTypesAPI } from "../../apis/CurationAPICalls.js";
 import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoList.jsx';
@@ -9,13 +9,17 @@ import UserMainCSS from './UserMain.module.css';
 
 
 function UserMain() {
-    const [types, setTypes] = useState([]);
+    // const [types, setTypes] = useState([]);
     // const allTypes = ["celeb", "goods", "habit"];
     const [userCoords, setUserCoords] = useState(null); // 위치 좌표 저장할 상태 
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isTypesLoaded, setIsTypesLoaded] = useState(false);
     const today = dayjs();  // import dayjs
+    // const token = sessionStorage.getItem("accessToken");   //5.30 변경 테스트중
     const token = sessionStorage.getItem("accessToken");   //5.30 변경 테스트중
+    const userId = sessionStorage.getItem("userId");   //5.30 변경 테스트중
+    const types = useSelector(state => state.curation.type);
     // const token = localStorage.getItem("accessToken");
 
     const userIdFromSession = sessionStorage.getItem("userId");
@@ -23,12 +27,18 @@ function UserMain() {
 
     const convertEmojiToEnum = (emoji) => {
         switch (emoji) {
-            case '🙂': return 'NORMAL';
-            case '😁': return 'HAPPY';
-            case '😭': return 'SAD';
-            case '😡': return 'ANGRY';
-            case '😵‍💫': return 'ANXIOUS';
-            default: return 'NORMAL';
+            case '🙂':
+                return 'NORMAL';
+            case '😁':
+                return 'HAPPY';
+            case '😭':
+                return 'SAD';
+            case '😡':
+                return 'ANGRY';
+            case '😵‍💫':
+                return 'ANXIOUS';
+            default:
+                return 'NORMAL';
         }
     };
 
@@ -63,7 +73,6 @@ function UserMain() {
 
         const todayStr = dayjs().format('YYYY-MM-DD');
         const modalKey = `emotionModalShown_${userId}_${todayStr}`;
-
         // userId + 날짜 기준으로 체크
         if (!localStorage.getItem(modalKey)) {
             setIsModalOpen(true);
@@ -96,7 +105,20 @@ function UserMain() {
     //     console.log("ttttttt", types);
     // }, [dispatch, token, userIdFromSession]);
 
-        useEffect(() => {
+    useEffect(() => {
+        const fetchTypes = async () => {
+            if (!token || !userId || token === 'undefined' || userId === 'undefined') {
+                await dispatch(callCurationTypesAPI({login: false}));
+            } else {
+                await dispatch(callCurationTypesAPI({login: true}));
+            }
+            setIsTypesLoaded(true);
+        };
+        fetchTypes();
+    }, []);
+
+
+     useEffect(() => {
             const getTypes = async () => {
                 const allTypes = await dispatch(callCurationTypesAPI());
                 if (allTypes) {
@@ -122,14 +144,13 @@ function UserMain() {
             console.log("ttttttt", types);
         }, [dispatch, token, userIdFromSession]);
 
-
-    return (
-        <>
+    return (<>
             <div className={UserMainCSS.main}>
                 <div className={UserMainCSS.mainImgBox}>
                     <div className={UserMainCSS.mainSearch}>
                         <div className={UserMainCSS.buttonBox}>
-                            <input className={UserMainCSS.mainSearchInput} type="text" name="search" placeholder="검색어를 입력하세요"/>
+                            <input className={UserMainCSS.mainSearchInput} type="text" name="search"
+                                   placeholder="검색어를 입력하세요"/>
                             <button className={UserMainCSS.buttonNone}><img src={search}/></button>
                         </div>
                         <div className={UserMainCSS.buttonBox}>
@@ -147,19 +168,13 @@ function UserMain() {
                             당신에게 꼭 맞는 이야기를 전합니다. "</p>
                     </div>
                     <div className={UserMainCSS.videoSection}>
-                        {/* <VideoList type={types[0]}/>
-                        <VideoList type={types[1]}/>
-                        <VideoList type={types[2]}/> */}
-
-                          {types[0] && <VideoList type={types[0]} userCoords={userCoords} userId={userIdFromSession}/>}
-                          {types[1] && <VideoList type={types[1]} userCoords={userCoords} userId={userIdFromSession} />}
-                          {types[2] && <VideoList type={types[2]} userCoords={userCoords} userId={userIdFromSession}/>}
-
+                        {isTypesLoaded && types?.length > 0 && types.map(type =>
+                            <VideoList type={type} userId={userId} key={type.typeId}/>
+                        )}
                     </div>
                 </div>
             </div>
-            {isModalOpen && (
-                <EmotionModal
+            {isModalOpen && (<EmotionModal
                     onSelect={(emoji) => {
                         const userId = sessionStorage.getItem("userId");   //5.30 변경 테스트중
                         // const userId = localStorage.getItem("userId");
@@ -169,19 +184,14 @@ function UserMain() {
                         }
 
                         const requestData = {
-                            userId: userId,
-                            emotionType: convertEmojiToEnum(emoji),
-                            date: today.format('YYYY-MM-DD')
+                            userId: userId, emotionType: convertEmojiToEnum(emoji), date: today.format('YYYY-MM-DD')
                         };
 
                         fetch('/api/user/emotions', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
+                            method: 'POST', headers: {
+                                'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`
 
-                            },
-                            body: JSON.stringify(requestData)
+                            }, body: JSON.stringify(requestData)
                         })
                             .then(res => {
                                 if (res.ok) {
@@ -196,10 +206,8 @@ function UserMain() {
                             });
                     }}
                     onCancel={() => setIsModalOpen(false)}
-                />
-            )}
-        </>
-    )
+                />)}
+        </>)
 }
 
 export default UserMain;

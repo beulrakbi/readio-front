@@ -1,31 +1,40 @@
+/* 리뷰 작성 컨테이너 */
 .reviewWriteContainer {
     display: flex;
     flex-direction: column;
-    gap:5px;
+    gap: 20px; /* 섹션 간격 */
+    width: 980px; /* 전체 리뷰 영역 너비 (리뷰 항목과 통일) */
+    margin: 30px auto; /* 중앙 정렬 */
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
 .rating {
     display: flex;
     flex-direction: row;
+    margin-bottom: 10px; /* 별점과 입력창 사이 간격 */
 }
 
 .reviewInput {
     display: flex;
     flex-direction: row;
     gap: 10px;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-end; /* 텍스트 에어리어와 버튼 하단 정렬 */
 }
 
 .writeInput {
     background-color: white;
-    width:900px;
-    height: 110px;
+    width: 890px;
+    height: 130px;
     border: 1px solid #F6EEB6;
     border-radius: 10px;
     padding: 10px;
-    resize: none;
-        font-family: 'Pretendard';
+    resize: none; /* <-- 텍스트 에어리어 크기 조절 불가능 */
+    font-family: 'Pretendard';
+    font-size: 14px;
+    box-sizing: border-box;
 }
 
 .writeButton {
@@ -37,60 +46,90 @@
     border-radius: 10px;
     cursor: pointer;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.writeButton:hover {
+    background-color: #e0b800;
 }
 
 .infoBold {
     font-size: 18px;
     font-weight: 600;
-    gap:5px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-bottom: 10px;
 }
 
-/* 리뷰CSS */
 
+/* --- 리뷰 목록 및 개별 리뷰 스타일 --- */
+
+/* 개별 리뷰 항목 전체 컨테이너 */
 .review {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* <-- 헤더와 내용을 세로로 쌓음 */
     font-family: 'Pretendard';
-    width: 980px;
-    margin-top:20px;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid black;
+    width: 100%;
+    margin-top: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
 }
 
-.reviewInfo {
+.review:last-child {
+    border-bottom: none;
+}
+
+/* 리뷰 헤더: 리뷰어 정보와 좋아요/신고 버튼이 한 줄에 */
+.reviewHeader {
     display: flex;
-    flex-direction: column;
-    width:200px;
+    justify-content: space-between; /* <-- 양 끝 정렬 */
     align-items: center;
-    justify-content: center;
-    margin-right:20px;
+    margin-bottom: 10px; /* 헤더와 리뷰 내용 사이 간격 */
 }
 
-.reviewInfoFont1{
+/* 리뷰어 정보 (필명, 날짜) */
+.reviewerInfo {
+    display: flex;
+    flex-direction: column; /* <-- 필명과 날짜를 세로로 쌓음 */
+    align-items: flex-start;
+}
+
+.reviewInfoFont1 { /* 필명 */
     font-size: 18px;
-    font-weight: 300;
+    font-weight: 600;
+    color: #333;
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 
-.reviewInfoFont2{
+.reviewInfoFont2 { /* 날짜 */
     font-size: 15px;
-    font-weight: 100;
+    font-weight: 300;
+    color: #888;
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 
+/* 좋아요/신고 버튼 박스 (오른쪽에 위치) */
 .reviewBtBox {
     display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
-    margin-bottom: 10px;
+    font-size: 13px;
+    color: #777;
 }
 
 .reviewBt {
     all: unset;
     background-color: #F6EEB6;
     border-radius: 10px;
-    width:50px;
-    height: 25px;
+    padding: 5px 10px;
     font-size: 12px;
     font-weight: 200;
     color: black;
@@ -99,6 +138,12 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.reviewBt:hover {
+    background-color: #e0b800;
 }
 
 .report {
@@ -109,13 +154,21 @@
     cursor: pointer;
 }
 
-.reviewContent {
-    font-size: 18px;
-    font-weight: 200;
+/* 좋아요 아이콘 */
+.likes {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    vertical-align: middle;
 }
 
-.likes {
-    width:13.5px;
-    height: 12px;
-    margin-right: 3px;
+/* 리뷰 내용 */
+.reviewContent {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #555;
+    white-space: pre-wrap;
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
