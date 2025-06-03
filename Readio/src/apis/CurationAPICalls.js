@@ -3,21 +3,22 @@ import { getAllCuration, getCurationKeywords, getCurationTypes, putAllCuration }
 // admin 경로에만 헤더 추가 완료
 const getAuthHeader = () => {
     const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
-    console.log("큐레이션 토큰 :",  token)
+    // console.log("큐레이션 토큰 :",  token);
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
-export const callCurationTypesAPI = () => {
-    const requestURL = `http://localhost:8080/curation`;
+export const callCurationTypesAPI = ({login}) => {
+    const requestURL = `http://localhost:8080/curation/${login}`;
+
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
             },
         }).then((response) => response.json());
-        console.log("result", result);
+        // console.log("result", result);
         if (result.status === 200) {
             dispatch(getCurationTypes(result));
             return result;
@@ -37,7 +38,7 @@ export const callAllCurationTypesAndKeywordsAPI = () => {
             },
         }).then((response) => response.json());
 
-        console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
+        // console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
         if (result.status === 200) {
             // console.log('[CurationAPICalls] callCurationTypesAPI SUCCESS');
             dispatch(getAllCuration(result));
@@ -59,7 +60,7 @@ export const callUpdateAllAPI = (curationDTO) => {
             body: JSON.stringify(curationDTO)
         }).then((response) => response.json());
 
-        console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
+        // console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
         if (result.status === 200) {
             // console.log('[CurationAPICalls] callCurationTypesAPI SUCCESS');
             dispatch(putAllCuration(result));
@@ -70,13 +71,13 @@ export const callUpdateAllAPI = (curationDTO) => {
 }
 
 export const callCurationKeywordsAPI = ({typeId}) => {
-    const requestURL = `http://localhost:8080/curation/${typeId}`;
+    const requestURL = `http://localhost:8080/curation/keywords/${typeId}`;
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
             },
         }).then((response) => response.json());
 

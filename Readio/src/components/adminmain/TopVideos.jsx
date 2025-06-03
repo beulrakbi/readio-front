@@ -1,58 +1,76 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from "react-redux";
-import { getTopVideos } from '../../apis/VideoAPI';
 import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
 import AdminMainCSS from './adminmain.module.css';
 import TopVideo from './TopVideo';
-
+import { getClickAnalytics } from '../../apis/StatisticsAPICalls';
+import {Link} from 'react-router-dom';
 
 function TopVideos() {
-
     const [videoList, setVideoList] = useState([]);
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        const getVideosInDB = async () => {
-            const allVideosInDB = [];
-            const getVideosAwait = await getTopVideos(dispatch);
-            const videosInDB = getVideosAwait?.data.videoDTOList;
-            if (videosInDB) {
-                allVideosInDB.push(...videosInDB); // 배열에 쌓기
-                allVideosInDB.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId));
+        const fetchTopVideos = async () => {
+            const today = new Date();
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(today.getDate() - 7);
+
+            const format = (d) => d.toISOString().slice(0, 10);
+
+            try {
+                const topVideos = await getClickAnalytics({
+                    type: 'video',
+                    sort: 'click',
+                    startDate: format(oneWeekAgo),
+                    endDate: format(today),
+                    limit: 10
+                });
+
+                console.log(" TopVideos 응답:", topVideos);
+
+                if (Array.isArray(topVideos)) {
+                    setVideoList(topVideos);
+                } else {
+                    console.error("TopVideos 응답이 배열이 아님:", topVideos);
+                }
+            } catch (e) {
+                console.error("TopVideos 불러오기 실패:", e);
             }
-            setVideoList(allVideosInDB);
-        }
-        getVideosInDB();
+        };
+
+        fetchTopVideos();
     }, []);
 
+
     const scrollRef = useRef();
-    const leftButtonHandler = () => {
-        scrollRef.current.scrollBy({left: -800, behavior: 'smooth'});
-    }
+    const leftButtonHandler = () => scrollRef.current.scrollBy({ left: -800, behavior: 'smooth' });
+    const rightButtonHandler = () => scrollRef.current.scrollBy({ left: 800, behavior: 'smooth' });
 
-    const rightButtonHandler = () => {
-        scrollRef.current.scrollBy({left: 800, behavior: 'smooth'});
-    }
+    return (
 
-    return (<div className={AdminMainCSS.main}>
+        <div className={AdminMainCSS.main}>
             <div className={AdminMainCSS.fontContainer}>
-                <p className={AdminMainCSS.font1}>클릭 수 및 북마크가 많은 영상</p>
+                <p className={AdminMainCSS.font1}>최근 일주일 클릭 수 Top10 영상</p><Link to="/" className={AdminMainCSS.linkFont}>더보기</Link>
             </div>
-            <hr className={AdminMainCSS.csLine}/>
+
+
+            <hr className={AdminMainCSS.csLine} />
             <div className={AdminMainCSS.videoContainer}>
-                <button className={AdminMainCSS.scrollButton} onClick={leftButtonHandler}><img
-                    className={AdminMainCSS.buttonImg} src={leftButton}/></button>
+                <button className={AdminMainCSS.scrollButton} onClick={leftButtonHandler}>
+                    <img className={AdminMainCSS.buttonImg} src={leftButton} />
+                </button>
                 <div className={AdminMainCSS.videoList} ref={scrollRef}>
-                    {videoList.map(video => {
-                        return <TopVideo key={video.id} video={video}/>
-                    })}
+                    {videoList.map((video, idx) => (
+                        <TopVideo key={video.contentId || idx} video={video} />
+                    ))}
                 </div>
-                <button className={AdminMainCSS.scrollButton} onClick={rightButtonHandler}><img
-                    className={AdminMainCSS.buttonImg} src={rightButton}/></button>
+                <button className={AdminMainCSS.scrollButton} onClick={rightButtonHandler}>
+                    <img className={AdminMainCSS.buttonImg} src={rightButton} />
+                </button>
             </div>
-            <hr className={AdminMainCSS.csLine}/>
-        </div>)
+            <hr className={AdminMainCSS.csLine} />
+        </div>
+    );
 }
 
 export default TopVideos;

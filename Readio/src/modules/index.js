@@ -11,6 +11,7 @@ import videoSlice from "./video/VideoSlice.js";
 import BookPageSlice from "./Book/BookPageSlice.js";
 import BookReviewSlice from "./Book/BookReviewSlice.js";
 import ReportedSlice from "./reported/ReportedSlice.js";
+import feedSlice from './feed/feedSlice.js';
 
 
 const rootReducers =  combineReducers(
@@ -27,6 +28,7 @@ const rootReducers =  combineReducers(
             bookPage: BookPageSlice,
             bookReview: BookReviewSlice,
             reported: ReportedSlice,
+            feed: feedSlice,
         });
 
 export default rootReducers;

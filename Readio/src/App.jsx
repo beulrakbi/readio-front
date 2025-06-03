@@ -59,6 +59,8 @@ import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
 import VerifyPwdForDelete from "./pages/user/VerifyPwdForDelete.jsx";
+import ContentStatsPage from "./pages/admin/statistics/ContentStatsPage.jsx"
+
 
 function App() {
 
@@ -68,7 +70,7 @@ function App() {
     useEffect(() => {
         const accessToken = sessionStorage.getItem('accessToken');
         const userInfoRaw = sessionStorage.getItem('userInfo');
-        console.log("access Token", accessToken);
+        // console.log("access Token", accessToken);
 
         if (accessToken && userInfoRaw) {
             try {
@@ -87,8 +89,8 @@ function App() {
         } else {
             dispatch(logout());
         }
-        console.log("복원 accessToken:", accessToken);
-        console.log("복원 userInfo:", userInfoRaw);
+        // console.log("복원 accessToken:", accessToken);
+        // console.log("복원 userInfo:", userInfoRaw);
     }, [dispatch]);
 
     return (
@@ -140,28 +142,29 @@ function App() {
                         <Route path="mylibrary/postlist" element={<PostList />} />
                     </Route>
 
-                    <Route path="/admin" element={<AdminLayout />}>
-                        <Route index element={<AdminMain />} />
-                        <Route path="users/list" element={<UserManagement />} />
-                        <Route path="filtering" element={<FilteringListPage />} />
-                        <Route path="filtering/create" element={<FilteringCreatePage />} />
-                        <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
-                        <Route path="filtering/:groupId/edit" element={<FilteringModifyPage />} />
-                        <Route path="reported/review" element={<ReportedReviewListPage />} />
-                        <Route path="reported/review/:reportId" element={<ReportedReviewDetailPage />} />
-                        <Route path="reported/post" element={<ReportedPostListPage />} />
-                        <Route path="reported/post/:reportId" element={<ReportedPostDetailPage />} />
-                        <Route path="/admin/notice" element={<AdminNoticeList />} />
-                        <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
-                        <Route path="/admin/faq" element={<AdminFaqList />} />
-                        <Route path="/admin/faq/writing" element={<AdminFaqWriting />} />
-                        <Route path="/admin/faq/edit/:faqId" element={<AdminFaqWriting />} />
-                        <Route path="/admin/notice/edit/:noticeId" element={<AdminNoticeWriting />} />
-                        <Route path="/admin/qna" element={<AdminQnaList />} />
-                        <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
-                        <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail />} />
-                        <Route path="/admin/interest" element={< AdminInterestManager />} />
-                        <Route path="/admin/curation" element={<CurationManagerPage />} />
+                    <Route path="/admin" element={<AdminLayout/>}>
+                        <Route index element={<AdminMain/>}/>
+                        <Route path="users/list" element={<UserManagement/>}/>
+                        <Route path="filtering" element={<FilteringListPage/>}/>
+                        <Route path="filtering/create" element={<FilteringCreatePage/>}/>
+                        <Route path="filtering/:groupId" element={<FilteringDetailPage/>}/>
+                        <Route path="filtering/:groupId/edit" element={<FilteringModifyPage/>}/>
+                        <Route path="reported/review" element={<ReportedReviewListPage/>}/>
+                        <Route path="reported/review/:reportId" element={<ReportedReviewDetailPage/>}/>
+                        <Route path="reported/post" element={<ReportedPostListPage/>}/>
+                        <Route path="reported/post/:reportId" element={<ReportedPostDetailPage/>}/>
+                        <Route path="/admin/notice" element={<AdminNoticeList/>}/>
+                        <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
+                        <Route path="/admin/faq" element={<AdminFaqList/>}/>
+                        <Route path="/admin/faq/writing" element={<AdminFaqWriting/>}/>
+                        <Route path="/admin/faq/edit/:faqId" element={<AdminFaqWriting/>}/>
+                        <Route path="/admin/notice/edit/:noticeId" element={<AdminNoticeWriting/>}/>
+                        <Route path="/admin/qna" element={<AdminQnaList/>}/>
+                        <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
+                        <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail/>}/>
+                        <Route path="/admin/interest" element={< AdminInterestManager/>}/>
+                        <Route path="/admin/curation" element={<CurationManagerPage/>}/>
+                        <Route path="/admin/analytics" element={<ContentStatsPage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
