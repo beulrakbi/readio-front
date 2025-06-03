@@ -139,6 +139,7 @@ function App() {
             <Route path="mylibrary/post/writing" element={<PostWriting />} />
             <Route path="mylibrary/post/writing/book" element={<PostWritingBook />} />
             <Route path="mylibrary/post/:postId" element={<PostDetail />} />
+            <Route path="mylibrary/post/edit/:postId" element={<PostWriting />} />
             <Route path="feed" element={<FeedMain />} />
             <Route path="mylibrary/follow" element={<FollowList />} />
             <Route path="mylibrary/postlist" element={<PostList />} />

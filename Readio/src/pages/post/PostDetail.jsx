@@ -2,30 +2,30 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import book1 from '../../assets/book1.jpg';
 // import postBeLike from '../../assets/postBeLike.png';
 import postDetailHeart from '../../assets/postDetailHeart.png';
-import postDetailOption from '../../assets/postDetailOption.png';
 import postDetailReviewIcon from '../../assets/postDetailReview.png';
 // import postLike from '../../assets/postLike.png';
 import defaultImg from '../../assets/defaultImg.png';
 
 import PostCSS from './Post.module.css';
-import { callPostDetailAPI } from '../../apis/PostAPICalls';
+import { callPostDetailAPI, apiReportPost } from '../../apis/PostAPICalls';
 import { apiFollowUser, apiUnfollowUser, apiIsFollowingStatus } from '../../apis/FollowAPICalls';
 import { apiGetPostLikeInfo } from '../../apis/PostLikeAPICalls';
 import LikeButton from '../../components/postlike/PostLikeButton';
+import PostOptionsMenu from '../../components/postoptions/PostOptionsMenu';
 import ReviewSection from './PostReview';
 
 function PostDetail() {
-    // const [isFollowing, setIsFollowing] = useState(false); // 로컬 상태 대신 Redux 사용
-    // const [likeTab, setLikeTab] = useState(false);
     const [loggedInUserProfile, setLoggedInUserProfile] = useState(null);
     
 
     const dispatch = useDispatch();
     const params = useParams();
+    const navigate = useNavigate();
     const postId = params.postId ? parseInt(params.postId) : null;
     const detailsRef = useRef(null);
 
@@ -41,10 +41,8 @@ function PostDetail() {
         ? followState.isFollowing
         : false;
 
-        console.log('[PostDetail] 최종 계산된 isFollowing:', isFollowing);
-
-    console.log(JSON.stringify(post, null, 2));
-
+    const isPostOwner = currentActualProfileId && postAuthorProfileId && currentActualProfileId === postAuthorProfileId;
+        
     // --- 게시물 상세 관련 useEffect ---
     useEffect(() => {
         if (params.postId) {
@@ -59,7 +57,7 @@ function PostDetail() {
         if (loggedInUserSystemId) {
             const fetchLoggedInUserProfile = async () => {
                 try {
-                    const token = localStorage.getItem("accessToken");
+                    const token = sessionStorage.getItem("accessToken");
                     const response = await axios.get(`/api/user/profile/${loggedInUserSystemId}`, {
                         headers: { Authorization: `Bearer ${token}` },
                     });
@@ -77,40 +75,26 @@ function PostDetail() {
 
     // --- 게시물 상세 관련 useEffect ---
     useEffect(() => {
-        const isLoggedIn = !!localStorage.getItem("accessToken"); // 로그인 상태 확인
-        // ★★★ 이 로그는 매우 중요합니다. useEffect 진입 및 postId, isLoggedIn 상태 확인 ★★★
-        console.log('[useEffect @PostDetail] For main post & like info. postId:', postId, 'isLoggedIn:', isLoggedIn);
+        const isLoggedIn = !!localStorage.getItem("accessToken");
 
         if (postId) { // postId가 유효한 경우
             // 게시물 상세 정보 로드 (기존 로직)
             console.log('[useEffect @PostDetail] Dispatching callPostDetailAPI for postId:', postId);
             dispatch(callPostDetailAPI({ postId: postId })); // params.postId 대신 이미 변환된 postId 사용
 
-            // ⭐⭐⭐ '좋아요' 정보 로드 (이 부분이 중요합니다!) ⭐⭐⭐
-            if (isLoggedIn) { // 로그인한 경우에만 사용자별 좋아요 상태와 전체 개수 요청
-                console.log('[useEffect @PostDetail] Dispatching apiGetPostLikeInfo for postId:', postId);
-                console.log('[useEffect @PostDetail] typeof apiGetPostLikeInfo:', typeof apiGetPostLikeInfo);
-
+            if (isLoggedIn) {
                 if (typeof apiGetPostLikeInfo === 'function') {
                     dispatch(apiGetPostLikeInfo(postId)); 
                 } else {
                     console.error('[useEffect @PostDetail] apiGetPostLikeInfo is NOT a function! Check import path or export in LikeAPICalls.js');
                 }
             } else {
-                // 비로그인 시 (선택적: '좋아요 개수'만 가져오는 API가 있다면 호출 또는 기본값 처리)
                 console.log('[useEffect @PostDetail] Not logged in, SKIPPING user-specific apiGetPostLikeInfo. Consider fetching public like count if available.');
-                // 만약 비로그인 사용자에게도 게시물의 '총 좋아요 수'를 보여주고 싶다면,
-                // LikeAPICalls.js에 해당 API만 호출하는 별도의 Thunk를 만들거나,
-                // 여기서 getPostLikeInfoSuccess와 유사한 액션을 likeCount만 채워서 디스패치할 수 있습니다.
-                // (현재 apiGetPostLikeInfo는 isLiked와 likeCount를 모두 가져오려 하고, isLiked는 인증이 필요할 수 있음)
-                // 가장 간단하게는, PostDetail에서 likeCount만 보여주므로, 비로그인 시 likeCount를 0 또는 서버에서 받은 초기값으로 둔다.
-                // 아니면, post 객체에 likeCount가 포함되어 있다면 그것을 초기값으로 활용 (위 useSelector에서 이미 반영 시도)
             }
         } else {
             console.log('[useEffect @PostDetail] No postId, SKIPPING API calls.');
         }
     }, [dispatch, postId]); // postId가 변경될 때마다 이 useEffect가 재실행됩니다.
-                           // 만약 로그인 상태(isLoggedIn) 변경 시에도 재호출이 필요하면 의존성 배열에 isLoggedIn 추가.
 
 
     // --- 초기 팔로우 상태 확인 useEffect ---
@@ -119,8 +103,6 @@ function PostDetail() {
         if (currentActualProfileId && postAuthorProfileId && currentActualProfileId !== postAuthorProfileId) {
             dispatch(apiIsFollowingStatus(postAuthorProfileId));
         } else if (currentActualProfileId && postAuthorProfileId && currentActualProfileId === postAuthorProfileId) {
-            // 자신의 게시물인 경우의 로직 (필요하다면 Redux 상태를 '팔로우 안함'으로 명시적 설정 등)
-            // console.log("자신의 게시물입니다. 팔로우 상태 확인 API를 호출하지 않습니다.");
         }
     }, [dispatch, currentActualProfileId, postAuthorProfileId]);
 
@@ -142,6 +124,36 @@ function PostDetail() {
         return <p>데이터를 불러오는 중입니다...</p>;
     }
 
+    
+
+    // --- 옵션 메뉴 핸들러 ---
+    const handleEditPost = () => {
+        console.log("수정하기 클릭됨 - postId:", postId);
+        navigate(`/mylibrary/post/edit/${postId}`); // 실제 수정 페이지로 이동 로직
+    };
+
+    const handleDeletePost = () => {
+        if (window.confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
+            console.log("삭제하기 클릭됨 - postId:", postId);
+            dispatch(apiDeletePost(postId)).then(() => navigate('/')); // 실제 삭제 API 호출
+        }
+    };
+
+    const handleReportPost = async (postId) => {
+        if (!window.confirm("이 게시물을 신고하시겠습니까?")) {
+            return;
+        }
+
+        try {
+            const result = dispatch(apiReportPost(postId));
+            alert('게시물이 성공적으로 신고되었습니다.');
+            console.log('신고 성공:', result);
+        } catch (error) {
+            console.error('게시물 신고 실패:', error);
+            alert('게시물 신고에 실패했습니다: ' + (error.message || '알 수 없는 오류'));
+        }
+    };
+
     // --- 이벤트 핸들러 ---
     const toggleFollow = async () => {
         if (!currentActualProfileId || !postAuthorProfileId || currentActualProfileId === postAuthorProfileId) {
@@ -159,7 +171,7 @@ function PostDetail() {
     // --- 렌더링에 필요한 변수들 ---
     const authorNickname = authorProfileObject?.penName || "작성자";
     const authorProfileImg = authorProfileObject?.imageUrl || defaultImg;
-    const isPostOwner = currentActualProfileId && postAuthorProfileId && currentActualProfileId === postAuthorProfileId;
+    
 
     return (
         <div className={PostCSS.postDetailDiv}>
@@ -184,16 +196,15 @@ function PostDetail() {
                             내 게시물
                         </button>
                     )}
-                    {loggedInUserSystemId && isPostOwner && (
-                        <details ref={detailsRef} style={{ position: 'relative', display: 'inline-block' }}>
-                            <summary className={PostCSS.postDetailOptionbt}>
-                                <img src={postDetailOption} alt="옵션 더보기" className={PostCSS.postDetailOption} />
-                            </summary>
-                            <div className={PostCSS.postOptionList}>
-                                <p className={PostCSS.postOptionModify}>수정하기</p>
-                                <p className={PostCSS.postOptionDelete}>삭제하기</p>
-                            </div>
-                        </details>
+                    {post && postId && (
+                        <PostOptionsMenu
+                            postId={postId}
+                            isPostOwner={isPostOwner}
+                            loggedInUserId={loggedInUserSystemId}
+                            onEdit={handleEditPost}
+                            onDelete={handleDeletePost}
+                            onReport={handleReportPost}
+                        />
                     )}
                 </div>
             </div>
