@@ -14,8 +14,9 @@ const EditProfilePage = () => {
     const [isPublic, setIsPublic] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
     const handleImageClick = () => fileInputRef.current.click();
-    const userId = localStorage.getItem("userId");
-    const token = localStorage.getItem("accessToken");
+    const userId = sessionStorage.getItem("userId");
+    const token = sessionStorage.getItem("accessToken");
+
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
