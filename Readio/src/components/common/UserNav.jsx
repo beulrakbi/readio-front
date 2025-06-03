@@ -6,7 +6,7 @@ import UserNavCSS from './navi.module.css';
 function UserNav({ isOpen }) {
 
     const isLogin = useSelector(state => state.user.isLogin);
-    console.log('로그인상태', useSelector(state => state));
+    // console.log('로그인상태', useSelector(state => state));
 
     const navigate = useNavigate();
     const handleLibraryClick = () => {

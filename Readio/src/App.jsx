@@ -71,7 +71,7 @@ function App() {
     useEffect(() => {
         const accessToken = sessionStorage.getItem('accessToken');
         const userInfoRaw = sessionStorage.getItem('userInfo');
-        console.log("access Token", accessToken);
+        // console.log("access Token", accessToken);
 
         if (accessToken && userInfoRaw) {
             try {
@@ -90,8 +90,8 @@ function App() {
         } else {
             dispatch(logout());
         }
-        console.log("복원 accessToken:", accessToken);
-        console.log("복원 userInfo:", userInfoRaw);
+        // console.log("복원 accessToken:", accessToken);
+        // console.log("복원 userInfo:", userInfoRaw);
     }, [dispatch]);
 
     return (

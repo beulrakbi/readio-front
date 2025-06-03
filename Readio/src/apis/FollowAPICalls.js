@@ -2,7 +2,7 @@ import { getFollowStatus, updateFollowStatusSuccess } from '../modules/follow/fo
 
 // 인증 헤더를 가져오는 헬퍼 함수
 const getAuthHeader = () => {
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
     // console.log("FollowAPICalls 토큰:", token); // 필요시 주석 해제하여 토큰 확인
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
