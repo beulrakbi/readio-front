@@ -64,6 +64,7 @@ function AdminNavbar() {
                     <Link to="/admin/filtering" className={styles.text2}>• 영상 필터링 / 키워드</Link>
                     <Link to="/admin/curation" className={styles.text2}>• 영상 키워드 관리</Link>
                     <Link to="/admin/interest" className={styles.text2}>• 관심분야</Link>
+                    <Link to="/admin/analytics" className={styles.text2}>• 컨텐츠 통계</Link>
                </div>
           </div>
      );

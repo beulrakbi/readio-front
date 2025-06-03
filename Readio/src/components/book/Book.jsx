@@ -5,7 +5,7 @@ import VideosInBook from "./VideosInBook";
 import {useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {callBookAPI} from "../../apis/BookAPICalls.js";
-
+import { saveClickLog } from '../../apis/StatisticsAPICalls';
 function Book() {
     const [book, setBook] = useState([]);
     const [bookCover, setBookCover] = useState('');
@@ -13,18 +13,34 @@ function Book() {
     const dispatch = useDispatch();
     // console.log("param", param.bookIsbn);
 
-    useEffect(() => {
+    function getOrCreateAnonymousUserId() {
+        return "guest";
+    }
 
+    useEffect(() => {
         const getBookInfo = async () => {
-            const test = await dispatch(callBookAPI({bookIsbn: param.bookIsbn}));
-            setBook(test);
-        }
-        if (book && book.bookCover) {
-            setBookCover(book.bookCover.replace("coversum", "cover500"));
-        }
+            const result = await dispatch(callBookAPI({ bookIsbn: param.bookIsbn }));
+            setBook(result);
+
+            // 북 커버 처리
+            if (result?.bookCover) {
+                setBookCover(result.bookCover.replace("coversum", "cover500"));
+            }
+
+            // 클릭 로그 저장
+            const userId = sessionStorage.getItem("userId") || getOrCreateAnonymousUserId();
+
+            await saveClickLog({
+                contentId: param.bookIsbn,
+                contentType: "book",
+                action: "click",
+                userId: userId,
+                timestamp: new Date().toISOString()
+            });
+        };
 
         getBookInfo();
-    }, [book.bookCover])
+    }, [param.bookIsbn]);
 
     return (book && <div className={BookCSS.bookPage}>
             <div className={BookCSS.bookSection}>

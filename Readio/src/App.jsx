@@ -58,7 +58,7 @@ import UserEdit from "./pages/user/UserEdit";
 import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
-
+import ContentStatsPage from "./pages/admin/statistics/ContentStatsPage.jsx"
 
 
 function App() {
@@ -162,6 +162,7 @@ function App() {
             <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail />} />
             <Route path="/admin/interest" element={< AdminInterestManager />} />
             <Route path="/admin/curation" element={<CurationManagerPage />} />
+            <Route path="/admin/analytics" element={<ContentStatsPage />} />
           </Route>
         </Routes>
       </BrowserRouter >
