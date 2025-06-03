@@ -3,12 +3,7 @@ import { callSearchVideosAPI, callTopVideosAPI, callVideoInsertAPI, callVideosAP
 
 
 export async function getVideosByKeyword(type, keyword, dispatch) {
-
-    if (type == "1") {
-        const keywordArray = keyword.split(" ");
-        keyword = keywordArray[0];
-    }
-    let result = await dispatch(callVideosAPI({search: keyword}));
+    let result = await dispatch(callVideosAPI({type:type, search: keyword}));
 
     if (result) {
         return result;
@@ -17,7 +12,6 @@ export async function getVideosByKeyword(type, keyword, dispatch) {
 
 export async function searchVideosByKeyword(keyword, dispatch) {
     let result = await dispatch(callSearchVideosAPI({search: keyword}));
-
     if (result) {
         return result;
     }
@@ -29,7 +23,7 @@ export async function getTopVideos(dispatch) {
 }
 
 
-export async function getNewVideos(type, keyword, dispatch, num) {
+export async function getNewVideos(type, keyword, dispatch, num, resistVideos) {
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I
@@ -41,10 +35,16 @@ export async function getNewVideos(type, keyword, dispatch, num) {
         if (type === "1") {
             keyword = keyword + '|낭독|리뷰'
         }
+
+        for (let i = 0; i < resistVideos.length; i++)
+        {
+            keyword += "- " + resistVideos[i].videoId;
+        }
         maxResult = maxResult - num;
 
         try {
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I';
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
+            console.log("baseUrl", baseUrl);
             const data = await fetch(baseUrl);
             const json = await data.json();
             const result = json.items;
