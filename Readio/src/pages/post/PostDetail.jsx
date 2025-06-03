@@ -12,7 +12,7 @@ import postDetailReviewIcon from '../../assets/postDetailReview.png';
 import defaultImg from '../../assets/defaultImg.png';
 
 import PostCSS from './Post.module.css';
-import { callPostDetailAPI, apiReportPost } from '../../apis/PostAPICalls';
+import { callPostDetailAPI, apiReportPost, callPostDeleteAPI } from '../../apis/PostAPICalls';
 import { apiFollowUser, apiUnfollowUser, apiIsFollowingStatus } from '../../apis/FollowAPICalls';
 import { apiGetPostLikeInfo } from '../../apis/PostLikeAPICalls';
 import LikeButton from '../../components/postlike/PostLikeButton';
@@ -135,7 +135,7 @@ function PostDetail() {
     const handleDeletePost = () => {
         if (window.confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
             console.log("삭제하기 클릭됨 - postId:", postId);
-            dispatch(apiDeletePost(postId)).then(() => navigate('/')); // 실제 삭제 API 호출
+            dispatch(callPostDeleteAPI(postId)).then(() => navigate('/')); // 실제 삭제 API 호출
         }
     };
 

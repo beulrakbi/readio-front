@@ -122,9 +122,9 @@ function PostWriting() {
         const newSelectedBook = {
             isbn: book.isbn,
             title: book.title,
-            author: Array.isArray(book.authors) ? book.authors.join(', ') : book.authors,
+            author: book.author,
             publisher: book.publisher,
-            coverUrl: book.thumbnail 
+            coverUrl: book.coverUrl 
         };
         setSelectedBook(newSelectedBook);
         setIsBookSearchOpen(false);
@@ -317,7 +317,7 @@ function PostWriting() {
                 {selectedBook && (
                      <div className={PostCSS.selectedBookPreview}>
                          <img
-                             src={selectedBook.coverUrl || defaultImg} // 기본 이미지 경로
+                             src={selectedBook.coverUrl} // 기본 이미지 경로
                              alt={selectedBook.title}
                              className={PostCSS.selectedBookCover}
                          />

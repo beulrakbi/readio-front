@@ -32,8 +32,10 @@ function PostOptionsMenu({ postId, isPostOwner, loggedInUserId, onEdit, onDelete
 
     // "삭제하기" 옵션 클릭 시 실행될 함수
     const handleDeleteClick = () => {
-        closeMenu();
-        if (onDelete) onDelete();
+    closeMenu();
+    if (onDelete) {
+        onDelete();
+    }
     };
 
     // "신고하기" 옵션 클릭 시 실행될 함수
