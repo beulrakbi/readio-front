@@ -87,6 +87,7 @@ function Header({ toggleNav }) {
     const onClickLogoutHandler = () => {
         dispatch(logout());
         sessionStorage.clear();     // userInfo 삭제하려면 필요함
+        
         navigate('/', { replace: true });
     };
 

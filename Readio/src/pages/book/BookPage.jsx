@@ -15,8 +15,8 @@ function BookPage()
         <>
             <div className={BookPageCSS.bookPage}>
                 <Book/>
-                <BookReview/>
-                <ReviewList bookIsbn={param.bookIsbn}/>
+                {/* <BookReview/> */}
+                {/* <ReviewList bookIsbn={param.bookIsbn}/> */}
             </div>
         </>
     )

@@ -11,13 +11,13 @@ const FindAccount = () => {
 
       {/* 탭 버튼 */}
       <div className={styles.tabs}>
-        <Link to="/account/findid"
-          className={location.pathname.includes('findid') ? styles.active : ''}>
+        <Link to="/account/findId"
+          className={location.pathname.includes('findId') ? styles.active : ''}>
           아이디 찾기
         </Link>
 
-        <Link to="/account/findpwd"
-          className={location.pathname.includes('findpwd') ? styles.active : ''}>
+        <Link to="/account/findPwd"
+          className={location.pathname.includes('findPwd') ? styles.active : ''}>
           비밀번호 찾기
         </Link>
       </div>
@@ -32,18 +32,29 @@ const FindIdForm = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [result, setResult] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleFindId = async () => {
+    if (!name.trim() || !phone.trim()) {
+      alert('이름과 휴대폰 번호를 모두 입력해 주세요.');
+      return;  // 서버 요청 중단
+    }
+
     try {
-      const response = await fetch(`/api/member/findId?name=${name}&phone=${phone}`);
+      const response = await fetch(`http://localhost:8080/users/account/findId?name=${name}&phone=${phone}`);
       if (response.ok) {
         const data = await response.text();
         setResult(`아이디: ${data}`);
+        setIsSuccess(true);
       } else {
         setResult('일치하는 계정이 없습니다.');
+        setIsSuccess(false);
+        alert('이름과 휴대폰 번호가 일치하지 않습니다.');
       }
     } catch (error) {
       setResult('오류 발생');
+      setIsSuccess(false);
+      alert('오류가 발생했습니다.');
     }
   };
 
@@ -70,7 +81,39 @@ const FindIdForm = () => {
         </div>
       </div>
 
-      <button className={styles.button}>확인</button>
+
+
+      <div className={styles.resultContainer}>
+
+        <button className={styles.button} onClick={handleFindId}>확인
+        </button>
+        {/*결과*/}
+
+        <div className={styles.resultBox}>
+          {result && (
+            <>
+              {isSuccess && (
+                <p className={styles.resultMessage}>입력하신 정보와 일치하는 결과입니다.</p>
+              )}
+              <hr className={styles.line2} />
+              <div className={styles.result}>{result}</div>
+            </>
+          )}
+        </div>  {/*resultBox끝*/}
+
+        {isSuccess && (
+          <div className={styles.extraButtons}>
+            <Link to="/users/login" className={styles.linkButton}>
+              로그인하러가기
+            </Link>
+          </div>
+        )}
+
+      </div>    {/*resultContainer*/}
+
+
+
+
     </div>
   );
 }

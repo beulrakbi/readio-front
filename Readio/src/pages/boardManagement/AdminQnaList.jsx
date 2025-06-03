@@ -15,6 +15,12 @@ function AdminQnaList() {
     const pageSize = 7;
     const navigate = useNavigate();
 
+    // ✨ 인증 토큰을 가져오는 함수 (재사용성을 위해 별도로 정의)
+    const getAuthHeader = () => {
+        const token = sessionStorage.getItem('accessToken'); // MyLibrary, Bookmark와 일관성 유지
+        return token ? { 'Authorization': `Bearer ${token}` } : {};
+    };
+
     const fetchQnaPage = async (pageNumber = 0) => {
         try {
             const response = await fetch(`http://localhost:8080/serviceCenter/qna/list/paging?page=${pageNumber}&size=${pageSize}`);
@@ -29,7 +35,6 @@ function AdminQnaList() {
         }
     };
 
-    // ✳️ 검색 API 구현 전까지는 기본 리스트로만
     const fetchQnaSearch = async () => {
         try {
             const response = await fetch(`http://localhost:8080/serviceCenter/qna/search?keyword=${encodeURIComponent(searchQuery)}`);
@@ -74,19 +79,40 @@ function AdminQnaList() {
         }
         if (!window.confirm('선택한 QNA를 삭제하시겠습니까?')) return;
 
+        // ✨ 인증 헤더 가져오기
+        const authHeader = getAuthHeader();
+        if (!authHeader['Authorization']) { // 토큰이 없으면 삭제 요청 불가
+            alert('인증 토큰이 없습니다. 로그인 후 다시 시도해주세요.');
+            // 필요시 로그인 페이지로 리다이렉트
+            // navigate('/login');
+            return;
+        }
+
         try {
             for (const id of selectedIds) {
-                await fetch(`http://localhost:8080/serviceCenter/qna/delete/${id}`, {
+                const response = await fetch(`http://localhost:8080/serviceCenter/qna/delete/${id}`, {
                     method: 'DELETE',
+                    headers: authHeader, // ✨ 인증 헤더 추가
                 });
+
+                if (!response.ok) {
+                    // 서버에서 에러 메시지를 텍스트로 보낼 경우
+                    const errorText = await response.text();
+                    console.error(`QNA ${id} 삭제 실패:`, errorText);
+                    // 특정 id 삭제 실패 시 알림
+                    alert(`QNA ${id} 삭제 실패: ${errorText || response.statusText}`);
+                    // 실패 시 모든 삭제 작업을 중단하거나, 계속 진행할지 결정 (현재는 중단)
+                    throw new Error(`일부 QNA 삭제 실패: ${id}`);
+                }
             }
-            alert('삭제 완료');
+            alert('선택한 QNA가 성공적으로 삭제되었습니다.');
             setSelectedIds([]);
             setIsAllSelected(false);
+            // 삭제 후 현재 페이지 또는 검색 결과 다시 불러오기
             isSearching ? fetchQnaSearch() : fetchQnaPage(page);
         } catch (error) {
             console.error('삭제 중 오류:', error);
-            alert('삭제 실패');
+            alert(`삭제 실패: ${error.message}`); // 사용자에게 더 구체적인 메시지 전달
         }
     };
 

@@ -77,7 +77,7 @@ function AdminNoticeWriting() {
         };
 
         // ✅ 1. localStorage에서 JWT 토큰 가져오기 및 유효성 검사 (매우 중요!)
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = sessionStorage.getItem('accessToken');
         console.log('가져온 토큰:', accessToken); // ✅ 이 로그를 추가하여 값 확인!
 
         if (!accessToken) {
