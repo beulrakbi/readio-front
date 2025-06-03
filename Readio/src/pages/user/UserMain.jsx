@@ -11,11 +11,15 @@ import UserMainCSS from './UserMain.module.css';
 function UserMain() {
     const [types, setTypes] = useState([]);
     // const allTypes = ["celeb", "goods", "habit"];
+    const [userCoords, setUserCoords] = useState(null); // 위치 좌표 저장할 상태 
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const today = dayjs();  // import dayjs
     const token = sessionStorage.getItem("accessToken");   //5.30 변경 테스트중
     // const token = localStorage.getItem("accessToken");
+
+    const userIdFromSession = sessionStorage.getItem("userId");
+
 
     const convertEmojiToEnum = (emoji) => {
         switch (emoji) {
@@ -27,6 +31,27 @@ function UserMain() {
             default: return 'NORMAL';
         }
     };
+
+    // 위치 정보 요청
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setUserCoords({
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    });
+                },
+                (error) => {
+                    console.warn("위치 정보를 가져오는 것을 거부하거나 실패했습니다:", error);
+                    // userCoords를 null 상태로 두면, VideoList 쪽에서 typeId=5인 경우엔
+                    // 아무것도 요청하지 않고 빈 리스트를 보여주도록 처리했습니다.
+                }
+            );
+        } else {
+            console.warn("이 브라우저는 위치 정보(geolocation)를 지원하지 않습니다.");
+        }
+    }, []);
 
     useEffect(() => {
         const userId = sessionStorage.getItem("userId");   //5.30 변경 테스트중
@@ -47,18 +72,56 @@ function UserMain() {
     }, [sessionStorage.getItem("userId")]);   //5.30 변경 테스트중
     // }, [localStorage.getItem("userId")]);
 
-    useEffect(() => {
-        const getTypes = async () => {
-            const allTypes = await dispatch(callCurationTypesAPI());
-            if (allTypes) {
-                const types = allTypes.data;
-                const shuffled = [...types].sort(() => 0.5 - Math.random()); // 랜덤 셔플
-                setTypes(shuffled);
+    // useEffect(() => {
+    //     const getTypes = async () => {
+    //         const allTypes = await dispatch(callCurationTypesAPI());
+    //         if (allTypes) {
+    //             const types = allTypes.data;
+
+
+    //             // if (token && userIdFromSession) { // 로그인 상태이고, userId가 있을 때만
+    //             //     const emotionRecommendationType = {
+    //             //         typeId: 'emotionBased', // 감정 기반 추천을 식별하기 위한 고유 ID (숫자가 아니어도 괜찮아요)
+    //             //         typeName: 'EmotionRecommendationForUser', // 내부적으로 사용할 이름 (원하시는 대로)
+    //             //         typeText: `${userIdFromSession}님, 오늘 기분에 맞는 영상 어때요? 😊` // 화면에 보여줄 제목
+    //             //     };
+    //             //     finalTypesToShow.unshift(types); // 다른 큐레이션 목록보다 먼저 보여주기 위해 맨 앞에 추가
+    //             // }
+
+    //             const shuffled = [...types].sort(() => 0.5 - Math.random()); // 랜덤 셔플
+    //             setTypes(shuffled);
+    //         }
+    //     }
+    //     getTypes();
+    //     console.log("ttttttt", types);
+    // }, [dispatch, token, userIdFromSession]);
+
+        useEffect(() => {
+            const getTypes = async () => {
+                const allTypes = await dispatch(callCurationTypesAPI());
+                if (allTypes) {
+                    const apiTypes = allTypes.data; // ← 변수명을 apiTypes로 변경
+
+                    // 로그인 상태일 때만 “감정 기반 추천” 객체을 앞에 추가
+                    let finalTypesToShow = [...apiTypes];
+                    if (token && userIdFromSession) {
+                        const emotionRecommendationType = {
+                            typeId: 'emotionBased',
+                            typeName: 'EmotionRecommendationForUser',
+                            typeText: `${userIdFromSession}님, 오늘 기분에 맞는 영상 어때요? 😊`
+                        };
+                        finalTypesToShow.unshift(emotionRecommendationType); // ← apiTypes 복사본에 추가
+                    }
+
+                    // 마지막으로 셔플해서 state에 저장
+                    const shuffled = finalTypesToShow.sort(() => 0.5 - Math.random());
+                    setTypes(shuffled);
+                }
             }
-        }
-        getTypes();
-        console.log("ttttttt", types);
-    }, []);
+            getTypes();
+            console.log("ttttttt", types);
+        }, [dispatch, token, userIdFromSession]);
+
 
     return (
         <>
@@ -84,9 +147,13 @@ function UserMain() {
                             당신에게 꼭 맞는 이야기를 전합니다. "</p>
                     </div>
                     <div className={UserMainCSS.videoSection}>
-                        <VideoList type={types[0]}/>
+                        {/* <VideoList type={types[0]}/>
                         <VideoList type={types[1]}/>
-                        <VideoList type={types[2]}/>
+                        <VideoList type={types[2]}/> */}
+
+                          {types[0] && <VideoList type={types[0]} userCoords={userCoords} userId={userIdFromSession}/>}
+                          {types[1] && <VideoList type={types[1]} userCoords={userCoords} userId={userIdFromSession} />}
+                          {types[2] && <VideoList type={types[2]} userCoords={userCoords} userId={userIdFromSession}/>}
 
                     </div>
                 </div>

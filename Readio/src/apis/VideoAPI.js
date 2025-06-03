@@ -36,7 +36,13 @@ export async function getNewVideos(type, keyword, dispatch, num) {
 
     let maxResult = 5;
 
-    if (maxResult <= num) return null; else {
+    if (maxResult <= num) {
+
+        // return null; 
+        console.log("이미 충분한 영상이 있거나 요청할 영상 개수가 0 이하입니다.");
+        return []; // 빈 배열 반환하여 후속 에러 방지
+    }
+    else {
 
         if (type === "1") {
             keyword = keyword + '|낭독|리뷰'
@@ -44,7 +50,8 @@ export async function getNewVideos(type, keyword, dispatch, num) {
         maxResult = maxResult - num;
 
         try {
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I';
+            const encodedKeyword = encodeURIComponent(keyword);
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
             const data = await fetch(baseUrl);
             const json = await data.json();
             const result = json.items;
@@ -84,7 +91,8 @@ export async function searchNewVideos(keyword, dispatch, num) {
         maxResult = maxResult - num;
 
         try {
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
+            const encodedKeyword = encodeURIComponent(keyword);
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
             const data = await fetch(baseUrl);
             const json = await data.json();
 
