@@ -3,6 +3,13 @@
 .followDiv {
     width: 60%;
     height: 1000px;
+    /*justify-content: center;*/
+}
+
+.followDiv2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .followBackBt {
@@ -21,7 +28,7 @@
 }
 
 .followListBtDiv {
-    width: 100%;
+    width: 500px;
     height: 100px;
     display: flex;
     align-items: center;
