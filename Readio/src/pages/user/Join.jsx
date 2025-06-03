@@ -404,7 +404,10 @@ function Join() {
                         placeholder="이메일을 입력하세요"
                         value={form.userEmail}
                         onChange={onChangeEmail} />
-                    <button type="button" className={styles.checkBtn} onClick={onClickCheckEmail}>중복확인</button>
+                    <button 
+                    type="button" 
+                    className={styles.checkBtn} 
+                    onClick={onClickCheckEmail}>중복확인</button>
                 </div>
                 <p className={`${styles.message} ${isEmail ? styles.success : styles.error}`}>{emailMessage}</p>
 
