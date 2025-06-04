@@ -5,6 +5,19 @@ import styles from './UserEdit.module.css';
 
 function UserEdit() {
 
+    const [emailMessage, setEmailMessage] = useState('');
+    const [isEmailValid, setIsEmailValid] = useState(null); // true / false / null
+
+    const [phoneMessage, setPhoneMessage] = useState('');
+    const [isPhoneValid, setIsPhoneValid] = useState(null); // true / false / null
+
+    const [pwdMessage, setPwdMessage] = useState('');
+    const [pwdConfirmMessage, setPwdConfirmMessage] = useState('');
+
+    const [isPwd, setIsPwd] = useState(false);
+    const [isPwdConfirm, setIsPwdConfirm] = useState(false);
+
+
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         userId: '',
@@ -15,6 +28,106 @@ function UserEdit() {
         userPhone: '',
         userBirthday: '',
     });
+    const [initialFormData, setInitialFormData] = useState(null);
+
+    // 이메일 중복확인
+    const handleEmailCheck = async () => {
+        const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const accessToken = sessionStorage.getItem('accessToken');
+
+        if (!emailRegExp.test(formData.userEmail)) {
+            setEmailMessage('유효한 이메일 주소를 입력해 주세요.');
+            setIsEmailValid(false);
+            return;
+        }
+
+        try {
+            const response = await axios.get(`http://localhost:8080/users/edit/check-email`, {
+                params: { userEmail: formData.userEmail },
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+
+            if (response.data.exist) {
+                setEmailMessage('이미 사용 중인 이메일입니다.');
+                setIsEmailValid(false);
+            } else {
+                setEmailMessage('사용 가능한 이메일입니다.');
+                setIsEmailValid(true);
+            }
+        } catch (error) {
+            console.error('이메일 중복확인 오류:', error);
+            setEmailMessage('이메일 중복확인 중 오류가 발생했습니다.');
+            setIsEmailValid(false);
+        }
+    };
+
+    // 전화번호 중복확인
+    const handlePhoneCheck = async () => {
+        const phoneRegExp = /^01[016789]-?\d{3,4}-?\d{4}$/;
+        const accessToken = sessionStorage.getItem('accessToken');
+
+        if (!phoneRegExp.test(formData.userPhone)) {
+            setPhoneMessage('유효한 휴대폰 번호를 입력해 주세요.');
+            setIsPhoneValid(false);
+            return;
+        }
+
+        try {
+            const response = await axios.get(`http://localhost:8080/users/edit/check-phone`, {
+                params: { userPhone: formData.userPhone },
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            });
+
+            if (response.data.exist) {
+                setPhoneMessage('이미 사용 중인 전화번호입니다.');
+                setIsPhoneValid(false);
+            } else {
+                setPhoneMessage('사용 가능한 전화번호입니다.');
+                setIsPhoneValid(true);
+            }
+        } catch (error) {
+            console.error('휴대폰 번호 중복확인 오류:', error);
+            setPhoneMessage('휴대폰 번호 중복확인 중 오류가 발생했습니다.');
+            setIsPhoneValid(false);
+        }
+    };
+
+    const onChangePwd = (e) => {
+        const value = e.target.value;
+        setFormData(prev => ({ ...prev, userPwd: value }));
+
+        const lengthValid = /^.{8,20}$/.test(value);
+        const hasLetter = /[a-zA-Z]/.test(value);
+        const hasNumber = /[0-9]/.test(value);
+        const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+
+        const typesCount = [hasLetter, hasNumber, hasSpecial].filter(Boolean).length;
+
+        if (!lengthValid || typesCount < 2) {
+            setPwdMessage("영문/숫자/특수문자 중 2가지 이상 조합(8~20자)");
+            setIsPwd(false);
+        } else {
+            setPwdMessage("사용 가능한 비밀번호입니다.");
+            setIsPwd(true);
+        }
+    };
+
+    const onChangePwdConfirm = (e) => {
+        const value = e.target.value;
+        setFormData(prev => ({ ...prev, userPwdConfirm: value }));
+
+        if (formData.userPwd !== value) {
+            setPwdConfirmMessage("비밀번호가 일치하지 않습니다.");
+            setIsPwdConfirm(false);
+        } else {
+            setPwdConfirmMessage("비밀번호가 일치합니다.");
+            setIsPwdConfirm(true);
+        }
+    };
 
     useEffect(() => {
         const isPasswordVerified = sessionStorage.getItem('isPasswordVerified');   //5.30 변경 테스트중
@@ -38,26 +151,27 @@ function UserEdit() {
             },
         })
             .then(response => {
-                console.log("전체 응답", response)
-                console.log("회원정보 불러오기 성공", response.data);
                 const data = response.data;
-                setFormData(prev => ({
-                    ...prev,
+                const userInfo = {
                     userId: data.userId || '',
                     userName: data.userName || '',
                     userEmail: data.userEmail || '',
                     userPhone: data.userPhone || '',
                     userBirthday: data.userBirthday || '',
-                }));
+                    userPwd: '',
+                    userPwdConfirm: '',
+                };
+                setFormData(userInfo);
+                setInitialFormData(userInfo);
             })
             .catch(error => {
-                console.error('회원정보 불러오기 실패:', error.response ? error.response.data : error.message);
+                console.error('회원정보 불러오기 실패:', error);
                 alert('회원정보를 불러오는 데 실패했습니다. 다시 시도해주세요.');
-                sessionStorage.removeItem('userId');   //5.30 변경 테스트중
-                sessionStorage.removeItem('accessToken');   //5.30 변경 테스트중
+                sessionStorage.removeItem('userId');
+                sessionStorage.removeItem('accessToken');
                 navigate('/users/login');
             });
-    }, [navigate])
+    }, [navigate]);
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -67,15 +181,15 @@ function UserEdit() {
         }));
     };
 
+    const isSameInfo = (a, b) => (
+        a.userEmail === b.userEmail &&
+        a.userPhone === b.userPhone &&
+        a.userBirthday === b.userBirthday &&
+        !a.userPwd
+    );
+
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-
-        if (formData.userPwd || formData.userPwdConfirm) {
-            if (formData.userPwd !== formData.userPwdConfirm) {
-                alert('비밀번호가 일치하지 않습니다.');
-                return;
-            }
-        }
 
         const accessToken = sessionStorage.getItem('accessToken');   //5.30 변경 테스트중
         // const accessToken = localStorage.getItem('accessToken');
@@ -83,6 +197,23 @@ function UserEdit() {
             alert('로그인이 필요합니다.');
             navigate('/users/login');
             return;
+        }
+
+        if (initialFormData && isSameInfo(formData, initialFormData)) {
+            alert("변경된 회원정보가 없습니다.");
+            return;
+        }
+
+        // 비밀번호가 입력된 경우 유효성 검사
+        if (formData.userPwd || formData.userPwdConfirm) {
+            if (!isPwd) {
+                alert("비밀번호 형식이 올바르지 않습니다.");
+                return;
+            }
+            if (!isPwdConfirm) {
+                alert("비밀번호가 일치하지 않습니다.");
+                return;
+            }
         }
 
         try {
@@ -155,9 +286,10 @@ function UserEdit() {
                             name="userName"
                             value={formData.userName}
                             onChange={onChangeHandler}
-                            readOnly
-                        />
+                            readOnly />
                     </div>
+                    <p className={styles.message}>
+                    </p>
 
                     <div className={styles.formGroup}>
                         <label>아이디</label>
@@ -165,10 +297,10 @@ function UserEdit() {
                             type="text"
                             name="userId"
                             value={formData.userId}
-                            readOnly
-                        />
-                        {/* <button type="button" className={styles.checkBtn}>중복확인</button> */}
+                            readOnly />
                     </div>
+                    <p className={styles.message}>
+                    </p>
 
                     <div className={styles.formGroup}>
                         <label>비밀번호</label>
@@ -176,10 +308,12 @@ function UserEdit() {
                             type="password"
                             name="userPwd"
                             value={formData.userPwd}
-                            onChange={onChangeHandler}
-                            placeholder="새로운 비밀번호 입력(변경 시에만 입력하세요)"
-                        />
+                            onChange={onChangePwd}
+                            placeholder="새로운 비밀번호 입력(변경 시에만 입력하세요)" />
                     </div>
+                    <p className={`${styles.message} ${isPwd ? styles.success : styles.error}`}>
+                        {pwdMessage}
+                    </p>
 
                     <div className={styles.formGroup}>
                         <label>비밀번호 확인</label>
@@ -187,10 +321,12 @@ function UserEdit() {
                             type="password"
                             name="userPwdConfirm"
                             value={formData.userPwdConfirm}
-                            onChange={onChangeHandler}
-                            placeholder="비밀번호 확인"
-                        />
+                            onChange={onChangePwdConfirm}
+                            placeholder="비밀번호 확인" />
                     </div>
+                    <p className={`${styles.message} ${isPwdConfirm ? styles.success : styles.error}`}>
+                        {pwdConfirmMessage}
+                    </p>
 
                     <div className={styles.formGroup}>
                         <label>이메일</label>
@@ -200,10 +336,17 @@ function UserEdit() {
                             value={formData.userEmail}
                             onChange={onChangeHandler}
                             placeholder="이메일 입력"
-                            required
-                        />
-                        <button type="button" className={styles.checkBtn}>중복확인</button>
+                            required />
+                        <button
+                            type="button"
+                            className={styles.checkBtn}
+                            onClick={handleEmailCheck} >
+                            중복확인
+                        </button>
                     </div>
+                    <p className={`${styles.message} ${isEmailValid === true ? styles.success : isEmailValid === false ? styles.error : ''}`}>
+                        {emailMessage}
+                    </p>
 
                     <div className={styles.formGroup}>
                         <label>휴대폰 번호</label>
@@ -213,10 +356,16 @@ function UserEdit() {
                             value={formData.userPhone}
                             onChange={onChangeHandler}
                             placeholder="휴대폰 번호 입력"
-                            required
-                        />
-                        <button type="button" className={styles.checkBtn}>중복확인</button>
+                            required />
+                        <button type="button"
+                            className={styles.checkBtn}
+                            onClick={handlePhoneCheck} >
+                            중복확인
+                        </button>
                     </div>
+                    <p className={`${styles.message} ${isPhoneValid === true ? styles.success : isPhoneValid === false ? styles.error : ''}`}>
+                        {phoneMessage}
+                    </p>
 
                     <div className={styles.formGroup}>
                         <label>생년월일</label>
@@ -225,8 +374,7 @@ function UserEdit() {
                             name="userBirthday"
                             value={formData.userBirthday}
                             onChange={onChangeHandler}
-                            required
-                        />
+                            required />
                     </div>
 
                 </section>
@@ -246,7 +394,7 @@ function UserEdit() {
                     <button type="submit" className={styles.submitBtn}>수정</button>
                 </div>
             </form>
-        </div>
+        </div >
     );
 }
 export default UserEdit;

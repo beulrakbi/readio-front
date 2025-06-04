@@ -4,9 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import defaultImg from '../../../assets/defaultImg.png';
 import pencilIcon from '../../../assets/pencil.png';
 import styles from './MyLibrary.module.css';
+import {callPostsCountAPI} from "../../../apis/PostAPICalls.js";
+import {useDispatch} from "react-redux";
 
 
 const ProfileSection = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { userId: paramUserId } = useParams();
     const currentUserId = sessionStorage.getItem("userId");
@@ -23,7 +26,7 @@ const ProfileSection = () => {
     // 관심 영상과 관심 책의 수를 저장할 상태 변수
     const [bookmarkedVideoCount, setBookmarkedVideoCount] = useState(0);
     const [bookmarkedBookCount, setBookmarkedBookCount] = useState(0);
-
+    const [postCount, setPostCount] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
     const isOwner = currentUserId === targetUserId;
 
@@ -84,8 +87,13 @@ const ProfileSection = () => {
             }
         };
 
+        const fetchPostCount = () => {
+            setPostCount(dispatch(callPostsCountAPI({userId: targetUserId})));
+        }
+
         fetchProfile();
         fetchBookmarkCounts();
+        fetchPostCount();
     }, [targetUserId]);
 
     const handlePostClick = () => {
@@ -93,7 +101,7 @@ const ProfileSection = () => {
             setShowPopup(true);
             setTimeout(() => setShowPopup(false), 2000);
         } else {
-            navigate(`/mylibrary/${targetUserId}/postlist`);
+            navigate(`/mylibrary/postlist/${targetUserId}`);
         }
     };
 
@@ -131,7 +139,7 @@ const ProfileSection = () => {
             <div className={styles.outProfileInfo}>
                 <div className={styles.stats}>
                     <div className={styles.statItem} onClick={handlePostClick} style={{ cursor: 'pointer' }}>
-                        <strong >3</strong><span>포스트</span>
+                        <strong>{postCount}</strong><span>포스트</span>
                     </div>
                     <div className={styles.statItem}><strong>5</strong><span>리뷰</span></div>
                     {/* 관심 영상 클릭 시 'video' 탭 정보를 전달 */}

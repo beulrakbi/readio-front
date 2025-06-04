@@ -49,10 +49,10 @@
     width: 100%;
     table-layout: fixed;
     font-family: 'Pretendard Variable', sans-serif;
+    border-collapse: collapse;
 
 }
 .noticeTable th {
-    border: none;
     font-weight: 400;
     font-size: 20px;
     color: #383838;
@@ -60,23 +60,51 @@
 }
 
 .noticeTable td {
-    border: none;
+    border-bottom: 1px solid #383838;
     text-align: center;
-    padding-top: 30px;
+    padding: 10px;
     font-size: 16px;
+}
+
+.noticeTable tr {
 }
 
 .noticeTable td:first-child,
 .noticeTable th:first-child {
-    padding-right: 4px;  /* 체크박스 우측 여백 줄이기 */
-    width: 30px; /* 체크박스 열 좁게 */
+    width: 5%; /* 체크박스 열 좁게 */
 }
 
 .noticeTable td:nth-child(2),
 .noticeTable th:nth-child(2) {
-    padding-left: 4px;   /* 게시판 번호 좌측 여백 줄이기 */
-    width: 80px;
+    width: 5%;
 }
+
+.noticeTable td:nth-child(3),
+.noticeTable th:nth-child(3) {
+    width: 5%;
+}
+
+.noticeTable td:nth-child(4),
+.noticeTable th:nth-child(4) {
+    width: auto;
+}
+
+.noticeTable td:nth-child(5),
+.noticeTable th:nth-child(5) {
+    width: 10%;
+}
+
+.noticeTable td:nth-child(6),
+.noticeTable th:nth-child(6) {
+    width: 20%;
+}
+
+.noticeTable td:nth-child(7),
+.noticeTable th:nth-child(7) {
+    width: 5%;
+}
+
+
 .mcontainer{
     display: flex;
     flex-direction: column;

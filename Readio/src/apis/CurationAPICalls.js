@@ -26,6 +26,26 @@ export const callCurationTypesAPI = ({login}) => {
     };
 }
 
+export const callCurationTypesForAdminAPI = () => {
+    const requestURL = `http://localhost:8080/admin/curationTypes`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+            },
+        }).then((response) => response.json());
+        // console.log("result", result);
+        if (result.status === 200) {
+            dispatch(getCurationTypes(result));
+            return result;
+        }
+    };
+}
+
+
 export const callAllCurationTypesAndKeywordsAPI = () => {
     const requestURL = `http://localhost:8080/admin/curation/all`;
     return async (dispatch, getState) => {
@@ -61,11 +81,11 @@ export const callUpdateAllAPI = (curationDTO) => {
         }).then((response) => response.json());
 
         // console.log('[CurationAPICalls] callCurationTypesAPI RESULT : ', result);
-        if (result.status === 200) {
+        // if (result.status === 200) {
             // console.log('[CurationAPICalls] callCurationTypesAPI SUCCESS');
-            dispatch(putAllCuration(result));
-            return result;
-        }
+            // dispatch(putAllCuration(result));
+            // return result;
+        // }
     };
 
 }

@@ -36,8 +36,19 @@ const Login = () => {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "로그인 실패");
+                let errorMessage = "로그인 실패";
+                let errorData = null;
+                
+                try {
+                    errorData = await response.json();
+                    if (errorData && errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+
+                } catch {
+
+                }
+                throw new Error(errorMessage);
             }
 
             const data = await response.json();
@@ -142,7 +153,7 @@ const Login = () => {
                     <div className={LoginCSS.findLinks}>
                         <Link to="/account">아이디 찾기</Link>
                         <span className={LoginCSS.divider}>|</span>
-                        <Link to="/account/findpwd">비밀번호 찾기</Link>
+                        <Link to="/account/findPwd">비밀번호 찾기</Link>
                     </div>
                 </form>
             </div>
