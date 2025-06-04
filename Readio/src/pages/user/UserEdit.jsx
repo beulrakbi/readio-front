@@ -7,13 +7,17 @@ function UserEdit() {
 
     const [emailMessage, setEmailMessage] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(null); // true / false / null
+    // 정보가 변경됐다면 중복확인을 눌러야만 수정 가능
+    const [isEmailChecked, setIsEmailChecked] = useState(false);
+    const [emailChanged, setEmailChanged] = useState(false);
 
     const [phoneMessage, setPhoneMessage] = useState('');
     const [isPhoneValid, setIsPhoneValid] = useState(null); // true / false / null
+    const [isPhoneChecked, setIsPhoneChecked] = useState(false);
+    const [phoneChanged, setPhoneChanged] = useState(false);
 
     const [pwdMessage, setPwdMessage] = useState('');
     const [pwdConfirmMessage, setPwdConfirmMessage] = useState('');
-
     const [isPwd, setIsPwd] = useState(false);
     const [isPwdConfirm, setIsPwdConfirm] = useState(false);
 
@@ -41,6 +45,11 @@ function UserEdit() {
             return;
         }
 
+        if (!emailChanged) {
+            alert('변경된 정보가 없습니다.');
+            return;
+        }
+
         try {
             const response = await axios.get(`http://localhost:8080/users/edit/check-email`, {
                 params: { userEmail: formData.userEmail },
@@ -52,16 +61,20 @@ function UserEdit() {
             if (response.data.exist) {
                 setEmailMessage('이미 사용 중인 이메일입니다.');
                 setIsEmailValid(false);
+                setIsEmailChecked(false);
             } else {
                 setEmailMessage('사용 가능한 이메일입니다.');
                 setIsEmailValid(true);
+                setIsEmailChecked(true);
             }
         } catch (error) {
             console.error('이메일 중복확인 오류:', error);
             setEmailMessage('이메일 중복확인 중 오류가 발생했습니다.');
             setIsEmailValid(false);
+            setIsEmailChecked(false);
         }
     };
+
 
     // 전화번호 중복확인
     const handlePhoneCheck = async () => {
@@ -71,6 +84,11 @@ function UserEdit() {
         if (!phoneRegExp.test(formData.userPhone)) {
             setPhoneMessage('유효한 휴대폰 번호를 입력해 주세요.');
             setIsPhoneValid(false);
+            return;
+        }
+
+        if (!phoneChanged) {
+            alert('변경된 정보가 없습니다.');
             return;
         }
 
@@ -85,14 +103,17 @@ function UserEdit() {
             if (response.data.exist) {
                 setPhoneMessage('이미 사용 중인 전화번호입니다.');
                 setIsPhoneValid(false);
+                setIsPhoneChecked(false);
             } else {
                 setPhoneMessage('사용 가능한 전화번호입니다.');
                 setIsPhoneValid(true);
+                setIsPhoneChecked(true);
             }
         } catch (error) {
             console.error('휴대폰 번호 중복확인 오류:', error);
             setPhoneMessage('휴대폰 번호 중복확인 중 오류가 발생했습니다.');
             setIsPhoneValid(false);
+            setIsPhoneChecked(false);
         }
     };
 
@@ -175,10 +196,28 @@ function UserEdit() {
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value,
-        }));
+
+        setFormData(prev => {
+            const newFormData = {
+                ...prev,
+                [name]: value,
+            };
+
+            // 이메일이나 전화번호가 바뀐 경우 중복확인 상태 초기화
+            if (name === 'userEmail') {
+                setEmailChanged(value !== initialFormData.userEmail);
+                setIsEmailChecked(false);
+                setIsEmailValid(null);
+            }
+
+            if (name === 'userPhone') {
+                setPhoneChanged(value !== initialFormData.userPhone);
+                setIsPhoneChecked(false);
+                setIsPhoneValid(null);
+            }
+
+            return newFormData;
+        });
     };
 
     const isSameInfo = (a, b) => (
@@ -201,6 +240,16 @@ function UserEdit() {
 
         if (initialFormData && isSameInfo(formData, initialFormData)) {
             alert("변경된 회원정보가 없습니다.");
+            return;
+        }
+
+        if (emailChanged && !isEmailChecked) {
+            alert("이메일 중복확인을 해주세요.");
+            return;
+        }
+
+        if (phoneChanged && !isPhoneChecked) {
+            alert("휴대폰 번호 중복확인을 해주세요.");
             return;
         }
 
