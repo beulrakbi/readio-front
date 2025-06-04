@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import BookReviewCSS from "./BookReview.module.css";
 
 // 좋아요 이미지 (예시 경로, 실제 경로로 대체 필요)
-import heartIcon from '../../assets/likes2.png'; // 좋아요 아이콘 (빈)
 import filledHeartIcon from '../../assets/likes.png'; // 좋아요 아이콘 (꽉 찬)
+import heartIcon from '../../assets/likes2.png'; // 좋아요 아이콘 (빈)
 
 // getAuthHeader 함수를 BookReview 컴포넌트 외부에서 정의하여 재사용 가능하게 하거나,
 // BookReview 컴포넌트 내부에서 정의하되, props로 받는 getAuthToken 함수와의 역할 분담을 명확히 해야 합니다.
@@ -94,8 +94,9 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
     useEffect(() => {
         const loadReviewsAndUser = async () => {
             // 사용자 정보 설정
-            const token = localStorage.getItem('accessToken'); // 여기서는 직접 localStorage에서 가져옵니다.
-                                                              // getAuthToken prop을 사용하지 않는 경우
+            // Book.jsx와 통일성을 위해 sessionStorage에서 토큰을 가져오도록 변경
+            const token = sessionStorage.getItem('accessToken'); 
+                                                                 
             if (token) {
                 try {
                     // JWT 토큰 디코딩 라이브러리를 사용한다면
@@ -349,10 +350,12 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                                     />
                                     {review.likesCount} {/* <-- 실제 좋아요 수 표시 */}
                                 </button>
-                                {/* 신고하기 버튼 */}
-                                <button className={BookReviewCSS.reviewBt} onClick={() => handleReportClick(review.reviewId)}>
-                                    신고하기
-                                </button>
+                                {/* 신고하기 버튼: 로그인 상태일 때만 보이도록 조건부 렌더링 추가 */}
+                                {isLoggedIn && (
+                                    <button className={BookReviewCSS.reviewBt} onClick={() => handleReportClick(review.reviewId)}>
+                                        신고하기
+                                    </button>
+                                )}
                                 {/* --- 삭제 버튼 (조건부 렌더링) --- */}
                                 {/* console.log(`Review ID: ${review.reviewId}, Reviewer: ${review.reviewerUserId}, Current User: ${currentLoggedInUserId}, Condition: ${isLoggedIn && currentLoggedInUserId === review.reviewerUserId}`); // <-- 각 리뷰별 조건 확인 로그 */}
                                 {isLoggedIn && currentLoggedInUserId && (currentLoggedInUserId.toString() === review.reviewerUserId.toString()) && (
