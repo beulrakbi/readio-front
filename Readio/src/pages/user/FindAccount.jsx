@@ -136,6 +136,7 @@ const FindPwdForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
     if (timer > 0 && sentCode && !isCodeVerified) {
       const interval = setInterval(() => setTimer(prev => prev - 1), 1000);
       return () => clearInterval(interval);
@@ -162,6 +163,7 @@ const FindPwdForm = () => {
     setMessage('');
     setError('');
     setIsCodeVerified(false);
+
     if (!userId.trim()) {
       alert('아이디를 먼저 입력해주세요.')
       setError('아이디를 먼저 입력해주세요.');
@@ -190,6 +192,13 @@ const FindPwdForm = () => {
   const verifyCode = () => {
     setMessage('');
     setError('');
+
+    if (!code.trim()) {
+      alert('인증번호를 입력해주세요.');
+      setError('인증번호를 입력해주세요.');
+      return;
+    }
+
     if (code === sentCode) {
       setIsCodeVerified(true);
       setTimer(0);  // 타이머 멈추기
@@ -206,6 +215,13 @@ const FindPwdForm = () => {
   const resetPassword = async () => {
     setMessage('');
     setError('');
+
+    if (!userId.trim() || !email.trim()) {
+      alert('아이디와 이메일을 입력해주세요.');
+      setError('아이디와 이메일을 입력해주세요.');
+      return;
+    }
+
     if (!isCodeVerified) {
       setError('인증번호 확인이 필요합니다.');
       return;
@@ -224,13 +240,6 @@ const FindPwdForm = () => {
       });
 
       setShowModal(true);
-      // Navigate('users/login'); // 로그인 페이지로 이동
-      // setUserId('');
-      // setEmail('');
-      // setCode('');
-      // setNewPassword('');
-      // setIsCodeVerified(false);
-
     } catch (err) {
       alert('비밀번호 재설정에 실패하였습니다.')
       console.log(err)
