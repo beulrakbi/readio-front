@@ -141,7 +141,7 @@ function UserManagement() {
 
     const [roleChangeRequest, setRoleChangeRequest] = useState(null);
 
-    {/* t삭제 버튼 */ }
+    {/* 삭제 버튼 */ }
     const handleDeleteUser = async (userId) => {
         const confirmDelete = window.confirm("정말 회원을 삭제하시겠습니까?");
         if (!confirmDelete) return;
