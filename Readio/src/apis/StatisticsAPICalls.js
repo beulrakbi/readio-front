@@ -20,7 +20,15 @@ export async function getClickAnalytics(params) {
         });
 
         if (!response.ok) {
-            console.error(" 응답 상태 코드:", response.status);
+            console.error("응답 상태 코드:", response.status);
+
+            if (response.status === 401) {
+                alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+                sessionStorage.removeItem("accessToken");  // 만료된 토큰 제거
+                window.location.href = "/login";           // 로그인 페이지로 이동
+                return;  // 이후 코드 실행 막기
+            }
+
             throw new Error("API 실패");
         }
 
@@ -31,6 +39,43 @@ export async function getClickAnalytics(params) {
     }
 }
 
+
+/**
+ * 북마크 수 기반 콘텐츠 목록 조회 (Top 북마크 영상/책)
+ * @param {Object} params - 요청 파라미터 { type, limit }
+ * @returns {Promise}
+ */
+export async function getBookmarkAnalytics(params) {
+    try {
+        const fullUrl = `/api/admin/analytics/bookmarks?${new URLSearchParams(params)}`;
+        const token = sessionStorage.getItem("accessToken");
+
+        const response = await fetch(fullUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            console.error("응답 상태 코드:", response.status);
+
+            if (response.status === 401) {
+                alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+                sessionStorage.removeItem("accessToken");  // 만료된 토큰 제거
+                window.location.href = "/login";           // 로그인 페이지로 이동
+                return;  // 이후 코드 실행 막기
+            }
+
+            throw new Error("API 실패");
+        }
+
+        return await response.json();
+    } catch (err) {
+        console.error("getBookmarkAnalytics error:", err);
+        throw err;
+    }
+}
 
 /**
  * 클릭 로그 저장 (영상/책 클릭 시 호출)
@@ -53,14 +98,38 @@ export async function saveClickLog(dto) {
  * @returns {Promise}
  */
 export async function getInterestTrend(params) {
+
     try {
-        const response = await axios.get('/api/admin/summary/interest-trend', { params });
-        return response.data;
-    } catch (error) {
-        console.error("getInterestTrend error:", error);
-        throw error;
+        const fullUrl = `/api/admin/summary/interest-trend?${new URLSearchParams(params)}`;
+        const token = sessionStorage.getItem("accessToken");
+
+        const response = await fetch(fullUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            console.error("응답 상태 코드:", response.status);
+
+            if (response.status === 401) {
+                alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+                sessionStorage.removeItem("accessToken");  // 만료된 토큰 제거
+                window.location.href = "/login";           // 로그인 페이지로 이동
+                return;  // 이후 코드 실행 막기
+            }
+
+            throw new Error("API 실패");
+        }
+
+        return await response.json();
+    } catch (err) {
+        console.error("getClickAnalytics error:", err);
+        throw err;
     }
 }
+
 
 /**
  * 두 달 간 관심 키워드/카테고리 비교
@@ -69,13 +138,37 @@ export async function getInterestTrend(params) {
  */
 export async function getInterestDiff(params) {
     try {
-        const response = await axios.get('/api/admin/stats/interest-diff', { params });
-        return response.data;
-    } catch (error) {
-        console.error("getInterestDiff error:", error);
-        throw error;
+
+        const fullUrl = `/api/admin/stats/interest-diff?${new URLSearchParams(params)}`;
+        const token = sessionStorage.getItem("accessToken");
+
+        const response = await fetch(fullUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            console.error("응답 상태 코드:", response.status);
+
+            if (response.status === 401) {
+                alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+                sessionStorage.removeItem("accessToken");  // 만료된 토큰 제거
+                window.location.href = "/login";           // 로그인 페이지로 이동
+                return;  // 이후 코드 실행 막기
+            }
+
+            throw new Error("API 실패");
+        }
+
+        return await response.json();
+    } catch (err) {
+        console.error("getClickAnalytics error:", err);
+        throw err;
     }
 }
+
 
 /**
  * 사용자 행동 로그 저장
