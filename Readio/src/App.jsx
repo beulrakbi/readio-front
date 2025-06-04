@@ -168,7 +168,7 @@ function App() {
                         <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail/>}/>
                         <Route path="/admin/interest" element={< AdminInterestManager/>}/>
                         <Route path="/admin/curation" element={<CurationManagerPage/>}/>
-                        <Route path="/admin/analytics" element={<ContentStatsPage />} />
+                        <Route path="/admin/analytics/clicklog" element={<ContentStatsPage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
