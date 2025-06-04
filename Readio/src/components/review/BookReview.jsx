@@ -1,85 +1,79 @@
 import { useEffect, useState } from "react";
 import BookReviewCSS from "./BookReview.module.css";
 
-// 좋아요 이미지 (예시 경로, 실제 경로로 대체 필요)
-import heartIcon from '../../assets/likes2.png'; // 좋아요 아이콘 (빈)
-import filledHeartIcon from '../../assets/likes.png'; // 좋아요 아이콘 (꽉 찬)
+import filledHeartIcon from '../../assets/likes.png';
+import heartIcon from '../../assets/likes2.png';
 
-// getAuthHeader 함수를 BookReview 컴포넌트 외부에서 정의하여 재사용 가능하게 하거나,
-// BookReview 컴포넌트 내부에서 정의하되, props로 받는 getAuthToken 함수와의 역할 분담을 명확히 해야 합니다.
-// 현재 질문 맥락상, getAuthToken이 Bearer 토큰 문자열 자체를 반환하는 것이 아니라
-// { 'Authorization': 'Bearer <token>' } 형태의 헤더 객체를 반환하는 함수라고 가정하고 수정합니다.
-// 만약 getAuthToken이 순수하게 토큰 문자열만 반환한다면, 아래 getAuthHeader 함수를 새로 정의해야 합니다.
-
-// 임시로 이 파일 내부에 getAuthHeader를 정의합니다.
-// 만약 이 함수가 여러 컴포넌트에서 사용된다면, 별도의 유틸리티 파일로 분리하는 것이 좋습니다.
 const getAuthHeader = () => {
-    const token = sessionStorage.getItem('accessToken'); // 또는 localStorage.getItem('accessToken');
-                                                         // 프로젝트의 토큰 저장 방식에 맞춰 선택하세요.
-    // console.log("BookReview.jsx: getAuthHeader 토큰:", token); // 디버깅용
+    const token = sessionStorage.getItem('accessToken');
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
-
 function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
-    // getAuthToken prop이 더 이상 필요 없을 수 있습니다. (외부에서 getAuthHeader를 사용하기 때문에)
-    // 그러나 현재 코드에서는 jwtDecode를 위해 token 문자열이 필요하므로,
-    // getAuthToken prop은 그대로 유지하고, API 호출에는 getAuthHeader를 사용하는 것이 좋습니다.
-    // 여기서는 getAuthToken이 토큰 문자열을 반환한다고 가정합니다.
-
     const [reviewContent, setReviewContent] = useState('');
     const [reviews, setReviews] = useState([]);
     const [loadingReviews, setLoadingReviews] = useState(true);
     const [reviewsError, setReviewsError] = useState(null);
-
-    // 현재 로그인된 사용자의 userId 상태 추가
     const [currentLoggedInUserId, setCurrentLoggedInUserId] = useState(null);
 
-    // --- 디버깅 로그 추가 (최종 배포 시 제거 권장) ---
-    console.log("BookReview rendered. isLoggedIn:", isLoggedIn);
-    console.log("BookReview rendered. currentLoggedInUserId (before useEffect):", currentLoggedInUserId);
-    // --- ------------- ---
+    console.log("BookReview rendered. isLoggedIn:", isLoggedIn, "bookIsbn:", bookIsbn);
 
-    // 리뷰 목록을 불러오는 함수
     const fetchReviews = async () => {
         setLoadingReviews(true);
         setReviewsError(null);
+        console.log(`[BookReview.jsx] fetchReviews 시작: bookIsbn=${bookIsbn}`);
         try {
-            console.log(`[BookReview.jsx] 리뷰 목록 조회 시작: bookIsbn=${bookIsbn}`);
-            
-            // 리뷰 조회는 인증이 필수는 아닐 수 있으므로, 헤더를 조건부로 추가합니다.
-            // 하지만 백엔드에서 `isLiked` 정보를 주려면 토큰이 필요합니다.
-            const headers = getAuthHeader(); // 인증 헤더 가져오기
+            const headers = getAuthHeader();
+            console.log("[BookReview.jsx] fetchReviews - 요청 헤더:", headers);
 
             const reviewsRes = await fetch(`http://localhost:8080/bookReview/${bookIsbn}`, {
                 method: 'GET',
-                // 토큰이 존재할 경우에만 Authorization 헤더를 추가합니다.
-                // 이렇게 하면 로그인하지 않은 사용자도 리뷰를 볼 수 있습니다.
                 headers: Object.keys(headers).length > 0 ? headers : {}
             });
 
+            console.log("[BookReview.jsx] fetchReviews - 응답 상태:", reviewsRes.status, reviewsRes.statusText);
             if (!reviewsRes.ok) {
-                throw new Error(`리뷰 목록을 불러오는 데 실패했습니다: ${reviewsRes.status} ${reviewsRes.statusText}`);
+                const errorText = await reviewsRes.text();
+                console.error("[BookReview.jsx] fetchReviews - 응답 오류:", errorText);
+                throw new Error(`리뷰 목록을 불러오는 데 실패했습니다: ${reviewsRes.status} ${errorText}`);
             }
             const responseData = await reviewsRes.json();
-            const actualReviews = responseData.data || responseData; 
+            console.log("[BookReview.jsx] fetchReviews - 전체 응답 데이터:", responseData);
+
+            // 백엔드 ResponseDTO 구조에 따라 실제 리뷰 배열을 가져옴 (data 필드 확인)
+            const actualReviews = responseData.data || responseData;
+            console.log("[BookReview.jsx] fetchReviews - 실제 리뷰 데이터 (actualReviews):", actualReviews);
+
+
+            if (!Array.isArray(actualReviews)) {
+                console.error("[BookReview.jsx] fetchReviews - actualReviews가 배열이 아님:", actualReviews);
+                throw new Error("리뷰 데이터 형식이 올바르지 않습니다.");
+            }
             
-            // createdAt이 LocalDateTime -> ISO String으로 오므로 Date 객체로 변환
-            const formattedReviews = actualReviews.map(review => ({
-                ...review,
-                createdAt: new Date(review.createdAt)
-            }));
+            const formattedReviews = actualReviews.map(review => {
+                // 백엔드에서 오는 review 객체 구조를 여기서 확인!
+                console.log("[BookReview.jsx] fetchReviews - 매핑 전 개별 리뷰:", review);
+                return {
+                    ...review,
+                    // isLiked와 likesCount는 백엔드에서 이미 BookReviewDTO에 포함되어 올 것으로 예상
+                    // 만약 review.isLiked가 undefined라면 review.liked 등을 확인
+                    isLiked: review.isLiked, // 또는 review.liked (백엔드 DTO 필드명 및 Jackson 설정에 따라 다름)
+                    likesCount: review.likesCount,
+                    createdAt: new Date(review.createdAt)
+                };
+            });
+
+            formattedReviews.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
             setReviews(formattedReviews);
-            console.log("[BookReview.jsx] 리뷰 목록 로딩 성공:", formattedReviews);
-            // --- ✨ 추가된 디버깅 로그 ✨ ---
+            console.log("[BookReview.jsx] 리뷰 목록 로딩 성공 (formattedReviews):", formattedReviews);
             formattedReviews.forEach(review => {
-                console.log(`DEBUG_FE: Review ID ${review.reviewId}, isLiked received: ${review.isLiked}, likesCount received: ${review.likesCount}`);
+                // 이 로그는 매우 중요합니다. 백엔드에서 받은 isLiked 값이 올바르게 반영되는지 확인
+                console.log(`DEBUG_FE (fetchReviews): Review ID ${review.reviewId}, isLiked received: ${review.isLiked}, likesCount received: ${review.likesCount}`);
             });
-            // -----------------------------
 
             if (onReviewsLoaded) {
-                onReviewsLoaded(formattedReviews.length); // 부모 컴포넌트로 리뷰 개수 전달
+                onReviewsLoaded(formattedReviews.length);
             }
 
         } catch (err) {
@@ -90,46 +84,45 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
         }
     };
 
-    // 컴포넌트 마운트 시, 또는 bookIsbn 변경 시 리뷰 목록 및 사용자 정보 로드
     useEffect(() => {
         const loadReviewsAndUser = async () => {
-            // 사용자 정보 설정
-            const token = localStorage.getItem('accessToken'); // 여기서는 직접 localStorage에서 가져옵니다.
-                                                              // getAuthToken prop을 사용하지 않는 경우
+            console.log("[BookReview.jsx] useEffect 실행: bookIsbn 또는 isLoggedIn 변경됨.");
+            const token = sessionStorage.getItem('accessToken');
             if (token) {
                 try {
-                    // JWT 토큰 디코딩 라이브러리를 사용한다면
-                    // const decodedToken = jwtDecode(token);
-                    // 또는 수동 디코딩
                     const decodedToken = JSON.parse(atob(token.split('.')[1]));
-                    setCurrentLoggedInUserId(decodedToken.sub); // 'sub'는 보통 userId를 나타냅니다.
-                    console.log("[BookReview.jsx] 로그인된 사용자 ID (토큰 디코딩 - decodedToken.sub):", decodedToken.sub);
+                    setCurrentLoggedInUserId(decodedToken.sub);
+                    console.log("[BookReview.jsx] 로그인된 사용자 ID 설정 (decodedToken.sub):", decodedToken.sub);
                 } catch (e) {
                     console.error("JWT 토큰 디코딩 실패 또는 토큰 형식 오류:", e);
                     setCurrentLoggedInUserId(null);
                 }
             } else {
                 setCurrentLoggedInUserId(null);
+                console.log("[BookReview.jsx] 토큰 없음, 로그인된 사용자 ID null로 설정.");
             }
             
-            // 리뷰 목록 불러오기
-            fetchReviews();
+            // bookIsbn이 유효할 때만 fetchReviews 호출
+            if (bookIsbn) {
+                await fetchReviews(); // fetchReviews가 완료될 때까지 기다릴 수 있도록 await 추가 (선택 사항)
+            } else {
+                console.log("[BookReview.jsx] bookIsbn이 유효하지 않아 fetchReviews를 호출하지 않음.");
+                setReviews([]); // bookIsbn이 없으면 리뷰 목록을 비움
+                setLoadingReviews(false);
+            }
         };
 
-        if (bookIsbn) {
-            loadReviewsAndUser();
-        }
-    }, [bookIsbn, isLoggedIn]); // isLoggedIn도 의존성 배열에 추가하여 로그인 상태 변화 시 리뷰 목록 새로고침
+        loadReviewsAndUser();
+    }, [bookIsbn, isLoggedIn]); // isLoggedIn도 의존성 배열에 포함
 
-    // 리뷰 내용 변경 핸들러
     const handleReviewContentChange = (e) => {
         setReviewContent(e.target.value);
     };
 
-    // 리뷰 작성 버튼 클릭 핸들러
     const handleReviewSubmit = async () => {
-        const authHeader = getAuthHeader(); // 인증 헤더 가져오기
-        if (!authHeader['Authorization']) { // 헤더에 Authorization이 없으면 토큰이 없는 것
+        // ... (기존 코드와 동일)
+        const authHeader = getAuthHeader(); 
+        if (!authHeader['Authorization']) { 
             alert("로그인 후 리뷰를 작성할 수 있습니다.");
             return;
         }
@@ -144,7 +137,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...authHeader // 인증 헤더 적용
+                    ...authHeader 
                 },
                 body: JSON.stringify({
                     bookIsbn: bookIsbn,
@@ -159,7 +152,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
 
             alert("리뷰가 성공적으로 등록되었습니다.");
             setReviewContent('');
-            fetchReviews(); // 리뷰 등록 성공 후 목록 새로고침
+            fetchReviews(); 
 
         } catch (err) {
             setReviewsError(err.message);
@@ -168,8 +161,8 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
         }
     };
 
-    // 날짜 포맷 함수 (YYYY. MM. DD 형식)
     const formatReviewDate = (dateObj) => {
+        // ... (기존 코드와 동일)
         if (!(dateObj instanceof Date) || isNaN(dateObj)) return '';
         const year = dateObj.getFullYear();
         const month = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -177,59 +170,76 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
         return `${year}. ${month}. ${day}`;
     };
 
-    // 좋아요 버튼 클릭 핸들러 (수정)
     const handleLikeClick = async (reviewId) => {
-        const authHeader = getAuthHeader(); // 인증 헤더 가져오기
+        console.log(`[BookReview.jsx] handleLikeClick 호출: reviewId=${reviewId}`);
+        const authHeader = getAuthHeader();
         if (!authHeader['Authorization']) {
             alert("로그인 후 좋아요를 누를 수 있습니다.");
             return;
         }
         
+        const originalReviews = reviews.map(r => ({...r})); // 상태 롤백을 위한 깊은 복사
+
+        // 1. 낙관적 업데이트
+        setReviews(prevReviews => prevReviews.map(review => {
+            if (review.reviewId === reviewId) {
+                console.log(`[BookReview.jsx] 낙관적 업데이트 전: reviewId=${reviewId}, isLiked=${review.isLiked}, likesCount=${review.likesCount}`);
+                const newIsLiked = !review.isLiked;
+                const newLikesCount = newIsLiked ? review.likesCount + 1 : review.likesCount - 1;
+                console.log(`[BookReview.jsx] 낙관적 업데이트 후: reviewId=${reviewId}, newIsLiked=${newIsLiked}, newLikesCount=${newLikesCount}`);
+                return {
+                    ...review,
+                    isLiked: newIsLiked,
+                    likesCount: newLikesCount < 0 ? 0 : newLikesCount // 좋아요 수가 음수가 되지 않도록 방어
+                };
+            }
+            return review;
+        }));
+
         try {
-            // --- ✨ 추가된 디버깅 로그 ✨ ---
-            const currentReviewState = reviews.find(r => r.reviewId === reviewId);
-            console.log(`DEBUG_FE_CLICK: Review ID ${reviewId}, currentReviewState.isLiked: ${currentReviewState ? currentReviewState.isLiked : 'N/A'}`);
-            // -----------------------------
+            console.log(`[BookReview.jsx] 좋아요 토글 API 요청 시작: reviewId=${reviewId}`);
+            const res = await fetch(`http://localhost:8080/bookReview/${reviewId}/like-toggle`, {
+                method: 'POST',
+                headers: authHeader
+            });
 
-            // 현재 리뷰의 좋아요 상태를 찾아 등록/해제 요청 구분
-            const reviewToToggle = reviews.find(r => r.reviewId === reviewId);
-            if (!reviewToToggle) {
-                console.error("좋아요를 누를 리뷰를 찾을 수 없습니다.");
-                return;
-            }
-
-            let res;
-            if (reviewToToggle.isLiked) { // 이미 좋아요를 눌렀다면, 좋아요 해제 (DELETE)
-                console.log(`[BookReview.jsx] 좋아요 해제 시도: reviewId=${reviewId}`);
-                res = await fetch(`http://localhost:8080/bookReview/review/${reviewId}/like`, { // DELETE 요청
-                    method: 'DELETE',
-                    headers: authHeader // 인증 헤더 적용
-                });
-            } else { // 좋아요를 누르지 않았다면, 좋아요 등록 (POST)
-                console.log(`[BookReview.jsx] 좋아요 등록 시도: reviewId=${reviewId}`);
-                res = await fetch(`http://localhost:8080/bookReview/reviews/${reviewId}/like`, { // POST 요청
-                    method: 'POST',
-                    headers: authHeader // 인증 헤더 적용
-                });
-            }
+            console.log(`[BookReview.jsx] 좋아요 토글 API 응답 상태: ${res.status} ${res.statusText}`);
 
             if (!res.ok) {
-                const errorText = await res.text();
-                throw new Error(`좋아요 처리 실패: ${res.status} ${errorText}`);
+                const errorBody = await res.json().catch(() => res.text()); // JSON 파싱 실패 시 텍스트로
+                console.error(`[BookReview.jsx] 좋아요 API 실패 응답 본문:`, errorBody);
+                throw new Error(`좋아요 처리 실패: ${res.status} ${errorBody.message || errorBody}`);
             }
 
-            // alert(reviewToToggle.isLiked ? "좋아요가 해제되었습니다." : "좋아요 처리되었습니다.");
-            fetchReviews(); // 좋아요 상태 및 카운트 업데이트를 위해 리뷰 목록 새로고침
+            const responseData = await res.json();
+            // 이 로그가 매우 중요합니다. 백엔드에서 받은 isLiked, likesCount 값을 확인
+            console.log("[BookReview.jsx] 좋아요 토글 API 성공 응답 데이터 (responseData):", responseData);
+
+            // 2. 서버 응답으로 최종 UI 업데이트 (정합성 맞추기)
+            setReviews(prevReviews => prevReviews.map(review => {
+                if (review.reviewId === reviewId) {
+                    console.log(`[BookReview.jsx] 서버 응답 반영: reviewId=${reviewId}, responseData.isLiked=${responseData.isLiked}, responseData.likesCount=${responseData.likesCount}`);
+                    return {
+                        ...review,
+                        isLiked: responseData.isLiked, // 백엔드에서 온 최신 상태
+                        likesCount: responseData.likesCount // 백엔드에서 온 최신 좋아요 수
+                    };
+                }
+                return review;
+            }));
 
         } catch (err) {
             alert(`좋아요 처리 중 오류 발생: ${err.message}`);
             console.error("[BookReview.jsx] 좋아요 처리 오류:", err);
+            // 오류 발생 시 낙관적 업데이트 롤백
+            setReviews(originalReviews);
+            console.log("[BookReview.jsx] 좋아요 오류로 인한 상태 롤백 완료.");
         }
     };
 
-    // 신고 버튼 클릭 핸들러
     const handleReportClick = async (reviewId) => {
-        const authHeader = getAuthHeader(); // 인증 헤더 가져오기
+        // ... (기존 코드와 동일)
+        const authHeader = getAuthHeader(); 
         if (!authHeader['Authorization']) {
             alert("로그인 후 리뷰를 신고할 수 있습니다.");
             return;
@@ -239,7 +249,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
             try {
                 const res = await fetch(`http://localhost:8080/bookReview/${reviewId}/report`, {
                     method: 'PUT',
-                    headers: authHeader // 인증 헤더 적용
+                    headers: authHeader 
                 });
                 if (!res.ok) {
                     const errorText = await res.text();
@@ -254,26 +264,24 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
         }
     };
 
-    // 리뷰 삭제 핸들러
     const handleDeleteClick = async (reviewId, reviewerUserId) => {
-        const authHeader = getAuthHeader(); // 인증 헤더 가져오기
+        // ... (기존 코드와 동일)
+        const authHeader = getAuthHeader(); 
         if (!authHeader['Authorization']) {
             alert("로그인이 필요합니다.");
             return;
         }
-
-        // 현재 로그인된 사용자가 리뷰 작성자인지 확인
-        if (currentLoggedInUserId !== reviewerUserId) {
+        console.log(`[BookReview.jsx] 리뷰 삭제 시도: reviewId=${reviewId}, currentLoggedInUserId=${currentLoggedInUserId}, reviewerUserId=${reviewerUserId}`);
+        if (String(currentLoggedInUserId) !== String(reviewerUserId)) { // ID 비교 시 타입을 문자열로 통일 (안전장치)
             alert("자신이 작성한 리뷰만 삭제할 수 있습니다.");
             return;
         }
 
         if (window.confirm("이 리뷰를 삭제하시겠습니까?")) {
             try {
-                console.log(`[BookReview.jsx] 리뷰 삭제 시도: ID ${reviewId}`);
                 const res = await fetch(`http://localhost:8080/bookReview/delete/${reviewId}`, {
                     method: 'DELETE',
-                    headers: authHeader // 인증 헤더 적용
+                    headers: authHeader 
                 });
 
                 if (!res.ok) {
@@ -282,7 +290,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 }
 
                 alert("리뷰가 삭제되었습니다.");
-                fetchReviews(); // 삭제 후 리뷰 목록 새로고침
+                fetchReviews(); 
 
             } catch (err) {
                 alert(`리뷰 삭제 중 오류 발생: ${err.message}`);
@@ -298,9 +306,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
     return (
         <div className={BookReviewCSS.reviewWriteContainer}>
             <p className={BookReviewCSS.infoBold}>리뷰</p>
-            <div className={BookReviewCSS.rating}>
-                {/* 별점 기능이 있다면 여기에 추가 */}
-            </div>
+            {/* ... (리뷰 작성 UI 부분 기존 코드 유지) ... */}
             <div className={BookReviewCSS.reviewInput}>
                 {isLoggedIn ? (
                     <>
@@ -323,54 +329,56 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 )}
             </div>
 
-            {/* 리뷰 목록 표시 */}
             {reviews.length === 0 ? (
                 <p>아직 작성된 리뷰가 없습니다.</p>
             ) : (
-                reviews.map((review) => (
-                    <div key={review.reviewId} className={BookReviewCSS.review}>
-                        <div className={BookReviewCSS.reviewHeader}>
-                            <div className={BookReviewCSS.reviewerInfo}>
-                                <p className={BookReviewCSS.reviewInfoFont1}>
-                                    {/* penName이 없으면 profileId 또는 userId로 대체 */}
-                                    {review.penName ? review.penName : (review.reviewerUserId ? `User_${review.reviewerUserId}` : '익명')}의 리뷰
-                                </p>
-                                <p className={BookReviewCSS.reviewInfoFont2}>
-                                    {formatReviewDate(review.createdAt)}
-                                </p>
+                <div className={BookReviewCSS.reviewListContainer}>
+                    {reviews.map((review) => {
+                        // 렌더링 시점의 isLiked 값 확인
+                        // console.log(`DEBUG_FE (render): Review ID ${review.reviewId}, isLiked: ${review.isLiked}, likesCount: ${review.likesCount}`);
+                        return (
+                            <div key={review.reviewId} className={BookReviewCSS.review}>
+                                <div className={BookReviewCSS.reviewHeader}>
+                                    <div className={BookReviewCSS.reviewerInfo}>
+                                        <p className={BookReviewCSS.reviewInfoFont1}>
+                                            {review.penName ? review.penName : (review.reviewerUserId ? `User_${review.reviewerUserId}` : '익명')}의 리뷰
+                                        </p>
+                                        <p className={BookReviewCSS.reviewInfoFont2}>
+                                            {formatReviewDate(review.createdAt)}
+                                        </p>
+                                    </div>
+                                    <div className={BookReviewCSS.reviewBtBox}>
+                                        <button className={BookReviewCSS.reviewBt} onClick={() => handleLikeClick(review.reviewId)}>
+                                            <img
+                                                className={BookReviewCSS.likes}
+                                                src={review.isLiked ? filledHeartIcon : heartIcon}
+                                                alt="Likes"
+                                            />
+                                            {/* 좋아요 수가 0일 때도 표시되도록 조건 제거 (필요시 조정) */}
+                                            {review.likesCount}
+                                        </button>
+                                        {isLoggedIn && (
+                                            <button className={BookReviewCSS.reviewBt} onClick={() => handleReportClick(review.reviewId)}>
+                                                신고하기
+                                            </button>
+                                        )}
+                                        {isLoggedIn && currentLoggedInUserId && (String(currentLoggedInUserId) === String(review.reviewerUserId)) && (
+                                            <button
+                                                className={BookReviewCSS.reviewBt}
+                                                onClick={() => handleDeleteClick(review.reviewId, review.reviewerUserId)}
+                                            >
+                                                삭제
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className={BookReviewCSS.reviewContent}>
+                                    <p>{review.reviewContent}</p>
+                                </div>
                             </div>
-                            <div className={BookReviewCSS.reviewBtBox}>
-                                {/* 좋아요 버튼 */}
-                                <button className={BookReviewCSS.reviewBt} onClick={() => handleLikeClick(review.reviewId)}>
-                                    <img 
-                                        className={BookReviewCSS.likes} 
-                                        src={review.isLiked ? filledHeartIcon : heartIcon} // <-- 좋아요 상태에 따라 이미지 변경
-                                        alt="Likes" 
-                                    />
-                                    {review.likesCount} {/* <-- 실제 좋아요 수 표시 */}
-                                </button>
-                                {/* 신고하기 버튼 */}
-                                <button className={BookReviewCSS.reviewBt} onClick={() => handleReportClick(review.reviewId)}>
-                                    신고하기
-                                </button>
-                                {/* --- 삭제 버튼 (조건부 렌더링) --- */}
-                                {/* console.log(`Review ID: ${review.reviewId}, Reviewer: ${review.reviewerUserId}, Current User: ${currentLoggedInUserId}, Condition: ${isLoggedIn && currentLoggedInUserId === review.reviewerUserId}`); // <-- 각 리뷰별 조건 확인 로그 */}
-                                {isLoggedIn && currentLoggedInUserId && (currentLoggedInUserId.toString() === review.reviewerUserId.toString()) && (
-                                    <button
-                                        className={BookReviewCSS.reviewBt}
-                                        onClick={() => handleDeleteClick(review.reviewId, review.reviewerUserId)}
-                                    >
-                                        삭제
-                                    </button>
-                                )}
-                                {/* --- ----------- --- */}
-                            </div>
-                        </div>
-                        <div className={BookReviewCSS.reviewContent}>
-                            <p>{review.reviewContent}</p>
-                        </div>
-                    </div>
-                ))
+                        );
+                    })}
+                </div>
             )}
         </div>
     );

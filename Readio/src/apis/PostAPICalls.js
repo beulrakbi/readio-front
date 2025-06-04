@@ -77,6 +77,52 @@ export const callPostDeleteAPI = (postId) => {
     };
 };
 
+export const callAllPosts = ({userId, currentPage}) => {
+    let requestURL;
+
+    if (currentPage){
+        requestURL = `http://localhost:8080/mylibrary/post/${userId}/all?offset=${currentPage}`;
+    } else {
+        requestURL = `http://localhost:8080/mylibrary/post/${userId}/all`;
+    }
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                ...getAuthHeader()
+            }
+        }).then((response) => response.json());
+        if (result.status === 200) {
+            dispatch({ type: GET_POST, payload: result.data });
+        }
+    };
+
+}
+
+export const callPostsCountAPI = ({userId}) => {
+
+    const requestURL = `http://localhost:8080/mylibrary/post/${userId}/count`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                ...getAuthHeader()
+            }
+        }).then((response) => response.json());
+        if (result.status === 200) {
+            dispatch({ type: GET_POST, payload: result.data });
+            return result.data;
+        }
+    };
+
+}
+
 export const callPostUpdateAPI = ({ postId, form }) => {
 
     const requestURL = `http://localhost:8080/mylibrary/post/modify/${postId}`;
