@@ -5,28 +5,16 @@ import BookReviewCSS from "./BookReview.module.css";
 import filledHeartIcon from '../../assets/likes.png'; // 좋아요 아이콘 (꽉 찬)
 import heartIcon from '../../assets/likes2.png'; // 좋아요 아이콘 (빈)
 
-// getAuthHeader 함수를 BookReview 컴포넌트 외부에서 정의하여 재사용 가능하게 하거나,
-// BookReview 컴포넌트 내부에서 정의하되, props로 받는 getAuthToken 함수와의 역할 분담을 명확히 해야 합니다.
-// 현재 질문 맥락상, getAuthToken이 Bearer 토큰 문자열 자체를 반환하는 것이 아니라
-// { 'Authorization': 'Bearer <token>' } 형태의 헤더 객체를 반환하는 함수라고 가정하고 수정합니다.
-// 만약 getAuthToken이 순수하게 토큰 문자열만 반환한다면, 아래 getAuthHeader 함수를 새로 정의해야 합니다.
-
 // 임시로 이 파일 내부에 getAuthHeader를 정의합니다.
 // 만약 이 함수가 여러 컴포넌트에서 사용된다면, 별도의 유틸리티 파일로 분리하는 것이 좋습니다.
 const getAuthHeader = () => {
     const token = sessionStorage.getItem('accessToken'); // 또는 localStorage.getItem('accessToken');
-                                                         // 프로젝트의 토큰 저장 방식에 맞춰 선택하세요.
     // console.log("BookReview.jsx: getAuthHeader 토큰:", token); // 디버깅용
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
 
 function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
-    // getAuthToken prop이 더 이상 필요 없을 수 있습니다. (외부에서 getAuthHeader를 사용하기 때문에)
-    // 그러나 현재 코드에서는 jwtDecode를 위해 token 문자열이 필요하므로,
-    // getAuthToken prop은 그대로 유지하고, API 호출에는 getAuthHeader를 사용하는 것이 좋습니다.
-    // 여기서는 getAuthToken이 토큰 문자열을 반환한다고 가정합니다.
-
     const [reviewContent, setReviewContent] = useState('');
     const [reviews, setReviews] = useState([]);
     const [loadingReviews, setLoadingReviews] = useState(true);
@@ -70,6 +58,10 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 createdAt: new Date(review.createdAt)
             }));
 
+            // --- ✨ 최신 리뷰가 위에 오도록 정렬하는 로직 추가 ✨ ---
+            formattedReviews.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+            // ---------------------------------------------------
+
             setReviews(formattedReviews);
             console.log("[BookReview.jsx] 리뷰 목록 로딩 성공:", formattedReviews);
             // --- ✨ 추가된 디버깅 로그 ✨ ---
@@ -96,7 +88,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
             // 사용자 정보 설정
             // Book.jsx와 통일성을 위해 sessionStorage에서 토큰을 가져오도록 변경
             const token = sessionStorage.getItem('accessToken'); 
-                                                                 
+                                                                    
             if (token) {
                 try {
                     // JWT 토큰 디코딩 라이브러리를 사용한다면
@@ -324,56 +316,58 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 )}
             </div>
 
-            {/* 리뷰 목록 표시 */}
+            {/* --- ✨ 리뷰 목록 표시를 위한 새로운 컨테이너 추가 및 정렬 로직 적용 ✨ --- */}
             {reviews.length === 0 ? (
                 <p>아직 작성된 리뷰가 없습니다.</p>
             ) : (
-                reviews.map((review) => (
-                    <div key={review.reviewId} className={BookReviewCSS.review}>
-                        <div className={BookReviewCSS.reviewHeader}>
-                            <div className={BookReviewCSS.reviewerInfo}>
-                                <p className={BookReviewCSS.reviewInfoFont1}>
-                                    {/* penName이 없으면 profileId 또는 userId로 대체 */}
-                                    {review.penName ? review.penName : (review.reviewerUserId ? `User_${review.reviewerUserId}` : '익명')}의 리뷰
-                                </p>
-                                <p className={BookReviewCSS.reviewInfoFont2}>
-                                    {formatReviewDate(review.createdAt)}
-                                </p>
+                <div className={BookReviewCSS.reviewListContainer}> {/* <-- 이 부분 추가 */}
+                    {reviews.map((review) => (
+                        <div key={review.reviewId} className={BookReviewCSS.review}>
+                            <div className={BookReviewCSS.reviewHeader}>
+                                <div className={BookReviewCSS.reviewerInfo}>
+                                    <p className={BookReviewCSS.reviewInfoFont1}>
+                                        {/* penName이 없으면 profileId 또는 userId로 대체 */}
+                                        {review.penName ? review.penName : (review.reviewerUserId ? `User_${review.reviewerUserId}` : '익명')}의 리뷰
+                                    </p>
+                                    <p className={BookReviewCSS.reviewInfoFont2}>
+                                        {formatReviewDate(review.createdAt)}
+                                    </p>
+                                </div>
+                                <div className={BookReviewCSS.reviewBtBox}>
+                                    {/* 좋아요 버튼 */}
+                                    <button className={BookReviewCSS.reviewBt} onClick={() => handleLikeClick(review.reviewId)}>
+                                        <img 
+                                            className={BookReviewCSS.likes} 
+                                            src={review.isLiked ? filledHeartIcon : heartIcon} // <-- 좋아요 상태에 따라 이미지 변경
+                                            alt="Likes" 
+                                        />
+                                        {review.likesCount} {/* <-- 실제 좋아요 수 표시 */}
+                                    </button>
+                                    {/* 신고하기 버튼: 로그인 상태일 때만 보이도록 조건부 렌더링 추가 */}
+                                    {isLoggedIn && (
+                                        <button className={BookReviewCSS.reviewBt} onClick={() => handleReportClick(review.reviewId)}>
+                                            신고하기
+                                        </button>
+                                    )}
+                                    {/* --- 삭제 버튼 (조건부 렌더링) --- */}
+                                    {/* console.log(`Review ID: ${review.reviewId}, Reviewer: ${review.reviewerUserId}, Current User: ${currentLoggedInUserId}, Condition: ${isLoggedIn && currentLoggedInUserId === review.reviewerUserId}`); // <-- 각 리뷰별 조건 확인 로그 */}
+                                    {isLoggedIn && currentLoggedInUserId && (currentLoggedInUserId.toString() === review.reviewerUserId.toString()) && (
+                                        <button
+                                            className={BookReviewCSS.reviewBt}
+                                            onClick={() => handleDeleteClick(review.reviewId, review.reviewerUserId)}
+                                        >
+                                            삭제
+                                        </button>
+                                    )}
+                                    {/* --- ----------- --- */}
+                                </div>
                             </div>
-                            <div className={BookReviewCSS.reviewBtBox}>
-                                {/* 좋아요 버튼 */}
-                                <button className={BookReviewCSS.reviewBt} onClick={() => handleLikeClick(review.reviewId)}>
-                                    <img 
-                                        className={BookReviewCSS.likes} 
-                                        src={review.isLiked ? filledHeartIcon : heartIcon} // <-- 좋아요 상태에 따라 이미지 변경
-                                        alt="Likes" 
-                                    />
-                                    {review.likesCount} {/* <-- 실제 좋아요 수 표시 */}
-                                </button>
-                                {/* 신고하기 버튼: 로그인 상태일 때만 보이도록 조건부 렌더링 추가 */}
-                                {isLoggedIn && (
-                                    <button className={BookReviewCSS.reviewBt} onClick={() => handleReportClick(review.reviewId)}>
-                                        신고하기
-                                    </button>
-                                )}
-                                {/* --- 삭제 버튼 (조건부 렌더링) --- */}
-                                {/* console.log(`Review ID: ${review.reviewId}, Reviewer: ${review.reviewerUserId}, Current User: ${currentLoggedInUserId}, Condition: ${isLoggedIn && currentLoggedInUserId === review.reviewerUserId}`); // <-- 각 리뷰별 조건 확인 로그 */}
-                                {isLoggedIn && currentLoggedInUserId && (currentLoggedInUserId.toString() === review.reviewerUserId.toString()) && (
-                                    <button
-                                        className={BookReviewCSS.reviewBt}
-                                        onClick={() => handleDeleteClick(review.reviewId, review.reviewerUserId)}
-                                    >
-                                        삭제
-                                    </button>
-                                )}
-                                {/* --- ----------- --- */}
+                            <div className={BookReviewCSS.reviewContent}>
+                                <p>{review.reviewContent}</p>
                             </div>
                         </div>
-                        <div className={BookReviewCSS.reviewContent}>
-                            <p>{review.reviewContent}</p>
-                        </div>
-                    </div>
-                ))
+                    ))}
+                </div>
             )}
         </div>
     );
