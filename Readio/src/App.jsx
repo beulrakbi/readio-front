@@ -59,7 +59,12 @@ import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
 import VerifyPwdForDelete from "./pages/user/VerifyPwdForDelete.jsx";
+import PasswordReset from "./pages/user/PasswordReset.jsx";
+import ContentStatsPage from "./pages/admin/statistics/ContentStatistics/ContentStatsPage.jsx"
+import InterestStatsPage from "./pages/admin/statistics/InterestStatistcs/InterestStatsPage.jsx";
+
 import ContentStatsPage from "./pages/admin/statistics/ContentStatsPage.jsx"
+
 
 
 function App() {
@@ -164,7 +169,8 @@ function App() {
                         <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail/>}/>
                         <Route path="/admin/interest" element={< AdminInterestManager/>}/>
                         <Route path="/admin/curation" element={<CurationManagerPage/>}/>
-                        <Route path="/admin/analytics" element={<ContentStatsPage />} />
+                        <Route path="/admin/analytics/clicklog" element={<ContentStatsPage />} />
+                        <Route path="/admin/analytics/interest" element={<InterestStatsPage/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>
