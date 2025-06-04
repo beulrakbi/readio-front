@@ -3,6 +3,7 @@
      position: relative;
      max-width: 285px;
      min-width: 285px;
+     min-height: 1050px;
      color: #F6EEB6;
      background-color: #383838;
      display: flex;

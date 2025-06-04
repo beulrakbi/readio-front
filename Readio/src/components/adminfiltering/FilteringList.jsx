@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {callFilteringGroupsAPI} from "../../apis/FilteringAPICalls.js";
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
+import {callCurationTypesForAdminAPI} from "../../apis/CurationAPICalls.js";
 
 function FilteringList()
 {
@@ -11,6 +12,7 @@ function FilteringList()
     const dispatch = useDispatch();
     const filteringGroups  = useSelector(state => state.filtering);
     const filteringGroupList = filteringGroups.data;
+    const type = useSelector(state => state.curation.type);
     const navigate = useNavigate();
 
     const pageInfo = filteringGroups.pageInfo;
@@ -27,6 +29,7 @@ function FilteringList()
     useEffect(() => {
         setStart((currentPage - 1) * 5);
         dispatch(callFilteringGroupsAPI({currentPage: currentPage}));
+        dispatch(callCurationTypesForAdminAPI());
     }, [currentPage]);
 
     const onClickFilteringGroupHandler = (groupId) => {
@@ -45,6 +48,7 @@ function FilteringList()
                 <thead className={FListCSS.filteringThead}>
                     <tr>
                         <td>번호</td>
+                        <td>타입</td>
                         <td>상태</td>
                         <td>등록일</td>
                         <td>제목</td>
@@ -55,6 +59,7 @@ function FilteringList()
 
                     <tr key={filteringGroup.groupId}>
                         <td>{filteringGroup.groupId}</td>
+                        <td>{type[filteringGroup.typeId - 1]?.typeName}</td>
                         <td>{filteringGroup.isActive === "Y" ? "활성" : "비활성"}</td>
                         <td>{dayjs(filteringGroup.createAt).format('YYYY-MM-DD')}</td>
                         <td onClick={() => onClickFilteringGroupHandler(filteringGroup.groupId)}>{filteringGroup.title}</td>

@@ -92,10 +92,14 @@
 }
 
 .filteringTable td:nth-child(3) {
-  width: 15%;
+  width: 8%;
 }
 
 .filteringTable td:nth-child(4) {
+  width: 15%;
+}
+
+.filteringTable td:nth-child(5) {
   width: auto;
 }
 
@@ -310,4 +314,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.typeDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
 }
