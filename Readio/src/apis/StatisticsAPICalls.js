@@ -100,7 +100,7 @@ export async function saveClickLog(dto) {
 export async function getInterestTrend(params) {
 
     try {
-        const fullUrl = `/api/admin/summary/interest-trend ${new URLSearchParams(params)}`;
+        const fullUrl = `/api/admin/summary/interest-trend?${new URLSearchParams(params)}`;
         const token = sessionStorage.getItem("accessToken");
 
         const response = await fetch(fullUrl, {
@@ -138,7 +138,8 @@ export async function getInterestTrend(params) {
  */
 export async function getInterestDiff(params) {
     try {
-        const fullUrl = `/api/admin/stats/interest-diff ${new URLSearchParams(params)}`;
+
+        const fullUrl = `/api/admin/stats/interest-diff?${new URLSearchParams(params)}`;
         const token = sessionStorage.getItem("accessToken");
 
         const response = await fetch(fullUrl, {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import { useSearchParams } from "react-router-dom";
 import styles from "./ContentStatsPage.module.css";
-import { getClickAnalytics, getBookmarkAnalytics } from "../../../apis/StatisticsAPICalls";
+import { getClickAnalytics, getBookmarkAnalytics } from "../../../../apis/StatisticsAPICalls.js";
 
 function ContentStatsPage() {
 
