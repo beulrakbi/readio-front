@@ -2,21 +2,22 @@ import PostListCSS from "./PostList.module.css"
 import postDetailHeart from '../../../assets/postDetailHeart.png';
 // import postDetailOption from '../../assets/postDetailOption.png';
 import postDetailReview from '../../../assets/postDetailReview.png';
-import feedConImg from '../../../assets/feedConImg.png';
 import book2 from '../../../assets/book2.png';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {callAllPosts} from "../../../apis/PostAPICalls.js";
 import FListCSS from "../../../components/adminfiltering/Filtering.module.css";
+import {useNavigate} from "react-router-dom";
 
 function PostList() {
 
     const [activeTab, setActiveTab] = useState('post');
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const posts = useSelector(state => state.postReducer);
     const userId = sessionStorage.getItem('userId');
 
-    const pageInfo = posts.pageInfo;
+    const { pageInfo } = posts;
     const [start, setStart] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageEnd, setPageEnd] = useState(1);
@@ -26,6 +27,9 @@ function PostList() {
             pageNumber.push(i);
         }
     }
+    useEffect(() => {
+        console.log("posts", posts);
+    }, [posts]);
 
     useEffect(() => {
         setStart((currentPage - 1) * 5);
@@ -33,9 +37,6 @@ function PostList() {
     }, [currentPage]);
 
 
-    useEffect(() => {
-        console.log("posts", posts);
-    }, [posts]);
 
     return (
 
@@ -48,7 +49,7 @@ function PostList() {
                         <button
                             className={`${PostListCSS.followListBt} ${activeTab === 'post' ? PostListCSS.activeTab : ''}`}
                             onClick={() => setActiveTab('post')}>
-                            포스트 1
+                            포스트
                         </button>
                     </div>
                     <div className={PostListCSS.followListBtDiv}>
@@ -59,25 +60,29 @@ function PostList() {
                         </button>
                     </div>
                 </div>
-                {activeTab === 'post' ? ({posts.}
-                    <div className={PostListCSS.postListDiv}>
-                        <div className={PostListCSS.postListConDiv}>
-                            <div className={PostListCSS.postListCon}>
-                                <p>2025.4.27</p>
-                                <h2>어른의 맞춤법</h2>
-                                <p>읽은 기간 : 25.04.15 / 25.04.26 읽은 부분 : 시작 ~ 너도나도 헷갈리는 기초 맞춤법 규정 1. - 맞춤법을 공부할 때 마음가짐으로
-                                    삼아야겠따. 독서 일기를 수시로 따로 쓰니 밀리에 독서 감상을 자세히 적어야 할 이유를 못느끼겠다. 앞으로는 독서 후에 새롭게 알게된 내용을 정리하기
-                                    보단 감상 위주로 적어야겠다.</p>
+                {activeTab === 'post' ? (
+                        posts?.data?.map(post => (
+                            <div className={PostListCSS.postListDiv} style={{cursor:"pointer"}} key={post.postId} onClick={() => navigate(`/mylibrary/post/${post.postId}`)}>
+                                <div className={PostListCSS.postListConDiv}>
+                                    <div className={PostListCSS.postListCon}>
+                                        <p>{post.postCreatedDate}</p>
+                                        <h2>{post.postTitle}</h2>
+                                        <p>{post.postContent.length > 80 ? post.postContent.slice(0, 80) + '...' : post.postContent}</p>
+                                        <div className={PostListCSS.postListHeartDiv}><span
+                                            className={PostListCSS.postListHeartSpan}><img src={postDetailHeart}
+                                                                                           className={PostListCSS.postListHeart}/>{post.likes}</span>
+                                            <span className={PostListCSS.postListHeartSpan}><img src={postDetailReview}
+                                                                                                 className={PostListCSS.postListReview}/>{post.reviewCount}</span>
+                                        </div>
+
+                                    </div>
+                                    <div className={PostListCSS.postListConImgDiv}>
+                                        <img src={post.postImg !== null ? post.postImg?.saveName : post.book?.bookCover}
+                                             className={PostListCSS.postListConImg}/>
+                                    </div>
+                                </div>
                             </div>
-                            <div className={PostListCSS.postListConImgDiv}>
-                                <img src={feedConImg} className={PostListCSS.postListConImg}/>
-                            </div>
-                        </div>
-                        <div className={PostListCSS.postListHeartDiv}><span className={PostListCSS.postListHeartSpan}><img src={postDetailHeart} className={PostListCSS.postListHeart}/>15</span>
-                            <span className={PostListCSS.postListHeartSpan}><img src={postDetailReview}
-                                                                                 className={PostListCSS.postListReview}/>3</span>
-                        </div>
-                    </div>
+                        ))
                     ) :
 
                     (<div className={PostListCSS.reviewListDiv}>
@@ -104,13 +109,13 @@ function PostList() {
                         </div>
                     </div>)}
                 <div className={FListCSS.paging}>
-                    {Array.isArray(posts) && (<button
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            className={FListCSS.pagingBtn}
-                        >
-                            &lt;
-                        </button>)}
+                    {/*{Array.isArray(posts) && (<button*/}
+                    {/*        onClick={() => setCurrentPage(currentPage - 1)}*/}
+                    {/*        disabled={currentPage === 1}*/}
+                    {/*        className={FListCSS.pagingBtn}*/}
+                    {/*    >*/}
+                    {/*        &lt;*/}
+                    {/*    </button>)}*/}
                     {pageNumber.map((num) => (<li
                         style={{all: "unset"}}
                         key={num}
@@ -123,13 +128,13 @@ function PostList() {
                             {num}
                         </button>
                     </li>))}
-                    {Array.isArray(posts) && (<button
-                            className={FListCSS.pagingBtn}
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            disabled={currentPage === pageInfo.pageEnd || pageInfo.total == 0}
-                        >
-                            &gt;
-                        </button>)}
+                    {/*{Array.isArray(posts) && (<button*/}
+                    {/*        className={FListCSS.pagingBtn}*/}
+                    {/*        onClick={() => setCurrentPage(currentPage + 1)}*/}
+                    {/*        disabled={currentPage === pageInfo.pageEnd || pageInfo.total == 0}*/}
+                    {/*    >*/}
+                    {/*        &gt;*/}
+                    {/*    </button>)}*/}
                 </div>
             </div>
         </div>)

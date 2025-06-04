@@ -148,12 +148,9 @@ function Book() {
 
     const onClickMore = () => {
         setMore(true);
-        // setDescription(d);
     }
     const onClickFold = () => {
         setMore(false);
-        // const desc = d.length > 55 ? d.slice(0, 55) + '...' : d;
-        // setDescription(desc);
     }
 
     return (

@@ -85,8 +85,6 @@ export const callAllPosts = ({userId, currentPage}) => {
     } else {
         requestURL = `http://localhost:8080/mylibrary/post/${userId}/all`;
     }
-    console.log("Auth Header:", getAuthHeader());
-    console.log("url", requestURL);
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
@@ -97,9 +95,29 @@ export const callAllPosts = ({userId, currentPage}) => {
                 ...getAuthHeader()
             }
         }).then((response) => response.json());
-        // console.log("resulttt", result);
         if (result.status === 200) {
             dispatch({ type: GET_POST, payload: result.data });
+        }
+    };
+
+}
+
+export const callPostsCountAPI = ({userId}) => {
+
+    const requestURL = `http://localhost:8080/mylibrary/post/${userId}/count`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                ...getAuthHeader()
+            }
+        }).then((response) => response.json());
+        if (result.status === 200) {
+            dispatch({ type: GET_POST, payload: result.data });
+            return result.data;
         }
     };
 

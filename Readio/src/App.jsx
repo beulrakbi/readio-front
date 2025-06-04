@@ -143,7 +143,7 @@ function App() {
                         <Route path="mylibrary/post/:postId" element={<PostDetail />} />
                         <Route path="feed" element={<FeedMain />} />
                         <Route path="mylibrary/follow" element={<FollowList />} />
-                        <Route path="mylibrary/postlist" element={<PostList />} />
+                        <Route path="mylibrary/postlist/:userId" element={<PostList />} />
                     </Route>
 
                     <Route path="/admin" element={<AdminLayout/>}>
