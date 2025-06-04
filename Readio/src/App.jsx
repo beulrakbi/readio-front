@@ -1,11 +1,11 @@
-import {useEffect} from "react";
-import {useDispatch} from "react-redux";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import BookPage from '../src/pages/book/BookPage';
 import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
-import {loginSuccess, logout} from "./modules/user/userSlice.js";
+import { loginSuccess, logout } from "./modules/user/userSlice.js";
 import AdminMain from "./pages/admin/AdminMain";
 import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
 import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
@@ -48,7 +48,7 @@ import QnaList from './pages/serviceCenter/QnaList';
 import QnaWriting from './pages/serviceCenter/QnaWriting';
 import AccessDenied from "./pages/user/AccessDenied.jsx";
 import AccountSuspended from "./pages/user/AccountSuspended.jsx";
-import FindAccount, {FindIdForm, FindPwdForm} from "./pages/user/FindAccount";
+import FindAccount, { FindIdForm, FindPwdForm } from "./pages/user/FindAccount";
 import Join from "./pages/user/Join";
 import JoinComplete from './pages/user/JoinComplete';
 import Login from "./pages/user/Login";
@@ -59,7 +59,6 @@ import UserMain from "./pages/user/UserMain";
 import VerifyPwd from "./pages/user/VerifyPwd";
 import PlayVideo from "./pages/videoDetail/PlayVideo";
 import VerifyPwdForDelete from "./pages/user/VerifyPwdForDelete.jsx";
-import PasswordReset from "./pages/user/PasswordReset.jsx";
 import ContentStatsPage from "./pages/admin/statistics/ContentStatsPage.jsx"
 
 
@@ -78,7 +77,7 @@ function App() {
                 const userInfo = JSON.parse(userInfoRaw);
 
                 dispatch(loginSuccess({
-                    userId  : userInfo.userId,
+                    userId: userInfo.userId,
                     userName: userInfo.userName,
                     userRole: userInfo.userRole,
                     accessToken,
@@ -99,7 +98,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     {/* 메인 페이지, 사용자 페이지 */}
-                    <Route path="/access-denied" element={<AccessDenied />} />                  {/* 404페이지*/}
+                    <Route path="/access-denied" element={<AccessDenied />} />                    {/* 404페이지*/}
                     <Route path="/" element={<Layout />}>
                         <Route index element={<UserMain />} />
                         <Route path="users/login" element={<Login />} />                          {/* 로그인 */}
@@ -111,9 +110,6 @@ function App() {
                         <Route path="users/verifypwd/delete" element={<VerifyPwdForDelete />} />  {/* 회원탈퇴 전 비밀번호 확인 */}
                         <Route path="users/delete/complete" element={<UserDeleteComplete />} />   {/* 회원탈퇴완료 */}
                         <Route path="account/suspended" element={<AccountSuspended />} />         {/* 계정정지안내*/}
-
-                        <Route path="users/reset-password" element={<PasswordReset />} />         {/* 계정정지안내*/}
-
                         <Route path="account" element={<FindAccount />}>                          {/* 계정정보찾기 */}
                             <Route index element={<Navigate to="findId" replace />} />              {/* 기본-아이디찾기 */}
                             <Route path="findId" element={<FindIdForm />} />                        {/* 아이디찾기 */}
