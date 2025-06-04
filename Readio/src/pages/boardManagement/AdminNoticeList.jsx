@@ -148,7 +148,7 @@ function AdminNoticeList() {
                                 </tr>
                             ) : (
                                 notices.map((notice) => (
-                                    <tr key={notice.noticeId}>
+                                    <tr key={notice.noticeId} style={{borderBottom: '1px solid #383838'}}>
                                         <td>
                                             <input
                                                 type="checkbox"

@@ -18,21 +18,23 @@ function CurationManager() {
     }
 
     const CreateKeyword = () => {
-        if (keywords.length < 15) {
+        if (keywords.length < 30) {
             setKeywords(prev => [...prev, {orderNum: id, keyword: '', typeId: typeId, isUnsaved: true}]);
             setId(id + 1);
         } else {
-            alert('더이상 추가할 수 없습니다');
+            alert('더 이상 추가할 수 없습니다');
         }
     }
 
     const onChangeHandler = (e) => {
-        console.log(e.target.name, e.target.value);
-        setKeywordsType({
-            typeId : keywordsType.typeId,
-            typeName : keywordsType.typeName,
-            typeText: e.target.value
-        });
+        const text = e.target.value;
+        setKeywordsType(prev => ({
+            ...prev,
+            type: {
+                ...prev.type,
+                typeText: text
+            }
+        }));
     };
 
     const enterKeyword = (e, orderNum) => {
@@ -49,7 +51,7 @@ function CurationManager() {
     useEffect(() => {
         dispatch(callAllCurationTypesAndKeywordsAPI());
         setId(0);
-        setKeywordsType(curation.type[0]);
+        setKeywordsType(curation.type[0]?.type);
         const savedKeywords = curation.keywords?.map((word,index) => ({
             orderNum: index, keyword: word.keyword, isUnsaved: false, typeId: word.typeId
         }));
@@ -59,7 +61,6 @@ function CurationManager() {
 
     // 타입이 변할 때마다
     useEffect(() => {
-        console.log("typeId",typeId);
         setKeywords([]);
         setId(0);
         setKeywordsType(curation.type[typeId]);
@@ -70,25 +71,33 @@ function CurationManager() {
         setId(savedKeywords?.length);
     }, [typeId]);
 
+    // useEffect(() => {
+    //     console.log("curation.type[typeId]", curation.type[typeId]);
+    // }, [curation.type[typeId]]);
+
 
     const save = async () => {
 
-        console.log("Type", keywordsType);
+        console.log("keywordsType:", keywordsType);
+        console.log("keywordsType.type:", keywordsType.type);
+        console.log("typeId:", keywordsType.type?.typeId);
+        console.log("typeName:", keywordsType.type?.typeName);
+        console.log("typeText:", keywordsType.type?.typeText);
+
 
         try {
-
             const curationDTO = {
-                curationType: {
-                    typeText: keywordsType.type.typeText,
-                    typeId: keywordsType.type.typeId,
-                    typeName: keywordsType.type.typeName
+                    curationType: {
+                        typeText: keywordsType.type.typeText,
+                        typeId: keywordsType.type.typeId,
+                        typeName: keywordsType.type.typeName
                 },
-                curationKeywords: keywords
+                    curationKeywords: keywords
             };
 
             console.log('전송할 데이터:', JSON.stringify(curationDTO, null, 2)); // 디버깅용
             dispatch(callUpdateAllAPI(curationDTO));
-            navigate(`/admin/curation`);
+            // navigate(`/admin/curation`);
 
         } catch (error) {
             console.error("Error in save:", error);
@@ -103,8 +112,8 @@ function CurationManager() {
             <select onChange={onChangeSelect} defaultValue={typeId} style={{"border": "none"}}
                     className={CurationCSS.filteringKeyword}>
                 <option value="0">None</option>
-                {curation.type?.map(cu => (<option key={cu.type.typeId} defaultValue={cu.type.typeId} value={cu.type.typeId}>
-                    {cu.type.typeName}
+                {curation.type?.map(cu => (<option key={cu.type?.typeId} defaultValue={cu.type?.typeId} value={cu.type?.typeId}>
+                    {cu.type?.typeName}
                 </option>))}
             </select>
             <div className={CurationCSS.buttonDiv}>
