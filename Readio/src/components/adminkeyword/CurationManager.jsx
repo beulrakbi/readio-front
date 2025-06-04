@@ -27,12 +27,14 @@ function CurationManager() {
     }
 
     const onChangeHandler = (e) => {
-        console.log(e.target.name, e.target.value);
-        setKeywordsType({
-            typeId : keywordsType.typeId,
-            typeName : keywordsType.typeName,
-            typeText: e.target.value
-        });
+        const text = e.target.value;
+        setKeywordsType(prev => ({
+            ...prev,
+            type: {
+                ...prev.type,
+                typeText: text
+            }
+        }));
     };
 
     const enterKeyword = (e, orderNum) => {
@@ -49,7 +51,7 @@ function CurationManager() {
     useEffect(() => {
         dispatch(callAllCurationTypesAndKeywordsAPI());
         setId(0);
-        setKeywordsType(curation.type[0]);
+        setKeywordsType(curation.type[0]?.type);
         const savedKeywords = curation.keywords?.map((word,index) => ({
             orderNum: index, keyword: word.keyword, isUnsaved: false, typeId: word.typeId
         }));
@@ -59,7 +61,7 @@ function CurationManager() {
 
     // 타입이 변할 때마다
     useEffect(() => {
-        console.log("typeId",typeId);
+        console.log("curation",curation);
         setKeywords([]);
         setId(0);
         setKeywordsType(curation.type[typeId]);
@@ -70,20 +72,29 @@ function CurationManager() {
         setId(savedKeywords?.length);
     }, [typeId]);
 
+    // useEffect(() => {
+    //     console.log("curation.type[typeId]", curation.type[typeId]);
+    // }, [curation.type[typeId]]);
+
 
     const save = async () => {
 
-        console.log("Type", keywordsType);
+        console.log("keywordsType:", keywordsType);
+        console.log("keywordsType.type:", keywordsType.type);
+        console.log("typeId:", keywordsType.type?.typeId);
+        console.log("typeName:", keywordsType.type?.typeName);
+        console.log("typeText:", keywordsType.type?.typeText);
+
 
         try {
 
             const curationDTO = {
-                curationType: {
-                    typeText: keywordsType.type.typeText,
-                    typeId: keywordsType.type.typeId,
-                    typeName: keywordsType.type.typeName
+                    curationType: {
+                        typeText: keywordsType.type.typeText,
+                        typeId: keywordsType.type.typeId,
+                        typeName: keywordsType.type.typeName
                 },
-                curationKeywords: keywords
+                    curationKeywords: keywords
             };
 
             console.log('전송할 데이터:', JSON.stringify(curationDTO, null, 2)); // 디버깅용
