@@ -37,7 +37,7 @@ function UserNav({ isOpen, setIsOpen }) {
                     </NavLink>
 
                     <NavLink
-                        to="/"
+                        to="/feed"
                         className={UserNavCSS.naviLinkText}
                         onClick={() => setIsOpen(false)}
                     >
