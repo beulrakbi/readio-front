@@ -2,7 +2,8 @@ import PostListCSS from "./PostList.module.css";
 import postDetailHeart from '../../../assets/postDetailHeart.png';
 import postDetailReviewIcon from '../../../assets/postDetailReview.png';
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { useNavigate, useLocation, useParams } from "react-router-dom"; // useParams, useLocation 추가
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import styles from "../calendar/Calendar.module.css"; // useParams, useLocation 추가
 
 // --- 유틸리티 함수 ---
 
@@ -225,7 +226,7 @@ function PostList() {
     // --- 컴포넌트 렌더링 ---
     return (
         <div className={PostListCSS.followDiv}>
-            <button className={PostListCSS.followBackBt} onClick={() => navigate(-1)}>&lt; 뒤로가기</button>
+            <button className={PostListCSS.followBackBt} onClick={() => navigate('/mylibrary')}>&lt; 뒤로가기</button>
             <div className={PostListCSS.followDiv2}>
                 <div className={PostListCSS.followTapDiv}>
                     <div className={PostListCSS.followListBtDiv}>
