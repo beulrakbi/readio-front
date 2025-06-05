@@ -147,3 +147,51 @@
     border: initial;
     appearance: none;
 }
+
+.customerServiceToggle {
+    margin-top: 25px; /* 기존 .naviLinkText와 동일한 간격 유지 */
+    font-size: 20px;
+    font-weight: normal;
+    color: #F6EEB6;
+    cursor: pointer;
+    display: flex; /* 화살표와 텍스트를 한 줄에 정렬 */
+    align-items: center;
+    justify-content: center; /* 가운데 정렬 */
+}
+
+.customerServiceToggle:hover {
+    text-decoration: underline;
+}
+
+.toggleArrow {
+    margin-left: 10px; /* 화살표와 텍스트 사이 간격 */
+    font-size: 16px; /* 화살표 크기 조절 */
+    transition: transform 0.3s ease; /* 화살표 회전 애니메이션 */
+}
+
+/* customerServiceOpen 상태에 따라 화살표 회전 (선택 사항) */
+.customerServiceToggle.open .toggleArrow {
+    transform: rotate(180deg);
+}
+
+
+.customerServiceList {
+    list-style: none; /* ul의 기본 블릿 제거 */
+    padding-inline-start: 0;
+    margin-top: 10px; /* 고객센터와 하위 메뉴 간 간격 조절 */
+    /* 토글 애니메이션을 위한 속성 추가 (예시) */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+/* customerServiceOpen이 true일 때 max-height를 충분히 큰 값으로 설정 */
+.customerServiceList.open {
+    max-height: 200px; /* 충분히 큰 값으로 설정하여 모든 li가 보이도록 */
+}
+
+.customerServiceList .naviLinkText {
+    /* 하위 메뉴 텍스트 간격 조정 */
+    margin-top: 10px;
+    margin-bottom: 5px;
+}

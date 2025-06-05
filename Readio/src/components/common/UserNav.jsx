@@ -1,23 +1,17 @@
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 import UserNavCSS from './navi.module.css';
 
 
 function UserNav({ isOpen, setIsOpen }) {
 
     const isLogin = useSelector(state => state.user.isLogin);
+    const [customerServiceOpen, setCustomerServiceOpen] = useState(false);
 
-    // 삭제 예정
-    // const navigate = useNavigate();
-
-    // const handleLibraryClick = () => {
-    //     if (isLogin) {
-    //         navigate('/mylibrary');
-    //     } else {
-    //         navigate('/guestlibrary');
-    //     }
-    //     setIsOpen(false);
-    // };
+    const toggleCustomerService = () => {
+        setCustomerServiceOpen(!customerServiceOpen);
+    };
 
     return (
         <div className={`${UserNavCSS.navi} ${isOpen ? UserNavCSS.open : ''}`}>
@@ -42,17 +36,8 @@ function UserNav({ isOpen, setIsOpen }) {
                         내 서재
                     </NavLink>
 
-                    {/* <div 삭제 예정
-                        onClick={handleLibraryClick}
-                        className={UserNavCSS.naviLinkText}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        내 서재
-
-                    </div> */}
-
                     <NavLink
-                        to="/feed"
+                        to="/"
                         className={UserNavCSS.naviLinkText}
                         onClick={() => setIsOpen(false)}
                     >
@@ -67,23 +52,37 @@ function UserNav({ isOpen, setIsOpen }) {
                         소식
                     </NavLink>
 
-                    <ul style={{ fontSize: '20px', paddingInlineStart: '0px' }}>
+                    {/* 고객센터 토글 섹션: customerServiceOpen 상태에 따라 open 클래스 추가 */}
+                    <div
+                        className={`${UserNavCSS.customerServiceToggle} ${customerServiceOpen ? UserNavCSS.open : ''}`}
+                        onClick={toggleCustomerService}
+                    >
                         고객센터
+                        <span className={UserNavCSS.toggleArrow}>
+                            {customerServiceOpen ? '▲' : '▼'}
+                        </span>
+                    </div>
+                    {/* customerServiceOpen이 true일 때만 렌더링하도록 조건부 렌더링 유지 */}
+                    {/* customerServiceList에도 open 클래스 추가 */}
+                    <ul className={`${UserNavCSS.customerServiceList} ${customerServiceOpen ? UserNavCSS.open : ''}`}>
                         <li className={UserNavCSS.naviLinkText}>
                             <NavLink to="/notice" className={UserNavCSS.naviLinkText}
                                 onClick={() => setIsOpen(false)}
                             >공지사항
-                            </NavLink></li>
+                            </NavLink>
+                        </li>
                         <li className={UserNavCSS.naviLinkText}>
                             <NavLink to="/faq" className={UserNavCSS.naviLinkText}
                                 onClick={() => setIsOpen(false)}
                             >FAQ
-                            </NavLink></li>
+                            </NavLink>
+                        </li>
                         <li className={UserNavCSS.naviLinkText}>
                             <NavLink to="/qna" className={UserNavCSS.naviLinkText}
                                 onClick={() => setIsOpen(false)}
                             >Q&A
-                            </NavLink></li>
+                            </NavLink>
+                        </li>
                     </ul>
                 </div>
                 <div className={UserNavCSS.naviBannerContainer}>
