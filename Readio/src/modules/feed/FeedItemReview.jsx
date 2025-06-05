@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import postBeLike from '../../assets/postBeLike.png';
 import postDetailOption from '../../assets/postDetailOption.png';
+import postDetailHeart from '../../assets/postDetailHeart.png';
+import postDetailReview from '../../assets/postDetailReview.png';
 import postLike from '../../assets/postLike.png';
 import FeedCSS from '../../pages/Feed/Feed.module.css';
 import PostCSS from '../../pages/post/Post.module.css';
