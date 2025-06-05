@@ -1,24 +1,76 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
+@media (max-width: 1024px) {
+    .profileSectionWrapper {
+        padding: 20px 700px;
+    }
+    .profileCard {
+        padding: 20px 40px;
+    }
+    .section {
+        padding: 20px 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profileSectionWrapper {
+        padding: 20px;
+    }
+
+    .profileInfo {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .description {
+        text-align: center;
+    }
+
+    .stats {
+        gap: 30px;
+    }
+
+    .buttons {
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: nowrap;       /* 한 줄 유지 */
+        flex-direction: row;
+    }
+
+    .postBtn, .interestBtn {
+        width: 100%;
+    }
+    .videoBookmarkItem,
+    .bookmarkItem {
+        width: 80%;   /* 카드 너비를 줄여 한 화면에 하나씩 보이도록 */
+        min-width: 240px;
+    }
+
+}
+
 .profileSectionWrapper {
     background-image: url('../../../assets/texture.png');
     background-repeat: repeat;
     background-size: auto;
     font-family: 'Pretendard Variable', sans-serif;
-    width: 100%;
-    padding: 20px 280px 20px 280px;
+    padding: 20px 700px;
+
 }
 
 
 .profileCard {
+    /*max-width: 100%;*/
     display: flex;
-    align-items: center;
-    /*gap: 80px;*/
-    padding: 20px 80px 20px 80px;
-    margin: 80px auto;
+
+    /*align-items: center;*/
+    justify-content: center;
+    /*gap: 30px;*/
+    /*padding: 20px 80px 20px 80px;*/
+    padding: 30px 40px;
+    margin: 40px auto;
     border: 3px solid #f6eeb6;
     border-radius: 10px;
-    /*max-width: 9000px;*/
+    max-width: 900px;
     flex-wrap: wrap;
 }
 
@@ -58,14 +110,14 @@
 .profileInfo {
     margin-top: -10px;
     margin-left: 80px;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 500;
     flex: 1;
     min-width: 200px;
 }
 
 .nickname {
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 600;
     /*margin-bottom: 0px;*/
 }
@@ -74,7 +126,7 @@
     width: 100%;
     max-width: 100%;
     margin-top: 30px;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.5;
     word-break: break-word;
     white-space: pre-wrap;
@@ -85,14 +137,14 @@
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    margin-top: -40px;
+    margin: 10px;
 }
 
 .stats {
     display: flex;
     gap: 180px;
     justify-content: center;
-
+    flex-wrap: wrap;
 }
 
 .statItem {
@@ -115,6 +167,7 @@
     display: flex;
     gap: 200px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .postBtn,
@@ -139,7 +192,7 @@
     height: 3px;
     background-color: #AF4C3F;
     border: none;
-    margin: 40px 0 20px 0;
+    margin: 40px auto;
 ;
 }
 
@@ -314,7 +367,7 @@
 
 .dayCell {
 
-    height: 50px;
+    height: 60px;
     text-align: center;
     line-height: 50px;
     font-size: 15px;
@@ -348,8 +401,7 @@
 
 /*통일 내용 제목, 상세(전체보기, 리포트 상세)*/
 .section{
-    width: 100%;
-    padding: 20px 280px 20px 280px
+    padding: 20px 700px;
 }
 .sectionHeader {
     display: flex;
