@@ -245,7 +245,7 @@ function UserManagement() {
                                 </td>
                                 <td>{user.userName}</td>
                                 <td>{user.userEmail}</td>
-                                <td>{(user.userEnrollDate)}</td>
+                                <td>{formatToKST(user.userEnrollDate)}</td>
                                 <td>{roleDisplayName[user.userRoleName] || user.userRoleName}</td>
                                 <td>{user.reportCount}</td>
 
