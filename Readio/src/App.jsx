@@ -96,17 +96,9 @@ function App() {
         // console.log("복원 userInfo:", userInfoRaw);
     }, [dispatch]);
 
-    const [isNavOpen, setIsNavOpen] = useState(false);
-
-    const toggleNav = () => {
-        setIsNavOpen(!isNavOpen);
-    };
-
     return (
         <>
             <BrowserRouter>
-                <Header toggleNav={toggleNav} setIsOpen={setIsNavOpen} /> {/* setIsOpen 전달 */}
-                <UserNav isOpen={isNavOpen} setIsOpen={setIsNavOpen} />
                 <Routes>
                     {/* 메인 페이지, 사용자 페이지 */}
                     <Route path="/access-denied" element={<AccessDenied />} />                    {/* 404페이지*/}

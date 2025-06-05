@@ -9,9 +9,17 @@ function Layout()
 {
     const [navOpen, setNavOpen] = useState (false);
 
+    const [isNavOpen, setIsNavOpen] = useState(false);
+
+    const toggleNav = () => {
+        setIsNavOpen(!isNavOpen);
+    };
+
     return(
         <>
             {/* <Header toggleNav={() => setNavOpen(prev => !prev)}/> */}
+            <Header toggleNav={toggleNav} setIsOpen={setIsNavOpen} /> {/* setIsOpen 전달 */}
+                <UserNav isOpen={isNavOpen} setIsOpen={setIsNavOpen} />
             <UserNav isOpen={navOpen}/>
             <main className={LayoutCSS.main}>
                 <Outlet />
