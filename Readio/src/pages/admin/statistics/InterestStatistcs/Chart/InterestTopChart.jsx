@@ -1,11 +1,11 @@
 import {
-    BarChart,
     Bar,
-    XAxis,
-    YAxis,
+    BarChart,
     CartesianGrid,
+    ResponsiveContainer,
     Tooltip,
-    ResponsiveContainer
+    XAxis,
+    YAxis
 } from "recharts";
 
 function InterestTopChart({ title, data }) {
