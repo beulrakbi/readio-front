@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import BookPage from '../src/pages/book/BookPage';
@@ -6,6 +6,8 @@ import Search from "./components/board/common/search";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from './layouts/Layout';
 import { loginSuccess, logout } from "./modules/user/userSlice.js";
+import Header from "./components/common/Header.jsx"; // Header 컴포넌트의 실제 경로로 수정
+import UserNav from "./components/common/UserNav.jsx"; // UserNav 컴포넌트의 실제 경로로 수정
 import AdminMain from "./pages/admin/AdminMain";
 import CurationManagerPage from "./pages/admin/curation/CurationManagerPage.jsx";
 import FilteringCreatePage from "./pages/admin/filtering/FilteringCreatePage";
@@ -94,9 +96,17 @@ function App() {
         // console.log("복원 userInfo:", userInfoRaw);
     }, [dispatch]);
 
+    const [isNavOpen, setIsNavOpen] = useState(false);
+
+    const toggleNav = () => {
+        setIsNavOpen(!isNavOpen);
+    };
+
     return (
         <>
             <BrowserRouter>
+                <Header toggleNav={toggleNav} setIsOpen={setIsNavOpen} /> {/* setIsOpen 전달 */}
+                <UserNav isOpen={isNavOpen} setIsOpen={setIsNavOpen} />
                 <Routes>
                     {/* 메인 페이지, 사용자 페이지 */}
                     <Route path="/access-denied" element={<AccessDenied />} />                    {/* 404페이지*/}
@@ -145,30 +155,30 @@ function App() {
 
                     </Route>
 
-                    <Route path="/admin" element={<AdminLayout/>}>
-                        <Route index element={<AdminMain/>}/>
-                        <Route path="users/list" element={<UserManagement/>}/>
-                        <Route path="filtering" element={<FilteringListPage/>}/>
-                        <Route path="filtering/create" element={<FilteringCreatePage/>}/>
-                        <Route path="filtering/:groupId" element={<FilteringDetailPage/>}/>
-                        <Route path="filtering/:groupId/edit" element={<FilteringModifyPage/>}/>
-                        <Route path="reported/review" element={<ReportedReviewListPage/>}/>
-                        <Route path="reported/review/:reportId" element={<ReportedReviewDetailPage/>}/>
-                        <Route path="reported/post" element={<ReportedPostListPage/>}/>
-                        <Route path="reported/post/:reportId" element={<ReportedPostDetailPage/>}/>
-                        <Route path="/admin/notice" element={<AdminNoticeList/>}/>
-                        <Route path="/admin/notice/writing" element={<AdminNoticeWriting/>}/>
-                        <Route path="/admin/faq" element={<AdminFaqList/>}/>
-                        <Route path="/admin/faq/writing" element={<AdminFaqWriting/>}/>
-                        <Route path="/admin/faq/edit/:faqId" element={<AdminFaqWriting/>}/>
-                        <Route path="/admin/notice/edit/:noticeId" element={<AdminNoticeWriting/>}/>
-                        <Route path="/admin/qna" element={<AdminQnaList/>}/>
-                        <Route path="/admin/qna/answer" element={<AdminQnaAnswer/>}/>
-                        <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail/>}/>
-                        <Route path="/admin/interest" element={< AdminInterestManager/>}/>
-                        <Route path="/admin/curation" element={<CurationManagerPage/>}/>
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route index element={<AdminMain />} />
+                        <Route path="users/list" element={<UserManagement />} />
+                        <Route path="filtering" element={<FilteringListPage />} />
+                        <Route path="filtering/create" element={<FilteringCreatePage />} />
+                        <Route path="filtering/:groupId" element={<FilteringDetailPage />} />
+                        <Route path="filtering/:groupId/edit" element={<FilteringModifyPage />} />
+                        <Route path="reported/review" element={<ReportedReviewListPage />} />
+                        <Route path="reported/review/:reportId" element={<ReportedReviewDetailPage />} />
+                        <Route path="reported/post" element={<ReportedPostListPage />} />
+                        <Route path="reported/post/:reportId" element={<ReportedPostDetailPage />} />
+                        <Route path="/admin/notice" element={<AdminNoticeList />} />
+                        <Route path="/admin/notice/writing" element={<AdminNoticeWriting />} />
+                        <Route path="/admin/faq" element={<AdminFaqList />} />
+                        <Route path="/admin/faq/writing" element={<AdminFaqWriting />} />
+                        <Route path="/admin/faq/edit/:faqId" element={<AdminFaqWriting />} />
+                        <Route path="/admin/notice/edit/:noticeId" element={<AdminNoticeWriting />} />
+                        <Route path="/admin/qna" element={<AdminQnaList />} />
+                        <Route path="/admin/qna/answer" element={<AdminQnaAnswer />} />
+                        <Route path="/admin/qna/detail/:qnaId" element={<AdminQnaDetail />} />
+                        <Route path="/admin/interest" element={< AdminInterestManager />} />
+                        <Route path="/admin/curation" element={<CurationManagerPage />} />
                         <Route path="/admin/analytics/clicklog" element={<ContentStatsPage />} />
-                        <Route path="/admin/analytics/interest" element={<InterestStatsPage/>}/>
+                        <Route path="/admin/analytics/interest" element={<InterestStatsPage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

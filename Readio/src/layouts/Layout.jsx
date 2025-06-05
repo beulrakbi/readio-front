@@ -11,7 +11,7 @@ function Layout()
 
     return(
         <>
-            <Header toggleNav={() => setNavOpen(prev => !prev)}/>
+            {/* <Header toggleNav={() => setNavOpen(prev => !prev)}/> */}
             <UserNav isOpen={navOpen}/>
             <main className={LayoutCSS.main}>
                 <Outlet />

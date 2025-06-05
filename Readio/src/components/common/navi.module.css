@@ -195,3 +195,51 @@
     margin-top: 10px;
     margin-bottom: 5px;
 }
+
+
+.navi {
+    position: fixed; /* 'absolute' 대신 'fixed'를 사용하여 헤더 아래에서 고정되도록 합니다. */
+    top: 60px; /* 헤더의 높이에 따라 조정. 현재 HeaderCSS.headerDiv의 height가 60px로 추정됩니다. */
+    left: 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    z-index: 1001; /* 네비바를 최상단에 (헤더보다 높게) */
+    font-family: 'Pretendard Variable', sans-serif;
+}
+
+.navi.open {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.naviOverlay {
+    position: fixed; /* 화면 고정 */
+    top: 0; /* 헤더까지 어둡게 하지 않으려면 이 값을 헤더 높이만큼 조절해야 합니다. */
+    left: 0;
+    width: 100%;
+    height: 100%; /* 전체 높이 */
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정색 */
+    z-index: 1000; /* 네비바(1001)보다 낮고, 헤더보다 높게 (헤더가 999 이하일 경우) */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* 오버레이 클릭 무시 */
+}
+
+.naviOverlay.open {
+    opacity: 1;
+    pointer-events: auto; /* 오버레이 클릭 활성화 (선택 사항) */
+}
+
+.naviOverlay {
+    position: fixed;
+    top: 60px; /* 헤더의 높이만큼 설정. 헤더가 60px이라면 */
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px); /* 전체 높이에서 헤더 높이만큼 빼줍니다. */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
