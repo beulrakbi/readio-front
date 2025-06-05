@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getNewVideos, getVideosByKeyword } from "../../apis/VideoAPI.js";
 import leftButton from "../../assets/arrow-left.png";
@@ -8,71 +8,81 @@ import Video from "./Video";
 import VIdeoInDB from "./VIdeoInDB.jsx";
 import VideoListCSS from "./videoList.module.css";
 import { saveClickLog } from '../../apis/StatisticsAPICalls';
+import {callFiltersByTypeIdAPI} from "../../apis/FilteringAPICalls.js";
 
 function VideoList({type, userId})
 {
-    console.log(type);
     const [videoList, setVideoList] = useState([]);
     const [videoInDBList, setVideoInDBList] = useState([]);
     const [videoListTitle, setVideoListTitle] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate(); // 추가 !
 
-    // const typeId = type.typeId;
+    const getVideos = async (res) => {
+
+        const keywords = await fetch(`http://localhost:8080/curation/keywords/${userId}/${type.typeId}`)
+            .then(response => response.json())
+            .then(response => response.data)
+            .then(response => response.curationKeywords);
+        if (keywords.length > 0) {
+            const allVideosInDB = [];
+            const allVideos = [];
+
+            for (let i = 0; i < keywords.length; i++) {
+                let keyword = keywords[i].keyword;
+                let newKeyword;
+                if(type.typeId < 4 || type.typeId !== 8)
+                {
+                    newKeyword = keyword + " 도서";
+                }
+                else
+                    newKeyword = keyword;
+                let result1;
+                let result2;
+                const getVideosAwait = await getVideosByKeyword(type.typeId, keyword, dispatch);
+                if (getVideosAwait)
+                {
+                    result1 = getVideosAwait.videoDTOList.filter((video, index, self) =>
+                        index === self.findIndex(v => v.videoId === video.videoId));
+                    allVideosInDB.push(...result1); // 배열에 쌓기
+                }
+                const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, getVideosAwait? getVideosAwait.num : 0, allVideosInDB, res);
+                if (getNewVideoAwait)
+                {
+                    result2 = getNewVideoAwait.filter((video, index, self) =>
+                        index === self.findIndex(v => v.id.videoId === video.id.videoId));
+                    allVideos.push(...result2);
+                }
+            }
+
+            setVideoInDBList(allVideosInDB); // 딱 한 번만 상태 갱신
+            setVideoList(allVideos);
+        }
+    }
+
 
     useEffect(() => {
 
-        let text;
-        if (type.typeId >= 6)
-        {
-            text = userId + type.typeText;
-        }
-        else
-        {
-            text = type.typeText;
-        }
+        const fetchAndRun = async () => {
+            const res = await dispatch(callFiltersByTypeIdAPI({ typeId: type.typeId }));
+
+            let text;
+            if (type.typeId >= 6)
+            {
+                text = userId + type.typeText;
+            }
+            else
+            {
+                text = type.typeText;
+            }
             setVideoListTitle(text);
 
-        const getVideos = async () => {
-                const keywords = await fetch(`http://localhost:8080/curation/keywords/${userId}/${type.typeId}`)
-                    .then(response => response.json())
-                    .then(response => response.data)
-                    .then(response => response.curationKeywords);
-            if (keywords.length > 0) {
-                const allVideosInDB = [];
-                const allVideos = [];
+            getVideos(res);
+        };
 
-                for (let i = 0; i < keywords.length; i++) {
-                    let keyword = keywords[i].keyword;
-                    let newKeyword;
-                    if(type.typeId === 5 || type.typeId === 6 || type.typeId === 7 || type.typeId === 9)
-                    {
-                        newKeyword = keyword + " 도서";
-                        console.log("keyword:", newKeyword, "typeId:", type.typeId, "text:", text);
-                    }
-                    let result1;
-                    let result2;
-                    const getVideosAwait = await getVideosByKeyword(type.typeId, keyword, dispatch);
-                    if (getVideosAwait)
-                    {
-                        result1 = getVideosAwait.videoDTOList.filter((video, index, self) =>
-                            index === self.findIndex(v => v.videoId === video.videoId));
-                        allVideosInDB.push(...result1); // 배열에 쌓기
-                    }
-                    const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, getVideosAwait? getVideosAwait.num : 0, allVideosInDB);
-                    if (getNewVideoAwait)
-                    {
-                        result2 = getNewVideoAwait.filter((video, index, self) =>
-                            index === self.findIndex(v => v.id.videoId === video.id.videoId));
-                        allVideos.push(...result2);
-                    }
-                }
-                setVideoInDBList(allVideosInDB); // 딱 한 번만 상태 갱신
-                setVideoList(allVideos);
-            }
-        }
-        getVideos();
+        fetchAndRun();
     }, [type]);
+
 
     const scrollRef = useRef();
     const leftButtonHandler = () => {

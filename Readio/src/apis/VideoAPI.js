@@ -23,7 +23,7 @@ export async function getTopVideos(dispatch) {
 }
 
 
-export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
+export async function getNewVideos(type, keyword, dispatch, num, foundVideos, filtering) {
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I
@@ -40,11 +40,24 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
         {
             keyword += "- " + foundVideos[i].videoId;
         }
+
+        if (Array.isArray(filtering))
+        {
+            for (let i = 0; i < filtering.length; i++)
+            {
+                if (filtering[i].keyword != null)
+                    keyword += "- " + filtering[i].keyword;
+                else
+                    keyword += "- " + filtering[i].videoId;
+            }
+        }
+        console.log("Filter", filtering);
+        console.log("최종 쿼리", keyword);
         maxResult = maxResult - num;
 
         try {
+
             const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
-            console.log("baseUrl", baseUrl);
             const data = await fetch(baseUrl);
             const json = await data.json();
             const result = json.items;
@@ -65,15 +78,15 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
                 }
                 return result;
             } else {
-                console.error('result is not an array:', result);
+                // console.error('result is not an array:', result);
             }
         } catch (error) {
-            console.error('API 호출 실패:', error);
+            // console.error('API 호출 실패:', error);
         }
     }
 }
 
-export async function searchNewVideos(keyword, dispatch, num, foundVideos) {
+export async function searchNewVideos(keyword, dispatch, num, foundVideos, filtering) {
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I
@@ -93,6 +106,17 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos) {
         for (let i = 0; i < foundVideos.length; i++)
         {
             keyword += "- " + foundVideos[i].videoId;
+        }
+
+        if (Array.isArray(filtering))
+        {
+            for (let i = 0; i < filtering.length; i++)
+            {
+                if (filtering[i].keyword != null)
+                    keyword += "- " + filtering[i].keyword;
+                else
+                    keyword += "- " + filtering[i].videoId;
+            }
         }
 
         try {
