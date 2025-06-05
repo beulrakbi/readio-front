@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './Bookmark.module.css';
-import { useNavigate, useLocation } from 'react-router-dom'; // useNavigate, useLocation 임포트
+import { useNavigate, useLocation } from 'react-router-dom';
+import PostListCSS from "../mylibrary/mypost/PostList.module.css"; // useNavigate, useLocation 임포트
 
 function Bookmark() {
   const location = useLocation(); // ✨ useLocation 훅 추가
@@ -134,8 +135,7 @@ function Bookmark() {
 
   return (
     <div className={styles.bookmarkContainer}>
-      <button className={styles.backButton}>&lt; 뒤로가기</button> {/* <cOwsun 대신 뒤로가기 텍스트로 임시 변경 */}
-
+      <button className={PostListCSS.followBackBt} onClick={() => navigate('/mylibrary')}>&lt; 뒤로가기</button>
       <div className={styles.tabContainer}>
         <div className={styles.tabButtonWrapper}>
           <button
