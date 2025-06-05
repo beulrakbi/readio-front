@@ -44,13 +44,13 @@ function UserNav({ isOpen, setIsOpen }) {
                         피드
                     </NavLink>
 
-                    <NavLink
+                    {/* <NavLink
                         to="/"
                         className={UserNavCSS.naviLinkText}
                         onClick={() => setIsOpen(false)}
                     >
                         소식
-                    </NavLink>
+                    </NavLink> */}
 
                     {/* 고객센터 토글 섹션: customerServiceOpen 상태에 따라 open 클래스 추가 */}
                     <div
@@ -85,7 +85,7 @@ function UserNav({ isOpen, setIsOpen }) {
                         </li>
                     </ul>
                 </div>
-                <div className={UserNavCSS.naviBannerContainer}>
+                {/* <div className={UserNavCSS.naviBannerContainer}>
                     <p className={UserNavCSS.naviBannerText}>오늘의 소식</p>
                     <NavLink to="/" onClick={() => setIsOpen(false)}>
                         <div className={UserNavCSS.naviBanner}>
@@ -97,7 +97,7 @@ function UserNav({ isOpen, setIsOpen }) {
                         <input type="radio" name="notice" className={UserNavCSS.naviButton1} />
                         <input type="radio" name="notice" className={UserNavCSS.naviButton1} />
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

@@ -153,7 +153,7 @@ function Header({ toggleNav }) {
                         ><img src={searchIcon} /></button>
                     </div>
                     <button className={HeaderCSS.headerAlarm}>
-                        <img src={bell} />
+                        {/* <img src={bell} /> */}
                     </button>
                     {isLogin ? (<AfterLogin />) : (<BeforeLogin />)}
 

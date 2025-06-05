@@ -22,7 +22,7 @@
     background-color: #AD9286;
     color: #F6EEB6;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     justify-items: center;
     padding:30px;
     display: flex;
