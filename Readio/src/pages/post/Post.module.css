@@ -390,10 +390,11 @@
 
 .postDetailDiv {
     width: 60%;
-    height: 2000px;
-        display: flex;
+    height: 100%;
+    display: flex;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 50px;
 }
 
 .postProfileDiv {
@@ -404,7 +405,7 @@
     align-items: center;
     margin-top: 50px;
     border-bottom: solid 1px #808467;
-    padding-left: 100px;
+    padding-left: 50px;
 }
 
 .postProfileIcon {

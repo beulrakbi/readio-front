@@ -34,13 +34,11 @@ function AdminMain() {
                     <CurrentState />
                     <Events />
                 </div>
-                <div className={AdminMainCSS.container}>
-                    <TopVideos />
-                    <TopBooks />
-                </div>
-                <div className={AdminMainCSS.container}>
-                    <TopInterestsKeyword />
-                </div>
+                <div className={AdminMainCSS.container2}><TopVideos /></div>
+                <div className={AdminMainCSS.container2}><TopBooks /></div>
+                {/*<div className={AdminMainCSS.container}>*/}
+                {/*    <TopInterestsKeyword />*/}
+                {/*</div>*/}
             </div>
         </>
     )

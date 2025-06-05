@@ -70,7 +70,7 @@ function NoticeDetail() {
 
             <div className={styles.nameBox}>
                 <span className={styles.userId}>{noticeDetail.userId}</span>
-                <span className={styles.role}>{userId}</span>
+                <span className={styles.role}>{noticeDetail.userRole}</span>
             </div>
 
             <div>

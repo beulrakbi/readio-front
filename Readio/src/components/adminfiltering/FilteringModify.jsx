@@ -3,25 +3,54 @@ import {useNavigate, useParams} from 'react-router-dom';
 import FListCSS from './Filtering.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {callFilteringGroupAPI, callFilteringGroupUpdateAPI} from "../../apis/FilteringAPICalls.js";
+import {callCurationTypesForAdminAPI} from "../../apis/CurationAPICalls.js";
+import CurationCSS from "../adminkeyword/Curation.module.css";
 
 function FilteringModify() {
     const dispatch = useDispatch();
+    const type = useSelector(state => state.curation.type);
     const [groupForm, setGroupForm] = useState({
-        title: "", content: "",
+        title  : "",
+        content: "",
+        typeId: 0,
     });
     const navigate = useNavigate();
+    const [form, setForm] = useState([]);
+    const [filterings, setFilterings] = useState([]);
+    const filtering = useSelector(state => state.filtering);
+    const param = useParams();
+    const [id, setId] = useState(1);
+
+
+    // 맨 처음 불러오기
+    useEffect(() => {
+        dispatch(callFilteringGroupAPI({groupId: param.groupId}));
+        dispatch(callCurationTypesForAdminAPI());
+        setGroupForm({
+            title: filtering.data.filteringGroup.title, content: filtering.data.filteringGroup.content, typeId:filtering.data.filteringGroup.typeId
+        })
+        const newFilters = filtering.data.filterings.map((filter, index) => ({
+            id: id + index, value: filter.keyword || filter.videoId || '', isSaved: true
+        }));
+
+        setId(id + filtering.data.filterings.length);
+        setFilterings([...filterings, ...newFilters]);
+    }, []);
+
+
+    const onChangeSelect = (e) => {
+        console.log("e.target.value", e.target.value);
+        setGroupForm({
+            ...groupForm,
+            typeId: e.target.value,
+        });
+    }
 
     const onChangeHandler = (e) => {
         setGroupForm({
             ...groupForm, [e.target.name]: e.target.value,
         });
     };
-    const [form, setForm] = useState([]);
-    const [filterings, setFilterings] = useState([]);
-    const filtering = useSelector(state => state.filtering);
-    const param = useParams();
-    // console.log("filtering", filtering);
-    const [id, setId] = useState(1);
     const CreateFiltering = () => {
         if (filterings.length < 15) {
             setFilterings(prev => [...prev, {id: id, value: '', isSaved: false}]);
@@ -74,6 +103,7 @@ function FilteringModify() {
                     groupId: param.groupId,
                     title: groupForm.title,
                     content: groupForm.content,
+                    typeId: groupForm.typeId
                 },
                 filterings: newFilterings
             };
@@ -86,23 +116,6 @@ function FilteringModify() {
         }
     }
 
-// 맨 처음 불러오기
-    useEffect(() => {
-        dispatch(callFilteringGroupAPI({groupId: param.groupId}));
-        setGroupForm({
-            title: filtering.data.filteringGroup.title, content: filtering.data.filteringGroup.content
-        })
-        const newFilters = filtering.data.filterings.map((filter, index) => ({
-            id: id + index, value: filter.keyword || filter.videoId || '', isSaved: true
-        }));
-
-        // console.log("DBfilterings", filtering.data.filterings);
-
-        setId(id + filtering.data.filterings.length);
-        setFilterings([...filterings, ...newFilters]);
-        // console.log("filterings", filterings)
-    }, []);
-
     return (<div className={FListCSS.container}>
         <div className={FListCSS.fontContainer}>
             <input className={FListCSS.filteringTitle} onChange={onChangeHandler} type="text" name="title"
@@ -111,7 +124,19 @@ function FilteringModify() {
         <hr className={FListCSS.filteringLine}/>
         <textarea className={FListCSS.filteringContent} onChange={onChangeHandler} name="content"
                   value={groupForm.content}/>
-        <p className={FListCSS.font3}>필터링 요소 수정</p>
+        <div className={FListCSS.typeDiv}>
+            <p className={FListCSS.font3}>필터링 요소 수정</p>
+            {/*타입 설정*/}
+            <select onChange={onChangeSelect} defaultValue={groupForm.typeId} style={{"border": "none"}}
+                    className={CurationCSS.filteringKeyword} value={groupForm.typeId}>
+                <option value="0">None</option>
+                {type?.map(cu => (
+                    <option key={cu.typeId} value={cu.typeId}>
+                        {cu.typeName}
+                    </option>))}
+            </select>
+            {/*타입 설정*/}
+        </div>
         <hr className={FListCSS.filteringLine}/>
         <div className={FListCSS.filteringDiv}>
             {filterings.map((filtering) => (<div className={FListCSS.filteringWrapper} key={filtering.id}>

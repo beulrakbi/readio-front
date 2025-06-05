@@ -8,7 +8,7 @@ function MyLibraryGuestPage() {
 
     useEffect(() => {
         alert("로그인 후 이용하실 수 있습니다.");
-        navigate("/"); // ✅ 메인으로 이동
+        navigate("/");
     }, [navigate]);
 
     const today = dayjs();

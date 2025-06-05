@@ -37,6 +37,13 @@ html, body, #root {
     display: flex;
 }
 
+@media screen and (max-width: 1058px) {
+   .headerSearchDiv,
+   .headerAlarm {
+    display: none;
+   }
+}
+
 .headerSearch {
     padding: 3px;
     background-color: transparent;

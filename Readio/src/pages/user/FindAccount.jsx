@@ -1,6 +1,7 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from './FindAccount.module.css';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 
 const FindAccount = () => {
   const location = useLocation();
@@ -118,90 +119,226 @@ const FindIdForm = () => {
   );
 }
 
+{/* -------------------아래부터 비밀번호 찾기------------------- */ }
 
 const FindPwdForm = () => {
-
   const [userId, setUserId] = useState('');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const [sentCode, setSentCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [step, setStep] = useState(1);
+  const [sentCode, setSentCode] = useState('');
+  const [isCodeVerified, setIsCodeVerified] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [timer, setTimer] = useState(0);
+  const passwordInputRef = useRef(null);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-  const sendCode = async () => {
-    const response = await fetch('/api/member/sendCode', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    const data = await response.text();
-    setSentCode(data);
-    alert(`인증번호: ${data}`); // 실제 배포시 이메일로 전송
+  useEffect(() => {
+
+    if (timer > 0 && sentCode && !isCodeVerified) {
+      const interval = setInterval(() => setTimer(prev => prev - 1), 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer, sentCode, isCodeVerified]);
+
+  const formatTime = (seconds) => {
+    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    return `${m}:${s}`;
   };
 
-  const verifyAndNext = async () => {
-    if (code !== sentCode) {
-      alert('인증번호 불일치');
+  const validatePassword = (value) => {
+    const lengthValid = /^.{8,20}$/.test(value);
+    const hasLetter = /[a-zA-Z]/.test(value);
+    const hasNumber = /[0-9]/.test(value);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+    const types = [hasLetter, hasNumber, hasSpecial].filter(Boolean).length;
+    return lengthValid && types >= 2;
+  };
+
+  /* 인증번호 발송 */
+  const sendCode = async () => {
+    setMessage('');
+    setError('');
+    setIsCodeVerified(false);
+
+    if (!userId.trim()) {
+      alert('아이디를 먼저 입력해주세요.')
+      setError('아이디를 먼저 입력해주세요.');
       return;
     }
-    const response = await fetch('/api/member/verifyUser', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, email })
-    });
-    if (response.ok) {
-      setStep(2);
-    } else {
-      alert('아이디와 이메일이 일치하지 않습니다');
+    try {
+      const res = await axios.post('/api/email/sendCode', {
+        userId,
+        email
+      });
+
+      setSentCode(res.data);
+      console.log(res.data);
+      alert('인증번호 발송이 완료되었습니다.');
+      setTimer(1800);
+      // setMessage('인증번호가 이메일로 전송되었습니다.');
+    } catch (err) {
+      console.log(err)
+      const errorMessage = err.response?.data?.message || '인증번호 전송 실패';
+      alert(errorMessage); // 여기서 알럿으로 보여줌
+      setError(errorMessage);
     }
   };
 
-  const resetPassword = async () => {
-    await fetch('/api/member/resetPassword', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, newPassword })
-    });
-    alert('비밀번호 재설정 완료');
-    window.location.href = '/login'; // 로그인 페이지로 이동
+  /* 인증번호 확인 */
+  const verifyCode = () => {
+    setMessage('');
+    setError('');
+
+    if (!code.trim()) {
+      alert('인증번호를 입력해주세요.');
+      setError('인증번호를 입력해주세요.');
+      return;
+    }
+
+    if (code === sentCode) {
+      setIsCodeVerified(true);
+      setTimer(0);  // 타이머 멈추기
+      // setMessage('인증번호가 확인되었습니다.');
+      alert('인증번호 확인이 완료되었습니다.')
+      passwordInputRef.current?.focus();
+    } else {
+      alert('인증번호가 일치하지 않습니다. 다시 시도해주세요.')
+      setError('인증번호가 일치하지 않습니다.');
+    }
   };
 
+  /* 비밀번호 재설정 */
+  const resetPassword = async () => {
+    setMessage('');
+    setError('');
 
+    if (!userId.trim() || !email.trim()) {
+      alert('아이디와 이메일을 입력해주세요.');
+      setError('아이디와 이메일을 입력해주세요.');
+      return;
+    }
+
+    if (!isCodeVerified) {
+      setError('인증번호 확인이 필요합니다.');
+      return;
+    }
+
+    if (!validatePassword(newPassword)) {
+      alert('비밀번호는 8~20자, 영문/숫자/특수문자 중 2가지 이상 조합이어야 합니다.')
+      setError('비밀번호는 8~20자, 영문/숫자/특수문자 중 2가지 이상 조합이어야 합니다.');
+      return;
+    }
+
+    try {
+      const res = await axios.post('/api/email/resetPassword', {
+        userId,
+        newPassword,
+      });
+
+      setShowModal(true);
+    } catch (err) {
+      alert('비밀번호 재설정에 실패하였습니다.')
+      console.log(err)
+      setError(err.response?.data || '비밀번호 재설정 실패');
+    }
+  };
 
   return (
     <div className={styles.formContainer}>
-      {step === 1 && (
-        <>
-          <div className={styles.tableForm}>
-            <div className={styles.tableRow}>
-              <div className={`${styles.tableCell} ${styles.labelCell}`}>아이디</div>
-              <div className={`${styles.tableCell} ${styles.inputCell}`}>
-                <input type="text" value={userId} onChange={e => setUserId(e.target.value)} placeholder="아이디 입력" />
-              </div>
-            </div>
-            <div className={styles.tableRow}>
-              <div className={`${styles.tableCell} ${styles.labelCell}`}>이메일</div>
-              <div className={`${styles.tableCell} ${styles.inputCell}`}>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="이메일 입력" />
-                <button className={styles.verifyButton} onClick={sendCode}>인증번호 발송</button>
-              </div>
-            </div>
-            <div className={styles.tableRow}>
-              <div className={`${styles.tableCell} ${styles.labelCell}`}>인증번호 확인</div>
-              <div className={`${styles.tableCell} ${styles.inputCell} ${styles.verifyRow}`}>
-                <input type="text" value={code} onChange={e => setCode(e.target.value)} placeholder="인증번호 입력" />
-              </div>
+
+      <div className={styles.tableForm}>
+
+        <div className={styles.tableRow}>
+          <div className={`${styles.tableCell} ${styles.labelCell}`}>아이디</div>
+          <div className={`${styles.tableCell} ${styles.inputCell}`}>
+            <input
+              type="text"
+              value={userId}
+              onChange={e => setUserId(e.target.value)}
+              placeholder="아이디 입력"
+              autoComplete="off" />
+          </div>
+        </div>
+
+        <div className={styles.tableRow}>
+          <div className={`${styles.tableCell} ${styles.labelCell}`}>이메일</div>
+          <div className={`${styles.tableCell} ${styles.inputCell}`}>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="이메일 입력" autoComplete="off" />
+            <button
+              className={styles.verifyButton}
+              onClick={sendCode}>
+              인증번호 발송
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.tableRow}>
+          <div className={`${styles.tableCell} ${styles.labelCell}`}>인증번호</div>
+          <div className={`${styles.tableCell} ${styles.inputCell}`}>
+            <input
+              type="text"
+              value={code}
+              onChange={e => setCode(e.target.value)}
+              placeholder="인증번호 입력"
+              disabled={isCodeVerified} />
+            <button
+              className={`${styles.verifyButton} ${isCodeVerified ? styles.disabledButton : ''}`}
+              onClick={verifyCode}
+              disabled={isCodeVerified}>
+              인증번호 확인
+            </button>
+            {sentCode && timer > 0 && <span className={styles.timer}>{formatTime(timer)}</span>}
+          </div>
+        </div>
+
+        <div className={styles.tableRow}>
+          <div className={`${styles.tableCell} ${styles.labelCell}`}>새 비밀번호</div>
+          <div className={`${styles.tableCell} ${styles.inputCell}`}>
+            <input
+              type="password"
+              ref={passwordInputRef}
+              value={newPassword}
+              onChange={e => setNewPassword(e.target.value)}
+              placeholder="새 비밀번호 입력"
+              autoComplete="off" />
+          </div>
+        </div>
+
+      </div>
+
+      <button className={styles.button} onClick={resetPassword}>
+        비밀번호 재설정
+      </button>
+      {message && <p className={styles.resultMessage}>{message}</p>}
+      {showModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <p>비밀번호 재설정이 완료되었습니다.<br />로그인 페이지로 이동하시겠습니까?</p>
+            <div className={styles.modalButtons}>
+              <button onClick={() => {
+                navigate('/users/login');
+                setUserId('');
+                setEmail('');
+                setCode('');
+                setNewPassword('');
+                setIsCodeVerified(false);
+              }}>확인</button>
+              <button onClick={() => setShowModal(false)}>취소</button>
             </div>
           </div>
-          <button className={styles.button} onClick={verifyAndNext}>확인</button>
-        </>
-      )}
-      {step === 2 && (
-        <>
-          <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="새 비밀번호 입력" />
-          <button className={styles.button} onClick={resetPassword}>비밀번호 재설정</button>
-        </>
+        </div>
       )}
     </div>
   );
-}
+};
 
 export default FindAccount;
 export { FindIdForm, FindPwdForm };

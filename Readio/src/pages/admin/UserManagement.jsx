@@ -141,7 +141,7 @@ function UserManagement() {
 
     const [roleChangeRequest, setRoleChangeRequest] = useState(null);
 
-    {/* t삭제 버튼 */ }
+    {/* 삭제 버튼 */ }
     const handleDeleteUser = async (userId) => {
         const confirmDelete = window.confirm("정말 회원을 삭제하시겠습니까?");
         if (!confirmDelete) return;
@@ -245,21 +245,9 @@ function UserManagement() {
                                 </td>
                                 <td>{user.userName}</td>
                                 <td>{user.userEmail}</td>
-                                <td>{formatToKST(user.userEnrollDate)}</td>
+                                <td>{(user.userEnrollDate)}</td>
                                 <td>{roleDisplayName[user.userRoleName] || user.userRoleName}</td>
                                 <td>{user.reportCount}</td>
-
-
-                                {/* <td>
-                                    <select value={user.userRole}
-                                        onChange={(e) => handleRoleChange(user.userId, e.target.value)}
-                                        className={styles.roleSelect}
-                                    >
-                                        <option value="USER">일반회원</option>
-                                        <option value="SUSPENDED">정지회원</option>
-                                        <option value="ADMIN">관리자</option>
-                                    </select>
-                                </td> */}
 
                                 <td>
                                     <select

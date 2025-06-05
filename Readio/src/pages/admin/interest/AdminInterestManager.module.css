@@ -93,3 +93,10 @@
     border: none;
     cursor: pointer;
 }
+.inputInline {
+    padding: 4px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 80px;
+}
