@@ -97,14 +97,14 @@ const BookmarkSection = () => {
         <>
             <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                    <h2 className={styles.sectionTitle}>영상 ({bookmarkedVideos.length})</h2>
+                    <h2 className={styles.sectionTitle}>영상</h2>
                     <span className={styles.sectionAction} onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'video' } })}>전체보기</span>
                 </div>
 
                 {bookmarkedVideos.length > 0 ? (
                     <div className={styles.videoBookmarkList}>
                         {/* slice(0, 5)는 상위 5개만 보여줍니다. */}
-                        {bookmarkedVideos.slice(0, 5).map((item) => (
+                        {bookmarkedVideos.slice(0, 4).map((item) => (
                             <div key={item.bookmarkId}
                                  className={styles.videoBookmarkItem}
                                  onClick={() => handleVideoClick(item.videoId)}
@@ -129,14 +129,14 @@ const BookmarkSection = () => {
 
             <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                    <h2 className={styles.sectionTitle}>도서 ({bookmarkedBooks.length})</h2>
+                    <h2 className={styles.sectionTitle}>도서</h2>
                     <span className={styles.sectionAction} onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'book' } })}>전체보기</span>
                 </div>
 
                 {bookmarkedBooks.length > 0 ? (
                     <div className={styles.bookmarkList}>
                         {/* slice(0, 5)는 상위 5개만 보여줍니다. */}
-                        {bookmarkedBooks.slice(0, 5).map((item) => (
+                        {bookmarkedBooks.slice(0, 6).map((item) => (
                             <div key={item.bookmarkId}
                                  className={styles.bookmarkItem}
                                  onClick={() => handleBookClick(item.bookIsbn)}
