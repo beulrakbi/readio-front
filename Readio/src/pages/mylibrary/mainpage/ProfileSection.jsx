@@ -4,11 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import defaultImg from '../../../assets/defaultImg.png';
 import pencilIcon from '../../../assets/pencil.png';
 import styles from './MyLibrary.module.css';
-import { callPostsCountAPI } from "../../../apis/PostAPICalls.js"; // Redux API 호출
-import { useDispatch, useSelector } from "react-redux"; // useDispatch, useSelector 복원
 
 const ProfileSection = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { userId: paramUserId } = useParams();
     const currentUserId = sessionStorage.getItem("userId");
@@ -23,25 +20,10 @@ const ProfileSection = () => {
 
     const [bookmarkedVideoCount, setBookmarkedVideoCount] = useState(0);
     const [bookmarkedBookCount, setBookmarkedBookCount] = useState(0);
-    // postCount는 Redux 스토어에서 직접 가져올 것이므로 별도의 useState는 필요 없습니다.
     const [myReviewsCount, setMyReviewsCount] = useState(0);
     const [showPopup, setShowPopup] = useState(false);
+    const [postCount, setPostCount] = useState(0); // 포스트 개수 상태 직접 관리
     const isOwner = currentUserId === targetUserId;
-
-    // Redux 스토어에서 포스트 관련 상태 가져오기
-    // postReducer가 pageInfo를 포함하는 객체 형태의 상태를 관리한다고 가정합니다.
-    const postsState = useSelector(state => state.postReducer);
-    const postCount = postsState?.pageInfo?.total || 0; // postsReducer의 pageInfo에서 total을 가져와 postCount로 사용
-
-    // --- 디버깅용 로그 추가 ---
-    // postsState나 postCount 값이 변경될 때마다 콘솔에 출력됩니다.
-    useEffect(() => {
-        console.log("--- [ProfileSection] Redux postsState 변화 ---");
-        console.log("현재 postsState:", postsState);
-        console.log("추출된 postCount:", postCount); // 이 값이 계속 0인지 확인해주세요.
-        console.log("---------------------------------------");
-    }, [postsState, postCount]);
-    // -------------------------
 
     // 인증 헤더를 가져오는 유틸리티 함수
     const getAuthHeader = () => {
@@ -71,9 +53,52 @@ const ProfileSection = () => {
         }
     }, [targetUserId]);
 
+    // 포스트 개수를 직접 가져오는 함수 (수정된 부분)
+    const fetchPostsCount = useCallback(async () => {
+        console.log("--- fetchPostsCount 시작 ---");
+        if (!targetUserId) {
+            setPostCount(0);
+            console.log("[fetchPostsCount] targetUserId가 없어 포스트 개수를 가져오지 못함.");
+            console.log("--- fetchPostsCount 종료 ---");
+            return;
+        }
+        try {
+            const requestURL = `http://localhost:8080/mylibrary/post/${targetUserId}/all?offset=1&limit=1`;
+            const authHeader = getAuthHeader();
+
+            console.log("[fetchPostsCount] API 요청 URL:", requestURL);
+            console.log("[fetchPostsCount] 요청 헤더:", authHeader);
+
+            const response = await axios.get(requestURL, { headers: authHeader });
+
+            console.log("[fetchPostsCount] API 응답 상태:", response.status);
+            console.log("[fetchPostsCount] API 응답 데이터:", response.data); // 이 JSON 구조를 꼭 확인하세요.
+
+            // --- 이 부분이 핵심적으로 수정된 부분입니다. ---
+            // 서버 응답이 response.data 안에 또 다른 'data' 객체가 있고, 그 안에 pageInfo.total이 있는 경우를 처리합니다.
+            // 즉, { status: ..., message: ..., data: { data: [ ... ], pageInfo: { total: ... } } } 형태
+            let total = 0;
+            if (response.status === 200 && response.data && response.data.data && response.data.data.pageInfo) {
+                if (typeof response.data.data.pageInfo.total === 'number') {
+                    total = response.data.data.pageInfo.total;
+                }
+            }
+            // --- 수정 끝 ---
+
+            setPostCount(total);
+            console.log(`[fetchPostsCount] 성공적으로 포스트 개수 설정: ${total}`);
+
+        } catch (err) {
+            console.error('[ProfileSection] 포스트 개수 조회 중 오류 발생:', err);
+            setPostCount(0);
+        } finally {
+            console.log(`[fetchPostsCount] 최종 postCount 상태: ${postCount}`);
+            console.log("--- fetchPostsCount 종료 ---");
+        }
+    }, [targetUserId, postCount]);
+
     // 메인 데이터 로딩 useEffect
     useEffect(() => {
-        // 프로필 정보 가져오기
         const fetchProfile = async () => {
             if (!targetUserId) return;
             try {
@@ -88,7 +113,6 @@ const ProfileSection = () => {
             }
         };
 
-        // 북마크 카운트 가져오기
         const fetchBookmarkCounts = async () => {
             const authHeader = getAuthHeader();
             if (!authHeader['Authorization']) {
@@ -110,23 +134,13 @@ const ProfileSection = () => {
             }
         };
 
-        // 포스트 개수를 Redux Thunk 액션을 통해 가져오기
-        // 이 액션이 Redux 스토어의 postReducer를 업데이트한다고 가정합니다.
-        if (targetUserId) {
-            console.log(`[ProfileSection] callPostsCountAPI 디스패치! targetUserId: ${targetUserId}`);
-            dispatch(callPostsCountAPI({userId: targetUserId}));
-        } else {
-            console.warn("[ProfileSection] targetUserId가 없어 포스트 개수 디스패치 건너뜀.");
-        }
-
-        // 모든 데이터 페칭 함수 호출
         fetchProfile();
         fetchBookmarkCounts();
-        fetchMyReviewsCount(); // useCallback으로 정의된 함수 호출
+        fetchMyReviewsCount();
+        fetchPostsCount(); // 직접 정의한 포스트 개수 가져오는 함수 호출
 
-    }, [targetUserId, dispatch, fetchMyReviewsCount]); // 의존성 배열에 모든 useCallback 함수와 dispatch 포함
+    }, [targetUserId, fetchMyReviewsCount, fetchPostsCount]);
 
-    // 포스트 클릭 핸들러 (비공개 서재 처리 포함)
     const handlePostClick = () => {
         if (!isOwner && profile.isPrivate === 'PRIVATE') {
             setShowPopup(true);
@@ -136,7 +150,6 @@ const ProfileSection = () => {
         }
     };
 
-    // 리뷰 클릭 핸들러 (PostList.js로 이동하며 'review' 탭 활성화 상태 전달)
     const handleReviewClick = () => {
         navigate(`/mylibrary/postlist/${targetUserId}`, { state: { activeTab: 'review' } });
     };
@@ -181,15 +194,12 @@ const ProfileSection = () => {
 
             <div className={styles.outProfileInfo}>
                 <div className={styles.stats}>
-                    {/* 포스트 카운트 */}
                     <div className={styles.statItem} onClick={handlePostClick} style={{ cursor: 'pointer' }}>
                         <strong>{postCount}</strong><span>포스트</span>
                     </div>
-                    {/* 리뷰 카운트 */}
                     <div className={styles.statItem} onClick={handleReviewClick} style={{ cursor: 'pointer' }}>
                         <strong>{myReviewsCount}</strong><span>리뷰</span>
                     </div>
-                    {/* 관심 영상 */}
                     <div className={styles.statItem}>
                         <strong onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'video' } })}>
                             {bookmarkedVideoCount}
@@ -198,7 +208,6 @@ const ProfileSection = () => {
                             관심 영상
                         </span>
                     </div>
-                    {/* 관심 책 */}
                     <div className={styles.statItem}>
                         <strong onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'book' } })}>
                             {bookmarkedBookCount}
