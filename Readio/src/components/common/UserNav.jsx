@@ -48,10 +48,11 @@ function UserNav({ isOpen, setIsOpen }) {
                         style={{ cursor: 'pointer' }}
                     >
                         내 서재
+
                     </div> */}
 
                     <NavLink
-                        to="/"
+                        to="/feed"
                         className={UserNavCSS.naviLinkText}
                         onClick={() => setIsOpen(false)}
                     >
