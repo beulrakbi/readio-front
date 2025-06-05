@@ -390,10 +390,11 @@
 
 .postDetailDiv {
     width: 60%;
-    height: 2000px;
-        display: flex;
+    height: 100%;
+    display: flex;
     align-items: center;
     flex-direction: column;
+    margin-bottom: 50px;
 }
 
 .postProfileDiv {
@@ -404,12 +405,13 @@
     align-items: center;
     margin-top: 50px;
     border-bottom: solid 1px #808467;
-    padding-left: 100px;
+    padding-left: 50px;
 }
 
 .postProfileIcon {
     height: 60px;
-    border-radius: 50px;
+    width: 60px;
+    border-radius: 50%;
 }
 
 .postProfile {
@@ -614,7 +616,8 @@
 }
 
 .postDetailReviewIcon {
-    height: 60px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
 }
 
@@ -624,7 +627,7 @@
     flex-direction: column;
     margin-left: 20px;
     list-style-type: none;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .postDetailReviewcon {

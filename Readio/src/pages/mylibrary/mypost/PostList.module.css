@@ -1,18 +1,31 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 .followDiv {
-    width: 60%;
-    height: 1000px;
+    width: 80%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-bottom: 60px;
+    /*justify-content: center;*/
+}
+
+.followDiv2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .followBackBt {
     width: 150px;
     height: 40px;
-    font-size: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #676767;
     margin-top: 60px;
-    border-style: none;
+    border: none;
     background-color: transparent;
     cursor: pointer;
+    align-self: flex-start;
 }
 
 .followTapDiv {
@@ -21,12 +34,12 @@
 }
 
 .followListBtDiv {
-    width: 100%;
+    width: 500px;
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-top: 50px;
+    /*margin-top: 50px;*/
     
 }
 
@@ -98,19 +111,18 @@
 
 .postListDiv {
     width: 950px;
-    height: auto;
+    height: 200px;
     border-radius: 10px;
     border: 1px solid #808467;
-    margin-top: 30px;
-    margin-left: 30px;
-    margin-bottom: 30px;
+    margin-top: 25px;
+    margin-bottom: 5px;
 }
 
 .postListConDiv {
     width: 100%;
     height: 200px;
     display: flex;
-    padding-left: 20px;
+    padding-left: 15px;
 }
 
 .postListCon {
@@ -120,18 +132,21 @@
 .postListConImgDiv {
     display: flex;
     align-items: center;
-    margin-left: 50px;
+    justify-content: center;
+    /*margin-left: 50px;*/
+    margin:auto;
 }
 
 .postListConImg {
     height: 150px;
+    /*margin-top: 40px;*/
 }
 
 .postListHeartDiv {
     /* width: 100%; */
     height: 30px;
-    margin-left: 30px;
-    margin-bottom: 10px;
+    /*margin-left: 30px;*/
+    /*margin-bottom: 10px;*/
     display: flex;
     align-items: center;
 }
@@ -209,4 +224,43 @@
     border-style: none;
     background-color: transparent;
     cursor: pointer;
+}
+
+.scrollableListArea {
+  width: 100%; /* 부모 컨테이너에 맞춰 너비 설정 */
+  max-width: 1010px; /* 리뷰 아이템의 최대 너비(950px + 좌우마진 30px*2)를 고려하거나, 
+                         포스트/리뷰 중 더 넓은 것을 기준으로 설정 또는 각 탭에 따라 다르게 적용. 
+                         또는 이 값을 .postListDiv, .reviewListDiv의 max-width로 설정하고 여기는 100% 유지 가능 */
+  max-height: 70vh; /* 화면 높이의 70% 또는 원하는 고정 px 값 (예: 600px) */
+  overflow-y: auto;  /* 세로 스크롤 자동 생성 */
+  margin-top: 20px;  /* 탭 버튼과의 간격 */
+  padding-left: 15px;  /* 좌우 패딩 추가 (값을 조절하여 원하는 여백 설정) */
+  padding-right: 15px; /* 좌우 패딩 추가 (기존 10px에서 변경 또는 동일하게) */
+  box-sizing: border-box; /* 패딩과 보더가 너비(width) 계산에 포함되도록 함 */
+  
+}
+.reviewListDiv {
+    width: 100%; /* 또는 원하는 너비, 예: 950px */
+    max-width: 950px; /* 최대 너비는 유지 (마진은 별도) */
+    margin: 30px auto; /* 상하좌우 마진 (auto로 중앙 정렬 시도) */
+    border-radius: 10px;
+    border: 1px solid #808467;
+    /* 기존 스타일 유지 */
+}
+.followDiv {
+    width: 80%;
+    min-height: 100vh; /* 최소 화면 높이를 채우도록 하거나, 다른 방식으로 높이 관리 */
+    overflow-y: initial; /* 또는 hidden, visible 등 상황에 맞게. auto면 이중 스크롤 가능성 */
+    margin-bottom: 60px;
+    display: flex; /* 내부 요소 정렬을 위해 flex 사용 가능 */
+    flex-direction: column; /* 내부 요소 정렬을 위해 flex 사용 가능 */
+    align-items: center; /* 내부 요소 정렬을 위해 flex 사용 가능 */
+}
+
+.followDiv2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* .followDiv 내부에서 너비를 꽉 채우도록 */
+    max-width: 1200px; /* 전체 컨텐츠의 최대 너비 제한 (선택 사항) */
 }

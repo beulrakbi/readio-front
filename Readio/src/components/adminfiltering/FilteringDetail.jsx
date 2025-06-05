@@ -7,18 +7,20 @@ import {
     callFilteringGroupAPI,
     callFilteringGroupDeleteAPI
 } from "../../apis/FilteringAPICalls.js";
+import {callCurationTypesAPI, callCurationTypesForAdminAPI} from "../../apis/CurationAPICalls.js";
 
 function FilteringDetail()
 {
     const dispatch = useDispatch();
     const filtering  = useSelector(state => state.filtering);
+    const type = useSelector(state => state.curation.type);
     const param = useParams();
     const navigate = useNavigate();
     const data = filtering.data;
-    console.log("filtering result", filtering)
 
     useEffect(() => {
         dispatch(callFilteringGroupAPI({groupId:param.groupId}));
+        dispatch(callCurationTypesForAdminAPI());
     }, []);
 
     const onClickChangeActiveState = () => {
@@ -37,14 +39,15 @@ function FilteringDetail()
         }
     }
 
-
     return (
         <div className={FListCSS.container}>
             <div className={FListCSS.fontContainer}>
-                <p className={FListCSS.font1}>{data?.filteringGroup?.title}</p>
+                <p className={FListCSS.font1}>{type[data?.filteringGroup?.typeId - 1]?.typeName} 타입 | {data?.filteringGroup?.title}</p>
                 <div className={FListCSS.buttonDiv}>
-                    <p className={FListCSS.font2} onClick={onClickChangeActiveState}>{data?.filteringGroup?.isActive == "Y" ? "비활성화" : "활성화"}</p>
-                    <p className={FListCSS.font2} onClick={() => navigate(`/admin/filtering/${data.filteringGroup.groupId}/edit`)}>수정</p>
+                    <p className={FListCSS.font2}
+                       onClick={onClickChangeActiveState}>{data?.filteringGroup?.isActive == "Y" ? "비활성화" : "활성화"}</p>
+                    <p className={FListCSS.font2}
+                       onClick={() => navigate(`/admin/filtering/${data.filteringGroup.groupId}/edit`)}>수정</p>
                     <p className={FListCSS.font2} onClick={onClickDelete}>삭제</p>
                 </div>
             </div>

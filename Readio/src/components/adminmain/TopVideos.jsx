@@ -14,11 +14,10 @@ function TopVideos() {
             const today = new Date();
             const oneWeekAgo = new Date();
             oneWeekAgo.setDate(today.getDate() - 7);
-
             const format = (d) => d.toISOString().slice(0, 10);
 
             try {
-                const topVideos = await getClickAnalytics({
+                const rawData = await getClickAnalytics({
                     type: 'video',
                     sort: 'click',
                     startDate: format(oneWeekAgo),
@@ -26,13 +25,10 @@ function TopVideos() {
                     limit: 10
                 });
 
-                console.log(" TopVideos 응답:", topVideos);
+                console.log("TopVideos 응답:", rawData);
 
-                if (Array.isArray(topVideos)) {
-                    setVideoList(topVideos);
-                } else {
-                    console.error("TopVideos 응답이 배열이 아님:", topVideos);
-                }
+                const topVideos = rawData.list || [];
+                setVideoList(topVideos);
             } catch (e) {
                 console.error("TopVideos 불러오기 실패:", e);
             }
@@ -48,13 +44,13 @@ function TopVideos() {
 
     return (
 
-        <div className={AdminMainCSS.main}>
+        <div className={AdminMainCSS.main2}>
             <div className={AdminMainCSS.fontContainer}>
-                <p className={AdminMainCSS.font1}>최근 일주일 클릭 수 Top10 영상</p><Link to="/" className={AdminMainCSS.linkFont}>더보기</Link>
+                <p className={AdminMainCSS.font1}>최근 일주일 클릭 수 Top10 영상</p>
+                <Link to="/admin/analytics/clicklog" className={AdminMainCSS.linkFont}>더보기 &gt;</Link>
             </div>
 
-
-            <hr className={AdminMainCSS.csLine} />
+            <hr className={AdminMainCSS.csLine2} />
             <div className={AdminMainCSS.videoContainer}>
                 <button className={AdminMainCSS.scrollButton} onClick={leftButtonHandler}>
                     <img className={AdminMainCSS.buttonImg} src={leftButton} />
@@ -68,7 +64,7 @@ function TopVideos() {
                     <img className={AdminMainCSS.buttonImg} src={rightButton} />
                 </button>
             </div>
-            <hr className={AdminMainCSS.csLine} />
+            <hr className={AdminMainCSS.csLine2} />
         </div>
     );
 }

@@ -1,28 +1,47 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import FListCSS from './Filtering.module.css';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {callFilteringGroupCreateAPI, callFilteringsCreateAPI} from "../../apis/FilteringAPICalls.js";
+import {callCurationTypesForAdminAPI} from "../../apis/CurationAPICalls.js";
+import CurationCSS from "../adminkeyword/Curation.module.css";
 
 function FilteringCreate() {
 
     const dispatch = useDispatch();
+    const type = useSelector(state => state.curation.type);
     const [groupForm, setGroupForm] = useState({
         title  : "",
         content: "",
+        typeId: 0,
     });
     const navigate = useNavigate();
 
     const onChangeHandler = (e) => {
-        console.log(e.target.name, e.target.value);
         setGroupForm({
             ...groupForm,
             [e.target.name]: e.target.value,
         });
     };
 
-    // 필터링 추가 및 저장
+    // 타입 설정
 
+    const onChangeSelect = (e) => {
+        console.log("e.target.value", e.target.value);
+        setGroupForm({
+            ...groupForm,
+            typeId: e.target.value,
+        });
+    }
+
+    useEffect(() => {
+        dispatch(callCurationTypesForAdminAPI());
+    },[]);
+
+
+
+
+    // 필터링 추가 및 저장
     const [form, setForm] = useState([]);
     const [final, setFinal] = useState([{
         videoId: "",
@@ -108,7 +127,19 @@ function FilteringCreate() {
             <hr className={FListCSS.filteringLine}/>
             <textarea className={FListCSS.filteringContent} onChange={onChangeHandler} name="content"
                       value={groupForm.content} placeholder="내용을 입력하세요"/>
+            <div className={FListCSS.typeDiv}>
             <p className={FListCSS.font3}>필터링 요소 추가</p>
+            {/*타입 설정*/}
+            <select onChange={onChangeSelect} defaultValue={0} style={{"border": "none"}}
+                    className={CurationCSS.filteringKeyword} value={groupForm.typeId}>
+                <option value="0">None</option>
+                {type?.map(cu => (
+                    <option key={cu.typeId} defaultValue={cu.typeId} value={cu.typeId}>
+                        {cu.typeName}
+                    </option>))}
+            </select>
+            {/*타입 설정*/}
+            </div>
             <hr className={FListCSS.filteringLine}/>
             <div className={FListCSS.filteringDiv}>
                 {filterings.map((filtering) => (

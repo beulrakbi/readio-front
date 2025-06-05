@@ -10,7 +10,6 @@ import {
 // admin 경로에만 헤더 추가
 const getAuthHeader = () => {
     const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
-    console.log("필터링 토큰 :",  token)
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
@@ -51,11 +50,10 @@ export const callFilteringGroupCreateAPI = ({ groupForm }) => {
             },
             body: JSON.stringify({
                 title: groupForm.title,
-                content: groupForm.content
+                content: groupForm.content,
+                typeId: groupForm.typeId
             })
         }).then((response) => response.json());
-
-        // console.log('[FilteringAPICalls] callFilteringGroupCreateAPI RESULT : ', result);
 
         dispatch(postFilteringGroup(result));
         return result;
@@ -63,8 +61,6 @@ export const callFilteringGroupCreateAPI = ({ groupForm }) => {
 };
 
 export const callFilteringGroupActiveStateUpdateAPI = ({ groupForm }) => {
-
-    // console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI Call');
 
     const requestURL = `http://localhost:8080/admin/filtering`;
 
@@ -79,15 +75,11 @@ export const callFilteringGroupActiveStateUpdateAPI = ({ groupForm }) => {
             body: JSON.stringify(groupForm)
         }).then((response) => response.json());
 
-        // console.log('[FilteringAPICalls] callFilteringGroupActiveStateUpdateAPI RESULT : ', result);
-
         dispatch(putFilteringGroup(result));
     };
 }
 
 export const callFilteringGroupUpdateAPI = ({ final }) => {
-
-    console.log('[FilteringAPICalls] callFilteringGroupUpdateAPI Call');
 
     const requestURL = `http://localhost:8080/admin/filtering/edit`;
 
@@ -102,14 +94,11 @@ export const callFilteringGroupUpdateAPI = ({ final }) => {
             body: JSON.stringify(final)
         }).then((response) => response.json());
 
-        console.log('[FilteringAPICalls] callFilteringGroupUpdateAPI RESULT : ', result);
         dispatch(putFilteringGroup(result));
     };
 }
 
 export const callFilteringGroupDeleteAPI = ({groupId}) => {
-    console.log('[FilteringAPICalls] callFilteringGroupDeleteAPI Call');
-
     const requestURL = `http://localhost:8080/admin/filtering/${groupId}`;
 
     return async (dispatch, getState) => {
@@ -122,7 +111,6 @@ export const callFilteringGroupDeleteAPI = ({groupId}) => {
             }
         }).then((response) => response.json());
 
-        console.log('[FilteringAPICalls] callFilteringGroupDeleteAPI RESULT : ', result);
         dispatch(deleteFilteringGroup(result));
     };
 }
@@ -149,9 +137,7 @@ export const callFilteringGroupsAPI = ({ currentPage }) => {
             }
         }).then((response) => response.json());
 
-        // console.log('[FilteringAPICalls] callFilteringGroupsAPI RESULT : ', result);
         if (result.status === 200) {
-            // console.log('[FilteringAPICalls] callFilteringGroupsAPI SUCCESS');
             dispatch(getFilteringGroups(result.data));
         }
     };
@@ -170,10 +156,7 @@ export const callFilteringGroupAPI = ({groupId}) => {
             }
         }).then((response) => response.json());
 
-        console.log('[FilteringAPICalls] callFilteringGroupAPI RESULT : ', result);
         if (result.status === 200) {
-            console.log('[FilteringAPICalls] callFilteringGroupAPI SUCCESS');
-            // console.log("result", result);
             dispatch(getFilteringGroup(result));
         }
     };

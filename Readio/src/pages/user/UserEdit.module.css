@@ -26,7 +26,7 @@
   /* 수평 정렬 */
   align-items: center;
   /* 세로 가운데 정렬 */
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   /* 항목 간 간격 통일 */
   margin-left: 40px;
   /* 약관이랑 왼쪽 여백 통일하기 */
@@ -40,6 +40,7 @@
   /* 레이블 크기 고정 */
   margin-right: 30px;
   /* 레이블과 입력란 간 간격 */
+  margin-top: 12px; /* 위 정렬 시 높이 맞춤 */
 }
 
 .formGroup input {
@@ -179,4 +180,19 @@
   text-decoration: none;
   /* display: flex; */
 
+}
+
+/* 유효성 메시지 */
+.message {
+  margin-top: 0px;
+  margin-left: 175px;
+  font-size: 13px;
+}
+
+.message.error {
+  color: rgb(194, 28, 28);
+}
+
+.message.success {
+  color: #000000;
 }
