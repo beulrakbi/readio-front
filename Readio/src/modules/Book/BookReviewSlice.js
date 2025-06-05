@@ -20,7 +20,7 @@ const BookReviewSlice = createSlice({
             state.reviews = action.payload.data;
             state.status = action.payload.status;
             state.message = action.payload.message;
-        }
+        },
     }
 });
 

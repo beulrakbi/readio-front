@@ -140,7 +140,7 @@ function App() {
                         <Route path="mylibrary/post/:postId" element={<PostDetail />} />
                         <Route path="feed" element={<FeedMain />} />
                         <Route path="mylibrary/follow" element={<FollowList />} />
-                        <Route path="mylibrary/postlist/:userId" element={<PostList />} />
+                        <Route path="mylibrary/postAndReview" element={<PostList/>} />
                         <Route path="/mylibrary/:userId" element={<MyLibraryPage />} />
 
                     </Route>
