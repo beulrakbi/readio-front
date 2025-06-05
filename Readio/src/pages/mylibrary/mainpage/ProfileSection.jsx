@@ -177,7 +177,6 @@ const ProfileSection = () => {
 
                 <div className={styles.profileInfo}>
                     <h2 className={styles.nickname}>{profile.penName || 'Readio 기본 필명'}</h2>
-                    <p>등급 : 재미있는 활동가</p>
                     <p>팔로워 2 ・ 팔로잉 2</p> {/* 이 부분은 실제 데이터로 채워야 합니다. */}
                 </div>
 

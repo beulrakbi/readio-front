@@ -141,6 +141,8 @@ function App() {
                         <Route path="feed" element={<FeedMain />} />
                         <Route path="mylibrary/follow" element={<FollowList />} />
                         <Route path="mylibrary/postlist/:userId" element={<PostList />} />
+                        <Route path="/mylibrary/:userId" element={<MyLibraryPage />} />
+
                     </Route>
 
                     <Route path="/admin" element={<AdminLayout/>}>

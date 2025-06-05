@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MyLibrary.module.css';
 import dayjs from 'dayjs';
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const CalendarSection = () => {
     const today = dayjs();
@@ -10,6 +10,18 @@ const CalendarSection = () => {
     const navigate = useNavigate();
     const [emotionData, setEmotionData] = useState({});
     const [postData, setPostData] = useState({});
+    const { userId: paramUserId } = useParams();
+    const currentUserId = sessionStorage.getItem("userId");
+    const targetUserId = paramUserId || currentUserId;
+    const isOwner = currentUserId === targetUserId;
+    const handleCalendarClick = () => {
+        if (!isOwner) {
+            setShowPopup(true);
+            setTimeout(() => setShowPopup(false), 2000);
+            return;
+        }
+        navigate(`/mylibrary/${targetUserId}`);
+    };
 
     const convertLabelToEmoji = (enumName) => {
         switch (enumName) {
