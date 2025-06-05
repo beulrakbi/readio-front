@@ -129,15 +129,20 @@ function PlayVideo() {
     };
 
     const handlePlayClick = async () => {
-        try {
-            await fetch(`http://localhost:8080/video/view/${videoId}`, {
-                method : 'POST'
+    try {
+            // “/video/id/{videoId}”로 맞춰서 호출
+            const res = await fetch(`http://localhost:8080/video/id/${videoId}`, {
+                method: 'POST'
             });
+            if (!res.ok) {
+                console.error('조회수 증가 실패, status:', res.status);
+            }
         } catch (err) {
-            console.error('조회수 증가 실패', err);
+            console.error('조회수 증가 중 예외', err);
         }
         setHasPlayed(true);
-    }
+    };
+
     
     return(
         <>

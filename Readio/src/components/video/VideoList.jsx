@@ -9,165 +9,185 @@ import Video from "./Video";
 import VIdeoInDB from "./VIdeoInDB.jsx";
 import VideoListCSS from "./videoList.module.css";
 
-function VideoList({type, userCoords, userId})
+function VideoList({type, userCoords, userId}) {
 
-{
-    // console.log(type);
-    console.log("VideoList props:", type, "userCoords:", userCoords, "userId:", userId);
     const [videoList, setVideoList] = useState([]);
     const [videoInDBList, setVideoInDBList] = useState([]);
     const [videoListTitle, setVideoListTitle] = useState('');
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // 추가 !
-
-    // const typeId = type.typeId;
+    const navigate = useNavigate();
 
     useEffect(() => {
-
         let text;
-        if (type.typeId >= 6)
-        {
+        if (type.typeId >= 6) 
+        { 
             text = userId + type.typeText;
-        }
+        } 
         else
         {
             text = type.typeText;
         }
-            setVideoListTitle(text);
+            setVideoListTitle(text); // 화면에 표시될 리스트 제목 설정
 
         const getVideos = async () => {
-            // --- 1) 날씨 기반 추천 처리 (type.typeId === 5) ---
+            // 날씨 기반 추천 처리 => 5
             if (type.typeId === 5) {
-                setVideoListTitle(type.typeText); // 제목 우선 설정
-                // if (!userCoords) {
-                //     console.log("날씨 추천: userCoords가 없습니다. 위치 허용을 기다립니다.");
-                //     setVideoInDBList([]); // 날씨 정보 없으면 빈 배열
-                //     setVideoList([]);
-                //     return;
-                // }
+                if (!userCoords) return;
+
                 try {
                     console.log(`날씨 추천 API 호출: lat=${userCoords.lat}, lon=${userCoords.lon}`);
                     const res = await fetch(
-                        // 새로운 API 엔드포인트 사용
                         `http://localhost:8080/video/weather?lat=${userCoords.lat}&lon=${userCoords.lon}`
                     );
+
                     if (!res.ok) {
-                        // API 호출 실패 시 (예: 4xx, 5xx 에러)
                         console.error("날씨 기반 추천 API 호출 실패:", res.status);
-                        const errorJson = await res.json().catch(() => null); // 에러 응답이 JSON 형태일 수 있음
+                        const errorJson = await res.json().catch(() => null); 
                         console.error("에러 내용:", errorJson);
                         setVideoInDBList([]);
                         setVideoList([]);
                         return;
                     }
-                    const json = await res.json();
-                    
-                    // 변경된 응답 구조에서 날씨 추천 비디오 목록 가져오기
-                    // json.data가 { weatherRecommendedVideos: VideosDTO, allCurations: List<CurationDTO> } 형태
-                    const weatherRecommendedVideosDTO = json.data?.weatherRecommendedVideos;
-                    const weatherVideos = weatherRecommendedVideosDTO?.videoDTOList || [];
-                    
-                    console.log("날씨 추천 영상 목록:", weatherVideos);
 
-                    // 날씨 추천 결과는 DB에 있는 비디오들이므로 videoInDBList에 설정
-                    setVideoInDBList(weatherVideos);
-                    setVideoList([]); // YouTube API 직접 검색 결과는 없음
+                    const json = await res.json();
+                    const weatherVideos = json.data?.weatherRecommendedVideos?.videoDTOList || [];
+                    console.log("날씨 추천 영상 목록 (DB):", weatherVideos);
+
+                    setVideoInDBList(weatherVideos); // DB에서 가져온 날씨 추천 영상 상태 업데이트
+                    
+                    // DB에서 가져온 영상 개수
+                    const numInDB = weatherVideos.length;
+                    // API 검색 시 사용할 키워드
+                    let keyword = type.typeText; 
+                    let newKeyword;
+
+                    // 키워드 + "도서"
+                    if ([5, 6, 7, 9].includes(type.typeId)) { 
+                        newKeyword = keyword + " 도서";
+                        console.log(` 원본: "${keyword}", 최종: "${newKeyword}"`);
+                    }
+
+                    // DB 영상 목록을 기반으로 부족한 영상을 API에서 추가로 가져옴
+                    const newVideos = await getNewVideos(
+                        type.typeId,         // 5
+                        newKeyword,      // 검색 키워드
+                        dispatch,
+                        numInDB,             
+                        weatherVideos        
+                    ) || [];
+
+                        setVideoList(newVideos); 
+                        return;
 
                 } catch (err) {
                     console.error("날씨 기반 추천 처리 중 에러:", err);
                     setVideoInDBList([]);
                     setVideoList([]);
+                    return;
                 }
-                return; // 날씨 처리 후 종료
             }
 
-             // <<<--- 감정 기반 추천 처리 (type.typeId === 'emotionBased') --- >>>
-            if (type.typeId === 'emotionBased') {
-                if (!userId) { // userId가 없으면 감정 추천을 하지 않음
-                    console.log("감정 기반 추천: userId가 없어 추천을 생략합니다.");
+            // 감정 기반 추천 처리 
+            if (type.typeId === 6) {
+
+                if (!userId) { 
                     setVideoInDBList([]);
                     setVideoList([]);
                     return;
                 }
 
-
-
                 try {
-                    console.log(`감정 기반 추천 API 호출: userId=${userId}`);
-                    const requestURL = `http://localhost:8080/video/recommendation/emotion?userId=${encodeURIComponent(userId)}`;
-                    const res = await fetch(requestURL);
+                        console.log(`감정 기반 추천 API 호출: userId=${userId}`);
+                        // 1. 백엔드 API를 호출하여 DB에 저장된 감정 기반 추천 영상 목록을 가져옴
+                        const requestURL = `http://localhost:8080/video/recommendation/emotion?userId=${encodeURIComponent(userId)}`;
+                        const res = await fetch(requestURL);
+                        
+                        if (!res.ok) {
+                            console.error("감정 기반 추천 API 호출 실패:", res.status);
+                            setVideoInDBList([]);
+                            setVideoList([]);
+                            return;
+                        }
+                        
+                        const json = await res.json(); // DB
+                        const emotionVideos = json.data?.videoDTOList || []; 
+                        console.log("감정 기반 추천 영상 목록 (DB):", emotionVideos); 
+                        setVideoInDBList(emotionVideos); // DB에서 가져온 감정 추천 영상으로 업데이트
 
-                    if (!res.ok) {
-                        console.error("감정 기반 추천 API 호출 실패:", res.status);
-                        const errorJson = await res.json().catch(() => null);
-                        console.error("에러 내용:", errorJson);
+                        
+                        const numInDB = emotionVideos.length; // DB에 이미 있는 영상
+                        let keyword = type.typeText;  // 검색 키워드
+                        let newKeyword;
+
+                        console.log(`감정 기반 YouTube 추가 검색 키워드: "${newKeyword}", DB 영상 개수: ${numInDB}`);
+
+                        // 키워드 + "도서"
+                        if ([5, 6, 7, 9].includes(type.typeId)) { 
+                            newKeyword = keyword + " 도서";
+                            console.log(` 원본: "${keyword}", 최종: "${newKeyword}"`);
+                        }
+
+                        const newVideos = await getNewVideos(
+                            type.typeId,      // 6
+                            newKeyword,   
+                            dispatch,
+                            numInDB,          
+                            emotionVideos     
+                        ) || [];
+
+                        setVideoList(newVideos); 
+                        return;
+                        
+                    } catch (err) {
+                        console.error("감정 기반 추천 처리 중 에러:", err);
                         setVideoInDBList([]);
                         setVideoList([]);
                         return;
                     }
-                    const json = await res.json(); // 백엔드 ResponseDTO 전체
-                    
-                    // 백엔드에서 반환하는 ResponseDTO의 data 필드가 VideosDTO라고 가정
-                    const emotionVideosData = json.data; 
-                    const emotionVideos = emotionVideosData?.videoDTOList || [];
-                    
-                    setVideoInDBList(emotionVideos);
-                    setVideoList([]); // YouTube API 직접 검색 결과는 없음
-                    console.log("감정 기반 추천 영상 목록:", emotionVideos);
-
-                } catch (err) {
-                    console.error("감정 기반 추천 처리 중 에러:", err);
-                    setVideoInDBList([]);
-                    setVideoList([]);
                 }
-                return; // 감정 기반 처리 후 종료
-            }
-            // <<<--- 추가된 부분 끝 --->>>
+
+            const keywords = await fetch(`http://localhost:8080/curation/keywords/${userId}/${type.typeId}`)
+                .then(response => response.json())
+                .then(response => response.data)
+                .then(response => response.curationKeywords);
+            
+                if (keywords.length > 0) {
+                    const allVideosInDB = [];
+                    const allVideos = [];
+
+                    for (let i = 0; i < keywords.length; i++) {
+                        let keyword = keywords[i].keyword;
+                        let newKeyword;
+                        
+                        if(type.typeId === 5 || type.typeId === 6 || type.typeId === 7 || type.typeId === 9) 
+                        { // typeId 5,6 은 위의 로직에서 처리되므로 이 로직을 타지 않음.
+                            newKeyword = keyword + " 도서";
+                            console.log("keyword:", newKeyword, "typeId:", type.typeId, "text:", text);
+                        }
 
 
+                        let result1; // DB 검색 결과
+                        let result2; // API 검색 결과
+                        
+                        // 각 키워드에 대해 DB에서 영상 검색
+                        const getVideosAwait = await getVideosByKeyword(type.typeId, keyword, dispatch); 
+                        if (getVideosAwait) {
+                            result1 = getVideosAwait.videoDTOList.filter((video, index, self) =>
+                                index === self.findIndex(v => v.videoId === video.videoId));
+                            allVideosInDB.push(...result1); 
+                        }
 
-            // --------------
-
-            // const keywords = await fetch(`http://localhost:8080/curation/${type.typeId}`)
-            //     .then(response => response.json())
-            //     .then(response => response.data)
-            //     .then(response => response.curationKeywords);
-            // console.log("keywords", keywords);
-
-                const keywords = await fetch(`http://localhost:8080/curation/keywords/${userId}/${type.typeId}`)
-                    .then(response => response.json())
-                    .then(response => response.data)
-                    .then(response => response.curationKeywords);
-            if (keywords.length > 0) {
-                const allVideosInDB = [];
-                const allVideos = [];
-
-                for (let i = 0; i < keywords.length; i++) {
-                    let keyword = keywords[i].keyword;
-                    let newKeyword;
-                    if(type.typeId === 5 || type.typeId === 6 || type.typeId === 7 || type.typeId === 9)
-                    {
-                        newKeyword = keyword + " 도서";
-                        console.log("keyword:", newKeyword, "typeId:", type.typeId, "text:", text);
+                        const numInDB = getVideosAwait?.num || 0; 
+                        // 각 키워드 및 DB 검색 결과를 바탕으로 YouTube에서 추가 영상 검색
+                        const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, numInDB, result1 || []); // 수정: allVideosInDB 대신 현재 키워드의 DB결과(result1)를 넘겨야 정확한 제외 검색 가능
+                        if (getNewVideoAwait) {
+                            result2 = getNewVideoAwait.filter((video, index, self) =>
+                                index === self.findIndex(v => v.id.videoId === video.id.videoId));
+                            allVideos.push(...result2);
+                        }
                     }
-                    let result1;
-                    let result2;
-                    const getVideosAwait = await getVideosByKeyword(type.typeId, keyword, dispatch);
-                    if (getVideosAwait)
-                    {
-                        result1 = getVideosAwait.videoDTOList.filter((video, index, self) =>
-                            index === self.findIndex(v => v.videoId === video.videoId));
-                        allVideosInDB.push(...result1); // 배열에 쌓기
-                    }
-                    const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, getVideosAwait? getVideosAwait.num : 0, allVideosInDB);
-                    if (getNewVideoAwait)
-                    {
-                        result2 = getNewVideoAwait.filter((video, index, self) =>
-                            index === self.findIndex(v => v.id.videoId === video.id.videoId));
-                        allVideos.push(...result2);
-                    }
-
-                     // <<<--- 중복 키 오류 방지를 위해 전체 리스트 레벨에서 추가 중복 제거 --->>>
+                    
+                    // 전체적으로 중복 제거 후 상태 업데이트 (루프 밖으로 이동하여 한 번만 실행)
                     const uniqueVideosInDB = Array.from(
                         new Map(allVideosInDB.map((v) => [v.videoId, v])).values()
                     );
@@ -175,16 +195,14 @@ function VideoList({type, userCoords, userId})
                         new Map(allVideos.map((v) => [v.id.videoId, v])).values()
                     );
 
-                setVideoInDBList(uniqueVideosInDB);
-                setVideoList(uniqueVideos);
-                setVideoListTitle(type.typeText);
+                    setVideoInDBList(uniqueVideosInDB);
+                    setVideoList(uniqueVideos);
+                    setVideoListTitle(type.typeText); 
                 }
-                setVideoInDBList(allVideosInDB); // 딱 한 번만 상태 갱신
-                setVideoList(allVideos);
             }
-        }
-        getVideos();
-    }, [type, userCoords, userId, dispatch]);
+            getVideos();
+        }, [type, userCoords, userId, dispatch]); // 의존성 배열은 기존과 동일하게 유지
+
 
     const scrollRef = useRef();
     const leftButtonHandler = () => {

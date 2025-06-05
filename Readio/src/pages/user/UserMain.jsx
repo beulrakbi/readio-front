@@ -81,29 +81,6 @@ function UserMain() {
     }, [sessionStorage.getItem("userId")]);   //5.30 변경 테스트중
     // }, [localStorage.getItem("userId")]);
 
-    // useEffect(() => {
-    //     const getTypes = async () => {
-    //         const allTypes = await dispatch(callCurationTypesAPI());
-    //         if (allTypes) {
-    //             const types = allTypes.data;
-
-
-    //             // if (token && userIdFromSession) { // 로그인 상태이고, userId가 있을 때만
-    //             //     const emotionRecommendationType = {
-    //             //         typeId: 'emotionBased', // 감정 기반 추천을 식별하기 위한 고유 ID (숫자가 아니어도 괜찮아요)
-    //             //         typeName: 'EmotionRecommendationForUser', // 내부적으로 사용할 이름 (원하시는 대로)
-    //             //         typeText: `${userIdFromSession}님, 오늘 기분에 맞는 영상 어때요? 😊` // 화면에 보여줄 제목
-    //             //     };
-    //             //     finalTypesToShow.unshift(types); // 다른 큐레이션 목록보다 먼저 보여주기 위해 맨 앞에 추가
-    //             // }
-
-    //             const shuffled = [...types].sort(() => 0.5 - Math.random()); // 랜덤 셔플
-    //             setTypes(shuffled);
-    //         }
-    //     }
-    //     getTypes();
-    //     console.log("ttttttt", types);
-    // }, [dispatch, token, userIdFromSession]);
 
     useEffect(() => {
         const fetchTypes = async () => {
@@ -128,8 +105,8 @@ function UserMain() {
                     let finalTypesToShow = [...apiTypes];
                     if (token && userIdFromSession) {
                         const emotionRecommendationType = {
-                            typeId: 'emotionBased',
-                            typeName: 'EmotionRecommendationForUser',
+                            typeId: 6,
+                            typeName: 'Emotion',
                             typeText: `${userIdFromSession}님, 오늘 기분에 맞는 영상 어때요? 😊`
                         };
                         finalTypesToShow.unshift(emotionRecommendationType); // ← apiTypes 복사본에 추가
@@ -169,7 +146,12 @@ function UserMain() {
                     </div>
                     <div className={UserMainCSS.videoSection}>
                         {isTypesLoaded && types?.length > 0 && types.map(type =>
-                            <VideoList type={type} userId={userId} key={type.typeId}/>
+                            <VideoList 
+                                type={type} 
+                                userId={userId} 
+                                userCoords={userCoords}
+                                key={type.typeId}
+                            />
                         )}
                     </div>
                 </div>
