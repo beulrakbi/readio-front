@@ -9,15 +9,23 @@ import searchIcon from '../../assets/search2.png';
 import { logout } from '../../modules/user/userSlice';
 import HeaderCSS from './Header.module.css';
 
-// Header 컴포넌트가 setIsOpen 프롭을 받도록 수정
-function Header({ toggleNav, setIsOpen }) { // setIsOpen 추가
+function Header({ toggleNav }) {
     const navigate = useNavigate();
+
     const dispatch = useDispatch();
 
     const isLogin = useSelector((state) => state.user.isLogin);
     const [search, setSearch] = useState('');
-    const [searchType, setSearchType] = useState('video');
+
+    const [searchType, setSearchType] = useState('video'); // 추가 
+
     const [loginModal, setLoginModal] = useState(false);
+
+    // const [navOpen, setNavOpen] = useState(false);
+
+    // const toggleNav = () => {
+    //     setNavOpen(!navOpen);
+    // }
 
     const onSearchChangeHandler = (e) => {
         setSearch(e.target.value);
@@ -25,27 +33,37 @@ function Header({ toggleNav, setIsOpen }) { // setIsOpen 추가
 
     const onEnterkeyHandler = (e) => {
         if (e.key === 'Enter') {
-            if (!search.trim()) return;
+
+            if (!search.trim()) return; // 빈 검색어 방지
 
             console.log('Enter key', search);
+
+            // navigate(`/search?value=${search}`, {replace: false});
+            navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
+
+            // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
+
             navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`);
+
             window.location.reload();
-            setIsOpen(false); // 네비바 닫기 추가
         }
     };
 
-    const onSearchClickHandler = () => {
-        if (!search.trim()) return;
+    const onSearchClickHandler = () => { // 함수 추가함
+        // navigate(`/search/${searchType}`); // 추가 => 선택된 검색 타입에 따라 경로 이동
 
+        if (!search.trim()) return; // 빈 검색어 방지
+
+        // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
         navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`);
-        window.location.reload();
-        setIsOpen(false); // 네비바 닫기 추가
-    };
+
+        window.location.reload(); // 없어도 되는..? 코드...
+    }
+
 
     const onClickLogoHandler = () => {
         navigate('/', { replace: true });
         navigate('/', { replace: true });
-        setIsOpen(false); // 네비바 닫기 추가
     };
 
     const onclickMypageHandler = () => {
@@ -58,26 +76,27 @@ function Header({ toggleNav, setIsOpen }) { // setIsOpen 추가
             }
 
             navigate('/mylibrary', { replace: true });
-            setIsOpen(false); // 네비바 닫기 추가
+
         } catch (error) {
             console.log("토큰 파싱 실패:", error);
             setLoginModal(true);
         }
     };
 
+    // 로그아웃 핸들러
     const onClickLogoutHandler = () => {
         dispatch(logout());
-        sessionStorage.clear();
+        sessionStorage.clear();     // userInfo 삭제하려면 필요함
+        
         navigate('/', { replace: true });
-        setIsOpen(false); // 네비바 닫기 추가
     };
 
     function BeforeLogin() {
         return (
             <div className={HeaderCSS.headerLogin}>
-                <NavLink to="/users/login" className={HeaderCSS.headerLoginBt} onClick={() => setIsOpen(false)}>로그인</NavLink> {/* 네비바 닫기 추가 */}
+                <NavLink to="/users/login" className={HeaderCSS.headerLoginBt}>로그인</NavLink>
                 &nbsp;
-                <NavLink to="/users/join" className={HeaderCSS.headerLoginBt} onClick={() => setIsOpen(false)}>회원가입</NavLink> {/* 네비바 닫기 추가 */}
+                <NavLink to="/users/join" className={HeaderCSS.headerLoginBt}>회원가입</NavLink>
             </div>
         );
     }
@@ -115,8 +134,8 @@ function Header({ toggleNav, setIsOpen }) { // setIsOpen 추가
                 <div className={HeaderCSS.rightButtons}>
                     <div className={HeaderCSS.headerSearchDiv}>
                         <select className={HeaderCSS.headerSearchOption}
-                            value={searchType}
-                            onChange={(e) => setSearchType(e.target.value)}
+                            value={searchType} // 추가
+                            onChange={(e) => setSearchType(e.target.value)} // 추가
                         >
                             <option value={"video"} style={{ background: 'rgb(77,84,67)' }}>영상</option>
                             <option value={"book"} style={{ background: 'rgb(77,84,67)' }}>도서</option>
@@ -130,7 +149,7 @@ function Header({ toggleNav, setIsOpen }) { // setIsOpen 추가
                             className={HeaderCSS.headerSearch}
                         />
                         <button className={HeaderCSS.buttonNone}
-                            onClick={onSearchClickHandler}
+                            onClick={onSearchClickHandler} // 추가 => 클릭 시 검색
                         ><img src={searchIcon} /></button>
                     </div>
                     <button className={HeaderCSS.headerAlarm}>
