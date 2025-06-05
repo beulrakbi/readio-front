@@ -16,3 +16,10 @@
     margin-bottom: 20px;
     overflow: hidden;
 }
+
+.container2 {
+    width: 100%; /* ✅ 전체 너비로 확장 */
+    max-width: none; /* ✅ 너비 제한 해제 */
+    margin: 0 auto;
+    padding: 0 20px;
+}

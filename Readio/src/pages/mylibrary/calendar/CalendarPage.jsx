@@ -13,6 +13,7 @@ const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const navigate = useNavigate();
     const today = dayjs();
+    const [postData, setPostData] = useState({});
     const userId = sessionStorage.getItem("userId");        //5.30 변경_이상있으면 말해주세요
     const token = sessionStorage.getItem("accessToken");    //5.30 변경_이상있으면 말해주세요
     // const token = localStorage.getItem("accessToken");
@@ -177,6 +178,69 @@ const CalendarPage = () => {
         fetchEmotions();
     }, [currentMonth]);
 
+    useEffect(() => {
+        const fetchProfileAndPosts = async () => {
+            const token = sessionStorage.getItem("accessToken");
+            if (!token) return;
+
+            try {
+                const res = await fetch('http://localhost:8080/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!res.ok) {
+                    console.error('프로필 정보 불러오기 실패');
+                    return;
+                }
+
+                const data = await res.json();
+                console.log("사용자 프로필 응답:", data);
+                sessionStorage.setItem("profileId", data.profileId);
+
+                //  profileId 저장 후 fetchPosts 실행
+                await fetchPosts(data.profileId);
+            } catch (e) {
+                console.error('프로필 요청 중 오류', e);
+            }
+        };
+
+        fetchProfileAndPosts();
+    }, [currentMonth]);
+
+
+    const fetchPosts = async (profileIdFromServer) => {
+        const token = sessionStorage.getItem("accessToken");
+        const profileId = profileIdFromServer ?? sessionStorage.getItem("profileId");
+        console.log("사용될 profileId:", profileId);
+        if (!profileId || !token) return;
+
+        const year = currentMonth.year();
+        const month = currentMonth.month() + 1;
+
+        try {
+            const res = await fetch(`http://localhost:8080/mylibrary/post/summary?profileId=${profileId}&year=${year}&month=${month}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!res.ok) throw new Error('포스트 불러오기 실패');
+
+            const result = await res.json();
+            const postList = result.data ?? [];
+
+            const parsed = {};
+            postList.forEach(({ date, postCount, postIds }) => {
+                parsed[date] = { count: postCount, postIds };
+            });
+
+            setPostData(parsed);
+        } catch (err) {
+            console.error("포스트 불러오기 에러:", err);
+        }
+    };
 
     const getDaysArray = () => {
         const startDay = dayjs(new Date(currentMonth.year(), currentMonth.month(), 1)).day();
@@ -233,17 +297,38 @@ const CalendarPage = () => {
                             const fullDate = date ? dayjs(new Date(currentMonth.year(), currentMonth.month(), date)) : null;
                             const dateKey = fullDate?.format('YYYY-MM-DD');
                             const emotion = emotionData[dateKey];
+                            const post = postData[dateKey];
+
+                            const handleEmojiClick = (e) => {
+                                e.stopPropagation();
+                                if (post?.postIds?.length > 0) {
+                                    // 예: 새 탭으로 열기 (또는 모달 등)
+                                    post.postIds.forEach((id) => window.open(`/mylibrary/post/${id}`, "_blank"));
+                                }
+                            };
 
                             return (
                                 <div
                                     key={idx}
                                     className={`${styles.dayCell} 
-                                        ${selectedDate && fullDate?.isSame(selectedDate, 'day') ? styles.selectedDay : ''} 
-                                        ${fullDate?.isAfter(today, 'day') ? styles.disabledDay : ''}`}
+      ${selectedDate && fullDate?.isSame(selectedDate, 'day') ? styles.selectedDay : ''} 
+      ${fullDate?.isAfter(today, 'day') ? styles.disabledDay : ''}`}
                                     onClick={() => handleDateClick(date)}
                                     style={{ cursor: date && fullDate?.isAfter(today, 'day') ? 'not-allowed' : 'pointer' }}
                                 >
-                                    {date} {emotion}
+                                    {/* 날짜 + 감정 (조건부 표시) */}
+                                    <div>
+                                        {date}
+                                        {selectedTab !== '포스트' && emotion && ` ${emotion}`}
+                                    </div>
+
+                                    {/* 포스트 개수 + 이모지 (조건부 표시) */}
+                                    {selectedTab !== '감정' && post?.count === 1 && (
+                                        <div className={styles.postInfo} onClick={handleEmojiClick}>📙</div>
+                                    )}
+                                    {selectedTab !== '감정' && post?.count > 1 && (
+                                        <div className={styles.postInfo} onClick={handleEmojiClick}>📚</div>
+                                    )}
                                 </div>
                             );
                         })}

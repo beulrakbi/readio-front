@@ -298,7 +298,17 @@ function ContentStatsPage() {
                         <td>{filters.sort === "bookmark" ? (item.bookmarkCount ?? item.count) : item.clickCount}</td>
                         <td>{item.title}</td>
                         <td>
-                            <a href={`http://localhost:5173/${filters.type}/${item.contentId}`} target="_blank" rel="noreferrer">열기</a>
+                            <a
+                                href={`http://localhost:5173/${
+                                    filters.type[0] === "book"
+                                        ? `bookPage/${item.contentId}`
+                                        : `video/${item.contentId}`
+                                }`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                열기
+                            </a>
                         </td>
                     </tr>
                 ))}
