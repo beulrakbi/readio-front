@@ -28,7 +28,7 @@ function Header({ toggleNav, setIsOpen }) { // setIsOpen 추가
             if (!search.trim()) return;
 
             console.log('Enter key', search);
-            navigate(`/search/<span class="math-inline">\{searchType\}?query\=</span>{encodeURIComponent(search)}`);
+            navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`);
             window.location.reload();
             setIsOpen(false); // 네비바 닫기 추가
         }
@@ -37,7 +37,7 @@ function Header({ toggleNav, setIsOpen }) { // setIsOpen 추가
     const onSearchClickHandler = () => {
         if (!search.trim()) return;
 
-        navigate(`/search/<span class="math-inline">\{searchType\}?query\=</span>{encodeURIComponent(search)}`);
+        navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`);
         window.location.reload();
         setIsOpen(false); // 네비바 닫기 추가
     };

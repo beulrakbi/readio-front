@@ -1,33 +1,26 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import Header from '../components/common/Header';
-import UserFooter from '../components/common/UserFooter';
-import UserNav from "../components/common/UserNav";
-import LayoutCSS from "./Layout.module.css";
+// src/layouts/Layout.jsx
 
-function Layout()
-{
-    const [navOpen, setNavOpen] = useState (false);
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from '../components/common/Header.jsx'; // Header 컴포넌트 임포트 (경로 확인)
+import UserNav from '../components/common/UserNav.jsx'; // UserNav 컴포넌트 임포트 (경로 확인)
+import LayoutCSS from './Layout.module.css'; // 필요하다면 레이아웃 CSS 임포트
 
-    const [isNavOpen, setIsNavOpen] = useState(false);
+// App.js에서 전달받을 props를 정의합니다.
+// isNavOpen, setIsOpen, toggleNav를 props로 받습니다.
+function Layout({ isNavOpen, setIsOpen, toggleNav }) {
+    return (
+        <div className={LayoutCSS.layoutContainer}> {/* 필요하다면 클래스 추가 */}
+            {/* Header와 UserNav를 여기서 렌더링 */}
+            <Header toggleNav={toggleNav} setIsOpen={setIsOpen} />
+            <UserNav isOpen={isNavOpen} setIsOpen={setIsOpen} />
 
-    const toggleNav = () => {
-        setIsNavOpen(!isNavOpen);
-    };
-
-    return(
-        <>
-            {/* <Header toggleNav={() => setNavOpen(prev => !prev)}/> */}
-            <Header toggleNav={toggleNav} setIsOpen={setIsNavOpen} /> {/* setIsOpen 전달 */}
-                <UserNav isOpen={isNavOpen} setIsOpen={setIsNavOpen} />
-            <UserNav isOpen={navOpen}/>
-            <main className={LayoutCSS.main}>
+            {/* 중첩된 라우트의 내용이 표시될 부분 */}
+            <main className={LayoutCSS.main}> {/* 필요하다면 클래스 추가 */}
                 <Outlet />
             </main>
-            <UserFooter/>
-        </>
-
-    )
+        </div>
+    );
 }
 
 export default Layout;
