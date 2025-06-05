@@ -174,14 +174,19 @@
 /*CalendarSection*/
 
 .dayCell {
+
     height: 50px;
     text-align: center;
     line-height: 50px;
     font-size: 15px;
+    display: flex;
+
+    text-align: center;
     /*color: #676767;*/
     color: black;
     border-bottom: 1px solid #F6EEB6;
 }
+
 .calendarHeaderRow {
     display: grid;
     grid-template-columns: repeat(7, 1fr);

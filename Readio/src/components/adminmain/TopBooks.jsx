@@ -19,7 +19,7 @@ function TopBooks() {
             const format = (d) => d.toISOString().slice(0, 10);
 
             try {
-                const topBooks = await getClickAnalytics({
+                const rawData = await getClickAnalytics({
                     type: 'book',
                     sort: 'click',
                     startDate: format(oneWeekAgo),
@@ -27,12 +27,14 @@ function TopBooks() {
                     limit: 10
                 });
 
-                console.log("TOPBooks 응답:", topBooks);
+                console.log("TopBooks 응답:", rawData);
+
+                const topBooks = rawData.list || [];
 
                 if (Array.isArray(topBooks)) {
                     setBookList(topBooks);
                 } else {
-                    console.error("TopBooks 응답이 배열 아님:", topBooks);
+                    console.error("TopBooks 응답이 list 배열 아님:", topBooks);
                 }
             } catch (e) {
                 console.error("TopBooks 불러오기 실패", e);
@@ -42,16 +44,17 @@ function TopBooks() {
         fetchTopBooks();
     }, []);
 
+
     const leftButtonHandler = () => scrollRef.current.scrollBy({ left: -400, behavior: 'smooth' });
     const rightButtonHandler = () => scrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
 
     return (
-        <div className={AdminMainCSS.main}>
+        <div className={AdminMainCSS.main2}>
             <div className={AdminMainCSS.fontContainer}>
                 <p className={AdminMainCSS.font1}>최근 일주일 클릭 수 Top10 책</p>
-                <Link to="/admin/books" className={AdminMainCSS.linkFont}>더보기 &gt;</Link>
+                <Link to="/admin/analytics/clicklog" className={AdminMainCSS.linkFont}>더보기 &gt;</Link>
             </div>
-            <hr className={AdminMainCSS.csLine} />
+            <hr className={AdminMainCSS.csLine2} />
             <div className={AdminMainCSS.videoContainer}>
                 <button className={AdminMainCSS.scrollButton} onClick={leftButtonHandler}>
                     <img className={AdminMainCSS.buttonImg} src={leftButton} alt="왼쪽" />
@@ -65,7 +68,7 @@ function TopBooks() {
                     <img className={AdminMainCSS.buttonImg} src={rightButton} alt="오른쪽" />
                 </button>
             </div>
-            <hr className={AdminMainCSS.csLine} />
+            <hr className={AdminMainCSS.csLine2} />
         </div>
     );
 }
