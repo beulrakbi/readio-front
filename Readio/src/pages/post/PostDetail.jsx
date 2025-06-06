@@ -29,7 +29,7 @@ function PostDetail() {
     const postId = params.postId ? parseInt(params.postId) : null;
     const detailsRef = useRef(null);
 
-    const post = useSelector(state => state.postReducer);
+    const post = useSelector(state => state.postReducer.postDetail);
     const followState = useSelector(state => state.followReducer);
 
     const authorProfileObject = post?.profileId;

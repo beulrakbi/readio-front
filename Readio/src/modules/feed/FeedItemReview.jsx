@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import postBeLike from '../../assets/postBeLike.png';
 import postDetailOption from '../../assets/postDetailOption.png';
 import postDetailHeart from '../../assets/postDetailHeart.png';
@@ -7,8 +8,11 @@ import postLike from '../../assets/postLike.png';
 import FeedCSS from '../../pages/Feed/Feed.module.css';
 import PostCSS from '../../pages/post/Post.module.css';
 
+const BASE_IMAGE_URL = 'http://localhost:8080/img/';
+
 function FeedItemReview({ item, onToggleLike, onToggleFollow, onReport }) {
     const detailsRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleClickOut = (event) => {
@@ -29,10 +33,18 @@ function FeedItemReview({ item, onToggleLike, onToggleFollow, onReport }) {
         return date.toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
     };
 
+    const handleProflieClick = () => {
+        navigate(`/mylibrary/${item.profileId}`)
+    }
+
+    const handleContentClick = () => {
+        navigate(`/bookPage/${item.bookIsbn}`);
+    };
+
     return (
         <div className={FeedCSS.feedContentDiv}>
             <div className={FeedCSS.feedPostProfileDiv}>
-                <img src={item.profileImg} className={FeedCSS.feedPostProfileImg} alt="profile" />
+                <img src={item.profileImg ? `${BASE_IMAGE_URL}profile/${item.profileImg}` : profileImg3} className={FeedCSS.feedPostProfileImg} alt="profile" />
                 <div className={FeedCSS.feedPostProfile}>
                     <li>{item.userName}</li>
                     <li>{formatDateTime(item.createdAt)}</li>
@@ -63,7 +75,7 @@ function FeedItemReview({ item, onToggleLike, onToggleFollow, onReport }) {
             <div className={FeedCSS.feedReConDiv}>
                 <p className={FeedCSS.feedReCon}>{item.reviewContent}</p>
             </div>
-            <div className={FeedCSS.feedReBookDiv}>
+            <div onClick={handleContentClick} className={FeedCSS.feedReBookDiv}>
                 <img src={item.bookCoverUrl || book2} className={FeedCSS.feedReBook} alt="book cover"/>
                 <div className={FeedCSS.feedReBookTitleDiv}>
                     <h3 className={FeedCSS.feedReBookTitle}>{item.bookTitle}</h3>
