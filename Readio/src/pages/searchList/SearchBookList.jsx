@@ -15,7 +15,7 @@ function SearchBookList() {
     const [errorMessage, setErrorMessage] = useState('');
     const size = 10;
     const MAX_TOTAL = 100; // 최대 전체 결과 개수
-    const MAX_PAGES = 10; // 최대 페이지 수수
+    const MAX_PAGES = 10; // 최대 페이지 수
 
     // URL 쿼리 파싱: query, page 초기화
     useEffect(() => {

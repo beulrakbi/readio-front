@@ -129,15 +129,20 @@ function PlayVideo() {
     };
 
     const handlePlayClick = async () => {
-        try {
-            await fetch(`http://localhost:8080/video/view/${videoId}`, {
-                method : 'POST'
+    try {
+            // “/video/id/{videoId}”로 맞춰서 호출
+            const res = await fetch(`http://localhost:8080/video/id/${videoId}`, {
+                method: 'POST'
             });
+            if (!res.ok) {
+                console.error('조회수 증가 실패, status:', res.status);
+            }
         } catch (err) {
-            console.error('조회수 증가 실패', err);
+            console.error('조회수 증가 중 예외', err);
         }
         setHasPlayed(true);
-    }
+    };
+
     
     return(
         <>
@@ -166,34 +171,45 @@ function PlayVideo() {
                         }
                     </div> 
 
-                    <div className={styles.videoInfo}>
-                        <div className={styles.videoTitle}> 
-                            {videoInfo.title}
-                        </div>
-                        <div className={styles.channelNameBookMark}>
-                            <div className={styles.channelName}>
-                                {videoInfo.channelTitle}
-                            </div>
-                            <div className={styles.BookMark}>
-                                북마크 {bookmarkCount}
-                                <img 
-                                    src={isBookmarked ? bookMarkO : bookMarkX}
-                                    alt="BookMark"
-                                    onClick={handleImageClick}
-                                    className={styles.bookmark}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className={styles.videoDetail}> 
-                        {videoInfo.description}
-                    </div>
-                    
-                    <RecommandedVideoList keyword = {videoInfo.title} />
-                </div>
-            </div>
-        </>
-    );
-}
+                         <div className={styles.videoInfo}>
+                              <div className={styles.videoTitle}> 
+                                        {/* {videoInfo.snippet.title} */}
+                                        {videoInfo.title}
+                              </div> {/*videoTitle 영역 끝 */}
+                              <div className={styles.channelNameBookMark}>
+                                   <div className={styles.channelName}>
+                                        {/* {videoInfo.snippet.channelTitle} */}
+                                        {videoInfo.channelTitle}
+                                   </div>
+                                   <div className={styles.BookMark}>
+                                        북마크 {bookmarkCount}
+                                        <img 
+                                             src={isBookmarked ? bookMarkX : bookMarkO}
+                                             alt="BookMark"
+                                             onClick={handleImageClick}
+                                             className={styles.bookmark}
+                                        />
+                                   </div>
+                              </div> {/* channelNameBookMark */}
+                         </div> {/* videoInfo 영역 끝 */}
+                         <div className={styles.videoDetail}> 
+                              {/* {videoInfo.snippet.description} */}
+
+                              <div className={styles.videoStats}>
+                                   <div className = {styles.videoViewCount}>조회수: {videoInfo.viewCount.toLocaleString()}회</div>
+                                   <div className = {styles.videoUploadDate}> {new Date(videoInfo.uploadDate).toLocaleDateString()}</div>
+                              </div>
+
+                              {videoInfo.description}
+                         </div> {/* videoDetail 영역 끝 */}
+                         
+                         <RecommandedVideoList keyword = {videoInfo.title} />   {/* 현재 영상의 제목을 키워드로 넘김 */}
+
+                    </div> {/* container 영역 끝 */}
+
+               </div>
+               </>
+          )
+     }
 
 export default PlayVideo;
