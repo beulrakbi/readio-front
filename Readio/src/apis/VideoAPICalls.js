@@ -1,4 +1,4 @@
-import {getVideos, postVideo} from "../modules/video/VideoSlice.js";
+import { getVideos, postVideo } from "../modules/video/VideoSlice.js";
 
 export const callVideosAPI = ({type, search}) => {
 

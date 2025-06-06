@@ -24,38 +24,85 @@ function SearchVideoList() {
 
     const [searchInput, setSearchInput] = useState(searchQuery);
 
+    // useEffect(() => {
+    //     const fetchVideos = async () => {
+    //         if (searchQuery) {
+    //             try {
+    //                 const searchVideosInDB = await searchVideosByKeyword(searchQuery, dispatch);
+    //                 const videosInDB = searchVideosInDB?.data.videoDTOList;
+    //                 let result = null;  
+
+    //                 if (Array.isArray(videosInDB)) {
+    //                     setVideoInDBList(
+    //                         videosInDB.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId))
+    //                     );
+    //                     result = await searchNewVideos(searchQuery, dispatch, videosInDB.length, videosInDB);
+    //                 } else {
+    //                     console.warn("검색 결과가 없습니다.");
+    //                     setVideoInDBList([]);
+    //                 }
+
+    //                 if (Array.isArray(result)) {
+    //                     setVideoList(
+    //                         result.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId))
+    //                     );
+    //                 } else {
+    //                     console.warn("검색 결과가 없습니다.");
+    //                     setVideoList([]);
+    //                 }
+    //             } catch (error) {
+    //                 console.error("검색 중 오류 발생:", error);
+    //             }
+    //         } else {
+    //             setVideoList([]);
+    //             setVideoInDBList([]);
+    //         }
+    //     };
+
+    //     fetchVideos();
+    // }, [searchQuery, dispatch]);
+
     useEffect(() => {
         const fetchVideos = async () => {
-            if (searchQuery) {
-                try {
-                    const searchVideosInDB = await searchVideosByKeyword(searchQuery, dispatch);
-                    const videosInDB = searchVideosInDB?.data.videoDTOList;
-                    let result = null;  
-
-                    if (Array.isArray(videosInDB)) {
-                        setVideoInDBList(
-                            videosInDB.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId))
-                        );
-                        result = await searchNewVideos(searchQuery, dispatch, videosInDB.length);
-                    } else {
-                        console.warn("검색 결과가 없습니다.");
-                        setVideoInDBList([]);
-                    }
-
-                    if (Array.isArray(result)) {
-                        setVideoList(
-                            result.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId))
-                        );
-                    } else {
-                        console.warn("검색 결과가 없습니다.");
-                        setVideoList([]);
-                    }
-                } catch (error) {
-                    console.error("검색 중 오류 발생:", error);
-                }
-            } else {
-                setVideoList([]);
+            if (!searchQuery) {
                 setVideoInDBList([]);
+                setVideoList([]);
+                return;
+            }
+
+            try {
+                // 1) DB에서 먼저 검색
+                const dbRes = await searchVideosByKeyword(searchQuery, dispatch);
+                const videosInDB = dbRes?.data?.videoDTOList || [];
+
+                // 2) 중복 제거해서 DB 리스트 state에 저장
+                setVideoInDBList(
+                    videosInDB.filter((v, idx, self) =>
+                        idx === self.findIndex(x => x.videoId === v.videoId)
+                    )
+                );
+
+                // 3) 무조건 YouTube API 호출 → searchNewVideos 내부에서 DB 중복 필터
+                const apiResult = await searchNewVideos(
+                    searchQuery,
+                    dispatch,
+                    videosInDB.length,
+                    videosInDB
+                );
+
+                // 4) API 결과가 배열이 아니면 빈 배열 처리
+                const newVideos = Array.isArray(apiResult) ? apiResult : [];
+
+                // 5) 혹시 여기서도 추가 중복 제거 (안전)
+                setVideoList(
+                    newVideos.filter((item, idx, self) =>
+                        idx === self.findIndex(x => x.id.videoId === item.id.videoId)
+                    )
+                );
+            } catch (error) {
+                console.error("검색 중 오류 발생:", error);
+                setVideoInDBList([]);
+                setVideoList([]);
             }
         };
 
