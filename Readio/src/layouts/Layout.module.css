@@ -11,3 +11,13 @@
 	background-size: auto;
 
 }
+
+.overlay {
+    position: fixed;
+    top: 60px; /* 헤더 높이에 맞게 조정하세요 */
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 60px); /* 전체 높이 - 헤더 */
+    background-color: rgba(0, 0, 0, 0.5); /* 어두운 투명 배경 */
+    z-index: 90;
+}

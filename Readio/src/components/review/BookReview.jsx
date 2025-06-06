@@ -120,7 +120,6 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
     };
 
     const handleReviewSubmit = async () => {
-        // ... (기존 코드와 동일)
         const authHeader = getAuthHeader(); 
         if (!authHeader['Authorization']) { 
             alert("로그인 후 리뷰를 작성할 수 있습니다.");
@@ -162,7 +161,6 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
     };
 
     const formatReviewDate = (dateObj) => {
-        // ... (기존 코드와 동일)
         if (!(dateObj instanceof Date) || isNaN(dateObj)) return '';
         const year = dateObj.getFullYear();
         const month = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -237,8 +235,8 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
         }
     };
 
+    // --- ⭐ handleReportClick 함수 수정 시작 ⭐ ---
     const handleReportClick = async (reviewId) => {
-        // ... (기존 코드와 동일)
         const authHeader = getAuthHeader(); 
         if (!authHeader['Authorization']) {
             alert("로그인 후 리뷰를 신고할 수 있습니다.");
@@ -251,21 +249,40 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                     method: 'PUT',
                     headers: authHeader 
                 });
-                if (!res.ok) {
-                    const errorText = await res.text();
-                    throw new Error(`신고 실패: ${res.status} ${errorText}`);
+
+                // ⭐ 백엔드에서 409 Conflict 상태 코드를 반환할 경우 처리
+                if (res.status === 409) { 
+                    alert("이미 신고한 리뷰입니다."); // ⭐ 메시지를 "이미 신고하였습니다."로 고정
+                    return; // 함수 종료
                 }
+
+                if (!res.ok) {
+                    // 서버에서 에러 메시지를 JSON 형태로 반환할 경우 파싱 시도
+                    const errorBody = await res.json().catch(() => res.text()); 
+                    // 백엔드에서 이미 "이미 신고한 리뷰입니다." 같은 메시지를 message 필드에 담아 보내주므로 활용
+                    const errorMessage = typeof errorBody === 'object' && errorBody !== null && errorBody.message 
+                                       ? errorBody.message 
+                                       : `신고 실패: ${res.status} ${errorBody}`; // 메시지 필드가 없으면 기본 에러 메시지 사용
+
+                    // '신고 처리 중 오류 발생: ' 접두사를 제거하고, 에러 메시지 자체를 alert
+                    alert(errorMessage); 
+                    console.error("[BookReview.jsx] 신고 처리 오류 (백엔드 에러):", errorMessage);
+                    return; // 에러 처리 후 함수 종료
+                }
+
                 alert("리뷰가 신고되었습니다.");
-                fetchReviews();
+                fetchReviews(); // 성공적으로 신고되었으면 리뷰 목록을 새로고침
             } catch (err) {
-                alert(`신고 처리 중 오류 발생: ${err.message}`);
-                console.error("[BookReview.jsx] 신고 처리 오류:", err);
+                // 네트워크 오류 등 fetch 자체에서 발생하는 오류 처리
+                alert(`신고 처리 중 오류 발생: ${err.message}`); 
+                console.error("[BookReview.jsx] 신고 처리 오류 (프론트엔드/네트워크):", err);
             }
         }
     };
+    // --- ⭐ handleReportClick 함수 수정 끝 ⭐ ---
+
 
     const handleDeleteClick = async (reviewId, reviewerUserId) => {
-        // ... (기존 코드와 동일)
         const authHeader = getAuthHeader(); 
         if (!authHeader['Authorization']) {
             alert("로그인이 필요합니다.");
@@ -306,7 +323,6 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
     return (
         <div className={BookReviewCSS.reviewWriteContainer}>
             <p className={BookReviewCSS.infoBold}>리뷰</p>
-            {/* ... (리뷰 작성 UI 부분 기존 코드 유지) ... */}
             <div className={BookReviewCSS.reviewInput}>
                 {isLoggedIn ? (
                     <>
@@ -357,11 +373,13 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                                             {/* 좋아요 수가 0일 때도 표시되도록 조건 제거 (필요시 조정) */}
                                             {review.likesCount}
                                         </button>
-                                        {isLoggedIn && (
+                                        {/* 신고하기 버튼 조건: 로그인되어 있고, 현재 사용자가 리뷰 작성자가 아닐 때만 표시 */}
+                                        {isLoggedIn && currentLoggedInUserId && (String(currentLoggedInUserId) !== String(review.reviewerUserId)) && (
                                             <button className={BookReviewCSS.reviewBt} onClick={() => handleReportClick(review.reviewId)}>
                                                 신고하기
                                             </button>
                                         )}
+                                        {/* 삭제 버튼 조건은 그대로 유지 */}
                                         {isLoggedIn && currentLoggedInUserId && (String(currentLoggedInUserId) === String(review.reviewerUserId)) && (
                                             <button
                                                 className={BookReviewCSS.reviewBt}
