@@ -30,7 +30,8 @@ function VideoList({type, userCoords, userId}) {
             setVideoListTitle(text); // 화면에 표시될 리스트 제목 설정
 
         const getVideos = async () => {
-            // 날씨 기반 추천 처리 => 5
+
+            // 날씨 기반 추천 처리 
             if (type.typeId === 5) {
                 if (!userCoords) return;
 
@@ -98,7 +99,7 @@ function VideoList({type, userCoords, userId}) {
 
                 try {
                         console.log(`감정 기반 추천 API 호출: userId=${userId}`);
-                        // 1. 백엔드 API를 호출하여 DB에 저장된 감정 기반 추천 영상 목록을 가져옴
+                        // 백엔드 API를 호출하여 DB에 저장된 감정 기반 추천 영상 목록을 가져옴
                         const requestURL = `http://localhost:8080/video/recommendation/emotion?userId=${encodeURIComponent(userId)}`;
                         const res = await fetch(requestURL);
                         
@@ -119,14 +120,15 @@ function VideoList({type, userCoords, userId}) {
                         let keyword = type.typeText;  // 검색 키워드
                         let newKeyword;
 
-                        console.log(`감정 기반 YouTube 추가 검색 키워드: "${newKeyword}", DB 영상 개수: ${numInDB}`);
-
+                        
                         // 키워드 + "도서"
                         if ([5, 6, 7, 9].includes(type.typeId)) { 
                             newKeyword = keyword + " 도서";
                             console.log(` 원본: "${keyword}", 최종: "${newKeyword}"`);
                         }
-
+                        
+                        console.log(`감정 기반 YouTube 추가 검색 키워드: "${newKeyword}", DB 영상 개수: ${numInDB}`);
+                        
                         const newVideos = await getNewVideos(
                             type.typeId,      // 6
                             newKeyword,   
@@ -160,7 +162,7 @@ function VideoList({type, userCoords, userId}) {
                         let newKeyword;
                         
                         if(type.typeId === 5 || type.typeId === 6 || type.typeId === 7 || type.typeId === 9) 
-                        { // typeId 5,6 은 위의 로직에서 처리되므로 이 로직을 타지 않음.
+                        { // typeId 5,6 은 위의 로직에서 처리 이 로직을 타지 않음.
                             newKeyword = keyword + " 도서";
                             console.log("keyword:", newKeyword, "typeId:", type.typeId, "text:", text);
                         }

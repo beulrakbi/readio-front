@@ -54,7 +54,7 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
 
         try {
             const encodedKeyword = encodeURIComponent(keyword);
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBgFSJpcl_vuWe0oHdP-S59-E_zWIbouto';
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
             // const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyA2Cyb_5A9hMOylg1aAqCBSbsaUfYnHMEA';
             console.log("baseUrl", baseUrl);
             const data = await fetch(baseUrl);
@@ -87,8 +87,12 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
 
 export async function searchNewVideos(keyword, dispatch, num, foundVideos) {
 
-    // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s
-    // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I
+    // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s (수민)
+    // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I (성경님)
+
+    // 추가 API 
+    // AIzaSyA2Cyb_5A9hMOylg1aAqCBSbsaUfYnHMEA (성경님)
+    // AIzaSyBgFSJpcl_vuWe0oHdP-S59-E_zWIbouto (수민)
 
     let maxResult = 5;
 
@@ -109,7 +113,7 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos) {
 
         try {
             const encodedKeyword = encodeURIComponent(keyword);
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBgFSJpcl_vuWe0oHdP-S59-E_zWIbouto';
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
             const data = await fetch(baseUrl);
             const json = await data.json();
 
