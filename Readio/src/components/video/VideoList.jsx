@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import {useDispatch} from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { saveClickLog } from '../../apis/StatisticsAPICalls';
-import { getNewVideos, getVideosByKeyword } from "../../apis/VideoAPI.js";
+import {useNavigate} from "react-router-dom";
+import {saveClickLog} from '../../apis/StatisticsAPICalls';
+import {getNewVideos, getVideosByKeyword} from "../../apis/VideoAPI.js";
 import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
 import Video from "./Video";
@@ -25,9 +25,7 @@ function VideoList({type, userCoords, userId}) {
 
             try {
                 console.log(`날씨 추천 API 호출: lat=${userCoords.lat}, lon=${userCoords.lon}`);
-                const res = await fetch(
-                    `http://localhost:8080/video/weather?lat=${userCoords.lat}&lon=${userCoords.lon}`
-                );
+                const res = await fetch(`http://localhost:8080/video/weather?lat=${userCoords.lat}&lon=${userCoords.lon}`);
 
                 if (!res.ok) {
                     console.error("날씨 기반 추천 API 호출 실패:", res.status);
@@ -57,13 +55,9 @@ function VideoList({type, userCoords, userId}) {
                 }
 
                 // DB 영상 목록을 기반으로 부족한 영상을 API에서 추가로 가져옴
-                const newVideos = await getNewVideos(
-                    type.typeId,         // 5
+                const newVideos = await getNewVideos(type.typeId,         // 5
                     newKeyword,      // 검색 키워드
-                    dispatch,
-                    numInDB,
-                    weatherVideos
-                ) || [];
+                    dispatch, numInDB, weatherVideos) || [];
 
                 setVideoList(newVideos);
                 return;
@@ -117,13 +111,8 @@ function VideoList({type, userCoords, userId}) {
 
                 console.log(`감정 기반 YouTube 추가 검색 키워드: "${newKeyword}", DB 영상 개수: ${numInDB}`);
 
-                const newVideos = await getNewVideos(
-                    type.typeId,      // 6
-                    newKeyword,
-                    dispatch,
-                    numInDB,
-                    emotionVideos
-                ) || [];
+                const newVideos = await getNewVideos(type.typeId,      // 6
+                    newKeyword, dispatch, numInDB, emotionVideos) || [];
 
                 setVideoList(newVideos);
                 return;
@@ -149,19 +138,17 @@ function VideoList({type, userCoords, userId}) {
                 let keyword = keywords[i].keyword;
                 let newKeyword;
 
-                if(type.typeId === 5 || type.typeId === 6 || type.typeId === 7 || type.typeId === 9)
-                { // typeId 5,6 은 위의 로직에서 처리 이 로직을 타지 않음.
+                if (type.typeId === 5 || type.typeId === 6 || type.typeId === 7 || type.typeId === 9) { // typeId 5,6 은 위의 로직에서 처리 이 로직을 타지 않음.
                     newKeyword = keyword + " 도서";
                 }
 
                 let result1; // DB 검색 결과
                 let result2; // API 검색 결과
 
-// 각 키워드에 대해 DB에서 영상 검색
+                // 각 키워드에 대해 DB에서 영상 검색
                 const getVideosAwait = await getVideosByKeyword(type.typeId, keyword, dispatch);
                 if (getVideosAwait) {
-                    result1 = getVideosAwait.videoDTOList.filter((video, index, self) =>
-                        index === self.findIndex(v => v.videoId === video.videoId));
+                    result1 = getVideosAwait.videoDTOList.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId));
                     allVideosInDB.push(...result1);
                 }
 
@@ -169,19 +156,14 @@ function VideoList({type, userCoords, userId}) {
                 // 각 키워드 및 DB 검색 결과를 바탕으로 YouTube에서 추가 영상 검색
                 const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, numInDB, result1 || [], res); // 수정: allVideosInDB 대신 현재 키워드의 DB결과(result1)를 넘겨야 정확한 제외 검색 가능
                 if (getNewVideoAwait) {
-                    result2 = getNewVideoAwait.filter((video, index, self) =>
-                        index === self.findIndex(v => v.id.videoId === video.id.videoId));
+                    result2 = getNewVideoAwait.filter((video, index, self) => index === self.findIndex(v => v.id.videoId === video.id.videoId));
                     allVideos.push(...result2);
                 }
             }
 
             // 전체적으로 중복 제거 후 상태 업데이트 (루프 밖으로 이동하여 한 번만 실행)
-            const uniqueVideosInDB = Array.from(
-                new Map(allVideosInDB.map((v) => [v.videoId, v])).values()
-            );
-            const uniqueVideos = Array.from(
-                new Map(allVideos.map((v) => [v.id.videoId, v])).values()
-            );
+            const uniqueVideosInDB = Array.from(new Map(allVideosInDB.map((v) => [v.videoId, v])).values());
+            const uniqueVideos = Array.from(new Map(allVideos.map((v) => [v.id.videoId, v])).values());
 
             setVideoInDBList(uniqueVideosInDB);
             setVideoList(uniqueVideos);
@@ -192,15 +174,12 @@ function VideoList({type, userCoords, userId}) {
     useEffect(() => {
 
         const fetchAndRun = async () => {
-            const res = await dispatch(callFiltersByTypeIdAPI({ typeId: type.typeId }));
+            const res = await dispatch(callFiltersByTypeIdAPI({typeId: type.typeId}));
 
             let text;
-            if (type.typeId >= 6)
-            {
+            if (type.typeId >= 6) {
                 text = userId + type.typeText;
-            }
-            else
-            {
+            } else {
                 text = type.typeText;
             }
             setVideoListTitle(text);
@@ -213,12 +192,13 @@ function VideoList({type, userCoords, userId}) {
 
     const scrollRef = useRef();
     const leftButtonHandler = () => {
-        scrollRef.current.scrollBy({ left: -800, behavior: 'smooth' });
+        scrollRef.current.scrollBy({left: -800, behavior: 'smooth'});
     }
 
     const rightButtonHandler = () => {
-        scrollRef.current.scrollBy({ left: 800, behavior: 'smooth' });
+        scrollRef.current.scrollBy({left: 800, behavior: 'smooth'});
     }
+
     function getOrCreateAnonymousUserId() {
         return "guest";
     }
@@ -244,11 +224,10 @@ function VideoList({type, userCoords, userId}) {
     };
 
 
-    return (
-        videoInDBList && videoList &&
-        <>
+    return (videoInDBList && videoList && <>
             <div className={VideoListCSS.videoContainer}>
-                <button className={VideoListCSS.scrollButton} onClick={leftButtonHandler}><img src={leftButton}/></button>
+                <button className={VideoListCSS.scrollButton} onClick={leftButtonHandler}><img src={leftButton}/>
+                </button>
                 <div className={VideoListCSS.videoInnerContainer}>
                     <p className={VideoListCSS.videoFont}>{videoListTitle}</p>
                     <div className={VideoListCSS.line}></div>
@@ -256,39 +235,33 @@ function VideoList({type, userCoords, userId}) {
 
                         {videoList?.map(video => {
                             const vid = video.id.videoId;
-                            return (
-                                <div
+                            return (<div
                                     key={vid}
-                                    style={{ cursor: "pointer" }}
+                                    style={{cursor: "pointer"}}
                                     onClick={() => navigate(`/video/${vid}`)}
                                 >
-                                    <Video video={video} />
-                                </div>
-                            );
+                                    <Video video={video}/>
+                                </div>);
                         })}
                         {videoInDBList?.map(video => {
                             const vid = video.videoId;
-                            return (
-                                <div
+                            return (<div
                                     key={vid}
-                                    style={{ cursor: "pointer" }}
+                                    style={{cursor: "pointer"}}
                                     onClick={() => navigate(`/video/${vid}`)}
                                 >
-                                    <VIdeoInDB videoInDB={video} />
-                                </div>
-                            );
+                                    <VIdeoInDB videoInDB={video}/>
+                                </div>);
                         })}
-
-
 
 
                     </div>
                     <div className={VideoListCSS.line}></div>
                 </div>
-                <button className={VideoListCSS.scrollButton} onClick={rightButtonHandler}><img src={rightButton}/></button>
+                <button className={VideoListCSS.scrollButton} onClick={rightButtonHandler}><img src={rightButton}/>
+                </button>
             </div>
-        </>
-    )
+        </>)
 }
 
 export default VideoList;
