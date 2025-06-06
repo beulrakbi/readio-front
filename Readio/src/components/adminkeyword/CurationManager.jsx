@@ -14,7 +14,7 @@ function CurationManager() {
     const [typeId, setTypeId] = useState(-1);
 
     const onChangeSelect = (e) => {
-        setTypeId(Number(e.target.value - 1));
+        setTypeId(Number(e.target.value));
     }
 
     const CreateKeyword = () => {
@@ -39,7 +39,7 @@ function CurationManager() {
 
     const enterKeyword = (e, orderNum) => {
         setKeywords(prev => prev.map(word => word.orderNum === orderNum ? {
-            ...word, orderNum: id, keyword: e.target.value, typeId: typeId + 1, isUnsaved: false
+            ...word, orderNum: id, keyword: e.target.value, typeId: typeId, isUnsaved: false
         } : word));
     }
 
@@ -63,8 +63,8 @@ function CurationManager() {
     useEffect(() => {
         setKeywords([]);
         setId(0);
-        setKeywordsType(curation.type[typeId]);
-        const savedKeywords = curation.keywords[typeId]?.keywords.map((word, index) => ({
+        setKeywordsType(curation.type[typeId - 1]);
+        const savedKeywords = curation.keywords[typeId - 1]?.keywords.map((word, index) => ({
             orderNum: index, keyword: word.keyword, isUnsaved: false, typeId: word.typeId
         }));
         setKeywords(savedKeywords);
@@ -109,10 +109,10 @@ function CurationManager() {
     return (<div className={CurationCSS.container}>
         <div className={CurationCSS.fontContainer}>
             <p className={CurationCSS.font1}>영상 키워드 관리</p>
-            <select onChange={onChangeSelect} defaultValue={typeId} style={{"border": "none"}}
+            <select onChange={onChangeSelect} defaultValue={curation.type?.typeId} style={{"border": "none"}}
                     className={CurationCSS.filteringKeyword}>
                 <option value="0">None</option>
-                {curation.type?.map(cu => (<option key={cu.type?.typeId} defaultValue={cu.type?.typeId} value={cu.type?.typeId}>
+                {curation.type?.map(cu => (<option key={cu.type?.typeId} value={cu.type?.typeId}>
                     {cu.type?.typeName}
                 </option>))}
             </select>

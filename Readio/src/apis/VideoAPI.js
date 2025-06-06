@@ -23,7 +23,7 @@ export async function getTopVideos(dispatch) {
 }
 
 
-export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
+export async function getNewVideos(type, keyword, dispatch, num, foundVideos, filtering) {
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s (수민)
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I (성경님)
@@ -50,13 +50,25 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
         {
             keyword += "- " + foundVideos[i].videoId;
         }
+
+        if (Array.isArray(filtering))
+        {
+            for (let i = 0; i < filtering.length; i++)
+            {
+                if (filtering[i].keyword != null)
+                    keyword += "- " + filtering[i].keyword;
+                else
+                    keyword += "- " + filtering[i].videoId;
+            }
+        }
+        console.log("Filter", filtering);
+        console.log("최종 쿼리", keyword);
         maxResult = maxResult - num;
 
         try {
             const encodedKeyword = encodeURIComponent(keyword);
             const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
             // const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyA2Cyb_5A9hMOylg1aAqCBSbsaUfYnHMEA';
-            console.log("baseUrl", baseUrl);
             const data = await fetch(baseUrl);
             const json = await data.json();
             const result = json.items;
@@ -85,7 +97,7 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos) {
     }
 }
 
-export async function searchNewVideos(keyword, dispatch, num, foundVideos) {
+export async function searchNewVideos(keyword, dispatch, num, foundVideos, filtering) {
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s (수민)
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I (성경님)
@@ -111,6 +123,17 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos) {
             keyword += "- " + foundVideos[i].videoId;
         }
 
+        if (Array.isArray(filtering))
+        {
+            for (let i = 0; i < filtering.length; i++)
+            {
+                if (filtering[i].keyword != null)
+                    keyword += "- " + filtering[i].keyword;
+                else
+                    keyword += "- " + filtering[i].videoId;
+            }
+        }
+
         try {
             const encodedKeyword = encodeURIComponent(keyword);
             const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
@@ -124,7 +147,6 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos) {
 
             
             const result = json.items;
-
 
             if (Array.isArray(result)) {
 

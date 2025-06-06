@@ -39,7 +39,6 @@ function FilteringModify() {
 
 
     const onChangeSelect = (e) => {
-        console.log("e.target.value", e.target.value);
         setGroupForm({
             ...groupForm,
             typeId: e.target.value,
@@ -127,7 +126,7 @@ function FilteringModify() {
         <div className={FListCSS.typeDiv}>
             <p className={FListCSS.font3}>필터링 요소 수정</p>
             {/*타입 설정*/}
-            <select onChange={onChangeSelect} defaultValue={groupForm.typeId} style={{"border": "none"}}
+            <select onChange={onChangeSelect} style={{"border": "none"}}
                     className={CurationCSS.filteringKeyword} value={groupForm.typeId}>
                 <option value="0">None</option>
                 {type?.map(cu => (
