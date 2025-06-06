@@ -53,4 +53,12 @@
      padding: 10px;
 }
 
+.videoStats{
+     display: flex;
+}
+
+.videoUploadDate {
+     margin : 0 0 0 15px;
+}
+
 

@@ -52,7 +52,7 @@ function UserManagement() {
 
             const params = {
                 page: page,
-                size: 20,
+                size: 20,   // 1페이지당 목록 20개
                 searchType: searchType,
                 searchValue: searchValue.trim() ? searchValue.trim() : undefined,
                 startDate: startDate || undefined,
@@ -238,7 +238,7 @@ function UserManagement() {
                     {users.length > 0 ? (
                         users.map((user, index) => (
                             <tr key={user.userId}>
-                                <td>{(currentPage - 1) * 10 + index + 1}</td>
+                                <td>{(currentPage - 1) * 20 + index + 1}</td>   {/* 페이지 */}
                                 <td><span onClick={() => handleUserClick(user)} className={styles.userIdClickable}>
                                     {user.userId}
                                 </span>

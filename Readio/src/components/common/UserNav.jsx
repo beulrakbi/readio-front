@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import UserNavCSS from './navi.module.css';
@@ -6,18 +7,24 @@ import UserNavCSS from './navi.module.css';
 function UserNav({ isOpen, setIsOpen }) {
 
     const isLogin = useSelector(state => state.user.isLogin);
+    const [customerServiceOpen, setCustomerServiceOpen] = useState(false);
 
-    // 삭제 예정
-    // const navigate = useNavigate();
+    const toggleCustomerService = () => {
+        setCustomerServiceOpen(!customerServiceOpen);
+    };
 
-    // const handleLibraryClick = () => {
-    //     if (isLogin) {
-    //         navigate('/mylibrary');
-    //     } else {
-    //         navigate('/guestlibrary');
-    //     }
-    //     setIsOpen(false);
-    // };
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        // 컴포넌트 언마운트 시 원복
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isOpen]);
 
     return (
         <div className={`${UserNavCSS.navi} ${isOpen ? UserNavCSS.open : ''}`}>
@@ -42,15 +49,6 @@ function UserNav({ isOpen, setIsOpen }) {
                         내 서재
                     </NavLink>
 
-                    {/* <div 삭제 예정
-                        onClick={handleLibraryClick}
-                        className={UserNavCSS.naviLinkText}
-                        style={{ cursor: 'pointer' }}
-                    >
-                        내 서재
-
-                    </div> */}
-
                     <NavLink
                         to="/feed"
                         className={UserNavCSS.naviLinkText}
@@ -59,34 +57,48 @@ function UserNav({ isOpen, setIsOpen }) {
                         피드
                     </NavLink>
 
-                    <NavLink
+                    {/* <NavLink
                         to="/"
                         className={UserNavCSS.naviLinkText}
                         onClick={() => setIsOpen(false)}
                     >
                         소식
-                    </NavLink>
+                    </NavLink> */}
 
-                    <ul style={{ fontSize: '20px', paddingInlineStart: '0px' }}>
+                    {/* 고객센터 토글 섹션: customerServiceOpen 상태에 따라 open 클래스 추가 */}
+                    <div
+                        className={`${UserNavCSS.customerServiceToggle} ${customerServiceOpen ? UserNavCSS.open : ''}`}
+                        onClick={toggleCustomerService}
+                    >
                         고객센터
+                        <span className={UserNavCSS.toggleArrow}>
+                            {customerServiceOpen ? '▲' : '▼'}
+                        </span>
+                    </div>
+                    {/* customerServiceOpen이 true일 때만 렌더링하도록 조건부 렌더링 유지 */}
+                    {/* customerServiceList에도 open 클래스 추가 */}
+                    <ul className={`${UserNavCSS.customerServiceList} ${customerServiceOpen ? UserNavCSS.open : ''}`}>
                         <li className={UserNavCSS.naviLinkText}>
                             <NavLink to="/notice" className={UserNavCSS.naviLinkText}
                                 onClick={() => setIsOpen(false)}
                             >공지사항
-                            </NavLink></li>
+                            </NavLink>
+                        </li>
                         <li className={UserNavCSS.naviLinkText}>
                             <NavLink to="/faq" className={UserNavCSS.naviLinkText}
                                 onClick={() => setIsOpen(false)}
                             >FAQ
-                            </NavLink></li>
+                            </NavLink>
+                        </li>
                         <li className={UserNavCSS.naviLinkText}>
                             <NavLink to="/qna" className={UserNavCSS.naviLinkText}
                                 onClick={() => setIsOpen(false)}
                             >Q&A
-                            </NavLink></li>
+                            </NavLink>
+                        </li>
                     </ul>
                 </div>
-                <div className={UserNavCSS.naviBannerContainer}>
+                {/* <div className={UserNavCSS.naviBannerContainer}>
                     <p className={UserNavCSS.naviBannerText}>오늘의 소식</p>
                     <NavLink to="/" onClick={() => setIsOpen(false)}>
                         <div className={UserNavCSS.naviBanner}>
@@ -98,7 +110,7 @@ function UserNav({ isOpen, setIsOpen }) {
                         <input type="radio" name="notice" className={UserNavCSS.naviButton1} />
                         <input type="radio" name="notice" className={UserNavCSS.naviButton1} />
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

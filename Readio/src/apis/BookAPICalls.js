@@ -2,7 +2,7 @@
 
 import { getBooks, postBook } from "../components/book/BookSlice";
 import {getBook} from "../modules/Book/BookPageSlice.js";
-import {getBookReviews, putReportingReview} from "../modules/Book/BookReviewSlice.js";
+import {getBookReviews} from "../modules/Book/BookReviewSlice.js";
 
 const getAuthHeader = () => {
     const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
@@ -50,14 +50,6 @@ export const callBooksAPI = ({ search, page = 1, size = 10 }) => {
                 }
                 return { item: [], totalResults: 0, error: `HTTP 오류 ${response.status}` };
             }
-
-            // XML 응답인 경우
-            // if (responseText.trim().toLowerCase().startsWith('<?xml')) {
-            //     console.error(`[BookAPICalls] JSON 예상했으나 XML 수신`, responseText.substring(0,200));
-            //     const m = responseText.match(/<errorstring>(.*?)<\/errorstring>/i);
-            //     const detail = m?.[1] || "알 수 없는 XML 오류";
-            //     return { item: [], totalResults: 0, error: `서버 XML 응답: ${detail}` };
-            // }
 
             // JSON 파싱
             let result = JSON.parse(responseText); //  JSON.parse 사용
@@ -151,7 +143,51 @@ export const callBookReviewsAPI = ({bookIsbn}) => {
             },
         }).then((response) => response.json());
 
-        console.log("bookreviews", result);
+        if (result.status === 200) {
+            dispatch(getBookReviews(result));
+        }
+    };
+}
+
+export const callMyBookReviewsAPI = ({currentPage}) => {
+
+    let requestURL;
+
+    if (currentPage) {
+        requestURL = `http://localhost:8080/mylibrary/reviews?offset=${currentPage}`;
+    } else {
+        requestURL = `http://localhost:8080/mylibrary/reviews`;
+    }
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
+            },
+        }).then((response) => response.json());
+
+        if (result.status === 200) {
+            dispatch(getBookReviews(result));
+        }
+    };
+}
+
+export const callMyBookReviewsCountAPI = () => {
+    const requestURL = `http://localhost:8080/mylibrary/reviews/count`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
+            }
+        }).then((response) => response.json());
+
         if (result.status === 200) {
             dispatch(getBookReviews(result));
         }
@@ -170,7 +206,6 @@ export const callBookReviewReportAPI = ({ reviewId }) => {
                 ...getAuthHeader()      // 5.30 토큰 추가
             },
         });
-        console.log("resulttttt", result);
         if (!result.ok) {
             throw new Error("리뷰 신고 실패");
         }

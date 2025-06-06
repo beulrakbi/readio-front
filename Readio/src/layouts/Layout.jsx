@@ -11,11 +11,22 @@ function Layout()
 
     return(
         <>
-            <Header toggleNav={() => setNavOpen(prev => !prev)}/>
-            <UserNav isOpen={navOpen}/>
+            {/* <Header toggleNav={() => setNavOpen(prev => !prev)}/> */}
+             <Header toggleNav={() => setNavOpen(!navOpen)} setIsNavOpen={setNavOpen} />
+            <UserNav isOpen={navOpen} setIsOpen={setNavOpen}  />
+
+            {/* 오버레이: Nav가 열렸을 때만 표시 */}
+            {navOpen && (
+                <div
+                    className={LayoutCSS.overlay}
+                    onClick={() => setNavOpen(false)}
+                />
+            )}
+
             <main className={LayoutCSS.main}>
                 <Outlet />
             </main>
+
             <UserFooter/>
         </>
 

@@ -1,7 +1,7 @@
 import {
     deleteFilteringGroup,
     getFilteringGroup,
-    getFilteringGroups,
+    getFilteringGroups, getFilterings,
     postFilteringGroup,
     postFilterings,
     putFilteringGroup
@@ -158,6 +158,26 @@ export const callFilteringGroupAPI = ({groupId}) => {
 
         if (result.status === 200) {
             dispatch(getFilteringGroup(result));
+        }
+    };
+}
+
+export const callFiltersByTypeIdAPI = ({typeId}) => {
+    const requestURL = `http://localhost:8080/video/filtering/${typeId}`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                ...getAuthHeader()      // 5.30 토큰 추가
+            }
+        }).then((response) => response.json());
+
+        if (result.status === 200) {
+            dispatch(getFilterings(result.data));
+            return result.data;
         }
     };
 }

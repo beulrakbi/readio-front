@@ -18,6 +18,9 @@ const filteringSlice = createSlice({
         deleteFilterings: (state, action) => {
             return action.payload;
         },
+        getFilterings: (state, action) => {
+          return action.payload;
+        },
         getFilteringGroup: (state, action) => {
             return action.payload;
         },
@@ -46,7 +49,8 @@ export const {
     getFilteringGroups,
     postFilteringGroup,
     putFilteringGroup,
-    deleteFilteringGroup
+    deleteFilteringGroup,
+    getFilterings
 } = filteringSlice.actions;
 
 export default filteringSlice.reducer;

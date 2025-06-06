@@ -2,14 +2,13 @@ import { jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import bell from '../../assets/alarm.png';
 import logo from '../../assets/Logo.png';
 import navBar from '../../assets/NavBar.png';
 import searchIcon from '../../assets/search2.png';
 import { logout } from '../../modules/user/userSlice';
 import HeaderCSS from './Header.module.css';
 
-function Header({ toggleNav }) {
+function Header({ toggleNav, setIsNavOpen }) {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -54,6 +53,7 @@ function Header({ toggleNav }) {
 
         if (!search.trim()) return; // 빈 검색어 방지
 
+        setIsNavOpen(false);
         // 검색 타입과 검색어를 함께 넘겨야 할때 쓸 코드 작성 
         navigate(`/search/${searchType}?query=${encodeURIComponent(search)}`);
 
@@ -74,7 +74,7 @@ function Header({ toggleNav }) {
                 setLoginModal(true);
                 return;
             }
-
+            setIsNavOpen(false);
             navigate('/mylibrary', { replace: true });
 
         } catch (error) {
@@ -87,16 +87,27 @@ function Header({ toggleNav }) {
     const onClickLogoutHandler = () => {
         dispatch(logout());
         sessionStorage.clear();     // userInfo 삭제하려면 필요함
-        
+
+        setIsNavOpen(false);
         navigate('/', { replace: true });
     };
 
     function BeforeLogin() {
         return (
             <div className={HeaderCSS.headerLogin}>
-                <NavLink to="/users/login" className={HeaderCSS.headerLoginBt}>로그인</NavLink>
+                <NavLink to="/users/login"
+                    className={HeaderCSS.headerLoginBt}
+                    onClick={() => setIsNavOpen(false)}
+                >
+                    로그인
+                </NavLink>
                 &nbsp;
-                <NavLink to="/users/join" className={HeaderCSS.headerLoginBt}>회원가입</NavLink>
+                <NavLink to="/users/join"
+                    className={HeaderCSS.headerLoginBt}
+                    onClick={() => setIsNavOpen(false)}
+                >
+                    회원가입
+                </NavLink>
             </div>
         );
     }
@@ -153,7 +164,7 @@ function Header({ toggleNav }) {
                         ><img src={searchIcon} /></button>
                     </div>
                     <button className={HeaderCSS.headerAlarm}>
-                        <img src={bell} />
+                        {/* <img src={bell} /> */}
                     </button>
                     {isLogin ? (<AfterLogin />) : (<BeforeLogin />)}
 
