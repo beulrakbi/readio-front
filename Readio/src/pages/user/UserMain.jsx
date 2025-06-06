@@ -6,9 +6,9 @@ import bgimg1 from '../../assets/bgimg.png';
 import bgimg2 from '../../assets/bgimg2.png';
 import bgimg3 from '../../assets/bgimg3.png';
 import bgimg4 from '../../assets/bgimg4.png';
-import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoList.jsx';
 import EmotionModal from '../mylibrary/calendar/EmotionModal.jsx';
+import SearchBox from '../searchList/SearchBox.jsx';
 import UserMainCSS from './UserMain.module.css';
 
 
@@ -138,22 +138,9 @@ function UserMain() {
 
     return (<>
         <div className={UserMainCSS.main}>
-            <div className={UserMainCSS.mainImgBox}
-            style={{ backgroundImage: `url(${bgImage})` }}
-            >
-                <div className={UserMainCSS.mainSearch}>
-                    <div className={UserMainCSS.buttonBox}>
-                        <input className={UserMainCSS.mainSearchInput} type="text" name="search"
-                            placeholder="검색어를 입력하세요" />
-                        <button className={UserMainCSS.buttonNone}><img src={search} /></button>
-                    </div>
-                    <div className={UserMainCSS.buttonBox}>
-                        <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
-                        <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
-                        <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
-                    </div>
-                </div>
-            </div>
+
+            <SearchBox />
+
             <p className={UserMainCSS.readio}>READIO</p>
             <div className={UserMainCSS.backgroundTexture}>
                 <div className={UserMainCSS.mainTextBox}>

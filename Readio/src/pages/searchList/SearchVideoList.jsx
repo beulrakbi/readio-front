@@ -2,10 +2,9 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { searchNewVideos, searchVideosByKeyword } from '../../apis/VideoAPI';
-import search from '../../assets/search.png';
 import VIdeoInDB from "../../components/video/VIdeoInDB.jsx";
-import UserMainCSS from '../user/UserMain.module.css';
 import Video from './../../components/video/Video';
+import SearchBox from './SearchBox.jsx';
 import styles from './SearchVideoList.module.css';
 
 function SearchVideoList() {
@@ -21,8 +20,6 @@ function SearchVideoList() {
 
     const page = parseInt(queryParams.get('page'), 10) || 1;
     const size = 10;
-
-    const [searchInput, setSearchInput] = useState(searchQuery);
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -107,39 +104,9 @@ function SearchVideoList() {
         navigate(`/video/${videoId}`);
     }
 
-    const onSearchChangeHandler = (e) => {
-        setSearchInput(e.target.value);
-    }
-
-    const onEnterkeyHandler = (e) => {
-        if (e.key == 'Enter') {
-            navigate(`/search/video?query=${encodeURIComponent(searchInput)}`);
-        }
-    };
-
-    const onSearchClickHandler = () => {
-        navigate(`/search/video?query=${encodeURIComponent(searchInput)}`);
-    }
-
     return (<>
-        <div className={UserMainCSS.mainImgBox}>
-            <div className={UserMainCSS.mainSearch}>
-                <div className={UserMainCSS.buttonBox}>
-                    <input className={UserMainCSS.mainSearchInput}
-                           type="text"
-                           value={searchInput}
-                           onChange={onSearchChangeHandler}
-                           onKeyDown={onEnterkeyHandler}
-                           placeholder="검색어를 입력하세요" />
-                    <button className={UserMainCSS.buttonNone} onClick={onSearchClickHandler}><img src={search}/></button>
-                </div>
-                <div className={UserMainCSS.buttonBox}>
-                    <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                    <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                    <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                </div>
-            </div>
-        </div>
+
+        <SearchBox />
 
         <div className={styles.container}>
             <div className={styles.SearchListTitle}>

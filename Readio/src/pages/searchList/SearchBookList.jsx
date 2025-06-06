@@ -1,9 +1,8 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import searchIcon from '../../assets/search.png';
-import UserMainCSS from '../user/UserMain.module.css';
 import styles from './SearchBookList.module.css';
+import SearchBox from './SearchBox.jsx'; // SearchBox 컴포넌트 임포트
 
 function SearchBookList() {
     const navigate = useNavigate();
@@ -99,23 +98,8 @@ function SearchBookList() {
     };
 
     return (<>
-            <div className={UserMainCSS.mainImgBox}>
-                <div className={UserMainCSS.mainSearch}>
-                    <div className={UserMainCSS.buttonBox}>
-                        <input
-                            className={UserMainCSS.mainSearchInput}
-                            type="text"
-                            value={input}
-                            onChange={e => setInput(e.target.value)}
-                            onKeyDown={e => e.key === 'Enter' && onSearch()}
-                            placeholder="검색어를 입력하세요"
-                        />
-                        <button className={UserMainCSS.buttonNone} onClick={onSearch}>
-                            <img src={searchIcon} alt="검색"/>
-                        </button>
-                    </div>
-                </div>
-            </div>
+
+            <SearchBox />
 
             {errorMessage && (<div className={styles.noResults} style={{color: 'red', margin: '1rem 0'}}>
                     {errorMessage}
