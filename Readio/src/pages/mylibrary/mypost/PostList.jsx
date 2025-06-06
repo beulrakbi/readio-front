@@ -77,14 +77,14 @@ function PostList() {
                         <button
                             className={`${PostListCSS.followListBt} ${activeTab === 'post' ? PostListCSS.activeTab : ''}`}
                             onClick={() => setActiveTab('post')}>
-                            포스트
+                            포스트 {posts?.pageInfo?.total}
                         </button>
                     </div>
                     <div className={PostListCSS.followListBtDiv}>
                         <button
                             className={`${PostListCSS.followListBt} ${activeTab === 'review' ? PostListCSS.activeTab : ''}`}
                             onClick={() => setActiveTab('review')}>
-                            리뷰 1
+                            리뷰 {reviews?.pageInfo?.total}
                         </button>
                     </div>
                 </div>

@@ -14,6 +14,7 @@ const initialState = {
 // 상수를 먼저 정의합니다.
 const POST_POST_ACTION = 'post/POST_POST';
 const GET_POST_ACTION = 'post/GET_POST';
+const GET_POSTS_ACTION = 'post/GET_POSTS';
 const PUT_POST_ACTION = 'post/PUT_POST';
 const DELETE_POST_ACTION = 'post/DELETE_POST';
 const SET_POSTS_COUNT_ACTION = 'post/SET_POSTS_COUNT'; // 새로 추가된 액션 타입 상수
@@ -21,6 +22,7 @@ const SET_POSTS_COUNT_ACTION = 'post/SET_POSTS_COUNT'; // 새로 추가된 액�
 // 이 상수들을 외부에서 import하여 사용할 수 있도록 export 합니다.
 export const POST_POST = POST_POST_ACTION;
 export const GET_POST = GET_POST_ACTION;
+export const GET_POSTS = GET_POSTS_ACTION;
 export const PUT_POST = PUT_POST_ACTION;
 export const DELETE_POST = DELETE_POST_ACTION;
 export const SET_POSTS_COUNT = SET_POSTS_COUNT_ACTION;
@@ -30,6 +32,7 @@ export const SET_POSTS_COUNT = SET_POSTS_COUNT_ACTION;
 // 정의된 상수들을 사용하여 createActions를 호출합니다.
 const actions = createActions({
     [GET_POST_ACTION]: (result) => result,
+    [GET_POSTS_ACTION]: (result) => result,
     [POST_POST_ACTION]: (result) => result,
     [PUT_POST_ACTION]: (result) => result,
     [DELETE_POST_ACTION]: (result) => result,
@@ -62,6 +65,12 @@ const postReducer = handleActions(
                 ...state,
                 postDetail: payload,
             };
+        },
+        [GET_POSTS_ACTION]: (state, { payload }) => {
+                return {
+                    ...state,
+                    ...payload,
+                }
         },
         [PUT_POST_ACTION]: (state, { payload }) => {
             return {
