@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FeedCSS from '../../pages/Feed/Feed.module.css';
 import PostCSS from '../../pages/post/Post.module.css';
 
@@ -13,6 +14,7 @@ const BASE_IMAGE_URL = 'http://localhost:8080/img/';
 
 function FeedItemPost({ item, onToggleLike, onToggleFollow, onReport }) {
     const detailsRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleClickOut = (event) => {
@@ -31,6 +33,10 @@ function FeedItemPost({ item, onToggleLike, onToggleFollow, onReport }) {
         if (!isoString) return '';
         const date = new Date(isoString);
         return date.toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    };
+
+    const handleContentClick = () => {
+        navigate(`/mylibrary/post/${item.id}`);
     };
 
     return (
@@ -64,7 +70,7 @@ function FeedItemPost({ item, onToggleLike, onToggleFollow, onReport }) {
                     </details>
                 </div>
             </div>
-            <div className={FeedCSS.feedPostConDiv}>
+            <div className={FeedCSS.feedPostConDiv} onClick={handleContentClick}>
                 <div className={FeedCSS.feedPostCon}>
                     <h2>{item.title}</h2>
                     <p>{item.content}</p>

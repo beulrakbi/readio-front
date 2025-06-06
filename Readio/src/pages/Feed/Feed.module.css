@@ -93,7 +93,7 @@
 
 .feedContentDiv {
     width: 950px;
-    height: 330px;
+    /* height: 330px; */
     border-radius: 10px;
     border: 1px solid #808467;
     margin-top: 30px;
@@ -150,6 +150,7 @@
 .feedPostHeartDiv {
     width: 100%;
     height: 30px;
+    margin-bottom: 10px;
     padding-left: 30px;
     display: flex;
     align-items: center;
@@ -192,7 +193,10 @@
 
 .feedReBook {
     height: 130px;
-    margin: 20px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 10px;
     border-radius: 10px;
 }
 
