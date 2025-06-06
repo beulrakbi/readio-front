@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import AdminMainCSS from './adminmain.module.css';
 
 function CurrentState() {
@@ -7,8 +8,8 @@ function CurrentState() {
     const [userCount, setUserCount] = useState(null);
     // 새로 추가: 답변 없는 Q&A 수를 저장할 state
     const [unansweredQnaCount, setUnansweredQnaCount] = useState(null);
+    const [monthlyCount, setMonthlyCount] = useState(null);
     const navigate = useNavigate();
-
     const token = sessionStorage.getItem("accessToken");
 
     // 전체 회원 수 조회 (기존 코드)
@@ -16,7 +17,7 @@ function CurrentState() {
         fetch("http://localhost:8080/admin/user-count", {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${token}` ,
+                Authorization: `Bearer ${token}`,
             }
         })
             .then(res => {
@@ -25,7 +26,6 @@ function CurrentState() {
             })
             .then(data => {
                 setUserCount(data);
-                console.log("전체 회원 수:", data);
             })
             .catch(err => {
                 console.error("회원 수 조회 실패:", err);
@@ -66,54 +66,61 @@ function CurrentState() {
             });
     }, [token]); // token이 변경될 때 다시 호출되도록 의존성 배열에 token 추가
 
-    // 현재 날짜 및 시간 설정 (기존 코드)
+
+    // 이번 달 가입자 수 가져오기
     useEffect(() => {
-        let today = new Date();
-        let year = today.getFullYear();
-        let month = ('0' + (today.getMonth() + 1)).slice(-2);
-        let day = ('0' + today.getDate()).slice(-2);
-        let hours = ('0' + today.getHours()).slice(-2);
-        let minutes = ('0' + today.getMinutes()).slice(-2);
-        let seconds = ('0' + today.getSeconds()).slice(-2);
+        axios.get("http://localhost:8080/admin/monthly-count", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                setMonthlyCount(res.data);
+            })
+            .catch(err => {
+                console.error('신규 가입자 수 조회 실패:', err);
+                setMonthlyCount(0);
+            });
+    }, []);
 
-        let dateString = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ' 기준';
-
-        setDate(dateString);
+    // 현재 날짜 설정
+    useEffect(() => {
+        const today = new Date();
+        const formatted = today.toLocaleString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        setDate(`${formatted} 기준`);
     }, []);
 
     return (
         <div className={AdminMainCSS.main}>
             <div className={AdminMainCSS.fontContainer}>
-                <p className={AdminMainCSS.font1}>전체 현황</p> <p className={AdminMainCSS.font2}>{date}</p>
+                <p className={AdminMainCSS.font1}>전체 현황</p>
+                <p className={AdminMainCSS.font2}>{date}</p>
             </div>
             <hr className={AdminMainCSS.csLine} />
             <div className={AdminMainCSS.csTableDiv}>
                 <table className={AdminMainCSS.csTable}>
                     <tbody>
-
                         <tr className={AdminMainCSS.csTableTr}>
-                            <td className={AdminMainCSS.csTableTd}>
-                                신규 가입
-                            </td>
-                            <td className={AdminMainCSS.csTableTd2}>123명</td>
-                            <td className={AdminMainCSS.csTableTd3}></td>
-                        </tr>
-                        <tr className={AdminMainCSS.csTableTr}>
-                            <td className={AdminMainCSS.csTableTd}>
-                                새로 신고된 리뷰
-                            </td>
+                            <td className={AdminMainCSS.csTableTd}>신규 가입</td>
                             <td className={AdminMainCSS.csTableTd2}>
-                                20건
+                                {monthlyCount !== null ? `${monthlyCount}명` : '로딩 중...'}
                             </td>
                             <td className={AdminMainCSS.csTableTd3}></td>
                         </tr>
                         <tr className={AdminMainCSS.csTableTr}>
-                            <td className={AdminMainCSS.csTableTd}>
-                                새로 신고된 포스트
-                            </td>
-                            <td className={AdminMainCSS.csTableTd2}>
-                                15건
-                            </td>
+                            <td className={AdminMainCSS.csTableTd}>새로 신고된 리뷰</td>
+                            <td className={AdminMainCSS.csTableTd2}>20건</td>
+                            <td className={AdminMainCSS.csTableTd3}></td>
+                        </tr>
+                        <tr className={AdminMainCSS.csTableTr}>
+                            <td className={AdminMainCSS.csTableTd}>새로 신고된 포스트</td>
+                            <td className={AdminMainCSS.csTableTd2}>15건</td>
                             <td className={AdminMainCSS.csTableTd3}></td>
                         </tr>
                         <tr className={AdminMainCSS.csTableTr}>
@@ -126,11 +133,9 @@ function CurrentState() {
                             <td className={AdminMainCSS.csTableTd3}></td>
                         </tr>
                         <tr className={AdminMainCSS.csTableTr}>
-                            <td className={AdminMainCSS.csTableTd}>
-                                전체 유저 수
-                            </td>
+                            <td className={AdminMainCSS.csTableTd}>전체 유저 수</td>
                             <td className={AdminMainCSS.csTableTd2}
-                            onClick={() => navigate('/admin/users/list')}>
+                                onClick={() => navigate('/admin/users/list')}>
                                 {userCount !== null ? `${userCount}명` : '로딩 중...'}
                             </td>
                             <td className={AdminMainCSS.csTableTd3}></td>
@@ -140,7 +145,7 @@ function CurrentState() {
             </div>
             <hr className={AdminMainCSS.csLine} />
         </div>
-    )
+    );
 }
 
 export default CurrentState;
