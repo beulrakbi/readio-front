@@ -6,7 +6,7 @@ function TopVideo({video})
         // const videoSrc = 'https://www.youtube.com/embed/' + video.videoId;
 
     return (
-        <Link to={`/video/${video.contentId}`} className={AdminMainCSS.videoLink}>
+        <Link to={`/video/${video.contentId}`} className={AdminMainCSS.bookLink}>
             <div className={AdminMainCSS.videoInnerContainer}>
                 <img className={AdminMainCSS.videoThumbnail} src={video.thumbnail} alt={video.title} />
                 <div className={AdminMainCSS.videoTitleDiv}>

@@ -1,4 +1,4 @@
-import {GET_POST, POST_POST,} from '../modules/postwriting/PostModule.js'; // PostModule.js 경로 확인
+import {GET_POST, GET_POSTS, POST_POST,} from '../modules/postwriting/PostModule.js'; // PostModule.js 경로 확인
 
 const getAuthHeader = () => {
     const token = sessionStorage.getItem('accessToken');
@@ -79,7 +79,7 @@ export const callAllPosts = ({userId, currentPage}) => {
             }
         }).then((response) => response.json());
         if (result.status === 200) {
-            dispatch({type: GET_POST, payload: result.data});
+            dispatch({type: GET_POSTS, payload: result.data});
         }
     };
 
@@ -96,7 +96,7 @@ export const callPostsCountAPI = ({userId}) => {
             }
         }).then((response) => response.json());
         if (result.status === 200) {
-            dispatch({type: GET_POST, payload: result});
+            dispatch({type: GET_POSTS, payload: result});
         }
     };
 

@@ -366,6 +366,11 @@
 
 /*CalendarSection*/
 
+.calendar {
+    margin-bottom: 50px;
+}
+
+
 .dayCell {
 
     height: 60px;
@@ -373,8 +378,8 @@
     line-height: 50px;
     font-size: 15px;
     display: flex;
-
-    text-align: center;
+    justify-content: center;
+    /*text-align: center;*/
     /*color: #676767;*/
     color: black;
     border-bottom: 1px solid #F6EEB6;

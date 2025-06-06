@@ -16,11 +16,11 @@ function TopBook({ book }) {
                         />
 
                         <div>
-                            <p className={AdminMainCSS.bookFont}>{book.title || "제목 없음"}</p>
+                            <p className={AdminMainCSS.bookFont}>{book.title.length > 10 ? book.title.slice(0, 10) + "..." : book.title || "제목 없음"}</p>
                             <p className={AdminMainCSS.bookFont}>{book.source || "저자 정보 없음"}</p>
-                            <p className={AdminMainCSS.bookFont}>
-                                {book.pubDate ? book.pubDate.split('-')[0] : "출간연도 없음"}
-                            </p>
+                            {/*<p className={AdminMainCSS.bookFont}>*/}
+                                {/*{book.pubDate ? book.pubDate.split('-')[0] : "출간연도 없음"}*/}
+                            {/*</p>*/}
                         </div>
                     </div>
                 </div>
