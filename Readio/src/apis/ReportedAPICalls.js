@@ -27,7 +27,7 @@ export const callReportedReviewsAPI = ({ currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader
+                ...getAuthHeader()
             },
         }).then((response) => response.json());
         console.log("reportedReviews result", result);
@@ -46,7 +46,7 @@ export const callReportedReviewAPI = ({reportId}) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader
+                ...getAuthHeader()
             },
         }).then((response) => response.json());
         console.log("reportedReview result", result);
@@ -68,7 +68,7 @@ export const callReportedReviewUpdateAPI = ({reportId}) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader
+                ...getAuthHeader()
             },
         }).then((response) => response.json());
         console.log("reportedReview Update result", result);
@@ -93,7 +93,7 @@ export const callReportedPostsAPI = ({ currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                // ...getAuthHeader
+                ...getAuthHeader()
             },
         }).then((response) => response.json());
         console.log("reportedPosts result", result);
@@ -112,7 +112,7 @@ export const callReportedPostAPI = ({reportId}) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader
+                ...getAuthHeader()
             },
         }).then((response) => response.json());
         console.log("reportedPost result", result);
@@ -133,7 +133,7 @@ export const callReportedPostUpdateAPI = ({reportId}) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader
+                ...getAuthHeader()
             },
         }).then((response) => response.json());
         console.log("reportedPost Update result", result);
