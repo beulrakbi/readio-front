@@ -5,27 +5,27 @@ import bookMarkX from '../../assets/bookMarkX.png'; // 북마크 안 된 상태 
 import styles from './PlayVideo.module.css';
 import RecommandedVideoList from './RecommandedVideoList';
 
-function PlayVideo() { 
+function PlayVideo() {
     const { videoId } = useParams();
 
     const [error, setError] = useState(null);
     const [isBookmarked, setIsBookmarked] = useState(false); // 초기 상태: 북마크 안 됨
     const [bookmarkCount, setBookmarkCount] = useState(0); // 초기 상태: 0
-    const [videoInfo, setVideoInfo] = useState(null); 
+    const [videoInfo, setVideoInfo] = useState(null);
 
     const [hasPlayed, setHasPlayed] = useState(false);
-    const [userBookmarkId, setUserBookmarkId] = useState(null); 
-    
+    const [userBookmarkId, setUserBookmarkId] = useState(null);
+
     const getAuthToken = () => {
-        return sessionStorage.getItem('accessToken'); 
+        return sessionStorage.getItem('accessToken');
     };
-    
+
     useEffect(() => {
         const fetchVideoAndBookmarkStatus = async () => {
             try {
                 // 1. 비디오 기본 정보 가져오기
-                const videoRes = await fetch(`http://localhost:8080/video/id/${videoId}`); 
-                if (!videoRes.ok) throw new Error(`Status ${videoRes.status}`);         
+                const videoRes = await fetch(`http://localhost:8080/video/id/${videoId}`);
+                if (!videoRes.ok) throw new Error(`Status ${videoRes.status}`);
                 const videoResDto = await videoRes.json();
                 setVideoInfo(videoResDto.data);
 
@@ -70,7 +70,7 @@ function PlayVideo() {
     if (error) return <div>오류 발생: {error}</div>;
     if (!videoInfo) return <div>로딩 중…</div>;
 
-    
+
     const handleImageClick = async () => {
         const token = getAuthToken();
         if (!token) {
@@ -128,8 +128,9 @@ function PlayVideo() {
         }
     };
 
+
     const handlePlayClick = async () => {
-    try {
+        try {
             // “/video/id/{videoId}”로 맞춰서 호출
             const res = await fetch(`http://localhost:8080/video/id/${videoId}`, {
                 method: 'POST'
@@ -143,8 +144,8 @@ function PlayVideo() {
         setHasPlayed(true);
     };
 
-    
-    return(
+
+    return (
         <>
             <div className={styles.backgroundTexture}>
                 <div className={styles.container}>
@@ -155,10 +156,10 @@ function PlayVideo() {
                                     className={styles.playButton}
                                     onClick={handlePlayClick}
                                 >
-                                ▶ 재생하기
+                                    ▶ 재생하기
                                 </button>
                             )
-                        :
+                            :
                             (<iframe
                                 width="100%"
                                 height="100%"
@@ -169,47 +170,47 @@ function PlayVideo() {
                                 allowFullScreen
                             ></iframe>)
                         }
-                    </div> 
+                    </div>
 
-                         <div className={styles.videoInfo}>
-                              <div className={styles.videoTitle}> 
-                                        {/* {videoInfo.snippet.title} */}
-                                        {videoInfo.title}
-                              </div> {/*videoTitle 영역 끝 */}
-                              <div className={styles.channelNameBookMark}>
-                                   <div className={styles.channelName}>
-                                        {/* {videoInfo.snippet.channelTitle} */}
-                                        {videoInfo.channelTitle}
-                                   </div>
-                                   <div className={styles.BookMark}>
-                                        북마크 {bookmarkCount}
-                                        <img 
-                                             src={isBookmarked ? bookMarkX : bookMarkO}
-                                             alt="BookMark"
-                                             onClick={handleImageClick}
-                                             className={styles.bookmark}
-                                        />
-                                   </div>
-                              </div> {/* channelNameBookMark */}
-                         </div> {/* videoInfo 영역 끝 */}
-                         <div className={styles.videoDetail}> 
-                              {/* {videoInfo.snippet.description} */}
+                    <div className={styles.videoInfo}>
+                        <div className={styles.videoTitle}>
+                            {/* {videoInfo.snippet.title} */}
+                            {videoInfo.title}
+                        </div> {/*videoTitle 영역 끝 */}
+                        <div className={styles.channelNameBookMark}>
+                            <div className={styles.channelName}>
+                                {/* {videoInfo.snippet.channelTitle} */}
+                                {videoInfo.channelTitle}
+                            </div>
+                            <div className={styles.BookMark}>
+                                북마크 {bookmarkCount}
+                                <img
+                                    src={isBookmarked ? bookMarkO : bookMarkX}
+                                    alt="BookMark"
+                                    onClick={handleImageClick}
+                                    className={styles.bookmark}
+                                />
+                            </div>
+                        </div> {/* channelNameBookMark */}
+                    </div> {/* videoInfo 영역 끝 */}
+                    <div className={styles.videoDetail}>
+                        {/* {videoInfo.snippet.description} */}
 
-                              <div className={styles.videoStats}>
-                                   <div className = {styles.videoViewCount}>조회수: {videoInfo.viewCount.toLocaleString()}회</div>
-                                   <div className = {styles.videoUploadDate}> {new Date(videoInfo.uploadDate).toLocaleDateString()}</div>
-                              </div>
+                        <div className={styles.videoStats}>
+                            <div className={styles.videoViewCount}>조회수: {videoInfo.viewCount.toLocaleString()}회</div>
+                            <div className={styles.videoUploadDate}> {new Date(videoInfo.uploadDate).toLocaleDateString()}</div>
+                        </div>
 
-                              {videoInfo.description}
-                         </div> {/* videoDetail 영역 끝 */}
-                         
-                         <RecommandedVideoList keyword = {videoInfo.title} />   {/* 현재 영상의 제목을 키워드로 넘김 */}
+                        {videoInfo.description}
+                    </div> {/* videoDetail 영역 끝 */}
 
-                    </div> {/* container 영역 끝 */}
+                    <RecommandedVideoList keyword={videoInfo.title} />   {/* 현재 영상의 제목을 키워드로 넘김 */}
 
-               </div>
-               </>
-          )
-     }
+                </div> {/* container 영역 끝 */}
+
+            </div>
+        </>
+    )
+}
 
 export default PlayVideo;
