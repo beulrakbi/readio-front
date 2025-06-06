@@ -13,6 +13,9 @@ import UserMainCSS from './UserMain.module.css';
 
 
 function UserMain() {
+    // const [types, setTypes] = useState([]);
+    // const allTypes = ["celeb", "goods", "habit"];
+    const [userCoords, setUserCoords] = useState(null); // 위치 좌표 저장할 상태 
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isTypesLoaded, setIsTypesLoaded] = useState(false);
@@ -31,6 +34,10 @@ function UserMain() {
     const userId = sessionStorage.getItem("userId");   //5.30 변경 테스트중
 
     const types = useSelector(state => state.curation.type);
+    // const token = localStorage.getItem("accessToken");
+
+    const userIdFromSession = sessionStorage.getItem("userId");
+
 
     const convertEmojiToEnum = (emoji) => {
         switch (emoji) {
@@ -48,6 +55,27 @@ function UserMain() {
                 return 'NORMAL';
         }
     };
+
+    // 위치 정보 요청
+    useEffect(() => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setUserCoords({
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    });
+                },
+                (error) => {
+                    console.warn("위치 정보를 가져오는 것을 거부하거나 실패했습니다:", error);
+                    // userCoords를 null 상태로 두면, VideoList 쪽에서 typeId=5인 경우엔
+                    // 아무것도 요청하지 않고 빈 리스트를 보여주도록 처리했습니다.
+                }
+            );
+        } else {
+            console.warn("이 브라우저는 위치 정보(geolocation)를 지원하지 않습니다.");
+        }
+    }, []);
 
     useEffect(() => {
         const userId = sessionStorage.getItem("userId");   //5.30 변경 테스트중
@@ -67,6 +95,7 @@ function UserMain() {
     }, [sessionStorage.getItem("userId")]);   //5.30 변경 테스트중
     // }, [localStorage.getItem("userId")]);
 
+
     useEffect(() => {
         const fetchTypes = async () => {
             if (!token || !userId || token === 'undefined' || userId === 'undefined') {
@@ -78,6 +107,33 @@ function UserMain() {
         };
         fetchTypes();
     }, []);
+
+
+     useEffect(() => {
+            const getTypes = async () => {
+                const allTypes = await dispatch(callCurationTypesAPI());
+                if (allTypes) {
+                    const apiTypes = allTypes.data; // ← 변수명을 apiTypes로 변경
+
+                    // 로그인 상태일 때만 “감정 기반 추천” 객체을 앞에 추가
+                    let finalTypesToShow = [...apiTypes];
+                    if (token && userIdFromSession) {
+                        const emotionRecommendationType = {
+                            typeId: 6,
+                            typeName: 'Emotion',
+                            typeText: `${userIdFromSession}님, 오늘 기분에 맞는 영상 어때요? 😊`
+                        };
+                        finalTypesToShow.unshift(emotionRecommendationType); // ← apiTypes 복사본에 추가
+                    }
+
+                    // 마지막으로 셔플해서 state에 저장
+                    const shuffled = finalTypesToShow.sort(() => 0.5 - Math.random());
+                    setTypes(shuffled);
+                }
+            }
+            getTypes();
+            console.log("ttttttt", types);
+        }, [dispatch, token, userIdFromSession]);
 
     return (<>
         <div className={UserMainCSS.main}>
@@ -106,7 +162,12 @@ function UserMain() {
                 </div>
                 <div className={UserMainCSS.videoSection}>
                     {isTypesLoaded && types?.length > 0 && types.map(type =>
-                        <VideoList type={type} userId={userId} key={type.typeId} />
+                        <VideoList 
+                                type={type} 
+                                userId={userId} 
+                                userCoords={userCoords}
+                                key={type.typeId} 
+                            />
                     )}
                 </div>
             </div>

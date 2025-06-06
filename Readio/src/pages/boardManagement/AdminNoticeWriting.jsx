@@ -168,7 +168,7 @@ function AdminNoticeWriting() {
                 />
 
                 <div className={styles.bottom}>
-                    <div className={styles.imageUploadBox}>
+                    {/* <div className={styles.imageUploadBox}>
                         {preview ? (
                             <div className={styles.previewWrapper}>
                                 <img src={preview} alt="preview" className={styles.previewImage} />
@@ -188,7 +188,7 @@ function AdminNoticeWriting() {
                                 />
                             </>
                         )}
-                    </div>
+                    </div> */}
 
                     <div className={styles.actionButtons}>
                         <button

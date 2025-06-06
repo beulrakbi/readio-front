@@ -7,7 +7,7 @@ const getAuthHeader = () => {
     return token ? { 'Authorization': `Bearer ${token}` } : {};
 };
 
-export const callCurationTypesAPI = ({login}) => {
+export const callCurationTypesAPI = ({login} = {}) => { // 수정함 0604.. 
     const requestURL = `http://localhost:8080/curation/${login}`;
 
     return async (dispatch, getState) => {
