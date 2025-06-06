@@ -8,12 +8,12 @@
 
 .section {
     width: 60%;
-    margin: 50px;
+    margin: 50px auto;
     overflow-x: hidden;
 }
 .profileCard{
     padding: 0;
-    margin: 0 150px 20px 150px;
+    margin: 0 50px;
 }
 .sectionTitle{
     font-size: 25px;
@@ -57,6 +57,7 @@
     padding: 6px 20px;
     cursor: pointer;
     color: #AF4C3F;
+    width: 100px;
     font-weight: 700;
     font-size: 14px;
 }
@@ -78,6 +79,7 @@
     margin-bottom: 10px;
     margin-top: 30px;
     color: black;
+    width: 700px;
 }
 
 .input, .textarea {

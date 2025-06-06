@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './MyLibrary.module.css';
-import { useNavigate, useParams } from 'react-router-dom'; // useParams 추가
+import { useNavigate, useParams } from 'react-router-dom';
 
 const BookmarkSection = () => {
     const [bookmarkedBooks, setBookmarkedBooks] = useState([]);
@@ -8,10 +8,9 @@ const BookmarkSection = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    const { userId: paramUserId } = useParams(); // URL에서 userId 파라미터 가져오기
-    const currentUserId = sessionStorage.getItem("userId"); // 세션에서 현재 로그인된 userId 가져오기
-    // ProfileSection과 동일하게, URL 파라미터가 있으면 사용하고 없으면 현재 로그인된 userId 사용
-    const targetUserId = paramUserId || currentUserId; 
+    const { userId: paramUserId } = useParams();
+    const currentUserId = sessionStorage.getItem("userId");
+    const targetUserId = paramUserId || currentUserId;
 
     const getAuthHeader = () => {
         const token = sessionStorage.getItem('accessToken');
@@ -23,7 +22,7 @@ const BookmarkSection = () => {
         setError(null);
         const authHeader = getAuthHeader();
 
-        if (!targetUserId || !authHeader['Authorization']) { // targetUserId 체크 추가
+        if (!targetUserId || !authHeader['Authorization']) {
             setError("로그인이 필요하거나 대상 사용자 ID를 찾을 수 없습니다.");
             setLoading(false);
             return;
@@ -31,7 +30,7 @@ const BookmarkSection = () => {
 
         try {
             // 영상 북마크 가져오기
-            const videoRes = await fetch('http://localhost:8080/videoBookmark/list', { // 이 엔드포인트가 userId 파라미터를 받지 않을 수 있음
+            const videoRes = await fetch('http://localhost:8080/videoBookmark/list', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,11 +43,15 @@ const BookmarkSection = () => {
                 const errorText = await videoRes.text();
                 throw new Error(`영상 북마크 목록 조회 실패: ${videoRes.status} ${errorText}`);
             }
-            const videoData = await videoRes.json();
+            let videoData = await videoRes.json();
+            // **영상 북마크 랜덤 정렬 로직 추가**
+            if (videoData && videoData.length > 0) {
+                 videoData.sort(() => Math.random() - 0.5); // 배열을 무작위로 섞습니다.
+            }
             setBookmarkedVideos(videoData);
 
-            // 도서 북마크 가져오기 (userId 파라미터를 사용하도록 수정)
-            const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${targetUserId}`, { // ${targetUserId} 사용
+            // 도서 북마크 가져오기
+            const bookRes = await fetch(`http://localhost:8080/bookBookmark/list?userId=${targetUserId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +63,11 @@ const BookmarkSection = () => {
                 const errorText = await bookRes.text();
                 throw new Error(`책 북마크 목록 조회 실패: ${bookRes.status} ${errorText}`);
             }
-            const bookData = await bookRes.json();
+            let bookData = await bookRes.json();
+            // **도서 북마크 랜덤 정렬 로직 추가**
+            if (bookData && bookData.length > 0) {
+                bookData.sort(() => Math.random() - 0.5); // 배열을 무작위로 섞습니다.
+            }
             setBookmarkedBooks(bookData);
 
         } catch (err) {
@@ -69,7 +76,7 @@ const BookmarkSection = () => {
         } finally {
             setLoading(false);
         }
-    }, [targetUserId]); // fetchBookmarks 의존성에 targetUserId 추가
+    }, [targetUserId]);
 
     useEffect(() => {
         fetchBookmarks();
@@ -90,14 +97,14 @@ const BookmarkSection = () => {
         <>
             <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                    <h2 className={styles.sectionTitle}>영상 ({bookmarkedVideos.length})</h2>
-                    {/* 여기에 targetUserId 추가 */}
+                    <h2 className={styles.sectionTitle}>영상</h2>
                     <span className={styles.sectionAction} onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'video' } })}>전체보기</span>
                 </div>
 
                 {bookmarkedVideos.length > 0 ? (
                     <div className={styles.videoBookmarkList}>
-                        {bookmarkedVideos.slice(0, 5).map((item) => (
+                        {/* slice(0, 5)는 상위 5개만 보여줍니다. */}
+                        {bookmarkedVideos.slice(0, 4).map((item) => (
                             <div key={item.bookmarkId}
                                  className={styles.videoBookmarkItem}
                                  onClick={() => handleVideoClick(item.videoId)}
@@ -122,14 +129,14 @@ const BookmarkSection = () => {
 
             <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                    <h2 className={styles.sectionTitle}>도서 ({bookmarkedBooks.length})</h2>
-                    {/* 여기에 targetUserId 추가 */}
+                    <h2 className={styles.sectionTitle}>도서</h2>
                     <span className={styles.sectionAction} onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'book' } })}>전체보기</span>
                 </div>
 
                 {bookmarkedBooks.length > 0 ? (
                     <div className={styles.bookmarkList}>
-                        {bookmarkedBooks.slice(0, 5).map((item) => (
+                        {/* slice(0, 5)는 상위 5개만 보여줍니다. */}
+                        {bookmarkedBooks.slice(0, 6).map((item) => (
                             <div key={item.bookmarkId}
                                  className={styles.bookmarkItem}
                                  onClick={() => handleBookClick(item.bookIsbn)}

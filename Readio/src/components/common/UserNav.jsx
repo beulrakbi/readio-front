@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 import UserNavCSS from './navi.module.css';
 
 
@@ -12,6 +12,19 @@ function UserNav({ isOpen, setIsOpen }) {
     const toggleCustomerService = () => {
         setCustomerServiceOpen(!customerServiceOpen);
     };
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        // 컴포넌트 언마운트 시 원복
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isOpen]);
 
     return (
         <div className={`${UserNavCSS.navi} ${isOpen ? UserNavCSS.open : ''}`}>
@@ -37,20 +50,20 @@ function UserNav({ isOpen, setIsOpen }) {
                     </NavLink>
 
                     <NavLink
-                        to="/"
+                        to="/feed"
                         className={UserNavCSS.naviLinkText}
                         onClick={() => setIsOpen(false)}
                     >
                         피드
                     </NavLink>
 
-                    <NavLink
+                    {/* <NavLink
                         to="/"
                         className={UserNavCSS.naviLinkText}
                         onClick={() => setIsOpen(false)}
                     >
                         소식
-                    </NavLink>
+                    </NavLink> */}
 
                     {/* 고객센터 토글 섹션: customerServiceOpen 상태에 따라 open 클래스 추가 */}
                     <div
@@ -85,7 +98,7 @@ function UserNav({ isOpen, setIsOpen }) {
                         </li>
                     </ul>
                 </div>
-                <div className={UserNavCSS.naviBannerContainer}>
+                {/* <div className={UserNavCSS.naviBannerContainer}>
                     <p className={UserNavCSS.naviBannerText}>오늘의 소식</p>
                     <NavLink to="/" onClick={() => setIsOpen(false)}>
                         <div className={UserNavCSS.naviBanner}>
@@ -97,7 +110,7 @@ function UserNav({ isOpen, setIsOpen }) {
                         <input type="radio" name="notice" className={UserNavCSS.naviButton1} />
                         <input type="radio" name="notice" className={UserNavCSS.naviButton1} />
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );
