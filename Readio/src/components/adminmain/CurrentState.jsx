@@ -66,10 +66,6 @@ function CurrentState() {
             });
     }, [token]); // token이 변경될 때 다시 호출되도록 의존성 배열에 token 추가
 
-    // 현재 날짜 및 시간 설정 (기존 코드)
-                setUserCount(0);
-            });
-    }, []);
 
     // 이번 달 가입자 수 가져오기
     useEffect(() => {
