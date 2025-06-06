@@ -20,6 +20,25 @@ function PlayVideo() {
         return sessionStorage.getItem('accessToken');
     };
 
+    // video => view_count 증가 
+    useEffect(() => {
+        // 페이지 진입 또는 videoId 변경될 때 조회수 1 증가
+        const increaseViewCount = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/video/id/${videoId}`, {
+                    method: 'POST'
+                });
+                if (!res.ok) {
+                    console.error('조회수 증가 실패, status:', res.status);
+                }
+            } catch (err) {
+                console.error('조회수 증가 중 예외', err);
+            }
+        };
+
+        increaseViewCount();
+    }, [videoId]);
+
     useEffect(() => {
         const fetchVideoAndBookmarkStatus = async () => {
             try {
@@ -128,39 +147,12 @@ function PlayVideo() {
         }
     };
 
-
-    const handlePlayClick = async () => {
-        try {
-            // “/video/id/{videoId}”로 맞춰서 호출
-            const res = await fetch(`http://localhost:8080/video/id/${videoId}`, {
-                method: 'POST'
-            });
-            if (!res.ok) {
-                console.error('조회수 증가 실패, status:', res.status);
-            }
-        } catch (err) {
-            console.error('조회수 증가 중 예외', err);
-        }
-        setHasPlayed(true);
-    };
-
-
     return (
         <>
             <div className={styles.backgroundTexture}>
                 <div className={styles.container}>
                     <div className={styles.video}>
-                        {!hasPlayed
-                            ? (
-                                <button
-                                    className={styles.playButton}
-                                    onClick={handlePlayClick}
-                                >
-                                    ▶ 재생하기
-                                </button>
-                            )
-                            :
-                            (<iframe
+                            <iframe
                                 width="100%"
                                 height="100%"
                                 src={`http://www.youtube.com/embed/${videoId}?autoplay=1`}
@@ -168,8 +160,7 @@ function PlayVideo() {
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                            ></iframe>)
-                        }
+                            ></iframe>
                     </div>
 
                     <div className={styles.videoInfo}>

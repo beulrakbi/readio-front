@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import searchIcon from '../../assets/search.png';
 import UserMainCSS from '../user/UserMain.module.css';
@@ -7,9 +8,11 @@ import styles from './SearchBookList.module.css';
 function SearchBookList() {
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
+
     const [input, setInput] = useState('');    // 검색창 입력값
     const [query, setQuery] = useState('');    // 실제 요청에 쓰일 키워드
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(1);       // 현재 페이지 
     const [books, setBooks] = useState([]);    // API 응답 도서 목록
     const [totalCount, setTotalCount] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
@@ -37,17 +40,23 @@ function SearchBookList() {
 
         setErrorMessage('');
         fetch(`http://localhost:8080/search/book?query=${encodeURIComponent(query)}&page=${page}&size=${size}`)
-            .then(res => {
+            .then((res) => {
                 return res.json();
             })
-            .then(json => {
-                // ResponseDTO { status, message, data: { books, total } }
-                const {data} = json;
-                const refinedData = data.books.filter((book, index, self) => index === self.findIndex(b => b.bookIsbn === book.bookIsbn));
-                setBooks(refinedData);
-                // setTotalCount(refinedData.length);
-                setTotalCount(Math.min(data.total));
+            .then((json) => {
+                const { data } = json;
+                if (!data || !Array.isArray(data.books)) {
+                setErrorMessage('서버 응답이 올바르지 않습니다.');
+                setBooks([]);
+                setTotalCount(0);
+                return;
+                }
 
+                setBooks(data.books);
+
+                // totalCount는 data.total과 MAX_TOTAL 중 작은 값을 사용
+                const rawTotal = typeof data.total === 'number' ? data.total : 0;
+                setTotalCount(Math.min(rawTotal, MAX_TOTAL));
             })
             .catch(err => {
                 console.error(err);
@@ -57,7 +66,7 @@ function SearchBookList() {
             });
     }, [query, page]);
 
-    // 페이지 버튼 렌더링
+    
      const renderPagination = () => {
         // 실제 페이지 수 계산 후 최대 MAX_PAGES 로 클램핑
         const realPages = Math.ceil(totalCount / size);

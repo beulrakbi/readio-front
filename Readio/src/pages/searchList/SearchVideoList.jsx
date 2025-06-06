@@ -24,44 +24,6 @@ function SearchVideoList() {
 
     const [searchInput, setSearchInput] = useState(searchQuery);
 
-    // useEffect(() => {
-    //     const fetchVideos = async () => {
-    //         if (searchQuery) {
-    //             try {
-    //                 const searchVideosInDB = await searchVideosByKeyword(searchQuery, dispatch);
-    //                 const videosInDB = searchVideosInDB?.data.videoDTOList;
-    //                 let result = null;  
-
-    //                 if (Array.isArray(videosInDB)) {
-    //                     setVideoInDBList(
-    //                         videosInDB.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId))
-    //                     );
-    //                     result = await searchNewVideos(searchQuery, dispatch, videosInDB.length, videosInDB);
-    //                 } else {
-    //                     console.warn("검색 결과가 없습니다.");
-    //                     setVideoInDBList([]);
-    //                 }
-
-    //                 if (Array.isArray(result)) {
-    //                     setVideoList(
-    //                         result.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId))
-    //                     );
-    //                 } else {
-    //                     console.warn("검색 결과가 없습니다.");
-    //                     setVideoList([]);
-    //                 }
-    //             } catch (error) {
-    //                 console.error("검색 중 오류 발생:", error);
-    //             }
-    //         } else {
-    //             setVideoList([]);
-    //             setVideoInDBList([]);
-    //         }
-    //     };
-
-    //     fetchVideos();
-    // }, [searchQuery, dispatch]);
-
     useEffect(() => {
         const fetchVideos = async () => {
             if (!searchQuery) {
