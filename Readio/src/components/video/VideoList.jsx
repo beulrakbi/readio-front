@@ -18,7 +18,7 @@ function VideoList({type, userCoords, userId}) {
     const dispatch = useDispatch();
     const navigate = useNavigate(); // 추가 !
 
-    const getVideos = async (res) => {
+    const getVideos = async (filters) => {
 
         if (type.typeId === 5) {
             if (!userCoords) return;
@@ -57,7 +57,7 @@ function VideoList({type, userCoords, userId}) {
                 // DB 영상 목록을 기반으로 부족한 영상을 API에서 추가로 가져옴
                 const newVideos = await getNewVideos(type.typeId,         // 5
                     newKeyword,      // 검색 키워드
-                    dispatch, numInDB, weatherVideos) || [];
+                    dispatch, numInDB, weatherVideos, filters) || [];
 
                 setVideoList(newVideos);
                 return;
@@ -112,7 +112,7 @@ function VideoList({type, userCoords, userId}) {
                 console.log(`감정 기반 YouTube 추가 검색 키워드: "${newKeyword}", DB 영상 개수: ${numInDB}`);
 
                 const newVideos = await getNewVideos(type.typeId,      // 6
-                    newKeyword, dispatch, numInDB, emotionVideos) || [];
+                    newKeyword, dispatch, numInDB, emotionVideos, filters) || [];
 
                 setVideoList(newVideos);
                 return;
@@ -154,7 +154,7 @@ function VideoList({type, userCoords, userId}) {
 
                 const numInDB = getVideosAwait?.num || 0;
                 // 각 키워드 및 DB 검색 결과를 바탕으로 YouTube에서 추가 영상 검색
-                const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, numInDB, result1 || [], res); // 수정: allVideosInDB 대신 현재 키워드의 DB결과(result1)를 넘겨야 정확한 제외 검색 가능
+                const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, numInDB, result1 || [], filters); // 수정: allVideosInDB 대신 현재 키워드의 DB결과(result1)를 넘겨야 정확한 제외 검색 가능
                 if (getNewVideoAwait) {
                     result2 = getNewVideoAwait.filter((video, index, self) => index === self.findIndex(v => v.id.videoId === video.id.videoId));
                     allVideos.push(...result2);
@@ -174,7 +174,7 @@ function VideoList({type, userCoords, userId}) {
     useEffect(() => {
 
         const fetchAndRun = async () => {
-            const res = await dispatch(callFiltersByTypeIdAPI({typeId: type.typeId}));
+            const filters = await dispatch(callFiltersByTypeIdAPI({typeId: type.typeId}));
 
             let text;
             if (type.typeId >= 6) {
@@ -184,7 +184,7 @@ function VideoList({type, userCoords, userId}) {
             }
             setVideoListTitle(text);
 
-            getVideos(res);
+            getVideos(filters);
         };
 
         fetchAndRun();
