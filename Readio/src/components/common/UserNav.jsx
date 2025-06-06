@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 import UserNavCSS from './navi.module.css';
 
 
@@ -12,6 +12,19 @@ function UserNav({ isOpen, setIsOpen }) {
     const toggleCustomerService = () => {
         setCustomerServiceOpen(!customerServiceOpen);
     };
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        // 컴포넌트 언마운트 시 원복
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isOpen]);
 
     return (
         <div className={`${UserNavCSS.navi} ${isOpen ? UserNavCSS.open : ''}`}>
