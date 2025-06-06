@@ -20,5 +20,5 @@ out/
 # node_modules
 node_modules/
 
-#Store 파일 무시
-src/Store
+#Store.js 파일 무시
+src/Store.js
