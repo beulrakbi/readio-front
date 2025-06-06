@@ -285,7 +285,7 @@ const CalendarPage = () => {
                     <span className={styles.textButton} onClick={handleDeleteEmotion}>감정 삭제</span>
                 </div>
 
-                <div className={styles.calendarWrapper}>
+                <div className={styles.calendar}>
                     <div className={styles.calendarHeaderRow}>
                         {['일', '월', '화', '수', '목', '금', '토'].map((day, i) => (
                             <div key={i} className={styles.dayHeader}>{day}</div>

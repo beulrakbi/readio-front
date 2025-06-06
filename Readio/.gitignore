@@ -19,3 +19,6 @@ out/
 
 # node_modules
 node_modules/
+
+#Store.js 파일 무시
+src/Store.js

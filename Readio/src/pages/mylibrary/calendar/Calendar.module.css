@@ -78,7 +78,8 @@
 .dayCell {
     height: 100px;
     display: flex;
-    text-align: center;
+    justify-content: center;
+    /*text-align: center;*/
     line-height: 60px;
     font-size: 15px;
     font-weight: 500;
@@ -93,6 +94,8 @@
 /*    align-items: center;*/
 /*    gap: 4px;*/
 /*}*/
+
+
 .calendarHeaderRow {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
