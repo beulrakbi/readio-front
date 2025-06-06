@@ -13,6 +13,8 @@ import UserMainCSS from './UserMain.module.css';
 
 
 function UserMain() {
+
+    const [shuffledTypes, setShuffledTypes] = useState([]);
     // const [types, setTypes] = useState([]);
     // const allTypes = ["celeb", "goods", "habit"];
     const [userCoords, setUserCoords] = useState(null); // 위치 좌표 저장할 상태 
@@ -68,8 +70,6 @@ function UserMain() {
                 },
                 (error) => {
                     console.warn("위치 정보를 가져오는 것을 거부하거나 실패했습니다:", error);
-                    // userCoords를 null 상태로 두면, VideoList 쪽에서 typeId=5인 경우엔
-                    // 아무것도 요청하지 않고 빈 리스트를 보여주도록 처리했습니다.
                 }
             );
         } else {
@@ -128,7 +128,8 @@ function UserMain() {
 
                     // 마지막으로 셔플해서 state에 저장
                     const shuffled = finalTypesToShow.sort(() => 0.5 - Math.random());
-                    setTypes(shuffled);
+                    // setTypes(shuffled);
+                    setShuffledTypes(shuffled); 
                 }
             }
             getTypes();
@@ -161,7 +162,8 @@ function UserMain() {
                         당신에게 꼭 맞는 이야기를 전합니다. "</p>
                 </div>
                 <div className={UserMainCSS.videoSection}>
-                    {isTypesLoaded && types?.length > 0 && types.map(type =>
+                    {/* {isTypesLoaded && types?.length > 0 && types.map(type => */}
+                    {isTypesLoaded && shuffledTypes.length > 0 && shuffledTypes.map(type =>
                         <VideoList 
                                 type={type} 
                                 userId={userId} 

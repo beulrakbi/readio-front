@@ -1,14 +1,14 @@
-import {useEffect, useRef, useState} from "react";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {saveClickLog} from '../../apis/StatisticsAPICalls';
-import {getNewVideos, getVideosByKeyword} from "../../apis/VideoAPI.js";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { callFiltersByTypeIdAPI } from "../../apis/FilteringAPICalls.js";
+import { saveClickLog } from '../../apis/StatisticsAPICalls';
+import { getNewVideos, getVideosByKeyword } from "../../apis/VideoAPI.js";
 import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
 import Video from "./Video";
 import VIdeoInDB from "./VIdeoInDB.jsx";
 import VideoListCSS from "./videoList.module.css";
-import {callFiltersByTypeIdAPI} from "../../apis/FilteringAPICalls.js";
 
 function VideoList({type, userCoords, userId}) {
 
@@ -16,59 +16,104 @@ function VideoList({type, userCoords, userId}) {
     const [videoInDBList, setVideoInDBList] = useState([]);
     const [videoListTitle, setVideoListTitle] = useState('');
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // 추가 !
+    const navigate = useNavigate(); 
+
+    const OPENWEATHER_KEY = "52003f931a0d81375dba797857ece5da";
+
+    const mapWeatherToKeyword = (weatherMain) => {
+        switch (weatherMain) {
+        case "Clear":
+            return ["맑은날", "산책", "야외활동", "햇살", "기분좋은", "운동", "드라이브"];
+        case "Clouds":
+            return ["흐린날", "잔잔한", "여유", "차분한"];
+        case "Rain":
+        case "Drizzle":
+        case "Thunderstorm":
+            return ["비오는날", "실내", "감성", "차가운"];
+        case "Snow":
+            return ["눈오는날", "겨울", "포근한", "눈사람", "크리스마스"];
+        case "Mist":
+        case "Fog":
+        case "Haze":
+        case "Smoke":
+        case "Dust":
+            return ["안개낀날", "신비로운", "몽환적", "집중"];
+        default:
+            return [];
+        }
+    };
 
     const getVideos = async (filters) => {
 
-        if (type.typeId === 5) {
-            if (!userCoords) return;
+                if (type.typeId === 5) {
 
-            try {
-                console.log(`날씨 추천 API 호출: lat=${userCoords.lat}, lon=${userCoords.lon}`);
-                const res = await fetch(`http://localhost:8080/video/weather?lat=${userCoords.lat}&lon=${userCoords.lon}`);
+                        if (!userCoords) return;
 
-                if (!res.ok) {
-                    console.error("날씨 기반 추천 API 호출 실패:", res.status);
-                    const errorJson = await res.json().catch(() => null);
-                    console.error("에러 내용:", errorJson);
-                    setVideoInDBList([]);
-                    setVideoList([]);
-                    return;
+                        try {
+                            // 1) OpenWeatherMap API 호출
+                                const { lat, lon } = userCoords;
+                                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_KEY}&lang=kr`;
+                                
+                                const weatherRes = await fetch(weatherUrl);
+                                if (!weatherRes.ok) {
+                                    console.error("OpenWeatherMap 호출 실패:", weatherRes.status);
+                                    setVideoInDBList([]);
+                                    setVideoList([]);
+                                    return;
+                                }
+
+                                const weatherJson = await weatherRes.json();
+                                const weatherMain = weatherJson.weather?.[0]?.main || "";
+                                console.log("현재 날씨 (weatherMain):", weatherMain);
+
+                                // 2) 날씨 메인 코드를 DB에 저장된 후보 키워드 리스트로 매핑
+                                const candidates = mapWeatherToKeyword(weatherMain); 
+                                if (!candidates.length) {
+                                    setVideoInDBList([]);
+                                    setVideoList([]);
+                                    return;
+                                }
+
+                                // 3) 후보 중 하나를 무작위로 골라서 최종 키워드 생성
+                                const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+                                const keyword = `${chosen} 도서`;
+                                console.log(`선택된 검색 키워드: "${keyword}"`);
+
+                                // 4) DB에서 먼저 날씨 기반 영상 조회
+                                const dbRes = await getVideosByKeyword(type.typeId, keyword, dispatch);
+                                let result1 = [];
+                                if (dbRes && Array.isArray(dbRes.videoDTOList)) {
+                                    result1 = dbRes.videoDTOList.filter((v, idx, self) =>
+                                        idx === self.findIndex(x => x.videoId === v.videoId)
+                                    );
+                                }
+                                setVideoInDBList(result1);
+                                const numInDB = result1.length;
+
+                                // 5) DB에 없는 만큼 YouTube API에서 추가 영상 검색
+                                const newVideos = await getNewVideos(
+                                    type.typeId,
+                                    keyword,
+                                    dispatch,
+                                    numInDB,
+                                    result1,
+                                    filters
+                                ) || [];
+
+                                // 6) 중복 제거 후 상태 저장
+                                const uniqueNewVideos = Array.from(
+                                    new Map(newVideos.map(v => [v.id.videoId, v])).values()
+                                );
+                                setVideoList(uniqueNewVideos);
+                                return;
+
+                            } catch (err) {
+                                console.error("프론트엔드 날씨 기반 처리 중 에러:", err);
+                                setVideoInDBList([]);
+                                setVideoList([]);
+                                return;
+                            }
                 }
-
-                const json = await res.json();
-                const weatherVideos = json.data?.weatherRecommendedVideos?.videoDTOList || [];
-                console.log("날씨 추천 영상 목록 (DB):", weatherVideos);
-
-                setVideoInDBList(weatherVideos); // DB에서 가져온 날씨 추천 영상 상태 업데이트
-
-                // DB에서 가져온 영상 개수
-                const numInDB = weatherVideos.length;
-                // API 검색 시 사용할 키워드
-                let keyword = type.typeText;
-                let newKeyword;
-
-                // 키워드 + "도서"
-                if ([5, 6, 7, 9].includes(type.typeId)) {
-                    newKeyword = keyword + " 도서";
-                    console.log(` 원본: "${keyword}", 최종: "${newKeyword}"`);
-                }
-
-                // DB 영상 목록을 기반으로 부족한 영상을 API에서 추가로 가져옴
-                const newVideos = await getNewVideos(type.typeId,         // 5
-                    newKeyword,      // 검색 키워드
-                    dispatch, numInDB, weatherVideos, filters) || [];
-
-                setVideoList(newVideos);
-                return;
-
-            } catch (err) {
-                console.error("날씨 기반 추천 처리 중 에러:", err);
-                setVideoInDBList([]);
-                setVideoList([]);
-                return;
-            }
-        }
 
         // 감정 기반 추천 처리
         if (type.typeId === 6) {
