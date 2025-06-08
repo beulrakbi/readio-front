@@ -78,7 +78,10 @@
     justify-content: space-between;
     align-items: center;
 }
-
+.actionButtons {
+    /* 이 부분을 추가 */
+    margin-left: auto;
+}
 .actionButtons button {
     padding: 6px 16px;
     font-size: 14px;

@@ -33,10 +33,19 @@
     color: #383838;
     margin: 0;
 }
+/* AdminQnaList에는 글쓰기 버튼 없음 */
+/* .writing, .slash {
+    border:none;
+    background-color: #E8E8E1;
+    font-size: 20px;
+    font-weight: 600;
+    color: #AF4C3F;
+    cursor: pointer;
+} */
 .table{
     width: 100%;
 }
-.noticeTable{
+.noticeTable{ /* 클래스 이름은 noticeTable로 유지 */
     width: 100%;
     table-layout: fixed;
     font-family: 'Pretendard Variable', sans-serif;
@@ -44,7 +53,7 @@
 }
 
 .noticeTable th {
-    border-bottom: 1px solid #383838;
+    border-bottom: 1px solid #383838; /* NoticeList와 동일하게 TH 아래에 선을 추가 */
     font-weight: 400;
     font-size: 20px;
     color: #383838;
@@ -58,34 +67,38 @@
     font-size: 16px;
 }
 
+/* AdminNoticeList의 열 너비 비율을 참고하여 6개 열에 맞게 재조정 */
 .noticeTable td:first-child,
 .noticeTable th:first-child {
-    width: 5%; /* 체크박스 열 좁게 */
+    width: 5%; /* 체크박스 열 */
 }
 
 .noticeTable td:nth-child(2),
 .noticeTable th:nth-child(2) {
-    width: 5%; /* 체크박스 열 좁게 */
+    width: 5%; /* 번호 열 */
 }
 
 .noticeTable td:nth-child(3),
 .noticeTable th:nth-child(3) {
-    width: auto;
+    width: 50%; /* 제목 열: QNA에서 가장 넓으므로 가장 큰 비율 할당 */
 }
 
 .noticeTable td:nth-child(4),
 .noticeTable th:nth-child(4) {
-    width: 10%;
+    width: 10%; /* 작성자 열 */
 }
 
 .noticeTable td:nth-child(5),
 .noticeTable th:nth-child(5) {
-    width: 20%;
+    width: 25%; /* 작성일 열: 깨짐 방지를 위해 충분히 확보 (날짜 + 시간) */
 }
 .noticeTable td:nth-child(6),
 .noticeTable th:nth-child(6) {
-    width: 5%;
+    width: 10%; /* 조회수 열 */
 }
+
+/* 총합: 5% + 5% + 50% + 10% + 25% + 5% = 100% */
+
 
 .mcontainer{
     display: flex;
@@ -118,10 +131,11 @@
     color: white;
     cursor: pointer;
 }
-.titlecolor{
-    color: #676767;
+/* AdminQnaList에는 글쓰기 버튼 없음 */
+/* .titlecolor {
+    color: #AF4C3F;
     text-decoration: none;
-}
+} */
 .answer, .delete{
     border:none;
     background-color: #E8E8E1;
@@ -134,13 +148,31 @@
     color: #676767;
     text-decoration: none;
 }
-.contentBtn{
+.contentBtn{ /* QNA 제목 링크 스타일 (NoticeList와 동일하게 black으로 변경) */
     color: black;
     text-decoration: none;
 }
 .titleSize{
-    width: 40%;
+    width: 50%; /* th의 너비도 td와 동일하게 50%로 설정 */
 }
 .tableBox {
     min-height: 450px;
+}
+.pageButton{
+    border: none;
+    background-color: #E8E8E1;
+}
+
+/* 제목 말줄임표를 위한 CSS */
+.titleCell {
+   overflow: hidden; 
+}
+
+.titleCell .contentBtn { /* NavLink가 아닌, contentBtn 클래스에 말줄임표 적용 */
+   display: inline-block; 
+   max-width: 100%; 
+   overflow: hidden; 
+   white-space: nowrap; 
+   text-overflow: ellipsis; 
+   vertical-align: middle; 
 }

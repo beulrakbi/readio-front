@@ -47,11 +47,11 @@
     margin-top: 5px;
 }
 .contentBox{
-    width: 50%;
+    /* width: 50%; */
     height: 55vh;
-    margin:auto;
+    /* margin:auto; */
     margin-top: 5%;
-    text-align: center;
+    /* text-align: center; */
 }
 .copyLink{
     display: flex;
@@ -99,12 +99,13 @@
     height: 15vh;
 }
 .qnaAnswer{
-    margin: auto;
-    width: 50%;
+    /* margin: auto; */
+    /* width: 50%; */
     height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    margin-top: 5%;
 }
 .updateAndDelete {
     display: flex;

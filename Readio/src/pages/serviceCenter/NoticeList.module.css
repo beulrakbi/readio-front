@@ -44,13 +44,12 @@
 /* 게시판 헤더 (boardLi) 스타일 */
 .boardLi {
     display: grid;
-    /* 게시글 번호(80px), 제목(남은 공간의 2배), 작성자(100px), 작성일(100px), 조회수(80px) */
+    /* 기본적으로는 기존 비율 유지 */
     grid-template-columns: 80px 2fr 100px 100px 80px;
     align-items: center;
     color: #676767;
     font-size: 16px;
     font-weight: bold;
-    /* background-color: #f4f4f4; */
     padding: 10px 0;
     border-bottom: 1px solid #676767;
 }
@@ -68,13 +67,14 @@
 .postLi{
     font-size: 14px;
     display: grid;
-    /* 게시글 번호(80px), 제목(남은 공간의 2배), 작성자(100px), 작성일(100px), 조회수(80px) */
+    /* 기본적으로는 기존 비율 유지 */
     grid-template-columns: 80px 2fr 100px 100px 80px;
     align-items: center;
     border-bottom: 1px solid #676767;
     padding: 10px 0;
     margin-top: 0;
 }
+
 
 .postLi > span:not(.postContext) { /* postContext가 아닌 span만 가운데 정렬 */
     text-align: center;
@@ -104,4 +104,100 @@
 .titlecolor{
     color: black;
     text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .boardLi,
+    .postLi {
+        /* 태블릿 이하 화면에서는 컬럼 너비를 더 유연하게 조정 */
+        /* 번호, 작성자, 작성일, 조회수는 최소한의 공간을 차지하고, 제목이 최대한 확장 */
+        grid-template-columns: minmax(50px, 0.5fr) 2fr minmax(70px, 0.7fr) minmax(70px, 0.7fr) minmax(60px, 0.6fr);
+        font-size: 13px; /* 작은 화면에서 폰트 크기 줄이기 */
+    }
+
+    .boardLi span:nth-child(1), /* 게시글 번호 */
+    .postLi > span:nth-child(1) {
+        text-align: center;
+    }
+
+    .boardLi span:nth-child(3), /* 작성자 */
+    .postLi > span:nth-child(3),
+    .boardLi span:nth-child(4), /* 작성일 */
+    .postLi > span:nth-child(4),
+    .boardLi span:nth-child(5), /* 조회수 */
+    .postLi > span:nth-child(5) {
+        text-align: center;
+        /* 작은 화면에서 고정된 패딩 제거 또는 축소 */
+        padding: 0;
+    }
+
+    .smallHeaderElement {
+        font-size: 20px; /* 헤더 폰트 크기 조정 */
+    }
+}
+
+@media (max-width: 768px) {
+    .bigContainer {
+        width: 90%; /* 작은 화면에서 컨테이너 너비를 더 넓게 사용 */
+    }
+    .boardLi,
+    .postLi {
+        /* 태블릿 이하 화면에서는 컬럼 너비를 더 유연하게 조정 */
+        grid-template-columns: minmax(50px, 0.5fr) 2fr minmax(70px, 0.7fr) minmax(70px, 0.7fr) minmax(60px, 0.6fr);
+        font-size: 13px; /* 작은 화면에서 폰트 크기 줄이기 */
+    }
+
+    .boardLi span:nth-child(1), /* 게시글 번호 */
+    .postLi > span:nth-child(1) {
+        text-align: center;
+    }
+
+    .boardLi span:nth-child(3), /* 작성자 */
+    .postLi > span:nth-child(3),
+    .boardLi span:nth-child(4), /* 작성일 */
+    .postLi > span:nth-child(4),
+    .boardLi span:nth-child(5), /* 조회수 */
+    .postLi > span:nth-child(5) {
+        text-align: center;
+        padding: 0;
+    }
+
+    .smallHeaderElement {
+        font-size: 20px; /* 헤더 폰트 크기 조정 */
+    }
+}
+
+/* --- (480px 미디어 쿼리) --- */
+@media (max-width: 480px) {
+    .boardLi,
+    .postLi {
+        /* 모바일 화면에서는 번호, 제목, 작성일만 보이도록 설정 */
+        /* grid-template-columns: minmax(40px, 0.4fr) 3fr minmax(60px, 0.6fr); */ /* <--- 이 줄을 주석 처리 또는 삭제 */
+        grid-template-columns: minmax(40px, 0.5fr) 4fr minmax(70px, 1fr); /* 번호, 제목, 작성일 */
+    }
+
+    /* 3번째(작성자)와 5번째(조회수) span을 숨김 */
+    .boardLi span:nth-child(3),
+    .postLi > span:nth-child(3),
+    .boardLi span:nth-child(5),
+    .postLi > span:nth-child(5) {
+        display: none;
+    }
+
+    .smallHeaderElement {
+        font-size: 18px;
+    }
+
+    /* 제목이 왼쪽 정렬 되도록 명시 */
+    .boardLi span:nth-child(2),
+    .postContext {
+        text-align: left;
+        padding-left: 5px; /* 작은 화면에서 패딩 좀 줄이기 */
+    }
+
+    /* 게시글 번호는 계속 가운데 정렬 */
+    .boardLi span:nth-child(1),
+    .postLi > span:nth-child(1) {
+        text-align: center;
+    }
 }
