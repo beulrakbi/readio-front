@@ -13,6 +13,12 @@ import VideoListCSS from "./videoList.module.css";
 
 function VideoList({type, userCoords, userId}) {
 
+    const loginRequired = [6, 7, 8, 9];
+    if (!userId && loginRequired.includes(type.typeId)) {
+        // 로그인을 하지않으면 해당 타입의 영상 리스트가 렌더링 되지않음.
+        return null;
+    }
+
     const [videoList, setVideoList] = useState([]);
     const [videoInDBList, setVideoInDBList] = useState([]);
     const [videoListTitle, setVideoListTitle] = useState('');
@@ -269,7 +275,7 @@ function VideoList({type, userCoords, userId}) {
             const filters = await dispatch(callFiltersByTypeIdAPI({typeId: type.typeId}));
 
             let text;
-            if (type.typeId >= 6) {
+            if (type.typeId >= 6 && userId) {
                 text = userId + type.typeText;
             } else {
                 text = type.typeText;
