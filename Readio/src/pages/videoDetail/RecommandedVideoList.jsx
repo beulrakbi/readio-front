@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// 타입 없이 검색 전용 함수로 변경
 import { getVideosBySearchOnly, searchNewVideos } from '../../apis/VideoAPI';
 import styles from './RecommandedVideoList.module.css';
 
@@ -15,26 +14,25 @@ function RecommandedVideoList({ keyword }) {
   useEffect(() => {
     if (!keyword) return;
 
-    // 1) 원본 제목 로그
-    console.log('🔍 원본 제목:', keyword);
+    // 원본 제목 로그
+    console.log('넘어온 키워드 :', keyword);
 
-    // 2) 대괄호 제거·구분자 분할·공백 트림
     const cleaned = keyword
-          .replace(/\[.*?\]/g, '')        // 대괄호 제거
-          .trim()                         // 앞뒤 공백 제거
-          .split(/[\s:\-\–\|\/]+/)[0]     // 공백·구분자 분할
-          .trim();                        // 결과 앞뒤 공백 제거
-    console.log('🔍 정제된 검색 키워드:', cleaned);
+          .replace(/\[.*?\]/g, '')        
+          .trim()                        
+          .split(/[\s:\-\–\|\/]+/)[0]     
+          .trim();                        
+    console.log('최종 검색 키워드 :', cleaned);
 
     const fetchRecommanded = async () => {
       try {
-        // 3) DB에서 먼저 조회 (검색 전용 API 사용)
+        // DB에서 먼저 조회 (검색 전용 API 사용)
         const dbRes = await getVideosBySearchOnly(cleaned, dispatch);
         const dbList = Array.isArray(dbRes?.data?.videoDTOList)
           ? dbRes.data.videoDTOList
           : [];
 
-        // 4) 부족분만큼 YouTube API 호출
+        // 부족분만큼 YouTube API 호출
         const need = MAX_RECOMMEND - dbList.length;
         let apiList = [];
         if (need > 0) {
@@ -42,7 +40,7 @@ function RecommandedVideoList({ keyword }) {
           apiList = Array.isArray(apiList) ? apiList : [];
         }
 
-        // 5) 공통 포맷 결합
+        // 공통 포맷 결합
         const dbCommon = dbList.map(v => ({
           id: v.videoId,
           title: v.title,
