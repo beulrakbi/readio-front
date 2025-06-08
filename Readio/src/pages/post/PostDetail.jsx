@@ -42,6 +42,22 @@ function PostDetail() {
         : false;
 
     const isPostOwner = currentActualProfileId && postAuthorProfileId && currentActualProfileId === postAuthorProfileId;
+
+    // ★ 1. 실제 리뷰 개수를 저장할 state 추가
+    const [actualReviewCount, setActualReviewCount] = useState(0);
+    const [actualLikeCount, setActualLikeCount] = useState(0);
+
+    // ★ 2. 자식(ReviewSection)이 호출할 콜백 함수 정의
+    const handleReviewsLoaded = (count) => {
+        setActualReviewCount(count);
+    };
+
+    const handleLikeDataLoaded = (likeData) => {
+        // likeData 객체에 likeCount가 숫자로 들어왔는지 확인
+        if (likeData && typeof likeData.likeCount === 'number') {
+            setActualLikeCount(likeData.likeCount);
+        }
+    };
         
     // --- 게시물 상세 관련 useEffect ---
     useEffect(() => {
@@ -182,7 +198,7 @@ function PostDetail() {
                     <li>{post.postCreatedDate || ''}</li>
                 </div>
                 <div className={PostCSS.postDetailBtDiv}>
-                    {postId && <LikeButton postId={postId} />}
+                    {postId && <LikeButton postId={postId} onLikeDataLoaded={handleLikeDataLoaded} />}
                     {loggedInUserSystemId && !isPostOwner && (
                         <button
                             className={`${PostCSS.postDetailFollwbt} ${isFollowing ? PostCSS.followingBt : ''}`}
@@ -220,11 +236,12 @@ function PostDetail() {
 
             <div className={PostCSS.postDetailHeartDiv}>
                 <span className={PostCSS.postDetailHeartSpan}>
-                    <img src={postDetailHeart} className={PostCSS.postDetailHeart} alt="좋아요 수" />15
+                    <img src={postDetailHeart} className={PostCSS.postDetailHeart} alt="좋아요 수" />
+                    {actualLikeCount}
                 </span>
                 <span className={PostCSS.postDetailHeartSpan}>
                     <img src={postDetailReviewIcon} className={PostCSS.postDetailReview} alt="리뷰 수" />
-                    {post.reviewCount || 0}
+                    {actualReviewCount}
                 </span>
             </div>
 
@@ -240,7 +257,7 @@ function PostDetail() {
                 </div>
             )}
 
-            {params.postId && <ReviewSection postId={params.postId} />}
+            {params.postId && <ReviewSection postId={params.postId} onReviewsLoaded={handleReviewsLoaded}/>}
         </div>
     );
 }
