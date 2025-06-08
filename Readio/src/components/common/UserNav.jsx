@@ -27,7 +27,7 @@ function UserNav({ isOpen, setIsOpen }) {
     const isLogin = useSelector(state => state.user.isLogin);
     const [customerServiceOpen, setCustomerServiceOpen] = useState(false);
 
-    const [weatherEmoji, setWeatherEmoji] = useState("");
+    const [weatherData, setWeatherData] = useState(null);
 
     const toggleCustomerService = () => {
         setCustomerServiceOpen(!customerServiceOpen);
@@ -46,27 +46,38 @@ function UserNav({ isOpen, setIsOpen }) {
         };
     }, [isOpen]);
 
-    // 2) 위치 권한 요청 → 날씨 API 호출 → 이모티콘 저장
+    // 위치 권한 요청
     useEffect(() => {
-        if (!navigator.geolocation) return;
-        navigator.geolocation.getCurrentPosition(async ({ coords }) => {
-        try {
-                const { latitude: lat, longitude: lon } = coords;
-                const res = await fetch(
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      try {
+            const { latitude: lat, longitude: lon } = coords;
+            // 현재 날씨 조회 (무료 엔드포인트)
+            const curRes = await fetch(
                 `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}` +
-                `&appid=${OPENWEATHER_KEY}&lang=kr`
+                `&units=metric&lang=kr&appid=${OPENWEATHER_KEY}`
             );
-                if (!res.ok) throw new Error(res.statusText);
-                const data = await res.json();
-                const main = data.weather?.[0]?.main || "";
-                setWeatherEmoji(mapWeatherToEmoji(main));
-        } catch (err) {
+
+            if (!curRes.ok) throw new Error(curRes.statusText);
+            const curData = await curRes.json();
+            // 5일 예보 조회 (3시간 단위)
+            const fcRes = await fetch(
+                `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}` +
+                `&units=metric&lang=kr&appid=${OPENWEATHER_KEY}`
+            );
+            if (!fcRes.ok) throw new Error(fcRes.statusText);
+            const fcData = await fcRes.json();
+            // 매일 정오 예보만 추출
+            const daily = fcData.list
+            .filter(item => item.dt_txt.includes("12:00:00"))
+            .map(item => ({ dt: item.dt, temp: item.main.temp, main: item.weather[0].main }));
+            setWeatherData({ current: { temp: curData.main.temp, main: curData.weather[0].main }, daily });
+      } catch (err) {
             console.error("날씨 API 호출 실패:", err);
-        }
-        }, err => {
-            console.warn("위치 권한 오류:", err);
-        });
-    }, []);
+      }
+    }, err => console.warn("위치 권한 오류:", err));
+  }, []);
+
 
     return (
         <div className={`${UserNavCSS.navi} ${isOpen ? UserNavCSS.open : ''}`}>
@@ -140,9 +151,30 @@ function UserNav({ isOpen, setIsOpen }) {
                         </li>
                     </ul>
                 </div>
-                <div className={UserNavCSS.weatherEmoji}>
-                    오늘의 날씨 {weatherEmoji}
+                {/* 날씨 정보 섹션 */}
+                <div className={UserNavCSS.weatherSection}>
+                    {weatherData ? (
+                        <>
+                                <div className={UserNavCSS.today}>
+                                    <p>오늘</p>
+                                    <span>{Math.round(weatherData.current.temp)}°C</span>
+                                    <span>{mapWeatherToEmoji(weatherData.current.main)}</span>
+                                </div>
+                                <div className={UserNavCSS.forecastContainer}>
+                                    {weatherData.daily.slice(0, 5).map((day, idx) => (
+                                        <div key={idx} className={UserNavCSS.forecast}>
+                                            <p>{new Date(day.dt * 1000).toLocaleDateString("ko-KR", { weekday: "short" })}</p>
+                                            <span>{Math.round(day.temp)}°C</span>
+                                            <span>{mapWeatherToEmoji(day.main)}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                        </>
+                    ) : (
+                        <p>날씨 정보 불러오는 중…</p>
+                    )}
                 </div>
+
                 {/* <div className={UserNavCSS.naviBannerContainer}>
                     <p className={UserNavCSS.naviBannerText}>오늘의 소식</p>
                     <NavLink to="/" onClick={() => setIsOpen(false)}>
