@@ -24,6 +24,9 @@ const ProfileSection = () => {
         isPrivate: 'PUBLIC',
     });
 
+    const [followerCount, setFollowerCount] = useState(0);
+    const [followingCount, setFollowingCount] = useState(0);
+
     // 관심 영상과 관심 책의 수를 저장할 상태 변수
     const [bookmarkedVideoCount, setBookmarkedVideoCount] = useState(0);
     const [bookmarkedBookCount, setBookmarkedBookCount] = useState(0);
@@ -89,18 +92,44 @@ const ProfileSection = () => {
             }
         };
 
+        const fetchFollowCounts = async () => {
+            if (!targetUserId) return;
+
+            try {
+                const [followersRes, followingRes] = await Promise.all([
+                    axios.get(`http://localhost:8080/api/follow/${targetUserId}/followers`, {
+                        headers: getAuthHeader()
+                    }),
+                    axios.get(`http://localhost:8080/api/follow/${targetUserId}/following`, {
+                        headers: getAuthHeader()
+                    })
+                ]);
+
+                setFollowerCount(followersRes.data.length);
+                setFollowingCount(followingRes.data.length);
+
+            } catch (err) {
+                console.error('팔로우 카운트 조회 실패:', err);
+                setFollowerCount(0);
+                setFollowingCount(0);
+            }
+        };
+
         const fetchPostCount = () => {
             dispatch(callPostsCountAPI({userId: targetUserId}));
-        }
+        };
         const fetchReviewCount = () => {
             dispatch(callMyBookReviewsCountAPI());
-        }
+        };
+
+        
 
         fetchProfile();
         fetchBookmarkCounts();
+        fetchFollowCounts();
         fetchPostCount();
         fetchReviewCount();
-    }, [targetUserId]);
+    }, [targetUserId, dispatch]);
 
     useEffect(() => {
         console.log("counts", reviewCount);
@@ -125,6 +154,16 @@ const ProfileSection = () => {
         }
     };
 
+    const handleNavigateToFollowList = (defaultTab) => {
+        if (!isOwner && profile.isPrivate === 'PRIVATE') {
+            setShowPopup(true);
+            setTimeout(() => setShowPopup(false), 2000);
+        } else {
+            navigate(`/mylibrary/follow/${targetUserId}`, { state: { defaultTab: defaultTab } });
+        }
+    };
+
+
     return (
         <div className={styles.profileSectionWrapper}>
             <div
@@ -142,7 +181,15 @@ const ProfileSection = () => {
                 <div className={styles.profileInfo}>
                     <h2 className={styles.nickname}>{profile.penName || 'Readio 기본 필명'}</h2>
                     <p>등급 : 재미있는 활동가</p>
-                    <p>팔로워 2 ・ 팔로잉 2</p>
+                    <p className={styles.followInfo}>
+                        <span className={styles.followLink} onClick={() => handleNavigateToFollowList('follower')}>
+                            팔로워 {followerCount}
+                        </span>
+                        <span style={{ margin: '0 8px' }}>・</span>
+                        <span className={styles.followLink} onClick={() => handleNavigateToFollowList('following')}>
+                            팔로잉 {followingCount}
+                        </span>
+                    </p>
                 </div>
 
                 <p className={styles.description}>

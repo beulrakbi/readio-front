@@ -46,7 +46,7 @@
 .table{
     width: 100%;
 }
-.noticeTable{
+.noticeTable{ /* 클래스 이름을 noticeTable로 유지 */
     width: 100%;
     table-layout: fixed;
     font-family: 'Pretendard Variable', sans-serif;
@@ -54,7 +54,7 @@
 }
 
 .noticeTable th {
-    border-bottom: 1px solid #383838;
+    border-bottom: 1px solid #383838; /* TH 아래에 선을 추가 (NoticeList와 일치시키기 위해) */
     font-weight: 400;
     font-size: 20px;
     color: #383838;
@@ -70,30 +70,31 @@
 
 .noticeTable td:first-child,
 .noticeTable th:first-child {
-    /*padding-right: 4px;  !* 체크박스 우측 여백 줄이기 *!*/
-    width: 5%; /* 체크박스 열 좁게 */
+    width: 10%; /* 체크박스 열 너비를 10%로 조정 (NoticeList의 체크박스 + 번호 합한 비율과 유사하게) */
 }
 
 .noticeTable td:nth-child(2),
 .noticeTable th:nth-child(2) {
-    /*padding-right: 4px;  !* 체크박스 우측 여백 줄이기 *!*/
-    width: 5%; /* 체크박스 열 좁게 */
+    width: 10%; /* 번호 열 너비를 10%로 조정 */
 }
 
 .noticeTable td:nth-child(3),
 .noticeTable th:nth-child(3) {
-    width: auto;
+    width: 45%; /* 제목 열 너비를 45%로 조정 (NoticeList의 제목 37% + 상태 8% = 45%와 유사) */
 }
 
 .noticeTable td:nth-child(4),
 .noticeTable th:nth-child(4) {
-    width: 20%;
+    width: 15%; /* 작성자 열 너비를 15%로 조정 (NoticeList의 작성자 10% + 조회수 5% = 15%와 유사) */
 }
 
 .noticeTable td:nth-child(5),
 .noticeTable th:nth-child(5) {
-    width: 20%;
+    width: 30%; /* 작성일 열 너비를 20%로 조정 (NoticeList의 작성일 30%보다는 작지만, 전체 100%를 위해 조정) */
 }
+
+/* 총합: 10% + 10% + 45% + 15% + 20% = 100% */
+
 
 .mcontainer{
     display: flex;
@@ -131,8 +132,27 @@
     text-decoration: none;
 }
 .titleSize{
-    width: 40%;
+    width: 45%; /* th의 너비도 td와 동일하게 45%로 설정 */
 }
 .tableBox {
     min-height: 450px;
+}
+
+.pageButton{
+    border: none;
+    background-color: #E8E8E1;
+}
+
+/* 제목 말줄임표를 위한 CSS */
+.titleCell {
+   overflow: hidden; 
+}
+
+.titleCell span {
+   display: inline-block; 
+   max-width: 100%; /* 부모 td의 100% 너비까지만 허용 */
+   overflow: hidden; 
+   white-space: nowrap; 
+   text-overflow: ellipsis; 
+   vertical-align: middle; 
 }

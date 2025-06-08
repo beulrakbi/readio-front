@@ -1,7 +1,7 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 
-.bigContainer{
+.noticeDetailBigContainer{ /* bigContainer -> noticeDetailBigContainer */
     padding-top: 4%;
     margin:auto;
     width: 50%;
@@ -10,95 +10,147 @@
     background-size: auto;
     font-family: 'Pretendard Variable', sans-serif;
 }
-.title{
+.noticeDetailTitle{ /* title -> noticeDetailTitle */
     font-size: 30px;
 }
-.sort{
+.noticeDetailSort{ /* sort -> noticeDetailSort */
     font-size: 20px;
     color: #AF4C3F;
 }
-.line{
+.noticeDetailLine{ /* line -> noticeDetailLine */
     border: 1px solid black;
     width: 100%;
     /* margin-top: -10px; */
 }
-.userId{
+.noticeDetailUserId{ /* userId -> noticeDetailUserId */
     font-size: 25px;
 }
-.role{
+.noticeDetailRole{ /* role -> noticeDetailRole */
     font-size: 25px;
 }
-.nameBox{
+.noticeDetailNameBox{ /* nameBox -> noticeDetailNameBox */
     margin-top: 20px;
 }
-.date{
+.noticeDetailDate{ /* date -> noticeDetailDate */
     font-size: 12px;
     color: #676767;
 }
-.view{
+.noticeDetailView{ /* view -> noticeDetailView */
     margin-left: 10px;
     font-size: 12px;
     color: #676767;
 }
-.line2{
+.noticeDetailLine2{ /* line2 -> noticeDetailLine2 */
     border: 0.3px solid #676767;
     width: 100%;
     margin-top: 5px;
 }
-.contentBox{
-    width: 50%;
+.noticeDetailContentBox{ /* contentBox -> noticeDetailContentBox */
+    width: 50%; /* 원래 50% 유지 */
     height: 55vh;
     margin:auto;
     margin-top: 5%;
     text-align: center;
 }
-.copyLink{
+.noticeDetailCopyLink{ /* copyLink -> noticeDetailCopyLink */
     display: flex;
     justify-content: flex-end;
 }
-.btn{
+.noticeDetailBtn{ /* btn -> noticeDetailBtn */
     border: none;
-    background-color: white;
+    background-color: white; /* 원래 배경색 유지 */
     cursor: pointer;
     color: #676767;
 }
-.listBox {
+
+/* -------------------- 하단 리스트 부분 수정 -------------------- */
+.noticeDetailListBox { /* listBox -> noticeDetailListBox */
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 100%; /* 부모 컨테이너에 맞춰 100% 사용 */
     margin-top: 40px;
     margin-bottom: 40px;
+    /* 원래 디자인 유지를 위해 배경색, border-radius, box-shadow 제거 */
 }
 
-.listBox > .list {
-    width: 100%;
+.noticeDetailListBox > .noticeDetailList { /* list -> noticeDetailList */
+    width: 100%; /* 리스트 컨테이너도 100% 사용 */
     display: flex;
     justify-content: center;
     margin-bottom: 15px;
 }
 
-.listBox > .list ul {
+.noticeDetailListBox > .noticeDetailList ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    width: auto; /* ul의 폭을 내용에 맞게 */
+    /* ✨ 너비를 더 넓게 조정하면서 반응형 고려 */
+    width: 80%; /* 부모의 80% 사용 */
+    max-width: 700px; /* 너무 넓어지는 것 방지 (원하는 최대 너비로 조정) */
+    min-width: 550px; /* 너무 좁아지는 것 방지 (내용이 깨지지 않는 최소 너비로 조정) */
 }
 
-.listBox > .list ul li {
+.noticeDetailListBox > .noticeDetailList ul li {
     display: flex;
     justify-content: space-between;
-    width: 400px; /* 각 항목의 고정 폭 */
-    padding: 5px 0;
+    align-items: center; /* 세로 중앙 정렬 유지 */
+    width: 100%; /* ul의 100% 사용 */
+    padding: 5px 0; /* 원래 패딩 유지 */
+    /* border-bottom은 원래 없었으므로 제거 */
+    font-size: 14px; /* 원래 글자 크기 유지 */
+    color: #383838; /* 원래 글자 색상 유지 */
 }
-.noticeBoard{
+
+/* .noticeDetailListBox > .noticeDetailList ul li:last-child {
+    border-bottom: none; 이 부분은 원래 없었으므로 제거
+} */
+
+.noticeDetailNoticeBoard{ /* noticeBoard -> noticeDetailNoticeBoard */
     display: flex;
-    width: 130px;
+    /* width: 130px; 원래 너비 유지 */
     height: 60px;
+    /* p 태그의 글자 크기는 따로 지정되어있지 않으므로 default 값 사용 */
 }
-.num{
-    height: 15vh;
-}
-.stateName{
+/* .num { height: 15vh; } (사용되지 않는 듯하므로 주석 처리 또는 제거) */
+
+/* 각 항목 내부의 span 스타일 (핵심 수정 부분) */
+.noticeDetailStateName{ /* stateName -> noticeDetailStateName */
     color: #676767;
+    flex-shrink: 0; /* 내용이 줄어들 때 이 요소는 줄어들지 않도록 */
+    width: 50px; /* 상태 이름의 고정 너비 (예: [단기]에 충분한 길이) */
+    text-align: left;
+    margin-right: 5px; /* 다음 요소와의 간격 */
 }
+
+.noticeDetailListTitle { /* listTitle -> noticeDetailListTitle */
+    flex-grow: 1; /* 남은 공간을 채우도록 성장 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    overflow: hidden; /* 넘치는 내용 숨기기 */
+    text-overflow: ellipsis; /* 넘치는 내용 ...으로 표시 */
+    max-width: calc(100% - 50px - 80px - 140px - 10px); /* 상태, 작성자, 날짜의 너비와 마진을 뺀 나머지 공간. 이 calc 값은 아래 span들의 너비에 맞춰 조정 필요 */
+    /* 예시: 50px(stateName) + 5px(margin) + 80px(userId) + 140px(date) + (여유 마진) = 약 280px */
+    margin-right: 10px; /* 다음 요소 (작성자)와의 간격 */
+    color: inherit; /* NavLink 사용 시 색상 오버라이드 방지 */
+    text-decoration: none; /* NavLink 밑줄 제거 */
+}
+
+/* userId (세 번째 span) */
+.noticeDetailListBox > .noticeDetailList ul li span:nth-child(3) {
+    flex-shrink: 0;
+    width: 80px; /* 사용자 ID의 고정 너비 */
+    text-align: right;
+    color: inherit; /* 원래 글자 색상 유지 */
+}
+
+/* noticeCreateAt (네 번째 span) - 날짜와 시간 모두 표시용 */
+.noticeDetailListBox > .noticeDetailList ul li span:nth-child(4) {
+    flex-shrink: 0;
+    width: 140px; /* ✨ 날짜와 시간을 한 줄에 표시하기 위한 충분한 너비로 조정 (예: 140px) */
+    text-align: right;
+    font-size: 12px; /* 날짜/시간 글자 크기 조정 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    color: #676767; /* 원래 색상 유지 */
+}
+
+/* Pagination 컴포넌트 스타일은 이 파일에서 직접 다루지 않습니다. */

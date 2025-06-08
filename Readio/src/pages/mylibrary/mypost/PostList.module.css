@@ -1,18 +1,22 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 .followDiv {
-    width: 80%;
-    height: 100%;
-    overflow: hidden;
-    overflow-y: auto;
-    margin-bottom: 60px;
-    /*justify-content: center;*/
+    width: 80%; /* 기본 너비 */
+    min-height: 100vh; /* 최소 화면 높이를 채우도록 */
+    overflow-y: auto; /* 필요 시 스크롤 */
+    margin: 0 auto 60px auto; /* 중앙 정렬 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box; /* 패딩과 보더가 너비에 포함되도록 */
 }
 
 .followDiv2 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%; /* 부모 .followDiv 에 맞춰 너비 100% */
+    max-width: 1000px; /* 전체 컨텐츠의 최대 너비 제한 (너무 커지지 않게) */
 }
 
 .followBackBt {
@@ -25,22 +29,23 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
-    align-self: flex-start;
+    align-self: flex-start; /* 왼쪽으로 정렬 */
 }
 
 .followTapDiv {
     display: flex;
-    
+    width: 100%; /* 탭 컨테이너 너비 100% */
+    justify-content: space-around; /* 탭 버튼 균등 분배 */
+    margin-top: 50px;
+    max-width: 1000px; /* followDiv2의 max-width와 맞추거나 작게 */
 }
 
 .followListBtDiv {
-    width: 500px;
+    width: 50%; /* 탭 버튼 wrapper 너비 50%씩 */
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    /*margin-top: 50px;*/
-    
 }
 
 .followListBt {
@@ -56,103 +61,67 @@
 
 .activeTab {
   border-bottom: 4px solid #d44b4b;
-  
 }
 
-
-.followProfileDiv {
-    width: 80%;
-    height: 80px;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    margin: auto;
-    margin-top: 30px;
-}
-
-.followProfileImg {
-    height: 50px;
-    margin-left: 20px;
-}
-
-.followProfile {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-left: 40px;
-    list-style-type: none;
-}
-
-.followProfileFont {   
-    font-size: 18px;
-}
-
-.followFont {
-    font-size: 15px;
-}
-
-.followBt {
-    margin-left: auto;
-    margin-right: 20px;
-    border-style: none;
-    background-color: #F6EEB6;
-    color: #000000;
-    height: 35px;
-    width: 90px;
-    border-radius: 10px;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.followingBt {
-  background-color: #b5b5b5;
-  color: #000000;
-}
-
-.postListDiv {
-    width: 950px;
-    height: 200px;
+/* 포스트 및 리뷰 리스트 아이템 기본 스타일 */
+.postListDiv,
+.reviewListDiv {
+    width: 95%; /* 기존 950px 대신 부모에 비례하는 % 사용 */
+    max-width: 950px; /* 최대 너비는 유지하여 너무 커지지 않게 함 */
+    height: auto; /* 높이를 자동으로 조절 */
     border-radius: 10px;
     border: 1px solid #808467;
     margin-top: 25px;
     margin-bottom: 5px;
+    box-sizing: border-box; /* 패딩 포함 */
 }
 
-.postListConDiv {
+.postListConDiv,
+.reviewListConDiv {
     width: 100%;
-    height: 200px;
+    height: auto; /* 높이 자동 조절 */
     display: flex;
-    padding-left: 15px;
+    padding: 15px; /* 내부 패딩 추가 */
+    box-sizing: border-box;
 }
 
-.postListCon {
+.postListCon,
+.reviewListCon {
     width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.postListConImgDiv {
+.postListConImgDiv,
+.reivewListConImgDiv {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin:auto;
+    width: 30%; /* 이미지 컨테이너 너비 */
+    flex-shrink: 0; /* 축소 방지 */
+    margin-left: 15px; /* 내용과의 간격 */
 }
 
 .postListConImg {
-    height: 150px;
-    /*margin-top: 40px;*/
+    max-height: 150px; /* 최대 높이 유지 */
+    width: auto; /* 너비 자동 조절 */
+    max-width: 100%; /* 컨테이너를 넘치지 않게 */
+    object-fit: contain; /* 이미지 비율 유지 */
 }
 
 .postListHeartDiv {
-    /* width: 100%; */
     height: 30px;
-    /*margin-left: 30px;*/
-    /*margin-bottom: 10px;*/
     display: flex;
     align-items: center;
+    margin-top: auto; /* 내용을 위로 밀어내고 하단에 정렬 */
 }
 
 .postListHeartSpan {
     display: flex;
     align-items: center;
+    font-size: 14px; /* 폰트 크기 조정 */
+    color: #676767;
 }
 
 .postListHeart {
@@ -168,62 +137,11 @@
     margin-right: 5px;
 }
 
-.reviewListDiv {
-    width: 950px;
-    height: 230px;
-    border-radius: 10px;
-    border: 1px solid #808467;
-    margin-top: 25px;
-    margin-bottom: 5px;
-}
-
-.reviewListConDiv {
-    width: 100%;
-    height: 230px;
-    display: flex;
-    padding-left: 15px;
-}
-
-
-.fontMargin {
-    margin-block-start: 10px;
-    margin-block-end: 10px;
-}
-
-.reviewListCon {
-    width: 70%;
-    height: 100%;
-}
-
-.reviewListDate {
-    margin-block-start: 10px;
-    margin-block-end: 10px;
-    font-size: 15px;
-}
-
-.reivewListConImgDiv {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin:auto;
-}
-
+/* 리뷰 리스트 특정 스타일 */
 .reviewListrating {
     color: #c42c2c;
-}
-
-.reviewListBookDiv {
-    width: 100%;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    border-radius: 10px;
-}
-
-.reviewListBook {
-    height: 130px;
-    margin: 20px;
-    border-radius: 10px;
+    font-size: 18px; /* 폰트 크기 조정 */
+    margin-bottom: 5px;
 }
 
 .reviewListBookTitle {
@@ -231,56 +149,180 @@
     font-size: 17px;
     margin-block-start: 0;
     margin-block-end: 0;
-    margin-inline-start: 0;
-    margin-inline-end: 0;
 }
 
-/* .revieListBtDiv {
-    margin-left: auto;
-    margin-right: 10px;
-} */
-
-.revieListBt {
-    border-style: none;
-    background-color: transparent;
-    cursor: pointer;
+.reviewListDate {
+    margin-block-start: 10px;
+    margin-block-end: 10px;
+    font-size: 15px;
+    color: #676767;
 }
 
-.scrollableListArea {
-  width: 100%; /* 부모 컨테이너에 맞춰 너비 설정 */
-  max-width: 1010px; /* 리뷰 아이템의 최대 너비(950px + 좌우마진 30px*2)를 고려하거나, 
-                         포스트/리뷰 중 더 넓은 것을 기준으로 설정 또는 각 탭에 따라 다르게 적용. 
-                         또는 이 값을 .postListDiv, .reviewListDiv의 max-width로 설정하고 여기는 100% 유지 가능 */
-  max-height: 70vh; /* 화면 높이의 70% 또는 원하는 고정 px 값 (예: 600px) */
-  overflow-y: auto;  /* 세로 스크롤 자동 생성 */
-  margin-top: 20px;  /* 탭 버튼과의 간격 */
-  padding-left: 15px;  /* 좌우 패딩 추가 (값을 조절하여 원하는 여백 설정) */
-  padding-right: 15px; /* 좌우 패딩 추가 (기존 10px에서 변경 또는 동일하게) */
-  box-sizing: border-box; /* 패딩과 보더가 너비(width) 계산에 포함되도록 함 */
-  
-}
-.reviewListDiv {
-    width: 100%; /* 또는 원하는 너비, 예: 950px */
-    max-width: 950px; /* 최대 너비는 유지 (마진은 별도) */
-    margin: 30px auto; /* 상하좌우 마진 (auto로 중앙 정렬 시도) */
-    border-radius: 10px;
-    border: 1px solid #808467;
-    /* 기존 스타일 유지 */
-}
-.followDiv {
-    width: 80%;
-    min-height: 100vh; /* 최소 화면 높이를 채우도록 하거나, 다른 방식으로 높이 관리 */
-    overflow-y: initial; /* 또는 hidden, visible 등 상황에 맞게. auto면 이중 스크롤 가능성 */
-    margin-bottom: 60px;
-    display: flex; /* 내부 요소 정렬을 위해 flex 사용 가능 */
-    flex-direction: column; /* 내부 요소 정렬을 위해 flex 사용 가능 */
-    align-items: center; /* 내부 요소 정렬을 위해 flex 사용 가능 */
+.fontMargin { /* h3 태그에 적용되는 스타일 */
+    margin-block-start: 10px;
+    margin-block-end: 10px;
+    font-size: 20px; /* 기본 폰트 크기 */
 }
 
-.followDiv2 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%; /* .followDiv 내부에서 너비를 꽉 채우도록 */
-    max-width: 1200px; /* 전체 컨텐츠의 최대 너비 제한 (선택 사항) */
+/* --- 미디어 쿼리 추가 --- */
+
+/* 태블릿 (1024px 이하) */
+@media (max-width: 1024px) {
+    .followDiv {
+        width: 90%; /* 태블릿에서 너비 더 넓게 */
+        margin-bottom: 40px;
+    }
+
+    .followBackBt {
+        margin-top: 40px;
+        font-size: 20px;
+    }
+
+    .followListBtDiv {
+        height: 80px;
+    }
+
+    .followListBt {
+        font-size: 22px;
+    }
+
+    .postListDiv,
+    .reviewListDiv {
+        width: 95%; /* 컨테이너에 더 맞춰서 */
+        max-width: none; /* 최대 너비 제한 해제 (유연하게) */
+        height: auto; /* 높이 자동 */
+    }
+
+    .postListCon h2,
+    .reviewListCon h3 {
+        font-size: 18px; /* 제목 폰트 크기 줄임 */
+    }
+
+    .postListCon p,
+    .reviewListDate,
+    .reviewListBookTitle {
+        font-size: 14px; /* 내용 폰트 크기 줄임 */
+    }
+
+    .postListConImg {
+        max-height: 120px; /* 이미지 높이 줄임 */
+    }
+}
+
+/* 작은 태블릿 및 큰 모바일 (768px 이하) */
+@media (max-width: 768px) {
+    .followDiv {
+        width: 95%; /* 더 넓게 */
+        margin-bottom: 20px;
+    }
+
+    .followBackBt {
+        margin-top: 30px;
+        font-size: 18px;
+        width: 120px;
+    }
+
+    .followTapDiv {
+        margin-top: 20px;
+    }
+
+    .followListBtDiv {
+        height: 70px;
+    }
+
+    .followListBt {
+        font-size: 18px;
+    }
+
+    .postListConDiv,
+    .reviewListConDiv {
+        flex-direction: column; /* 아이템 내용을 세로로 정렬 */
+        align-items: center; /* 가운데 정렬 */
+        padding: 10px; /* 패딩 줄임 */
+    }
+
+    .postListCon,
+    .reviewListCon {
+        width: 100%; /* 내용 영역 너비 100% */
+        text-align: center; /* 텍스트 가운데 정렬 */
+    }
+
+    .postListConImgDiv,
+    .reivewListConImgDiv {
+        width: 100%; /* 이미지 컨테이너 너비 100% */
+        margin: 10px 0; /* 상하 마진 추가 */
+    }
+
+    .postListConImg {
+        max-height: 100px; /* 이미지 높이 더 줄임 */
+    }
+
+    .postListCon p { /* 포스트 내용 */
+        height: auto; /* 자동 높이 */
+        overflow: visible; /* 말줄임 없이 전부 표시 시도 (더 줄여야 할 수도 있음) */
+        white-space: normal; /* 줄 바꿈 허용 */
+    }
+
+    .postListHeartDiv {
+        justify-content: center; /* 하트/리뷰 아이콘 가운데 정렬 */
+        margin-top: 10px;
+    }
+
+    .reviewListCon p { /* 리뷰 내용 */
+        height: auto;
+        overflow: visible;
+        white-space: normal;
+    }
+
+    .reviewListrating {
+        margin-bottom: 10px;
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .followDiv {
+        width: 100%; /* 모바일에서 화면 꽉 채우기 */
+        padding: 0 10px; /* 좌우 패딩 추가 */
+    }
+
+    .followBackBt {
+        margin-top: 20px;
+        font-size: 16px;
+        width: 100px;
+    }
+
+    .followListBtDiv {
+        height: 50px;
+    }
+
+    .followListBt {
+        font-size: 16px;
+    }
+
+    .postListDiv,
+    .reviewListDiv {
+        margin-top: 15px;
+        padding: 5px; /* 더 작은 패딩 */
+    }
+
+    .postListCon h2,
+    .reviewListCon h3 {
+        font-size: 16px; /* 제목 폰트 크기 더 줄임 */
+    }
+
+    .postListCon p,
+    .reviewListDate,
+    .reviewListBookTitle {
+        font-size: 13px; /* 내용 폰트 크기 더 줄임 */
+    }
+
+    .postListHeartSpan {
+        font-size: 12px;
+    }
+
+    .postListHeart,
+    .postListReview {
+        height: 16px; /* 아이콘 크기 줄임 */
+    }
 }
