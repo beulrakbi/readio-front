@@ -46,14 +46,14 @@ function RecommandedVideoList({ keyword }) {
           title: v.title,
           channel: v.channelTitle,
           thumbnail: v.thumbnail,
-          date: v.uploadDate,
+          date: v.uploadDate?.split('T')[0].replace(/-/g, '.'),
         }));
         const apiCommon = apiList.map(v => ({
           id: v.id.videoId,
           title: v.snippet.title,
           channel: v.snippet.channelTitle,
           thumbnail: v.snippet.thumbnails.high.url,
-          date: v.snippet.publishedAt.slice(0, 10).replace(/-/g, '.'),
+          date: v.snippet.publishedAt?.split('T')[0].replace(/-/g, '.'),
         }));
 
         setList([...dbCommon, ...apiCommon].slice(0, MAX_RECOMMEND));
