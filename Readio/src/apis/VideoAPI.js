@@ -172,6 +172,12 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos, filte
     }
 }
 
+// 타입 없이 검색만 수행
+export async function getVideosBySearchOnly(keyword, dispatch) {
+  const result = await dispatch(callSearchVideosAPI({ search: keyword }));
+  return result;
+}
+
 export function getVideosTest(dispatch) {
     // const result = sample.items;
     // for (let i = 0; i < result.length; i++) {

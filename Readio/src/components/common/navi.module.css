@@ -193,5 +193,20 @@
 .customerServiceList .naviLinkText {
     /* 하위 메뉴 텍스트 간격 조정 */
     margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+
+.weatherEmoji {
+    width: 100%;                   
+    padding: 15px 0;         
+    margin-top: 70px;       
+    text-align: center;            
+    font-size: 21px;               
+    color: #F6EEB6;                
+    background-color: rgba(255, 231, 231, 0.162);  
+    border-radius: 5px;           
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

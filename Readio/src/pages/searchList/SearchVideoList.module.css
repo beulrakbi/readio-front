@@ -10,11 +10,6 @@
      font-weight: 600;
 }
 
-/* .videoListHr {
-     width : 85vh;
-     height: 1px;
-} */
-
 .SearchVideoList {
      margin: 10px 0;
 }
@@ -46,9 +41,6 @@
      font-size: 12px;
 }
 
-
-/* SearchVideoList.module.css */
-
 /* 기존 스타일 위에 덮어쓰기 */
 .paginationContainer {
   display: flex;
@@ -76,4 +68,16 @@
 .activePage {
   font-weight: bold;
   color: #898e67;
+}
+
+/* SearchVideoList.module.css 에 추가/수정하세요 */
+.thumbnailWrapper {
+  width: 350px;       /* 썸네일 가로 크기와 동일하게 */
+  height: 210px;      /* 썸네일 높이와 동일하게 */
+  overflow: hidden;   /* 이 영역을 벗어나는 모든 요소(아래 숨길 텍스트 등)는 가려집니다 */
+}
+
+/* wrapper 안의 .videoDiv > img 이외 자식(제목·채널명 등)만 숨김 */
+.thumbnailWrapper .videoDiv > :not(img) {
+  display: none;
 }

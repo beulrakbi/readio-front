@@ -20,6 +20,25 @@ function PlayVideo() {
         return sessionStorage.getItem('accessToken');
     };
 
+    // video => view_count 증가 
+    useEffect(() => {
+        // 페이지 진입 또는 videoId 변경될 때 조회수 1 증가
+        const increaseViewCount = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/video/id/${videoId}`, {
+                    method: 'POST'
+                });
+                if (!res.ok) {
+                    console.error('조회수 증가 실패, status:', res.status);
+                }
+            } catch (err) {
+                console.error('조회수 증가 중 예외', err);
+            }
+        };
+
+        increaseViewCount();
+    }, [videoId]);
+
     useEffect(() => {
         const fetchVideoAndBookmarkStatus = async () => {
             try {
@@ -128,39 +147,12 @@ function PlayVideo() {
         }
     };
 
-
-    const handlePlayClick = async () => {
-        try {
-            // “/video/id/{videoId}”로 맞춰서 호출
-            const res = await fetch(`http://localhost:8080/video/id/${videoId}`, {
-                method: 'POST'
-            });
-            if (!res.ok) {
-                console.error('조회수 증가 실패, status:', res.status);
-            }
-        } catch (err) {
-            console.error('조회수 증가 중 예외', err);
-        }
-        setHasPlayed(true);
-    };
-
-
     return (
         <>
             <div className={styles.backgroundTexture}>
                 <div className={styles.container}>
                     <div className={styles.video}>
-                        {!hasPlayed
-                            ? (
-                                <button
-                                    className={styles.playButton}
-                                    onClick={handlePlayClick}
-                                >
-                                    ▶ 재생하기
-                                </button>
-                            )
-                            :
-                            (<iframe
+                            <iframe
                                 width="100%"
                                 height="100%"
                                 src={`http://www.youtube.com/embed/${videoId}?autoplay=1`}
@@ -168,18 +160,15 @@ function PlayVideo() {
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                            ></iframe>)
-                        }
+                            ></iframe>
                     </div>
 
                     <div className={styles.videoInfo}>
                         <div className={styles.videoTitle}>
-                            {/* {videoInfo.snippet.title} */}
                             {videoInfo.title}
-                        </div> {/*videoTitle 영역 끝 */}
+                        </div> 
                         <div className={styles.channelNameBookMark}>
                             <div className={styles.channelName}>
-                                {/* {videoInfo.snippet.channelTitle} */}
                                 {videoInfo.channelTitle}
                             </div>
                             <div className={styles.BookMark}>
@@ -191,10 +180,9 @@ function PlayVideo() {
                                     className={styles.bookmark}
                                 />
                             </div>
-                        </div> {/* channelNameBookMark */}
-                    </div> {/* videoInfo 영역 끝 */}
+                        </div>
+                    </div> 
                     <div className={styles.videoDetail}>
-                        {/* {videoInfo.snippet.description} */}
 
                         <div className={styles.videoStats}>
                             <div className={styles.videoViewCount}>조회수: {videoInfo.viewCount.toLocaleString()}회</div>
@@ -202,11 +190,11 @@ function PlayVideo() {
                         </div>
 
                         {videoInfo.description}
-                    </div> {/* videoDetail 영역 끝 */}
+                    </div> 
 
                     <RecommandedVideoList keyword={videoInfo.title} />   {/* 현재 영상의 제목을 키워드로 넘김 */}
 
-                </div> {/* container 영역 끝 */}
+                </div> 
 
             </div>
         </>
