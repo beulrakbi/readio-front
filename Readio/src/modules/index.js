@@ -12,6 +12,7 @@ import BookPageSlice from "./Book/BookPageSlice.js";
 import BookReviewSlice from "./Book/BookReviewSlice.js";
 import ReportedSlice from "./reported/ReportedSlice.js";
 import feedSlice from './feed/feedSlice.js';
+import followListReducer from '../modules/follow/followListSlice';
 
 
 const rootReducers =  combineReducers(
@@ -29,6 +30,7 @@ const rootReducers =  combineReducers(
             bookReview: BookReviewSlice,
             reported: ReportedSlice,
             feed: feedSlice,
+            followList: followListReducer,
         });
 
 export default rootReducers;

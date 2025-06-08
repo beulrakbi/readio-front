@@ -1,37 +1,35 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'; // navigate 함수 사용을 위해 import
+import { useNavigate } from 'react-router-dom';
 
-// 이미지 import (경로는 실제 프로젝트에 맞게 조정)
-import profileImg1 from '../../assets/profileImg1.png'; // 댓글 작성자 프로필 이미지용
+import profileImg1 from '../../assets/profileImg1.png'; 
 import profileImg2 from '../../assets/profileImg2.png';
 import profileImg3 from '../../assets/profileImg3.png';
 import defaultImg from '../../assets/defaultImg.png';
 
-import PostCSS from './Post.module.css'; // PostDetail과 같은 CSS를 사용하거나, 별도 CSS 경로 지정
+import PostCSS from './Post.module.css';
 import {
     callPostReviewAPI,
-    callPostReviewWritingAPI, // 원래 코드에서 Writing 함수명 확인 필요
+    callPostReviewWritingAPI,
     callPostReviewDeleteAPI
 } from '../../apis/PostReviewAPICalls';
 
-// ReviewSection 컴포넌트는 postId를 props로 받습니다.
-function ReviewSection({ postId }) { 
+function ReviewSection({ postId, onReviewsLoaded }) { 
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // navigate 함수 초기화
-
-    // 리뷰 관련 상태 (원래 PostDetail에 있던 것들)
-    // postReviewReducer의 상태 구조에 따라 postReview 객체를 가져옵니다.
-    // 예: state.postReviewReducer.data 또는 state.postReviewReducer.reviews 등
+    const navigate = useNavigate();
     const postReviewData = useSelector(state => state.postReviewReducer);
     const pageInfo = postReviewData?.data?.pageInfo;
     const reviewsToList = postReviewData && postReviewData.data && postReviewData.data.data && Array.isArray(postReviewData.data.data) ? postReviewData.data.data : [];
 
+    const { isLogin, userInfo } = useSelector(state => state.user);
+    const loggedInUserId = userInfo?.userId; 
+
     console.log(JSON.stringify(postReviewData, null, 2))
-    // const [modifyMode, setModifyMode] = useState(false);
-    const [form, setForm] = useState({}); // 수정 시 사용될 폼 데이터
-    const [newReviewContent, setNewReviewContent] = useState(''); // 새 리뷰 작성을 위한 별도 상태
+    const [form, setForm] = useState({});
+    const [newReviewContent, setNewReviewContent] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+
+    console.log(JSON.stringify(postReviewData, null, 2))
 
     // 리뷰 목록 로딩 useEffect
     useEffect(() => {
@@ -42,6 +40,12 @@ function ReviewSection({ postId }) {
             }));
         }
     }, [dispatch, postId, currentPage]);
+
+    useEffect(() => {
+        if (pageInfo && typeof onReviewsLoaded === 'function') {
+            onReviewsLoaded(pageInfo.total);
+        }
+    }, [pageInfo, onReviewsLoaded]);
     
     const onNewReviewContentChangeHandler = (e) => { // 새 리뷰 입력 변경 시
         setNewReviewContent(e.target.value);
@@ -114,8 +118,10 @@ function ReviewSection({ postId }) {
             </div>
 
             {processedReviews.length > 0 ? (
-                // 가공된 'processedReviews' 배열을 사용하여 렌더링
-                processedReviews.map((review) => ( // 'review'는 이제 가공된 객체
+                processedReviews.map((review) => {
+                     const isMyReview = isLogin && loggedInUserId === review.profileId?.userId;
+
+                     return( // 'review'는 이제 가공된 객체
                 <div key={review.postReviewId || index}> {/* 고유 key 사용 */}
                     <div>
                         <div className={PostCSS.postDetailReviewProDiv}>
@@ -127,18 +133,19 @@ function ReviewSection({ postId }) {
                         </div>
                         <p className={PostCSS.postDetailReviewcon}>{review.postReviewContent}</p>
                         <div className={PostCSS.postDetailReviewLikeDiv}>
-                            <p className={PostCSS.postDetailReviewLike}>좋아요 {review.postReviewLike || 0}</p> {/* 실제 데이터 필드명 사용 */}
                             <div className={PostCSS.postDetailReviewBtDiv}>
-                                <button 
-                                    onClick={() => onClickReviewDeleteHandler(review.postReviewId)} // <<< 핸들러 연결
-                                    className={PostCSS.postDetailReviewBt}>
-                                    삭제
-                                </button>
+                                {isMyReview && (
+                                    <button 
+                                        onClick={() => onClickReviewDeleteHandler(review.postReviewId)}
+                                        className={PostCSS.postDetailReviewBt}>
+                                        삭제
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
-            ))
+            )})
         ) : (
             <p>아직 작성된 댓글이 없습니다.</p>
         )}

@@ -14,6 +14,8 @@ function PostWriting() {
     const navigate = useNavigate();
     const { postId } = useParams();
 
+    const { isLogin } = useSelector(state => state.user);
+
     const isEditMode = !!postId;
 
     const fileInputRef = useRef(null);
@@ -178,6 +180,12 @@ function PostWriting() {
 
     /* 게시글 등록 */
     const handleSubmit = async () => {
+        if (!isLogin) {
+            alert("로그인이 필요합니다.");
+            navigate('/login', { replace: true });
+            return;
+        }
+
         if (!form.postTitle.trim()) {
             alert("제목을 입력해주세요.");
             return;
@@ -186,30 +194,27 @@ function PostWriting() {
             alert("내용을 입력해주세요.");
             return;
         }
-        // 책과 이미지는 선택 사항이므로, 여기서 필수 검증 제거
 
         const submissionFormData = new FormData();
         submissionFormData.append('postTitle', form.postTitle);
         submissionFormData.append('postContent', form.postContent);
 
-        // 책 정보 추가 (선택 사항)
+        // 책 정보 추가
         if (selectedBook && selectedBook.isbn) {
-            // ISBN 값 정제 (예: "ISBN13:1234567890123" -> "1234567890123")
-            // 실제 selectedBook.isbn 값의 형식에 따라 정제 로직 조정 필요
-            const isbnValue = selectedBook.isbn.split(' ').pop(); // 가장 마지막 부분(숫자)만 사용 시도
+            const isbnValue = selectedBook.isbn.split(' ').pop();
             submissionFormData.append('bookIsbn', isbnValue);
             console.log("[PostWriting] 전송될 bookIsbn:", isbnValue);
         } else {
-            submissionFormData.append('bookIsbn', ''); // 책 선택 안 함 또는 삭제 시 빈 문자열 전송
+            submissionFormData.append('bookIsbn', '');
             console.log("[PostWriting] 책 정보 없이 전송 (bookIsbn: '')");
         }
 
-        // 이미지 정보 추가 (선택 사항)
-        if (imageUrl && imageUrl.file) { // 1. 새 이미지가 선택된 경우
+        // 이미지 정보 추가
+        if (imageUrl && imageUrl.file) {
             submissionFormData.append('postImage', imageUrl.file);
             console.log("[PostWriting] 새 이미지 파일 첨부:", imageUrl.file.name);
-        } else if (isEditMode && isExistingImage) { // 2. 수정 모드이고, 기존 이미지를 삭제하기로 한 경우
-            submissionFormData.append('deleteExistingImage', 'true'); // 삭제 플래그 전송 (백엔드와 약속 필요)
+        } else if (isEditMode && isExistingImage) {
+            submissionFormData.append('deleteExistingImage', 'true');
             console.log("[PostWriting] 기존 이미지 삭제 플래그 전송");
         }
 
@@ -223,9 +228,7 @@ function PostWriting() {
                 // === 수정 모드 ===
                 submissionFormData.append('postId', postId);
                 console.log(`[PostWriting] 수정 API 호출 준비 (postId: ${postId})`);
-                // callPostUpdateAPI는 createAsyncThunk가 아니므로 .unwrap() 사용 불가.
-                // Promise를 await로 직접 처리합니다.
-                const result = dispatch(callPostUpdateAPI({ postId: parseInt(postId), form: submissionFormData }));
+                await dispatch(callPostUpdateAPI({ postId: parseInt(postId), form: submissionFormData }));
                 
                 alert('게시물이 성공적으로 수정되었습니다.');
                 navigate(`/mylibrary/post/${postId}`);
@@ -233,12 +236,10 @@ function PostWriting() {
             } else {
                 // === 작성 모드 ===
                 console.log("[PostWriting] 생성 API 호출 준비");
-                // callPostCreateAPI는 createAsyncThunk가 아니므로 .unwrap() 사용 불가.
-                // Promise를 await로 직접 처리합니다.
-                const result = dispatch(callPostCreateAPI({ form: submissionFormData }));
+                const resultAction = await dispatch(callPostCreateAPI({ form: submissionFormData }));
                 
                 alert('게시물이 성공적으로 등록되었습니다.');
-                const newPostId = result?.data?.postId || result?.postId;
+                const newPostId = resultAction?.payload?.data?.postId || resultAction?.payload?.postId || resultAction?.data?.postId || resultAction?.postId;
                 if (newPostId) {
                     navigate(`/mylibrary/post/${newPostId}`);
                 } else {
