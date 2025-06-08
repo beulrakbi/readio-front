@@ -2,10 +2,9 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { searchNewVideos, searchVideosByKeyword } from '../../apis/VideoAPI';
-import search from '../../assets/search.png';
 import VIdeoInDB from "../../components/video/VIdeoInDB.jsx";
-import UserMainCSS from '../user/UserMain.module.css';
 import Video from './../../components/video/Video';
+import SearchBox from './SearchBox.jsx';
 import styles from './SearchVideoList.module.css';
 
 function SearchVideoList() {
@@ -21,46 +20,6 @@ function SearchVideoList() {
 
     const page = parseInt(queryParams.get('page'), 10) || 1;
     const size = 10;
-
-    const [searchInput, setSearchInput] = useState(searchQuery);
-
-    // useEffect(() => {
-    //     const fetchVideos = async () => {
-    //         if (searchQuery) {
-    //             try {
-    //                 const searchVideosInDB = await searchVideosByKeyword(searchQuery, dispatch);
-    //                 const videosInDB = searchVideosInDB?.data.videoDTOList;
-    //                 let result = null;  
-
-    //                 if (Array.isArray(videosInDB)) {
-    //                     setVideoInDBList(
-    //                         videosInDB.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId))
-    //                     );
-    //                     result = await searchNewVideos(searchQuery, dispatch, videosInDB.length, videosInDB);
-    //                 } else {
-    //                     console.warn("검색 결과가 없습니다.");
-    //                     setVideoInDBList([]);
-    //                 }
-
-    //                 if (Array.isArray(result)) {
-    //                     setVideoList(
-    //                         result.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId))
-    //                     );
-    //                 } else {
-    //                     console.warn("검색 결과가 없습니다.");
-    //                     setVideoList([]);
-    //                 }
-    //             } catch (error) {
-    //                 console.error("검색 중 오류 발생:", error);
-    //             }
-    //         } else {
-    //             setVideoList([]);
-    //             setVideoInDBList([]);
-    //         }
-    //     };
-
-    //     fetchVideos();
-    // }, [searchQuery, dispatch]);
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -145,39 +104,9 @@ function SearchVideoList() {
         navigate(`/video/${videoId}`);
     }
 
-    const onSearchChangeHandler = (e) => {
-        setSearchInput(e.target.value);
-    }
-
-    const onEnterkeyHandler = (e) => {
-        if (e.key == 'Enter') {
-            navigate(`/search/video?query=${encodeURIComponent(searchInput)}`);
-        }
-    };
-
-    const onSearchClickHandler = () => {
-        navigate(`/search/video?query=${encodeURIComponent(searchInput)}`);
-    }
-
     return (<>
-        <div className={UserMainCSS.mainImgBox}>
-            <div className={UserMainCSS.mainSearch}>
-                <div className={UserMainCSS.buttonBox}>
-                    <input className={UserMainCSS.mainSearchInput}
-                           type="text"
-                           value={searchInput}
-                           onChange={onSearchChangeHandler}
-                           onKeyDown={onEnterkeyHandler}
-                           placeholder="검색어를 입력하세요" />
-                    <button className={UserMainCSS.buttonNone} onClick={onSearchClickHandler}><img src={search}/></button>
-                </div>
-                <div className={UserMainCSS.buttonBox}>
-                    <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                    <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                    <button className={UserMainCSS.mainKeywordButton} onClick={onSearchClickHandler}>#키워드</button>
-                </div>
-            </div>
-        </div>
+
+        <SearchBox />
 
         <div className={styles.container}>
             <div className={styles.SearchListTitle}>
@@ -195,10 +124,18 @@ function SearchVideoList() {
                                     className={styles.video}
                                     onClick={() => onClickVideoPage(vid)}
                                 >
-                                    {isDB
+                                    {/* {isDB
                                         ? <VIdeoInDB videoInDB={item} />
                                         : <Video video={item} />
-                                    }
+                                    } */}
+
+                                    {/* 썸네일만 보이도록 감싸기 (수정됨!) */}
+                                    <div className={styles.thumbnailWrapper}> {/* 수정됨! */}
+                                        {isDB
+                                            ? <VIdeoInDB videoInDB={item} />
+                                            : <Video    video={item} />
+                                        }
+                                    </div> {/* 수정됨! */}
                                     <div className={styles.videoInfo}>
                                         <div className={styles.videoTitle}>
                                             {isDB ? item.title : item.snippet.title}

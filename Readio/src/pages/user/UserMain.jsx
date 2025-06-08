@@ -2,31 +2,21 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callCurationTypesAPI } from "../../apis/CurationAPICalls.js";
-import bgimg1 from '../../assets/bgimg.png';
-import bgimg2 from '../../assets/bgimg2.png';
-import bgimg3 from '../../assets/bgimg3.png';
-import bgimg4 from '../../assets/bgimg4.png';
-import search from '../../assets/search.png';
 import VideoList from '../../components/video/VideoList.jsx';
 import EmotionModal from '../mylibrary/calendar/EmotionModal.jsx';
+import SearchBox from '../searchList/SearchBox.jsx';
 import UserMainCSS from './UserMain.module.css';
 
 
 function UserMain() {
+
+    const [shuffledTypes, setShuffledTypes] = useState([]);
     // const [types, setTypes] = useState([]);
     // const allTypes = ["celeb", "goods", "habit"];
     const [userCoords, setUserCoords] = useState(null); // 위치 좌표 저장할 상태 
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isTypesLoaded, setIsTypesLoaded] = useState(false);
-
-    const [bgImage, setBgImage] = useState(null);
-
-    useEffect(() => {
-        const images = [bgimg1, bgimg2, bgimg3, bgimg4];
-        const randomImage = images[Math.floor(Math.random() * images.length)];
-        setBgImage(randomImage);
-    }, []);
 
     const today = dayjs();  // import dayjs
 
@@ -35,8 +25,6 @@ function UserMain() {
 
     const types = useSelector(state => state.curation.type);
     // const token = localStorage.getItem("accessToken");
-
-    const userIdFromSession = sessionStorage.getItem("userId");
 
 
     const convertEmojiToEnum = (emoji) => {
@@ -68,8 +56,6 @@ function UserMain() {
                 },
                 (error) => {
                     console.warn("위치 정보를 가져오는 것을 거부하거나 실패했습니다:", error);
-                    // userCoords를 null 상태로 두면, VideoList 쪽에서 typeId=5인 경우엔
-                    // 아무것도 요청하지 않고 빈 리스트를 보여주도록 처리했습니다.
                 }
             );
         } else {
@@ -113,46 +99,23 @@ function UserMain() {
             const getTypes = async () => {
                 const allTypes = await dispatch(callCurationTypesAPI());
                 if (allTypes) {
-                    const apiTypes = allTypes.data; // ← 변수명을 apiTypes로 변경
 
-                    // 로그인 상태일 때만 “감정 기반 추천” 객체을 앞에 추가
-                    let finalTypesToShow = [...apiTypes];
-                    if (token && userIdFromSession) {
-                        const emotionRecommendationType = {
-                            typeId: 6,
-                            typeName: 'Emotion',
-                            typeText: `${userIdFromSession}님, 오늘 기분에 맞는 영상 어때요? 😊`
-                        };
-                        finalTypesToShow.unshift(emotionRecommendationType); // ← apiTypes 복사본에 추가
-                    }
+                    const apiTypes = allTypes.data; 
 
-                    // 마지막으로 셔플해서 state에 저장
-                    const shuffled = finalTypesToShow.sort(() => 0.5 - Math.random());
-                    setTypes(shuffled);
+                    const shuffled = [...apiTypes].sort(() => 0.5 - Math.random());
+
+                    setShuffledTypes(shuffled); 
                 }
             }
             getTypes();
             console.log("ttttttt", types);
-        }, [dispatch, token, userIdFromSession]);
+        }, [dispatch]);
 
     return (<>
         <div className={UserMainCSS.main}>
-            <div className={UserMainCSS.mainImgBox}
-            style={{ backgroundImage: `url(${bgImage})` }}
-            >
-                <div className={UserMainCSS.mainSearch}>
-                    <div className={UserMainCSS.buttonBox}>
-                        <input className={UserMainCSS.mainSearchInput} type="text" name="search"
-                            placeholder="검색어를 입력하세요" />
-                        <button className={UserMainCSS.buttonNone}><img src={search} /></button>
-                    </div>
-                    <div className={UserMainCSS.buttonBox}>
-                        <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
-                        <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
-                        <button className={UserMainCSS.mainKeywordButton}>#키워드</button>
-                    </div>
-                </div>
-            </div>
+
+            <SearchBox />
+
             <p className={UserMainCSS.readio}>READIO</p>
             <div className={UserMainCSS.backgroundTexture}>
                 <div className={UserMainCSS.mainTextBox}>
@@ -161,7 +124,8 @@ function UserMain() {
                         당신에게 꼭 맞는 이야기를 전합니다. "</p>
                 </div>
                 <div className={UserMainCSS.videoSection}>
-                    {isTypesLoaded && types?.length > 0 && types.map(type =>
+                    {/* {isTypesLoaded && types?.length > 0 && types.map(type => */}
+                    {isTypesLoaded && shuffledTypes.length > 0 && shuffledTypes.map(type =>
                         <VideoList 
                                 type={type} 
                                 userId={userId} 

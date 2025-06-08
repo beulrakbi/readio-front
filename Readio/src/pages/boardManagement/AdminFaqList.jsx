@@ -151,10 +151,11 @@ function AdminFaqList() {
                 <div className={styles.tableBox}>
                     <table className={styles.noticeTable}>
                         <thead>
+                        {/* thead의 tr에 style 속성 제거 (기존에도 없었음) */}
                         <tr>
                             <th><input type="checkbox" checked={isAllSelected} onChange={handleAllCheckboxChange}/></th>
                             <th>번호</th>
-                            <th className={styles.titleSize}>제목</th>
+                            <th className={styles.titleSize}>제목</th> {/* noticeList와 동일한 className 적용 */}
                             <th>작성자</th>
                             <th>작성일</th>
                         </tr>
@@ -182,6 +183,7 @@ function AdminFaqList() {
                                         />
                                     </td>
                                     <td>{faq.faqId}</td>
+                                    {/* td에 titleCell 클래스 적용 */}
                                     <td className={styles.titleCell}>
                                             <span
                                                 onClick={() => handleTitleClick(faq.faqId)}
