@@ -129,10 +129,12 @@ function AdminNoticeList() {
                 <div className={styles.tableBox}>
                     <table className={styles.noticeTable}>
                         <thead>
-                            <tr style={{borderBottom: '1px solid #383838'}}>
+                            {/* 제목 아래 선을 없애기 위해 tr의 style 속성 제거 */}
+                            <tr>
                                 <th><input type="checkbox" checked={isAllSelected} onChange={handleAllCheckboxChange} /></th>
                                 <th>번호</th>
                                 <th>상태</th>
+                                {/* th의 className={styles.titleSize}는 유지합니다. */}
                                 <th className={styles.titleSize}>제목</th>
                                 <th>작성자</th>
                                 <th>작성일</th>
@@ -159,6 +161,7 @@ function AdminNoticeList() {
                                         <td>{notice.noticeId}</td>
                                         <td>{notice.noticeState === 'TEMPORARY' ? '단기' :
                                             notice.noticeState === 'URGENT' ? '긴급' : '종료'}</td>
+                                        {/* 말줄임표를 적용할 td에 className={styles.titleCell} 적용 */}
                                         <td className={styles.titleCell}>
                                             <span
                                                 onClick={() => handleTitleClick(notice.noticeId)}

@@ -10,7 +10,7 @@ function NoticeDetail() {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(0); // 0부터 시작
     const noticesPerPage = 4; // 한 페이지에 보일 공지 개수
-    const userId = sessionStorage.getItem('userId'); 
+    const userId = sessionStorage.getItem('userId');
     const indexOfLastNotice = (currentPage + 1) * noticesPerPage;
     const indexOfFirstNotice = currentPage * noticesPerPage;
     const currentNotices = relatedNotices.slice(indexOfFirstNotice, indexOfLastNotice);
@@ -24,11 +24,10 @@ function NoticeDetail() {
             case 'CLOSED':
                 return '종료';
             default:
-                return state; // 혹시 모르는 값은 그대로 반환
+                return state;
         }
     };
 
-    // 상세 공지 불러오기
     useEffect(() => {
         fetch(`http://localhost:8080/serviceCenter/notice/detail/${noticeId}`)
             .then(res => res.json())
@@ -38,13 +37,12 @@ function NoticeDetail() {
             .catch(error => console.error('공지 상세 정보 불러오기 실패:', error));
     }, [noticeId]);
 
-    // 관련 공지 목록 불러오기
     useEffect(() => {
         fetch('http://localhost:8080/serviceCenter/notice/list')
             .then(res => res.json())
             .then(data => {
                 setRelatedNotices(data);
-                setCurrentPage(0); // 데이터가 바뀌면 페이지 초기화
+                setCurrentPage(0);
             })
             .catch(error => console.error('관련 공지 목록 불러오기 실패:', error));
     }, []);
@@ -58,55 +56,60 @@ function NoticeDetail() {
         });
     };
 
+    const handleNoticeClick = (id) => {
+        navigate(`/notice/detail/${id}`);
+        window.scrollTo(0, 0); // 페이지 상단으로 스크롤
+    };
+
     return (
-        <div className={styles.bigContainer}>
-            <p className={styles.sort}>공지사항</p>
+        <div className={styles.noticeDetailBigContainer}>
+            <p className={styles.noticeDetailSort}>공지사항</p>
 
             <div>
-                <p className={styles.title}>{noticeDetail.noticeTitle}</p>
+                <p className={styles.noticeDetailTitle}>{noticeDetail.noticeTitle}</p>
             </div>
 
-            <div className={styles.line}></div>
+            <div className={styles.noticeDetailLine}></div>
 
-            <div className={styles.nameBox}>
-                <span className={styles.userId}>{noticeDetail.userId}</span>
-                <span className={styles.role}>{noticeDetail.userRole}</span>
+            <div className={styles.noticeDetailNameBox}>
+                <span className={styles.noticeDetailUserId}>{noticeDetail.userId}</span>
+                <span className={styles.noticeDetailRole}>{noticeDetail.userRole}</span>
             </div>
 
             <div>
-                <span className={styles.date}>
+                <span className={styles.noticeDetailDate}>
                     {noticeDetail.noticeCreateAt?.replace('T', ' ').substring(0, 16)}
                 </span>
-                <span className={styles.view}>조회 {noticeDetail.noticeView}</span>
+                <span className={styles.noticeDetailView}>조회 {noticeDetail.noticeView}</span>
             </div>
 
-            <div className={styles.line2}></div>
+            <div className={styles.noticeDetailLine2}></div>
 
-            <div className={styles.contentBox}>
+            <div className={styles.noticeDetailContentBox}>
                 <p>{noticeDetail.noticeContent || '공지 내용이 없습니다.'}</p>
             </div>
 
-            <div className={styles.copyLink}>
-                <button className={styles.btn} onClick={handleCopyLink}>링크 복사</button>
+            <div className={styles.noticeDetailCopyLink}>
+                <button className={styles.noticeDetailBtn} onClick={handleCopyLink}>링크 복사</button>
             </div>
 
-            <div className={styles.line2}></div>
+            <div className={styles.noticeDetailLine2}></div>
 
-            <div className={styles.listBox}>
-                <div className={styles.noticeBoard}>
+            <div className={styles.noticeDetailListBox}>
+                <div className={styles.noticeDetailNoticeBoard}>
                     <p>공지사항 게시판</p>
                 </div>
 
-                <div className={styles.list}>
+                <div className={styles.noticeDetailList}>
                     <ul>
                         {currentNotices.map((notice) => (
                             <li
                                 key={notice.noticeId}
-                                onClick={() => navigate(`/notice/detail/${notice.noticeId}`)}
+                                onClick={() => handleNoticeClick(notice.noticeId)} // 함수 호출로 변경
                                 style={{ cursor: 'pointer' }}
                             >
-                                <span className={styles.stateName}>[{getNoticeStateKorean(notice.noticeState)}]</span>
-                                <span>{notice.noticeTitle}</span>
+                                <span className={styles.noticeDetailStateName}>[{getNoticeStateKorean(notice.noticeState)}]</span>
+                                <span className={styles.noticeDetailListTitle}>{notice.noticeTitle}</span>
                                 <span>{notice.userId}</span>
                                 <span>{notice.noticeCreateAt?.substring(0, 10)}</span>
                             </li>
@@ -124,5 +127,3 @@ function NoticeDetail() {
 }
 
 export default NoticeDetail;
-
-//풀리퀘스트용 주석 asdfasdf

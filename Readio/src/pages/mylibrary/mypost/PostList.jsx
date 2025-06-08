@@ -115,7 +115,6 @@ function PostList() {
                          onClick={() => navigate(`/bookPage/${review.bookIsbn}`)}>
                         <div className={PostListCSS.reviewListConDiv}>
                             <div className={PostListCSS.reviewListCon}>
-                                <p className={PostListCSS.reviewListrating}>★★★★★</p>
                                 <h3 className={PostListCSS.fontMargin}>
                                     {review.book.bookTitle.length > 45 ? review.book.bookTitle.slice(0, 45) + '...' : review.book.bookTitle}
                                 </h3>

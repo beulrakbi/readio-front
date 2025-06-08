@@ -3,7 +3,7 @@
 .bigContainer {
   padding-top: 4%;
   margin: auto;
-  width: 50%;
+  width: 50%; /* 기본 너비 */
   min-height: 80vh;
   background-image: url('../../assets/texture.png');
   background-repeat: repeat;
@@ -45,7 +45,7 @@
 
 .boardLi, .postLi {
   display: grid;
-  /* 번호(80px), 제목(남은 공간의 2배), 작성자(100px), 작성일(100px), 조회수(80px) */
+  /* 기본 컬럼 정의: 번호(80px), 제목(2fr), 작성자(100px), 작성일(100px), 조회수(80px) */
   grid-template-columns: 80px 2fr 100px 100px 80px;
   align-items: center;
   border-bottom: 1px solid #676767;
@@ -55,7 +55,6 @@
 .boardLi {
   font-weight: bold;
   font-size: 16px;
-  /* background-color: #f4f4f4; */
   padding: 10px 0;
 }
 
@@ -76,7 +75,7 @@
   padding: 10px 0;
 }
 
-/* 🚩 핵심 변경: .postLi 내부의 span 중에서 .title 클래스를 가진 span을 제외하고 가운데 정렬 */
+/* .postLi 내부의 span 중에서 .title 클래스를 가진 span을 제외하고 가운데 정렬 */
 .postLi span:not(.title) {
   text-align: center;
 }
@@ -99,4 +98,69 @@
 .titleLink {
   color: black;
   text-decoration: none;
+}
+
+/* --- 미디어 쿼리 추가 --- */
+
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+    .bigContainer {
+        width: 90%; /* 컨테이너 너비를 더 넓게 사용 */
+        padding-top: 5%; /* 상단 패딩 조절 */
+    }
+
+    .smallHeaderElement {
+        font-size: 22px; /* 헤더 폰트 크기 조정 */
+    }
+
+    .boardLi, .postLi {
+        /* 번호, 제목, 작성자, 작성일, 조회수 컬럼 너비 조정 */
+        /* minmax를 사용하여 최소 너비 보장 및 유연한 공간 배분 */
+        grid-template-columns: minmax(40px, 0.5fr) 2fr minmax(60px, 0.8fr) minmax(70px, 1fr) minmax(50px, 0.6fr);
+        font-size: 13px; /* 폰트 크기 줄이기 */
+    }
+
+    /* 제목 외의 모든 span에 대해 패딩 및 텍스트 정렬 조정 */
+    .boardLi span,
+    .postLi span:not(.title) {
+        padding: 0 2px; /* 좌우 패딩 줄이기 */
+        text-align: center;
+    }
+
+    .boardLi span:nth-child(2), /* 헤더 제목 */
+    .title { /* 게시글 제목 */
+        padding-left: 5px; /* 좌측 패딩 줄이기 */
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .bigContainer {
+        width: 95%; /* 컨테이너 너비를 더 넓게 사용 */
+        padding-top: 6%;
+    }
+
+    .smallHeaderElement {
+        font-size: 18px; /* 헤더 폰트 크기 더 줄이기 */
+    }
+
+    .boardLi, .postLi {
+        /* 번호, 제목, 작성일만 보이도록 조정 */
+        grid-template-columns: minmax(30px, 0.5fr) 3fr minmax(60px, 1.2fr);
+        font-size: 12px; /* 폰트 크기 더 줄이기 */
+    }
+
+    /* 작성자 (3번째), 조회수 (5번째) 컬럼 숨기기 */
+    .boardLi span:nth-child(3),
+    .postLi span:nth-child(3),
+    .boardLi span:nth-child(5),
+    .postLi span:nth-child(5) {
+        display: none;
+    }
+
+    /* 제목의 좌측 패딩 조정 */
+    .boardLi span:nth-child(2),
+    .title {
+        padding-left: 5px;
+    }
 }

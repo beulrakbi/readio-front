@@ -49,25 +49,24 @@
     width: 100%;
     table-layout: fixed;
     font-family: 'Pretendard Variable', sans-serif;
-    border-collapse: collapse;
-
+    border-collapse: collapse; /* 테이블 셀 간의 여백을 없애고 테두리 병합 */
 }
 .noticeTable th {
     font-weight: 400;
     font-size: 20px;
     color: #383838;
     height: 40px;
+    /* TH 자체에 border-bottom이 없도록 명시적으로 설정하여 제목 아래 선 문제를 해결합니다. */
+    border-bottom: none; 
 }
 
 .noticeTable td {
-    border-bottom: 1px solid #383838;
+    border-bottom: 1px solid #383838; /* 각 데이터 행 아래 선 유지 */
     text-align: center;
     padding: 10px;
     font-size: 16px;
 }
 
-.noticeTable tr {
-}
 
 .noticeTable td:first-child,
 .noticeTable th:first-child {
@@ -81,12 +80,12 @@
 
 .noticeTable td:nth-child(3),
 .noticeTable th:nth-child(3) {
-    width: 5%;
+    width: 8%;
 }
 
 .noticeTable td:nth-child(4),
 .noticeTable th:nth-child(4) {
-    width: auto;
+    width: 40%; /* 제목 열의 너비를 40%로 유지합니다. */
 }
 
 .noticeTable td:nth-child(5),
@@ -96,12 +95,12 @@
 
 .noticeTable td:nth-child(6),
 .noticeTable th:nth-child(6) {
-    width: 20%;
+    width: 30%;
 }
 
 .noticeTable td:nth-child(7),
 .noticeTable th:nth-child(7) {
-    width: 5%;
+    width: 8%;
 }
 
 
@@ -141,7 +140,7 @@
     text-decoration: none;
 }
 .titleSize{
-    width: 40%;
+    width: 40%; /* th의 너비도 40%로 유지 (기존과 동일) */
 }
 .tableBox {
     min-height: 450px; /* 또는 height: 300px; */
@@ -155,4 +154,21 @@
     border: none;
     background-color: #E8E8E1;
     cursor: pointer;
+}
+
+/* 제목 말줄임표를 위한 CSS 수정 (디자인 변경 없이 기능만 추가) */
+.titleCell {
+   /* td에 overflow를 적용하여 셀 너비 안에서 내용이 넘치도록 합니다. */
+   overflow: hidden; 
+   /* td 안의 span에도 적용되어야 정확하게 말줄임표가 작동합니다. */
+}
+
+/* titleCell 안의 span 태그에 직접 스타일을 적용하여 말줄임표 기능이 작동하도록 합니다. */
+.titleCell span {
+   display: inline-block; /* span이 너비를 가질 수 있도록 inline-block으로 변경 */
+   max-width: 60%; /* 부모 td의 100% 너비까지만 허용 */
+   overflow: hidden; /* 넘치는 내용 숨기기 */
+   white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+   text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+   vertical-align: middle; /* 텍스트 정렬 유지 (필요에 따라) */
 }
