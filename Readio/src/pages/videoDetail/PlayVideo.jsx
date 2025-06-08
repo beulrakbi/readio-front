@@ -165,12 +165,10 @@ function PlayVideo() {
 
                     <div className={styles.videoInfo}>
                         <div className={styles.videoTitle}>
-                            {/* {videoInfo.snippet.title} */}
                             {videoInfo.title}
-                        </div> {/*videoTitle 영역 끝 */}
+                        </div> 
                         <div className={styles.channelNameBookMark}>
                             <div className={styles.channelName}>
-                                {/* {videoInfo.snippet.channelTitle} */}
                                 {videoInfo.channelTitle}
                             </div>
                             <div className={styles.BookMark}>
@@ -182,10 +180,9 @@ function PlayVideo() {
                                     className={styles.bookmark}
                                 />
                             </div>
-                        </div> {/* channelNameBookMark */}
-                    </div> {/* videoInfo 영역 끝 */}
+                        </div>
+                    </div> 
                     <div className={styles.videoDetail}>
-                        {/* {videoInfo.snippet.description} */}
 
                         <div className={styles.videoStats}>
                             <div className={styles.videoViewCount}>조회수: {videoInfo.viewCount.toLocaleString()}회</div>
@@ -193,11 +190,11 @@ function PlayVideo() {
                         </div>
 
                         {videoInfo.description}
-                    </div> {/* videoDetail 영역 끝 */}
+                    </div> 
 
                     <RecommandedVideoList keyword={videoInfo.title} />   {/* 현재 영상의 제목을 키워드로 넘김 */}
 
-                </div> {/* container 영역 끝 */}
+                </div> 
 
             </div>
         </>

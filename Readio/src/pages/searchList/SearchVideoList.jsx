@@ -124,10 +124,18 @@ function SearchVideoList() {
                                     className={styles.video}
                                     onClick={() => onClickVideoPage(vid)}
                                 >
-                                    {isDB
+                                    {/* {isDB
                                         ? <VIdeoInDB videoInDB={item} />
                                         : <Video video={item} />
-                                    }
+                                    } */}
+
+                                    {/* 썸네일만 보이도록 감싸기 (수정됨!) */}
+                                    <div className={styles.thumbnailWrapper}> {/* 수정됨! */}
+                                        {isDB
+                                            ? <VIdeoInDB videoInDB={item} />
+                                            : <Video    video={item} />
+                                        }
+                                    </div> {/* 수정됨! */}
                                     <div className={styles.videoInfo}>
                                         <div className={styles.videoTitle}>
                                             {isDB ? item.title : item.snippet.title}

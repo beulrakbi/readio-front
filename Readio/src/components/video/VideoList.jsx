@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { callFiltersByTypeIdAPI } from "../../apis/FilteringAPICalls.js";
 import { saveClickLog } from '../../apis/StatisticsAPICalls';
 import { getNewVideos, getVideosByKeyword } from "../../apis/VideoAPI.js";
+import { callVideoInsertAPI } from "../../apis/VideoAPICalls.js";
 import leftButton from "../../assets/arrow-left.png";
 import rightButton from "../../assets/arrow-right.png";
 import Video from "./Video";
@@ -22,25 +23,25 @@ function VideoList({type, userCoords, userId}) {
 
     const mapWeatherToKeyword = (weatherMain) => {
         switch (weatherMain) {
-        case "Clear":
-            return ["맑은날", "산책", "야외활동", "햇살", "기분좋은", "운동", "드라이브"];
-        case "Clouds":
-            return ["흐린날", "잔잔한", "여유", "차분한"];
-        case "Rain":
-        case "Drizzle":
-        case "Thunderstorm":
-            return ["비오는날", "실내", "감성", "차가운"];
-        case "Snow":
-            return ["눈오는날", "겨울", "포근한", "눈사람", "크리스마스"];
-        case "Mist":
-        case "Fog":
-        case "Haze":
-        case "Smoke":
-        case "Dust":
-            return ["안개낀날", "신비로운", "몽환적", "집중"];
-        default:
-            return [];
-        }
+                case "Clear":
+                    return ["맑은날", "산책", "야외활동", "햇살", "기분좋은", "운동", "드라이브"];
+                case "Clouds":
+                    return ["흐린날", "잔잔한", "여유", "차분한"];
+                case "Rain":
+                case "Drizzle":
+                case "Thunderstorm":
+                    return ["비오는날", "실내", "감성", "차가운"];
+                case "Snow":
+                    return ["눈오는날", "겨울", "포근한", "눈사람", "크리스마스"];
+                case "Mist":
+                case "Fog":
+                case "Haze":
+                case "Smoke":
+                case "Dust":
+                    return ["안개낀날", "신비로운", "몽환적", "집중"];
+                default:
+                    return [];
+            }
     };
 
     const getVideos = async (filters) => {
@@ -50,7 +51,7 @@ function VideoList({type, userCoords, userId}) {
                         if (!userCoords) return;
 
                         try {
-                            // 1) OpenWeatherMap API 호출
+                                // OpenWeatherMap API 호출
                                 const { lat, lon } = userCoords;
                                 const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_KEY}&lang=kr`;
                                 
@@ -66,50 +67,73 @@ function VideoList({type, userCoords, userId}) {
                                 const weatherMain = weatherJson.weather?.[0]?.main || "";
                                 console.log("현재 날씨 (weatherMain):", weatherMain);
 
-                                // 2) 날씨 메인 코드를 DB에 저장된 후보 키워드 리스트로 매핑
+                                // 날씨 메인 코드를 DB에 저장된 후보 키워드 리스트로 매핑
                                 const candidates = mapWeatherToKeyword(weatherMain); 
-                                if (!candidates.length) {
+                                if (candidates.length === 0) {
                                     setVideoInDBList([]);
                                     setVideoList([]);
                                     return;
                                 }
 
-                                // 3) 후보 중 하나를 무작위로 골라서 최종 키워드 생성
-                                const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-                                const keyword = `${chosen} 도서`;
-                                console.log(`선택된 검색 키워드: "${keyword}"`);
+                                // 키워드 결합
+                                const keywords = candidates.map(c => `${c} 도서`);
 
-                                // 4) DB에서 먼저 날씨 기반 영상 조회
-                                const dbRes = await getVideosByKeyword(type.typeId, keyword, dispatch);
-                                let result1 = [];
-                                if (dbRes && Array.isArray(dbRes.videoDTOList)) {
-                                    result1 = dbRes.videoDTOList.filter((v, idx, self) =>
-                                        idx === self.findIndex(x => x.videoId === v.videoId)
-                                    );
+                                // 키워드별 DB 조회 및 축적
+                                const allDB = [];
+                                const allYt = [];
+                                for (let kw of keywords) {
+                                    // DB에서 조회
+                                    const dbRes = await getVideosByKeyword(type.typeId, kw, dispatch);
+                                    const dbList = Array.isArray(dbRes?.videoDTOList)
+                                        ? dbRes.videoDTOList.filter((v, i, self) => i === self.findIndex(x => x.videoId === v.videoId))
+                                        : [];
+                                    allDB.push(...dbList);
+
+                                    // 유튜브 API 조회 (DB에 없는 만큼)
+                                    const numInDB = dbList.length;
+                                    const ytList = await getNewVideos(
+                                        type.typeId,
+                                        kw,
+                                        dispatch,
+                                        numInDB,
+                                        dbList,
+                                        filters
+                                    ) || [];
+                                    allYt.push(...ytList);
                                 }
-                                setVideoInDBList(result1);
-                                const numInDB = result1.length;
 
-                                // 5) DB에 없는 만큼 YouTube API에서 추가 영상 검색
-                                const newVideos = await getNewVideos(
-                                    type.typeId,
-                                    keyword,
-                                    dispatch,
-                                    numInDB,
-                                    result1,
-                                    filters
-                                ) || [];
+                                // 중복 제거
+                                const uniqueDB = Array.from(new Map(allDB.map(v => [v.videoId, v])).values());
+                                const uniqueYt = Array.from(new Map(allYt.map(v => [v.id.videoId, v])).values());
 
-                                // 6) 중복 제거 후 상태 저장
-                                const uniqueNewVideos = Array.from(
-                                    new Map(newVideos.map(v => [v.id.videoId, v])).values()
-                                );
-                                setVideoList(uniqueNewVideos);
+
+                                try {
+                                    uniqueYt.forEach(video => {
+                                        dispatch(callVideoInsertAPI({ form: {
+                                        videoId: video.id.videoId,
+                                        title: video.snippet.title,
+                                        description: video.snippet.description,
+                                        channelTitle: video.snippet.channelTitle,
+                                        thumbnail: video.snippet.thumbnails.high.url,
+                                        viewCount: 0,
+                                        uploadDate: video.snippet.publishedAt
+                                        }}));
+                                    });
+                                    } catch (e) {
+                                    console.warn("YouTube API error, falling back to DB only", e); // 수정됨
+                                    setVideoInDBList(uniqueDB);
+                                    setVideoList([]); // 수정됨
+                                    return;                  // 수정됨
+                                    }
+
+                                // 상태 업데이트
+                                setVideoInDBList(uniqueDB);
+                                setVideoList(uniqueYt);
                                 return;
 
                             } catch (err) {
                                 console.error("프론트엔드 날씨 기반 처리 중 에러:", err);
-                                setVideoInDBList([]);
+                                setVideoInDBList(uniqueDB);
                                 setVideoList([]);
                                 return;
                             }
@@ -159,12 +183,35 @@ function VideoList({type, userCoords, userId}) {
                 const newVideos = await getNewVideos(type.typeId,      // 6
                     newKeyword, dispatch, numInDB, emotionVideos, filters) || [];
 
+
+
+                    if (newVideos.length === 0) {   // 수정됨
+                        console.warn("YouTube API fallback to DB");
+                        setVideoInDBList(emotionVideos);
+                        setVideoList([]);            // 수정됨
+                        return;                      // 수정됨
+                    }
+
+                    newVideos.forEach(video => {
+                            dispatch(callVideoInsertAPI({
+                                form: {
+                                    videoId:      video.id.videoId,
+                                    title:        video.snippet.title,
+                                    description:  video.snippet.description,
+                                    channelTitle: video.snippet.channelTitle,
+                                    thumbnail:    video.snippet.thumbnails.high.url,
+                                    viewCount:    0,
+                                    uploadDate:   video.snippet.publishedAt
+                                }
+                        }));
+                    });
+
                 setVideoList(newVideos);
                 return;
 
             } catch (err) {
                 console.error("감정 기반 추천 처리 중 에러:", err);
-                setVideoInDBList([]);
+                setVideoInDBList(emotionVideos);
                 setVideoList([]);
                 return;
             }

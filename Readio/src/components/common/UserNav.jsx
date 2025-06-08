@@ -4,10 +4,30 @@ import { NavLink } from "react-router-dom";
 import UserNavCSS from './navi.module.css';
 
 
+const OPENWEATHER_KEY = "52003f931a0d81375dba797857ece5da";
+
+const mapWeatherToEmoji = (weatherMain) => {
+    switch (weatherMain) {
+            case "Clear":        return "☀️";
+            case "Clouds":       return "⛅";
+            case "Rain":
+            case "Drizzle":      return "🌧️";
+            case "Thunderstorm": return "⛈️";
+            case "Snow":         return "☃️";
+            case "Mist":
+            case "Fog":
+            case "Haze":         return "🌫️";
+            default:             return "❓";
+    }
+};
+
+
 function UserNav({ isOpen, setIsOpen }) {
 
     const isLogin = useSelector(state => state.user.isLogin);
     const [customerServiceOpen, setCustomerServiceOpen] = useState(false);
+
+    const [weatherEmoji, setWeatherEmoji] = useState("");
 
     const toggleCustomerService = () => {
         setCustomerServiceOpen(!customerServiceOpen);
@@ -25,6 +45,28 @@ function UserNav({ isOpen, setIsOpen }) {
             document.body.style.overflow = 'auto';
         };
     }, [isOpen]);
+
+    // 2) 위치 권한 요청 → 날씨 API 호출 → 이모티콘 저장
+    useEffect(() => {
+        if (!navigator.geolocation) return;
+        navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+        try {
+                const { latitude: lat, longitude: lon } = coords;
+                const res = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}` +
+                `&appid=${OPENWEATHER_KEY}&lang=kr`
+            );
+                if (!res.ok) throw new Error(res.statusText);
+                const data = await res.json();
+                const main = data.weather?.[0]?.main || "";
+                setWeatherEmoji(mapWeatherToEmoji(main));
+        } catch (err) {
+            console.error("날씨 API 호출 실패:", err);
+        }
+        }, err => {
+            console.warn("위치 권한 오류:", err);
+        });
+    }, []);
 
     return (
         <div className={`${UserNavCSS.navi} ${isOpen ? UserNavCSS.open : ''}`}>
@@ -97,6 +139,9 @@ function UserNav({ isOpen, setIsOpen }) {
                             </NavLink>
                         </li>
                     </ul>
+                </div>
+                <div className={UserNavCSS.weatherEmoji}>
+                    오늘의 날씨 {weatherEmoji}
                 </div>
                 {/* <div className={UserNavCSS.naviBannerContainer}>
                     <p className={UserNavCSS.naviBannerText}>오늘의 소식</p>

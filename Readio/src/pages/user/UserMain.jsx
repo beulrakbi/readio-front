@@ -2,10 +2,6 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callCurationTypesAPI } from "../../apis/CurationAPICalls.js";
-import bgimg1 from '../../assets/bgimg.png';
-import bgimg2 from '../../assets/bgimg2.png';
-import bgimg3 from '../../assets/bgimg3.png';
-import bgimg4 from '../../assets/bgimg4.png';
 import VideoList from '../../components/video/VideoList.jsx';
 import EmotionModal from '../mylibrary/calendar/EmotionModal.jsx';
 import SearchBox from '../searchList/SearchBox.jsx';
@@ -22,14 +18,6 @@ function UserMain() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isTypesLoaded, setIsTypesLoaded] = useState(false);
 
-    const [bgImage, setBgImage] = useState(null);
-
-    useEffect(() => {
-        const images = [bgimg1, bgimg2, bgimg3, bgimg4];
-        const randomImage = images[Math.floor(Math.random() * images.length)];
-        setBgImage(randomImage);
-    }, []);
-
     const today = dayjs();  // import dayjs
 
     const token = sessionStorage.getItem("accessToken");   //5.30 변경 테스트중
@@ -37,8 +25,6 @@ function UserMain() {
 
     const types = useSelector(state => state.curation.type);
     // const token = localStorage.getItem("accessToken");
-
-    const userIdFromSession = sessionStorage.getItem("userId");
 
 
     const convertEmojiToEnum = (emoji) => {
@@ -113,28 +99,17 @@ function UserMain() {
             const getTypes = async () => {
                 const allTypes = await dispatch(callCurationTypesAPI());
                 if (allTypes) {
-                    const apiTypes = allTypes.data; // ← 변수명을 apiTypes로 변경
 
-                    // 로그인 상태일 때만 “감정 기반 추천” 객체을 앞에 추가
-                    let finalTypesToShow = [...apiTypes];
-                    if (token && userIdFromSession) {
-                        const emotionRecommendationType = {
-                            typeId: 6,
-                            typeName: 'Emotion',
-                            typeText: `${userIdFromSession}님, 오늘 기분에 맞는 영상 어때요? 😊`
-                        };
-                        finalTypesToShow.unshift(emotionRecommendationType); // ← apiTypes 복사본에 추가
-                    }
+                    const apiTypes = allTypes.data; 
 
-                    // 마지막으로 셔플해서 state에 저장
-                    const shuffled = finalTypesToShow.sort(() => 0.5 - Math.random());
-                    // setTypes(shuffled);
+                    const shuffled = [...apiTypes].sort(() => 0.5 - Math.random());
+
                     setShuffledTypes(shuffled); 
                 }
             }
             getTypes();
             console.log("ttttttt", types);
-        }, [dispatch, token, userIdFromSession]);
+        }, [dispatch]);
 
     return (<>
         <div className={UserMainCSS.main}>
