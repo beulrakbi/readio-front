@@ -12,8 +12,6 @@ function PlayVideo() {
     const [isBookmarked, setIsBookmarked] = useState(false); // 초기 상태: 북마크 안 됨
     const [bookmarkCount, setBookmarkCount] = useState(0); // 초기 상태: 0
     const [videoInfo, setVideoInfo] = useState(null);
-
-    const [hasPlayed, setHasPlayed] = useState(false);
     const [userBookmarkId, setUserBookmarkId] = useState(null);
 
     const getAuthToken = () => {
