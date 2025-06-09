@@ -41,6 +41,10 @@ function FeedItemPost({ item, loggedInUserId, onToggleLike, onToggleFollow, onRe
         navigate(`/mylibrary/post/${item.id}`);
     };
 
+    const handleProfileClick = () => {
+        if(item && item.profileId) navigate(`/mylibrary/${item.userId}`);
+    }
+
     const isPostOwner = !!(loggedInUserId && item.authorId && String(item.authorId) === String(loggedInUserId));
 
     const handleReport = (postId) => onReport(postId, 'post');
@@ -48,7 +52,7 @@ function FeedItemPost({ item, loggedInUserId, onToggleLike, onToggleFollow, onRe
     return (
         <div className={FeedCSS.feedContentDiv}>
             <div className={FeedCSS.feedPostProfileDiv}>
-                <img src={item.profileImg ? `${BASE_IMAGE_URL}profile/${item.profileImg}` : defaultImg} className={FeedCSS.feedPostProfileImg} alt="profile" />
+                <img src={item.profileImg ? `${BASE_IMAGE_URL}profile/${item.profileImg}` : defaultImg} className={FeedCSS.feedPostProfileImg} alt="profile" onClick={handleProfileClick} />
                 <div className={FeedCSS.feedPostProfile}>
                     <li>{item.userName}</li>
                     <li>{formatDateTime(item.createdAt)}</li>

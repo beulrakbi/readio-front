@@ -18,6 +18,7 @@ const ProfileSection = () => {
 
 
     const [profile, setProfile] = useState({
+        profileId: null,
         penName: '',
         biography: '',
         imageUrl: '',
@@ -96,22 +97,47 @@ const ProfileSection = () => {
             if (!targetUserId) return;
 
             try {
-                const [followersRes, followingRes] = await Promise.all([
-                    axios.get(`http://localhost:8080/api/follow/${targetUserId}/followers`, {
-                        headers: getAuthHeader()
-                    }),
-                    axios.get(`http://localhost:8080/api/follow/${targetUserId}/following`, {
-                        headers: getAuthHeader()
-                    })
-                ]);
+                const token = sessionStorage.getItem("accessToken");
+                const authHeader = getAuthHeader();
 
-                setFollowerCount(followersRes.data.length);
-                setFollowingCount(followingRes.data.length);
+                const profileRes = await axios.get(`http://localhost:8080/api/user/profile/${targetUserId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    withCredentials: true
+                });
+
+                const fetchedProfileData = profileRes.data;
+                setProfile(fetchedProfileData);
+                const targetProfileId = fetchedProfileData.profileId;
+
+                if (targetProfileId !== null) {
+                    const [followersRes, followingRes] = await Promise.all([
+                        axios.get(`http://localhost:8080/api/follow/${targetProfileId}/followers`, {
+                            headers: authHeader
+                        }),
+                        axios.get(`http://localhost:8080/api/follow/${targetProfileId}/following`, {
+                            headers: authHeader
+                        })
+                    ]);
+
+                    setFollowerCount(followersRes.data.length);
+                    console.log(`팔로워 수 (${targetProfileId}):`, followersRes.data.length);
+                    setFollowingCount(followingRes.data.length);
+                    console.log(`팔로잉 수 (${targetProfileId}):`, followingRes.data.length);
+                } else {
+                    console.warn(`프로필 ID(${targetUserId})를 가져올 수 없어 팔로우 카운트를 조회하지 못했습니다.`);
+                    setFollowerCount(0);
+                    setFollowingCount(0);
+                }
 
             } catch (err) {
-                console.error('팔로우 카운트 조회 실패:', err);
+                console.error('프로필 또는 팔로우 카운트 조회 실패:', err);
                 setFollowerCount(0);
                 setFollowingCount(0);
+                setProfile({ // 오류 시 프로필 정보 초기화
+                    profileId: null, penName: '', biography: '', imageUrl: '', isPrivate: 'PUBLIC',
+                });
             }
         };
 

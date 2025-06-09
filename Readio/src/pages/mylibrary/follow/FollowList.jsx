@@ -138,8 +138,6 @@ function FollowList() {
                 </div>
                 );
             })}
-            
-            {/* 페이지네이션이 필요하다면 PostList.jsx의 로직을 참고하여 여기에 추가 */}
         </div>
     );
 }

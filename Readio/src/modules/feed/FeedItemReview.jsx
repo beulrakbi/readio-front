@@ -35,7 +35,7 @@ function FeedItemReview({ item, loggedInUserId, onToggleLike, onToggleFollow, on
     };
 
     const handleProfileClick = () => {
-        if(item && item.profileId) navigate(`/mylibrary/${item.profileId}`);
+        if(item && item.profileId) navigate(`/mylibrary/${item.userId}`);
     }
 
     const handleContentClick = () => {
