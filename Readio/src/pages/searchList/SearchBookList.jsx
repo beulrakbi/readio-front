@@ -1,52 +1,50 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { callBookInsertAPI, callBooksAPI } from '../../apis/BookAPICalls'; // callBookInsertAPI 추가
+import { callBookInsertAPI, callBooksAPI } from '../../apis/BookAPICalls';
 import styles from './SearchBookList.module.css';
 import SearchBox from './SearchBox.jsx';
 
-function SearchBookList() {
+export default function SearchBookList() {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch(); // Redux dispatch
+  const dispatch = useDispatch();
 
-  // 1) 로컬 상태
-  const [input, setInput] = useState('');          // 검색창 입력값
-  const [query, setQuery] = useState('');          // 실제 검색 키워드
-  const [page, setPage] = useState(1);             // 페이지 번호
-  const [books, setBooks] = useState([]);          // 최종 보여줄 도서 목록 (DB + API 보충)
-  const [totalCount, setTotalCount] = useState(0); // DB에서 내려준 total
+  const [input, setInput] = useState('');
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [books, setBooks] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
-  const size = 10;                                 // 한 페이지당 개수
-  const MAX_TOTAL = 100;                           // 최대 결과 수
-  const MAX_PAGES = 10;                            // 페이지 버튼 최대 개수
 
-  // 2) URL 쿼리 파싱: query, page 초기화
-  useEffect(() => {
-    const qp = new URLSearchParams(location.search);
-    const q = qp.get('query') || '';
-    const p = parseInt(qp.get('page'), 10) || 1;
-    setInput(q);
-    setQuery(q);
-    setPage(p);
-  }, [location.search]);
+  const PAGE_SIZE  = 10; // 한 페이지당 표시 개수
+  const FETCH_SIZE = 50; // 검색 시 실제로 채워올 총 개수
+  const MAX_PAGES  = 5;  // 페이지 버튼 최대 개수
 
-  // 3) DB 조회 후, 부족하면 알라딘 API 호출 보충
+  // URL 쿼리 파싱: query, page 초기화
   useEffect(() => {
-    // query가 빈 문자열이면 결과 초기화
-    if (!query) {
-      setBooks([]);
-      setTotalCount(0);
-      return;
-    }
+            const qp = new URLSearchParams(location.search);
+            const q  = qp.get('query') || '';
+            const p  = parseInt(qp.get('page'), 10) || 1;
+            setInput(q);
+            setQuery(q);
+            setPage(p);
+      }, [location.search]);
+
+  // 검색어(query)가 바뀔 때마다 DB 조회 → 부족분 API 채우기
+  useEffect(() => {
+            if (!query) {
+                setBooks([]);
+                setTotalCount(0);
+                return;
+            }
 
     setErrorMessage('');
 
-    // 1) 백엔드(DB) 조회: /search/book?query=...&page=...&size=...
-    fetch(`http://localhost:8080/search/book?query=${encodeURIComponent(query)}&page=${page}&size=${size}`)
+    // DB에서 최대 FETCH_SIZE 개 가져오기
+    fetch(`http://localhost:8080/search/book?query=${encodeURIComponent(query)}&page=1&size=${FETCH_SIZE}`)
       .then(res => res.json())
       .then(json => {
-        // ResponseDTO 구조: { status, message, data: { books: [...], total: X } }
         const { data } = json;
         if (!data || !Array.isArray(data.books)) {
           setErrorMessage('서버 응답이 올바르지 않습니다.');
@@ -55,17 +53,13 @@ function SearchBookList() {
           return;
         }
 
-        const dbBooks = data.books;     // DB에서 가져온 책 목록
-        const dbTotal = data.total;     // DB에서 매칭된 총 개수
-
-        // 1-1) DB 결과를 일단 화면에 세팅
+        const dbBooks = data.books;
         setBooks(dbBooks);
-        setTotalCount(Math.min(dbTotal, MAX_TOTAL));
+        setTotalCount(dbBooks.length);
 
-        // 1-2) “DB에서 반환된 개수가 size보다 작거나, 빈 배열인 경우” → 알라딘 API 호출 보충
-        if (dbBooks.length < size) {
-          const needed = size - dbBooks.length;
-
+        // 부족분이 있으면 API로 채우기
+        const needed = FETCH_SIZE - dbBooks.length;
+        if (needed > 0) {
           dispatch(callBooksAPI({ search: query, page: 1, size: needed }))
             .then(apiResult => {
               if (!apiResult || !Array.isArray(apiResult.item)) {
@@ -73,17 +67,16 @@ function SearchBookList() {
                 return;
               }
 
-              // “apiResult.item” → 프론트에서 보여줄 객체 배열(원시 형태)
               const mappedApiBooks = apiResult.item.map(it => ({
-                bookIsbn: it.isbn,
-                bookTitle: it.title,
-                bookAuthor: it.author,
-                bookPublisher: it.publisher,
-                bookCover: it.cover,
+                bookIsbn:        it.isbn,
+                bookTitle:       it.title,
+                bookAuthor:      it.author,
+                bookPublisher:   it.publisher,
+                bookCover:       it.cover,
                 bookDescription: it.description,
               }));
 
-              // 1-3) DB에 저장: mappedApiBooks를 순회하며 callBookInsertAPI 호출
+              // 저장 요청
               mappedApiBooks.forEach(async book => {
                 try {
                   await dispatch(callBookInsertAPI({ form: book }));
@@ -92,9 +85,9 @@ function SearchBookList() {
                 }
               });
 
-              // 1-4) 화면에는 “DB에서 온 책” + “API 보충용 책”을 이어붙여서 표시
+              // 화면에 이어붙이기
               setBooks(prev => [...prev, ...mappedApiBooks]);
-              setTotalCount(dbTotal + mappedApiBooks.length);
+              setTotalCount(prev => prev + mappedApiBooks.length);
             });
         }
       })
@@ -104,31 +97,35 @@ function SearchBookList() {
         setBooks([]);
         setTotalCount(0);
       });
-  }, [query, page, dispatch]);
+  }, [query, dispatch]);
 
-  // 4) 페이지 버튼 렌더링
+  const currentPageItems = books.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  // 페이지네이션
   const renderPagination = () => {
-    const realPages = Math.ceil(totalCount / size);
+    const realPages  = Math.ceil(totalCount / PAGE_SIZE);
     const totalPages = Math.min(realPages, MAX_PAGES);
     if (totalPages <= 1) return null;
 
-    return Array.from({ length: totalPages }, (_, i) => {
-      const num = i + 1;
-      return (
-        <button
-          key={num}
-          className={`${styles.pageButton} ${page === num ? styles.activePage : ''}`}
-          onClick={() => {
-            navigate(`/search/book?query=${encodeURIComponent(query)}&page=${num}`);
-          }}
-        >
-          {num}
-        </button>
-      );
-    });
+    return (
+      <div className={styles.paginationContainer}>
+        {Array.from({ length: totalPages }, (_, i) => {
+          const num = i + 1;
+          return (
+            <button
+              key={num}
+              className={`${styles.pageButton} ${page === num ? styles.activePage : ''}`}
+              onClick={() => navigate(`/search/book?query=${encodeURIComponent(query)}&page=${num}`)}
+            >
+              {num}
+            </button>
+          );
+        })}
+      </div>
+    );
   };
 
-  // 5) 검색 버튼 클릭
+  // 검색 버튼 클릭
   const onSearch = () => {
     if (!input.trim()) {
       setErrorMessage('검색어를 입력해주세요.');
@@ -154,8 +151,8 @@ function SearchBookList() {
         <hr className={styles.SearchbookListHr} />
 
         <div className={styles.SearchBookList}>
-          {books.length > 0 ? (
-            books.map((b, idx) => (
+          {currentPageItems.length > 0 ? (
+            currentPageItems.map((b, idx) => (
               <Fragment key={b.bookIsbn ?? idx}>
                 <div
                   className={styles.bookItem}
@@ -163,7 +160,7 @@ function SearchBookList() {
                 >
                   <img
                     className={styles.book}
-                    src={b.bookCover?.replace('coversum', 'cover500') ?? '/default-cover.png'}
+                    src={b.bookCover?.replace('coversum', 'cover500') || '/default-cover.png'}
                     alt={`${b.bookTitle} 표지`}
                   />
                   <div className={styles.bookInfo}>
@@ -191,10 +188,8 @@ function SearchBookList() {
           )}
         </div>
 
-        <div className={styles.paginationContainer}>{renderPagination()}</div>
+        {renderPagination()}
       </div>
     </>
   );
 }
-
-export default SearchBookList;
