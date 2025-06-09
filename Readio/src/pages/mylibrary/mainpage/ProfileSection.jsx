@@ -15,7 +15,12 @@ const ProfileSection = () => {
     const { userId: paramUserId } = useParams();
     const currentUserId = sessionStorage.getItem("userId");
     const targetUserId = paramUserId || currentUserId;
-
+    
+    useEffect(() => {
+        console.log("currentUserId", currentUserId);
+        console.log("param", paramUserId);
+        console.log("userid", targetUserId);
+    },[targetUserId, currentUserId, paramUserId])
 
     const [profile, setProfile] = useState({
         profileId: null,

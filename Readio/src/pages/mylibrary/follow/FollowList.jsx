@@ -122,7 +122,7 @@ function FollowList() {
                         onClick={() => navigate(`/mylibrary/${user.userId}`)}
                         style={{cursor: 'pointer'}}
                     />
-                    <div className={FollowCSS.followProfile} onClick={() => navigate(`/mylibrary/${user.profileId}`)} style={{cursor: 'pointer'}}>
+                    <div className={FollowCSS.followProfile} onClick={() => navigate(`/mylibrary/${user.userId}`)} style={{cursor: 'pointer'}}>
                         <li className={FollowCSS.followProfileFont}>{user.penName}</li>
                         <li className={FollowCSS.followFont}>팔로워 {user.followerCount}명</li>
                     </div>
