@@ -55,7 +55,7 @@ function VideoList({type, userCoords, userId}) {
                 if (type.typeId === 5) {
 
                         if (!userCoords) return;
-
+                        let uniqueDB = [];
                         try {
                                 // OpenWeatherMap API 호출
                                 const { lat, lon } = userCoords;
@@ -82,7 +82,7 @@ function VideoList({type, userCoords, userId}) {
                                 }
 
                                 // 키워드 결합
-                                const keywords = candidates.map(c => `${c} 도서`);
+                                let keywords = candidates.map(c => `${c}`);
 
                                 // 키워드별 DB 조회 및 축적
                                 const allDB = [];
@@ -99,7 +99,7 @@ function VideoList({type, userCoords, userId}) {
                                     const numInDB = dbList.length;
                                     const ytList = await getNewVideos(
                                         type.typeId,
-                                        kw,
+                                        kw + '도서',
                                         dispatch,
                                         numInDB,
                                         dbList,
@@ -109,21 +109,25 @@ function VideoList({type, userCoords, userId}) {
                                 }
 
                                 // 중복 제거
-                                const uniqueDB = Array.from(new Map(allDB.map(v => [v.videoId, v])).values());
+                                uniqueDB = Array.from(new Map(allDB.map(v => [v.videoId, v])).values());
                                 const uniqueYt = Array.from(new Map(allYt.map(v => [v.id.videoId, v])).values());
 
 
                                 try {
                                     uniqueYt.forEach(video => {
-                                        dispatch(callVideoInsertAPI({ form: {
-                                        videoId: video.id.videoId,
-                                        title: video.snippet.title,
-                                        description: video.snippet.description,
-                                        channelTitle: video.snippet.channelTitle,
-                                        thumbnail: video.snippet.thumbnails.high.url,
-                                        viewCount: 0,
-                                        uploadDate: video.snippet.publishedAt
-                                        }}));
+                                        const date = new Date(video.snippet.publishedAt);
+                                        const formattedDate = date.toISOString().slice(0, 10);
+                                        const form = {
+                                            videoId: video.id.videoId,
+                                            title: video.snippet.title,
+                                            description: video.snippet.description,
+                                            channelTitle: video.snippet.channelTitle,
+                                            thumbnail: video.snippet.thumbnails.high.url,
+                                            viewCount: 0,
+                                            uploadDate: formattedDate
+                                        };
+
+                                        dispatch(callVideoInsertAPI({form: form}));
                                     });
                                     } catch (e) {
                                     console.warn("YouTube API error, falling back to DB only", e); // 수정됨
@@ -199,7 +203,9 @@ function VideoList({type, userCoords, userId}) {
                     }
 
                     newVideos.forEach(video => {
-                            dispatch(callVideoInsertAPI({
+                        const date = new Date(video.snippet.publishedAt);
+                        const formattedDate = date.toISOString().slice(0, 10);
+                        dispatch(callVideoInsertAPI({
                                 form: {
                                     videoId:      video.id.videoId,
                                     title:        video.snippet.title,
@@ -207,7 +213,7 @@ function VideoList({type, userCoords, userId}) {
                                     channelTitle: video.snippet.channelTitle,
                                     thumbnail:    video.snippet.thumbnails.high.url,
                                     viewCount:    0,
-                                    uploadDate:   video.snippet.publishedAt
+                                    uploadDate:   formattedDate
                                 }
                         }));
                     });

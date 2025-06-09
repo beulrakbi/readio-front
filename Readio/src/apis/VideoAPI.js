@@ -67,7 +67,7 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos, fi
 
         try {
             const encodedKeyword = encodeURIComponent(keyword);
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBNV1sIWpZ7v673GAponvUY-3G7cTWIDX8';
             // const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyA2Cyb_5A9hMOylg1aAqCBSbsaUfYnHMEA';
             const data = await fetch(baseUrl);
             const json = await data.json();
@@ -76,6 +76,8 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos, fi
             if (Array.isArray(result)) {
 
                 for (let i = 0; i < result.length; i++) {
+                    const date = new Date(result[i].snippet.publishedAt);
+                    const formattedDate = date.toISOString().slice(0, 10);
                     const form = {
                         videoId: result[i].id.videoId,
                         title: result[i].snippet.title,
@@ -83,7 +85,7 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos, fi
                         channelTitle: result[i].snippet.channelTitle,
                         thumbnail: result[i].snippet.thumbnails.high.url,
                         viewCount: 0,
-                        uploadDate: result[i].snippet.publishedAt
+                        uploadDate: formattedDate
                     };
                     dispatch(callVideoInsertAPI({form}));
                 }
@@ -101,6 +103,7 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos, filte
 
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s (수민)
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I (성경님)
+    // AIzaSyBGSUwC4IbniXmnHaPJpTRgr4mQ0oWdwbo (성경)
 
     // 추가 API 
     // AIzaSyA2Cyb_5A9hMOylg1aAqCBSbsaUfYnHMEA (성경님)
@@ -136,7 +139,7 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos, filte
 
         try {
             const encodedKeyword = encodeURIComponent(keyword);
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s';
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBNV1sIWpZ7v673GAponvUY-3G7cTWIDX8';
             const data = await fetch(baseUrl);
             const json = await data.json();
 
@@ -151,6 +154,8 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos, filte
             if (Array.isArray(result)) {
 
                 for (let i = 0; i < result.length; i++) {
+                    const date = new Date(result[i].snippet.publishedAt);
+                    const formattedDate = date.toISOString().slice(0, 10);
                     const form = {
                         videoId: result[i].id.videoId,
                         title: result[i].snippet.title,
@@ -158,7 +163,7 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos, filte
                         channelTitle: result[i].snippet.channelTitle,
                         thumbnail: result[i].snippet.thumbnails.high.url,
                         viewCount: 0,
-                        uploadDate: result[i].snippet.publishedAt
+                        uploadDate: formattedDate
                     };
                     dispatch(callVideoInsertAPI({form}));
                 }
