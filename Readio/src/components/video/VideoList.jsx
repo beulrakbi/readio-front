@@ -242,7 +242,6 @@ function VideoList({type, userCoords, userId}) {
                     // 각 키워드에 대해 DB에서 영상 검색
                     const getVideosAwait = await getVideosByKeyword(type.typeId, keyword, dispatch);
                     if (getVideosAwait) {
-                        // result1 = getVideosAwait.videoDTOList.filter((video, index, self) => index === self.findIndex(v => v.videoId === video.videoId));
                         result1 = getVideosAwait.videoDTOList;
                         allVideosInDB.push(...result1);
                     }
@@ -252,7 +251,6 @@ function VideoList({type, userCoords, userId}) {
                     const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, numInDB, result1 || [], filters); // 수정: allVideosInDB 대신 현재 키워드의 DB결과(result1)를 넘겨야 정확한 제외 검색 가능
                     if (getNewVideoAwait) {
                         result2 = getNewVideoAwait;
-                        // result2 = getNewVideoAwait.filter((video, index, self) => index === self.findIndex(v => v.id.videoId === video.id.videoId));
                         allVideos.push(...result2);
                     }
                 }
