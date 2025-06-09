@@ -132,7 +132,8 @@ function App() {
                         <Route path="mylibrary" element={<MyLibraryPage />} />
                         <Route path="guestlibrary" element={<MyLibraryGuestPage />} />
                         <Route path="mylibrary/profile" element={<EditProfilePage />} />
-                        <Route path="mylibrary/interest" element={<InterestViewPage />} />
+                        <Route path="/mylibrary/interest" element={<InterestViewPage />} />
+                        <Route path="/mylibrary/interest/:userId" element={<InterestViewPage />} />
                         <Route path="mylibrary/interest/edit" element={<InterestEditPage />} />
                         <Route path="mylibrary/calendar" element={<CalendarPage />} />
                         <Route path="mylibrary/post/writing" element={<PostWriting />} />

@@ -162,23 +162,7 @@ const ProfileSection = () => {
         console.log("postcounts", postCount);
     }, [reviewCount, postCount])
 
-    const handlePostClick = () => {
-        if (!isOwner && profile.isPrivate === 'PRIVATE') {
-            setShowPopup(true);
-            setTimeout(() => setShowPopup(false), 2000);
-        } else {
-            navigate(`/mylibrary/postAndReview/`, {state: {click: 'post'}});
-        }
-    };
 
-    const handleReviewClick = () => {
-        if (!isOwner && profile.isPrivate === 'PRIVATE') {
-            setShowPopup(true);
-            setTimeout(() => setShowPopup(false), 2000);
-        } else {
-            navigate(`/mylibrary/postAndReview/`, {state: {click: 'review'}});
-        }
-    };
 
     const handleNavigateToFollowList = (defaultTab) => {
         if (!isOwner && profile.isPrivate === 'PRIVATE') {
@@ -206,7 +190,6 @@ const ProfileSection = () => {
 
                 <div className={styles.profileInfo}>
                     <h2 className={styles.nickname}>{profile.penName || 'Readio 기본 필명'}</h2>
-                    <p>등급 : 재미있는 활동가</p>
                     <p className={styles.followInfo}>
                         <span className={styles.followLink} onClick={() => handleNavigateToFollowList('follower')}>
                             팔로워 {followerCount}
@@ -231,36 +214,91 @@ const ProfileSection = () => {
 
             <div className={styles.outProfileInfo}>
                 <div className={styles.stats}>
-                    <div className={styles.statItem} onClick={handlePostClick} style={{ cursor: 'pointer' }}>
+                    <div
+                        className={styles.statItem}
+                        onClick={() => navigate(`/mylibrary/postAndReview/`, { state: { click: 'post' } })}
+                        style={{ cursor: 'pointer' }}
+                    >
                         <strong>{postCount.data}</strong><span>포스트</span>
                     </div>
-                    <div className={styles.statItem} onClick={handleReviewClick} style={{ cursor: 'pointer' }}>
-                        <strong>{reviewCount.length}</strong><span>리뷰</span></div>
+                    <div
+                        className={styles.statItem}
+                        onClick={() => navigate(`/mylibrary/postAndReview/`, { state: { click: 'review' } })}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <strong>{reviewCount.length}</strong><span>리뷰</span>
+                    </div>
+
                     {/* 관심 영상 클릭 시 'video' 탭 정보를 전달 */}
                     <div className={styles.statItem}>
-                        <strong onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'video' } })}>
+                        <strong
+                            onClick={() => {
+                                if (!isOwner && profile.isPrivate === 'PRIVATE') {
+                                    setShowPopup(true);
+                                    setTimeout(() => setShowPopup(false), 2000);
+                                } else {
+                                    navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'video' } });
+                                }
+                            }}
+                        >
                             {bookmarkedVideoCount}
                         </strong>
-                        <span onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'video' } })}>
-                            관심 영상
-                        </span>
+                        <span
+                            onClick={() => {
+                                if (!isOwner && profile.isPrivate === 'PRIVATE') {
+                                    setShowPopup(true);
+                                    setTimeout(() => setShowPopup(false), 2000);
+                                } else {
+                                    navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'video' } });
+                                }
+                            }}
+                        >
+        관심 영상
+    </span>
                     </div>
-                    {/* 관심 책 클릭 시 'book' 탭 정보를 전달 */}
                     <div className={styles.statItem}>
-                        <strong onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'book' } })}>
+                        <strong
+                            onClick={() => {
+                                if (!isOwner && profile.isPrivate === 'PRIVATE') {
+                                    setShowPopup(true);
+                                    setTimeout(() => setShowPopup(false), 2000);
+                                } else {
+                                    navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'book' } });
+                                }
+                            }}
+                        >
                             {bookmarkedBookCount}
                         </strong>
-                        <span onClick={() => navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'book' } })}>
-                            관심 책
-                        </span>
+                        <span
+                            onClick={() => {
+                                if (!isOwner && profile.isPrivate === 'PRIVATE') {
+                                    setShowPopup(true);
+                                    setTimeout(() => setShowPopup(false), 2000);
+                                } else {
+                                    navigate(`/bookmark/${targetUserId}`, { state: { activeTab: 'book' } });
+                                }
+                            }}
+                        >
+        관심 책
+    </span>
                     </div>
+
                 </div>
 
                 <div className={styles.buttons}>
                     {isOwner && (
                         <button className={styles.postBtn} onClick={() => navigate('post/writing')}>✏️ 포스트 작성</button>
                     )}
-                    <button className={styles.interestBtn} onClick={() => navigate('/mylibrary/interest')}>
+                    <button
+                        className={styles.interestBtn}
+                        onClick={() => {
+                            if (isOwner) {
+                                navigate('/mylibrary/interest');
+                            } else {
+                                navigate(`/mylibrary/interest/${targetUserId}`);
+                            }
+                        }}
+                    >
                         📌 나의 관심사
                     </button>
                 </div>

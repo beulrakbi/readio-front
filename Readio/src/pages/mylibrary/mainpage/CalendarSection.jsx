@@ -106,13 +106,14 @@ const CalendarSection = () => {
         <div className={styles.section}>
             <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>{month + 1}월 활동 달력</h2>
-                <span
-                    className={styles.sectionAction}
-                    onClick={() => navigate('/mylibrary/calendar')}
-                    style={{ cursor: 'pointer' }}
-                >
-                    전체보기
-                </span>
+                {isOwner && (
+                    <span
+                        className={styles.sectionAction}
+                        onClick={() => navigate('/mylibrary/calendar')}
+                        style={{ cursor: 'pointer' }}
+                    >전체보기
+                    </span>
+                )}
             </div>
 
             <div className={styles.calendar}>
