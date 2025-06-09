@@ -38,15 +38,15 @@ const Login = () => {
             if (!response.ok) {
                 let errorMessage = "로그인 실패";
                 let errorData = null;
-                
+
                 try {
                     errorData = await response.json();
                     if (errorData && errorData.message) {
                         errorMessage = errorData.message;
                     }
 
-                } catch {
-
+                } catch (parseError) {
+                    console.warn("JSON 파싱 실패, 기본 메시지 사용:", parseError);
                 }
                 throw new Error(errorMessage);
             }
