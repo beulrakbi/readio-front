@@ -292,6 +292,7 @@ const ProfileSection = () => {
 
                 </div>
 
+                {/* 정지계정 포스트 작성 버튼 클릭 시 접근불가 */}
                 <div className={styles.buttons}>
                     {isOwner && (
                         <button
