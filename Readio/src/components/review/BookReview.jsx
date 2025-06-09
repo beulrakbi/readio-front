@@ -15,7 +15,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
     const [loadingReviews, setLoadingReviews] = useState(true);
     const [reviewsError, setReviewsError] = useState(null);
     const [currentLoggedInUserId, setCurrentLoggedInUserId] = useState(null);
-
+    const [currentLoggedInUserRole, setCurrentLoggedInUserRole] = useState(null);   // 추가
     console.log("BookReview rendered. isLoggedIn:", isLoggedIn, "bookIsbn:", bookIsbn);
 
     const fetchReviews = async () => {
@@ -49,7 +49,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 console.error("[BookReview.jsx] fetchReviews - actualReviews가 배열이 아님:", actualReviews);
                 throw new Error("리뷰 데이터 형식이 올바르지 않습니다.");
             }
-            
+
             const formattedReviews = actualReviews.map(review => {
                 // 백엔드에서 오는 review 객체 구조를 여기서 확인!
                 console.log("[BookReview.jsx] fetchReviews - 매핑 전 개별 리뷰:", review);
@@ -92,7 +92,8 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 try {
                     const decodedToken = JSON.parse(atob(token.split('.')[1]));
                     setCurrentLoggedInUserId(decodedToken.sub);
-                    console.log("[BookReview.jsx] 로그인된 사용자 ID 설정 (decodedToken.sub):", decodedToken.sub);
+                    setCurrentLoggedInUserRole(decodedToken.role || decodedToken.auth || decodedToken.authority); // 정지권한 댓글 작성 제한 (6.9추가)
+                    console.log("[BookReview.jsx] 로그인된 사용자 ID 설정 (decodedToken.sub):", decodedToken.sub, "권한:", decodedToken.role || decodedToken.auth || decodedToken.authority);
                 } catch (e) {
                     console.error("JWT 토큰 디코딩 실패 또는 토큰 형식 오류:", e);
                     setCurrentLoggedInUserId(null);
@@ -101,7 +102,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 setCurrentLoggedInUserId(null);
                 console.log("[BookReview.jsx] 토큰 없음, 로그인된 사용자 ID null로 설정.");
             }
-            
+
             // bookIsbn이 유효할 때만 fetchReviews 호출
             if (bookIsbn) {
                 await fetchReviews(); // fetchReviews가 완료될 때까지 기다릴 수 있도록 await 추가 (선택 사항)
@@ -120,11 +121,18 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
     };
 
     const handleReviewSubmit = async () => {
-        const authHeader = getAuthHeader(); 
-        if (!authHeader['Authorization']) { 
+        const authHeader = getAuthHeader();
+        if (!authHeader['Authorization']) {
             alert("로그인 후 리뷰를 작성할 수 있습니다.");
             return;
         }
+
+        // 추가
+        if (currentLoggedInUserRole === 'SUSPENDED') {
+            alert("정지된 계정은 댓글을 작성할 수 없습니다.");
+            return;
+        }
+
         if (!reviewContent.trim()) {
             alert("리뷰 내용을 입력해주세요.");
             return;
@@ -136,7 +144,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...authHeader 
+                    ...authHeader
                 },
                 body: JSON.stringify({
                     bookIsbn: bookIsbn,
@@ -151,7 +159,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
 
             alert("리뷰가 성공적으로 등록되었습니다.");
             setReviewContent('');
-            fetchReviews(); 
+            fetchReviews();
 
         } catch (err) {
             setReviewsError(err.message);
@@ -175,8 +183,8 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
             alert("로그인 후 좋아요를 누를 수 있습니다.");
             return;
         }
-        
-        const originalReviews = reviews.map(r => ({...r})); // 상태 롤백을 위한 깊은 복사
+
+        const originalReviews = reviews.map(r => ({ ...r })); // 상태 롤백을 위한 깊은 복사
 
         // 1. 낙관적 업데이트
         setReviews(prevReviews => prevReviews.map(review => {
@@ -237,7 +245,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
 
     // --- ⭐ handleReportClick 함수 수정 시작 ⭐ ---
     const handleReportClick = async (reviewId) => {
-        const authHeader = getAuthHeader(); 
+        const authHeader = getAuthHeader();
         if (!authHeader['Authorization']) {
             alert("로그인 후 리뷰를 신고할 수 있습니다.");
             return;
@@ -247,25 +255,25 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
             try {
                 const res = await fetch(`http://localhost:8080/bookReview/${reviewId}/report`, {
                     method: 'PUT',
-                    headers: authHeader 
+                    headers: authHeader
                 });
 
                 // ⭐ 백엔드에서 409 Conflict 상태 코드를 반환할 경우 처리
-                if (res.status === 409) { 
+                if (res.status === 409) {
                     alert("이미 신고한 리뷰입니다."); // ⭐ 메시지를 "이미 신고하였습니다."로 고정
                     return; // 함수 종료
                 }
 
                 if (!res.ok) {
                     // 서버에서 에러 메시지를 JSON 형태로 반환할 경우 파싱 시도
-                    const errorBody = await res.json().catch(() => res.text()); 
+                    const errorBody = await res.json().catch(() => res.text());
                     // 백엔드에서 이미 "이미 신고한 리뷰입니다." 같은 메시지를 message 필드에 담아 보내주므로 활용
-                    const errorMessage = typeof errorBody === 'object' && errorBody !== null && errorBody.message 
-                                       ? errorBody.message 
-                                       : `신고 실패: ${res.status} ${errorBody}`; // 메시지 필드가 없으면 기본 에러 메시지 사용
+                    const errorMessage = typeof errorBody === 'object' && errorBody !== null && errorBody.message
+                        ? errorBody.message
+                        : `신고 실패: ${res.status} ${errorBody}`; // 메시지 필드가 없으면 기본 에러 메시지 사용
 
                     // '신고 처리 중 오류 발생: ' 접두사를 제거하고, 에러 메시지 자체를 alert
-                    alert(errorMessage); 
+                    alert(errorMessage);
                     console.error("[BookReview.jsx] 신고 처리 오류 (백엔드 에러):", errorMessage);
                     return; // 에러 처리 후 함수 종료
                 }
@@ -274,7 +282,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 fetchReviews(); // 성공적으로 신고되었으면 리뷰 목록을 새로고침
             } catch (err) {
                 // 네트워크 오류 등 fetch 자체에서 발생하는 오류 처리
-                alert(`신고 처리 중 오류 발생: ${err.message}`); 
+                alert(`신고 처리 중 오류 발생: ${err.message}`);
                 console.error("[BookReview.jsx] 신고 처리 오류 (프론트엔드/네트워크):", err);
             }
         }
@@ -283,7 +291,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
 
 
     const handleDeleteClick = async (reviewId, reviewerUserId) => {
-        const authHeader = getAuthHeader(); 
+        const authHeader = getAuthHeader();
         if (!authHeader['Authorization']) {
             alert("로그인이 필요합니다.");
             return;
@@ -298,7 +306,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
             try {
                 const res = await fetch(`http://localhost:8080/bookReview/delete/${reviewId}`, {
                     method: 'DELETE',
-                    headers: authHeader 
+                    headers: authHeader
                 });
 
                 if (!res.ok) {
@@ -307,7 +315,7 @@ function BookReview({ bookIsbn, isLoggedIn, onReviewsLoaded }) {
                 }
 
                 alert("리뷰가 삭제되었습니다.");
-                fetchReviews(); 
+                fetchReviews();
 
             } catch (err) {
                 alert(`리뷰 삭제 중 오류 발생: ${err.message}`);

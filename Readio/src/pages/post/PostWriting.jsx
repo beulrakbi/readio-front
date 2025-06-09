@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import PostWritingBookIcon from '../../assets/PostWritingBook.png';
+import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
 import PostCSS from './Post.module.css';
 import PostWritingBook from './PostWritingBook';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchAladinBooks } from '../../modules/postwriting/bookSearchThunk';
 
-import { callPostDetailAPI, callPostCreateAPI, callPostUpdateAPI } from '../../apis/PostAPICalls';
+import { callPostCreateAPI, callPostDetailAPI, callPostUpdateAPI } from '../../apis/PostAPICalls';
 
 function PostWriting() {
     const dispatch = useDispatch();
@@ -15,6 +14,7 @@ function PostWriting() {
     const { postId } = useParams();
 
     const { isLogin } = useSelector(state => state.user);
+    const userRole = useSelector(state => state.user.userInfo?.userRole);  // 추가
 
     const isEditMode = !!postId;
 
@@ -23,8 +23,8 @@ function PostWriting() {
     const postDetailFromStore = useSelector(state => state.postReducer.postDetail);
 
     const [form, setForm] = useState({
-        postTitle:'',
-        postContent:'',
+        postTitle: '',
+        postContent: '',
     });
 
     const [imageUrl, setImageUrl] = useState();
@@ -34,6 +34,19 @@ function PostWriting() {
     const [selectedBook, setSelectedBook] = useState(null);
     const [isBookSearchOpen, setIsBookSearchOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    // 로그인 여부 및 권한 확인 후 접근 제한 처리
+    // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+    // 권한이 없는 경우 접근 불가 페이지로 리다이렉트
+    useEffect(() => {
+        if (!isLogin) {
+            console.log("[PostWriting] 로그인 상태가 아닙니다. 리다이렉트 실행.");
+            navigate('/users/login', { replace: true });
+        } else if (userRole && userRole === 'SUSPENDED') {
+            alert("접근 권한이 없습니다.");
+            navigate('/access-denied', { replace: true });
+        }
+    }, [isLogin, userRole, navigate]);
 
     // --- 수정 모드: 기존 데이터 로드 ---
     useEffect(() => {
@@ -94,6 +107,7 @@ function PostWriting() {
             }
             setIsLoading(false);
         } else if (isEditMode && postDetailFromStore === null && !isLoading) {
+            // 빈 블록
         } else if (!isEditMode && !isLoading) {
             setIsLoading(false);
         }
@@ -110,7 +124,7 @@ function PostWriting() {
             title: book.title,
             author: book.author,
             publisher: book.publisher,
-            coverUrl: book.coverUrl 
+            coverUrl: book.coverUrl
         };
         setSelectedBook(newSelectedBook);
         setIsBookSearchOpen(false);
@@ -213,7 +227,7 @@ function PostWriting() {
                 submissionFormData.append('postId', postId);
                 console.log(`[PostWriting] 수정 API 호출 준비 (postId: ${postId})`);
                 await dispatch(callPostUpdateAPI({ postId: parseInt(postId), form: submissionFormData }));
-                
+
                 alert('게시물이 성공적으로 수정되었습니다.');
                 navigate(`/mylibrary/post/${postId}`);
 
@@ -221,7 +235,7 @@ function PostWriting() {
                 // === 작성 모드 ===
                 console.log("[PostWriting] 생성 API 호출 준비");
                 const resultAction = await dispatch(callPostCreateAPI({ form: submissionFormData }));
-                
+
                 alert('게시물이 성공적으로 등록되었습니다.');
                 const newPostId = resultAction?.payload?.data?.postId || resultAction?.payload?.postId || resultAction?.data?.postId || resultAction?.postId;
                 if (newPostId) {
@@ -243,7 +257,7 @@ function PostWriting() {
     return (
         <div className={PostCSS.postWritingDiv}>
             <h2 className={PostCSS.pageTitle}>{isEditMode ? "포스트 수정" : "포스트 작성"}</h2>
-            
+
             <div className={PostCSS.iconDiv}>
                 <button type="button" className={PostCSS.iconBt} onClick={() => fileInputRef.current.click()}>
                     <img src={PostWritingPhotoIcon} className={PostCSS.icon} alt="사진 올리기" />
@@ -262,7 +276,7 @@ function PostWriting() {
                     placeholder='제목을 입력해주세요.'
                     className={PostCSS.postTitle}
                     onChange={onChangeHandler}
-                    value={form.postTitle} 
+                    value={form.postTitle}
                 />
                 <textarea
                     name="postContent"
@@ -291,39 +305,39 @@ function PostWriting() {
                 )}
                 {/* 수정 모드에서 기존 이미지 미리보기 (새 이미지 선택 안했을 때) */}
                 {!imageUrl && currentImagePreview && isEditMode && (
-                     <div className={PostCSS.imagePreview}>
-                         <img src={currentImagePreview} className={PostCSS.imagePreviewImg} />
-                         {/* 기존 이미지 삭제 버튼 UI (필요 시 추가) */}
-                         <button type="button" className={PostCSS.removeBtn} onClick={handleRemoveExistingImage} title="기존 이미지 삭제">x</button>
-                     </div>
+                    <div className={PostCSS.imagePreview}>
+                        <img src={currentImagePreview} className={PostCSS.imagePreviewImg} />
+                        {/* 기존 이미지 삭제 버튼 UI (필요 시 추가) */}
+                        <button type="button" className={PostCSS.removeBtn} onClick={handleRemoveExistingImage} title="기존 이미지 삭제">x</button>
+                    </div>
                 )}
 
                 {/* 선택된 책 정보 표시 */}
                 {selectedBook && (
-                     <div className={PostCSS.selectedBookPreview}>
-                         <img
-                             src={selectedBook.coverUrl} // 기본 이미지 경로
-                             alt={selectedBook.title}
-                             className={PostCSS.selectedBookCover}
-                         />
-                         <div className={PostCSS.selectedBookInfo}>
-                             <p className={PostCSS.selectedBookTitle}>{selectedBook.title}</p> 
-                             <p className={PostCSS.selectedBookAuthor}>{selectedBook.author}</p>
-                             {selectedBook.publisher && <p className={PostCSS.selectedBookPublisher}>출판사 : {selectedBook.publisher}</p>}
-                         </div>
-                         <button type="button" className={PostCSS.removeSelectedBookBtn} onClick={removeSelectedBook}>X</button>
-                     </div>
+                    <div className={PostCSS.selectedBookPreview}>
+                        <img
+                            src={selectedBook.coverUrl} // 기본 이미지 경로
+                            alt={selectedBook.title}
+                            className={PostCSS.selectedBookCover}
+                        />
+                        <div className={PostCSS.selectedBookInfo}>
+                            <p className={PostCSS.selectedBookTitle}>{selectedBook.title}</p>
+                            <p className={PostCSS.selectedBookAuthor}>{selectedBook.author}</p>
+                            {selectedBook.publisher && <p className={PostCSS.selectedBookPublisher}>출판사 : {selectedBook.publisher}</p>}
+                        </div>
+                        <button type="button" className={PostCSS.removeSelectedBookBtn} onClick={removeSelectedBook}>X</button>
+                    </div>
                 )}
             </div>
 
             {isBookSearchOpen && (
-                 <div className={PostCSS.bookSearchModalOverlay}>
-                     <PostWritingBook
-                         onBookSelect={handleBookSelectFromSearch}
-                         onClose={() => setIsBookSearchOpen(false)}
-                         PostCSS={PostCSS} // PostCSS 객체 전달
-                     />
-                 </div>
+                <div className={PostCSS.bookSearchModalOverlay}>
+                    <PostWritingBook
+                        onBookSelect={handleBookSelectFromSearch}
+                        onClose={() => setIsBookSearchOpen(false)}
+                        PostCSS={PostCSS} // PostCSS 객체 전달
+                    />
+                </div>
             )}
         </div>
     );

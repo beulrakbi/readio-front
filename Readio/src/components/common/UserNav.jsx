@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import UserNavCSS from './navi.module.css';
 
 
@@ -27,20 +27,8 @@ function UserNav({ isOpen, setIsOpen }) {
     const isLogin = useSelector(state => state.user.isLogin);
     const [customerServiceOpen, setCustomerServiceOpen] = useState(false);
     const userRole = useSelector(state => state.user.userInfo?.userRole);  // 추가
-    const navigate = useNavigate(); // 추가
 
     console.log("userRole 찾기", useSelector(state => state.user));
-    const goToFeed = () => {
-        console.log("userRole 값:", userRole);  // 이걸 추가
-        if (userRole === "SUSPENDED") {
-            console.warn("현재 userRole:", userRole);
-            alert("정지된 계정은 피드에 접근할 수 없습니다.");
-            return;
-        }
-
-        setIsOpen(false);
-        navigate("/feed");
-    };
 
 
 

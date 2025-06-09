@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom';
+import { callMyBookReviewsCountAPI } from "../../../apis/BookAPICalls.js";
+import { callPostsCountAPI } from "../../../apis/PostAPICalls.js";
 import defaultImg from '../../../assets/defaultImg.png';
 import pencilIcon from '../../../assets/pencil.png';
 import styles from './MyLibrary.module.css';
-import {callPostsCountAPI} from "../../../apis/PostAPICalls.js";
-import {useDispatch, useSelector} from "react-redux";
-import {callMyBookReviewsCountAPI} from "../../../apis/BookAPICalls.js";
 
 
 const ProfileSection = () => {
@@ -15,12 +15,14 @@ const ProfileSection = () => {
     const { userId: paramUserId } = useParams();
     const currentUserId = sessionStorage.getItem("userId");
     const targetUserId = paramUserId || currentUserId;
-    
+
+    const userRole = useSelector(state => state.user.userInfo?.userRole);
+
     useEffect(() => {
         console.log("currentUserId", currentUserId);
         console.log("param", paramUserId);
         console.log("userid", targetUserId);
-    },[targetUserId, currentUserId, paramUserId])
+    }, [targetUserId, currentUserId, paramUserId])
 
     const [profile, setProfile] = useState({
         profileId: null,
@@ -36,7 +38,7 @@ const ProfileSection = () => {
     // 관심 영상과 관심 책의 수를 저장할 상태 변수
     const [bookmarkedVideoCount, setBookmarkedVideoCount] = useState(0);
     const [bookmarkedBookCount, setBookmarkedBookCount] = useState(0);
-    const postCount = useSelector(state=> state.postReducer);
+    const postCount = useSelector(state => state.postReducer);
     const reviewCount = useSelector(state => state.bookReview.reviews);
     const [showPopup, setShowPopup] = useState(false);
     const isOwner = currentUserId === targetUserId;
@@ -85,8 +87,8 @@ const ProfileSection = () => {
                 // 책 북마크 카운트 가져오기
                 // 백엔드에서 userId 파라미터 없이 @AuthenticationPrincipal로 처리한다면 아래처럼 사용
                 const bookRes = await axios.get(`http://localhost:8080/bookBookmark/list`, {
-                // 백엔드에서 userId를 쿼리 파라미터로 요구한다면 아래처럼 사용
-                // const bookRes = await axios.get(`http://localhost:8080/bookBookmark/list?userId=${targetUserId}`, {
+                    // 백엔드에서 userId를 쿼리 파라미터로 요구한다면 아래처럼 사용
+                    // const bookRes = await axios.get(`http://localhost:8080/bookBookmark/list?userId=${targetUserId}`, {
                     headers: authHeader
                 });
                 setBookmarkedBookCount(bookRes.data.length);
@@ -147,13 +149,13 @@ const ProfileSection = () => {
         };
 
         const fetchPostCount = () => {
-            dispatch(callPostsCountAPI({userId: targetUserId}));
+            dispatch(callPostsCountAPI({ userId: targetUserId }));
         };
         const fetchReviewCount = () => {
             dispatch(callMyBookReviewsCountAPI());
         };
 
-        
+
 
         fetchProfile();
         fetchBookmarkCounts();
@@ -188,8 +190,8 @@ const ProfileSection = () => {
                     <img src={profile.imageUrl ? `http://localhost:8080${profile.imageUrl}` : defaultImg} className={styles.profileImage} />
 
                     {isOwner && (
-                        <img src={pencilIcon} className={styles.editIcon} alt="편집"  onClick={() => isOwner && navigate('/mylibrary/profile')}
-                             style={{ cursor: isOwner ? 'pointer' : 'default' }}/>
+                        <img src={pencilIcon} className={styles.editIcon} alt="편집" onClick={() => isOwner && navigate('/mylibrary/profile')}
+                            style={{ cursor: isOwner ? 'pointer' : 'default' }} />
                     )}
                 </div>
 
@@ -258,8 +260,8 @@ const ProfileSection = () => {
                                 }
                             }}
                         >
-        관심 영상
-    </span>
+                            관심 영상
+                        </span>
                     </div>
                     <div className={styles.statItem}>
                         <strong
@@ -284,16 +286,34 @@ const ProfileSection = () => {
                                 }
                             }}
                         >
-        관심 책
-    </span>
+                            관심 책
+                        </span>
                     </div>
 
                 </div>
 
+                {/* 정지계정 포스트 작성 버튼 클릭 시 접근불가 */}
                 <div className={styles.buttons}>
                     {isOwner && (
-                        <button className={styles.postBtn} onClick={() => navigate('post/writing')}>✏️ 포스트 작성</button>
+                        <button
+                            className={styles.postBtn}
+                            onClick={() => {
+                                if (userRole === 'SUSPENDED') {
+                                    alert('정지된 계정은 포스트를 작성할 수 없습니다.');
+                                } else {
+                                    navigate('post/writing');
+                                }
+                            }}
+                        >
+                            ✏️ 포스트 작성
+                        </button>
                     )}
+
+                    {/* <div className={styles.buttons}>
+                    {isOwner && (
+                        <button className={styles.postBtn}onClick={() => navigate('post/writing')}>✏️ 포스트 작성</button>
+                    )} */}
+
                     <button
                         className={styles.interestBtn}
                         onClick={() => {
