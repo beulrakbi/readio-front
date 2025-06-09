@@ -119,7 +119,7 @@ function FollowList() {
                         src={user.imageUrl ? `http://localhost:8080/img/profile/${user.imageUrl}` : defaultProfileImg} 
                         className={FollowCSS.followProfileImg} 
                         alt="profile" 
-                        onClick={() => navigate(`/mylibrary/${user.profileId}`)}
+                        onClick={() => navigate(`/mylibrary/${user.userId}`)}
                         style={{cursor: 'pointer'}}
                     />
                     <div className={FollowCSS.followProfile} onClick={() => navigate(`/mylibrary/${user.profileId}`)} style={{cursor: 'pointer'}}>

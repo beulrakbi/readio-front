@@ -34,14 +34,16 @@ function PostDetail() {
 
     const authorProfileObject = post?.profileId;
     const postAuthorProfileId = authorProfileObject?.profileId;
-    const loggedInUserSystemId = localStorage.getItem("userId");
+    const postAuthorUserId = authorProfileObject?.userId;
+
+    const loggedInUserSystemId = sessionStorage.getItem("userId");
     const currentActualProfileId = loggedInUserProfile?.profileId;
 
     const isFollowing = postAuthorProfileId && followState && followState.targetProfileId === postAuthorProfileId
         ? followState.isFollowing
         : false;
 
-    const isPostOwner = currentActualProfileId && postAuthorProfileId && currentActualProfileId === postAuthorProfileId;
+    const isPostOwner = !!(loggedInUserSystemId && postAuthorUserId && String(loggedInUserSystemId) === String(postAuthorUserId));
 
     // ★ 1. 실제 리뷰 개수를 저장할 state 추가
     const [actualReviewCount, setActualReviewCount] = useState(0);
@@ -67,6 +69,15 @@ function PostDetail() {
             }));
         }
     }, [dispatch, params.postId]);
+
+    useEffect(() => {
+    if (post) { // post 데이터가 로드된 후
+        console.log("Post Detail Data (post):", post);
+        console.log("Post Author Profile ID (raw post.profileId):", post.profileId);
+        // 만약 post.profileId가 객체라면 다음을 확인
+        // console.log("Post Author Profile ID (nested):", post.profileId?.profileId);
+    }
+    }, [post]);
 
     // --- 로그인한 사용자 프로필 정보 로드 useEffect ---
     useEffect(() => {
@@ -247,11 +258,11 @@ function PostDetail() {
 
             {post.bookDetails && (
                 <div className={PostCSS.postDetailBookDiv}>
-                    <img src={post.bookDetails.coverUrl || book1} className={PostCSS.postDetailBook} alt="책 표지" />
+                    <img src={post.bookDetails.bookCover || ''} className={PostCSS.postDetailBook} alt="책 표지" />
                     <div className={PostCSS.postDetailBookTitleDiv}>
-                        <h3 className={PostCSS.postDetailBookTitle}>{post.bookDetails.title || '책 제목 없음'}</h3>
+                        <h3 className={PostCSS.postDetailBookTitle}>{post.bookDetails.bookTitle || '책 제목 없음'}</h3>
                         <p className={PostCSS.postDetailBookTitle}>
-                            {post.bookDetails.author || '저자 정보 없음'} • {post.bookDetails.publisher || '출판사 정보 없음'}
+                            {post.bookDetails.bookAuthor || '저자 정보 없음'} • {post.bookDetails.bookPublisher || '출판사 정보 없음'}
                         </p>
                     </div>
                 </div>
