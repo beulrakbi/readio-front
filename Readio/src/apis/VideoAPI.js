@@ -61,8 +61,8 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos, fi
                     keyword += "- " + filtering[i].videoId;
             }
         }
-        console.log("Filter", filtering);
-        console.log("최종 쿼리", keyword);
+        // console.log("Filter", filtering);
+        // console.log("최종 쿼리", keyword);
         maxResult = maxResult - num;
 
         try {

@@ -85,31 +85,22 @@ function UserMain() {
     useEffect(() => {
         const fetchTypes = async () => {
             if (!token || !userId || token === 'undefined' || userId === 'undefined') {
-                await dispatch(callCurationTypesAPI({ login: false }));
+                dispatch(callCurationTypesAPI({ login: "false" }));
             } else {
-                await dispatch(callCurationTypesAPI({ login: true }));
+                dispatch(callCurationTypesAPI({ login: "true" }));
             }
-            setIsTypesLoaded(true);
         };
         fetchTypes();
     }, []);
 
-
-     useEffect(() => {
-            const getTypes = async () => {
-                const allTypes = await dispatch(callCurationTypesAPI());
-                if (allTypes) {
-
-                    const apiTypes = allTypes.data; 
-
-                    const shuffled = [...apiTypes].sort(() => 0.5 - Math.random());
-
-                    setShuffledTypes(shuffled); 
-                }
-            }
-            getTypes();
-            console.log("ttttttt", types);
-        }, [dispatch]);
+    useEffect(() => {
+        if (types)
+        {
+            const shuffled = [...types].sort(() => 0.5 - Math.random());
+            setShuffledTypes(shuffled);
+            setIsTypesLoaded(true);
+        }
+    }, [types, isTypesLoaded])
 
     return (<>
         <div className={UserMainCSS.main}>
