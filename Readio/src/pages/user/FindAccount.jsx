@@ -189,7 +189,7 @@ const FindPwdForm = () => {
   };
 
   /* 인증번호 확인 */
-  const verifyCode = () => {
+  const verifyCode = async() => {
     setMessage('');
     setError('');
 
@@ -199,14 +199,21 @@ const FindPwdForm = () => {
       return;
     }
 
-    if (code === sentCode) {
-      setIsCodeVerified(true);
-      setTimer(0);  // 타이머 멈추기
-      // setMessage('인증번호가 확인되었습니다.');
-      alert('인증번호 확인이 완료되었습니다.')
-      passwordInputRef.current?.focus();
-    } else {
-      alert('인증번호가 일치하지 않습니다. 다시 시도해주세요.')
+    try {
+      const res = await axios.post('/api/email/verifyCode', {
+        email: email.trim().toLowerCase(),  // 백엔드와 동일하게 소문자로
+        code: code.trim()
+      });
+
+      if (res.status === 200) {
+        setIsCodeVerified(true);
+        setTimer(0);  // 타이머 멈추기
+        // setMessage('인증번호가 확인되었습니다.');
+        alert('인증번호 확인이 완료되었습니다.')
+        passwordInputRef.current?.focus();
+      }
+    } catch (err) {
+      alert('인증번호가 일치하지 않습니다. 다시 시도해주세요.');
       setError('인증번호가 일치하지 않습니다.');
     }
   };
