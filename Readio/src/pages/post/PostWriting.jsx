@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import PostWritingBookIcon from '../../assets/PostWritingBook.png';
+import PostWritingPhotoIcon from '../../assets/PostWritingPhoto.png';
 import PostCSS from './Post.module.css';
 import PostWritingBook from './PostWritingBook';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchAladinBooks } from '../../modules/postwriting/bookSearchThunk';
 
-import { callPostDetailAPI, callPostCreateAPI, callPostUpdateAPI } from '../../apis/PostAPICalls';
+import { callPostCreateAPI, callPostDetailAPI, callPostUpdateAPI } from '../../apis/PostAPICalls';
 
 function PostWriting() {
     const dispatch = useDispatch();
@@ -94,6 +93,7 @@ function PostWriting() {
             }
             setIsLoading(false);
         } else if (isEditMode && postDetailFromStore === null && !isLoading) {
+            // 빈 블록
         } else if (!isEditMode && !isLoading) {
             setIsLoading(false);
         }
