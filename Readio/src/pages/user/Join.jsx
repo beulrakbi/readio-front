@@ -170,19 +170,25 @@ function Join() {
     // 약관 동의 상태
     const [agreeTerms, setAgreeTerms] = useState(false);
     const [agreePrivacy, setAgreePrivacy] = useState(false);
-    const [agreeMarketing, setAgreeMarketing] = useState(false);
+
     // const [agreeThirdParty, setAgreeThirdParty] = useState(false);
 
     // 모달 상태
     const [isTermsModalOpen, setTermsModalOpen] = useState(false);
     const [isPrivacyModalOpen, setPrivacyModalOpen] = useState(false);
+    const [isMarketingModalOpen, setMarketingModalOpen] = useState(false);
+    const [isThirdPartyModalOpen, setThirdPartyModalOpen] = useState(false);
 
     // 모달 핸들러
     const openTermsModal = () => setTermsModalOpen(true);
-    const closeTermsModal = () => setTermsModalOpen(false);
-
     const openPrivacyModal = () => setPrivacyModalOpen(true);
+    const openMarketingModal = () => setMarketingModalOpen(true);
+    const openThirdPartyModal = () => setThirdPartyModalOpen(true);
+
+    const closeTermsModal = () => setTermsModalOpen(false);
     const closePrivacyModal = () => setPrivacyModalOpen(false);
+    const closeMarketingModal = () => setMarketingModalOpen(false);
+    const closeThirdPartyModal = () => setThirdPartyModalOpen(false);
 
     // 아이디 중복확인 핸들러
     const onClickCheckId = async () => {
@@ -579,17 +585,17 @@ function Join() {
                     </label>
 
                     <button type="button"
-                        onClick={openPrivacyModal}
+                        onClick={openMarketingModal}
                         className={styles.modalBtn}>
                         자세히 보기
                     </button>
                 </div>
 
-                {isPrivacyModalOpen && (
+                {isMarketingModalOpen && (
                     <div className={styles.modalOverlay}>
                         <div className={styles.modalContent}>
 
-                            <h3>[선택] 마케팅 수신 동의</h3>
+                            <h3>[선택] 마케팅 정보 수신 동의</h3>
                             <div className={styles.modalBody}>
                                 <h4 className={styles.termsSubTitle}>제1조 (수신 목적)</h4>
                                 <p className={styles.terms1}>
@@ -610,7 +616,7 @@ function Join() {
                                 </p>
                             </div>
 
-                            <button onClick={closePrivacyModal} className={styles.closeBtn}>닫기</button>
+                            <button onClick={closeMarketingModal} className={styles.closeBtn}>닫기</button>
                         </div>
 
                     </div>
@@ -624,17 +630,17 @@ function Join() {
                         [선택] 제3자 정보 제공 동의
                     </label>
                     <button type="button"
-                        onClick={openPrivacyModal}
+                        onClick={openThirdPartyModal}
                         className={styles.modalBtn}>
                         자세히 보기
                     </button>
                 </div>
 
-                {isPrivacyModalOpen && (
+                {isThirdPartyModalOpen && (
                     <div className={styles.modalOverlay}>
                         <div className={styles.modalContent}>
 
-                            <h3>[선택] 제3자 정보제공 동의</h3>
+                            <h3>[선택] 제3자 정보 제공 동의</h3>
                             <div className={styles.modalBody}>
                                 <h4 className={styles.termsTitle}>제1조 (제공받는 자)</h4>
                                 <p className={styles.terms1}>
@@ -662,7 +668,7 @@ function Join() {
                                 </p>
                             </div>
 
-                            <button onClick={closePrivacyModal} className={styles.closeBtn}>닫기</button>
+                            <button onClick={closeThirdPartyModal} className={styles.closeBtn}>닫기</button>
                         </div>
 
                     </div>
