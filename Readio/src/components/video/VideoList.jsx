@@ -54,20 +54,20 @@ function VideoList({ type, userCoords, userId }) {
 
         if (type.typeId === 5) {
 
-            if (!userCoords) return;
-
-            try {
-                // OpenWeatherMap API 호출
-                const { lat, lon } = userCoords;
-                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_KEY}&lang=kr`;
-
-                const weatherRes = await fetch(weatherUrl);
-                if (!weatherRes.ok) {
-                    console.error("OpenWeatherMap 호출 실패:", weatherRes.status);
-                    setVideoInDBList([]);
-                    setVideoList([]);
-                    return;
-                }
+                        if (!userCoords) return;
+                        let uniqueDB = [];
+                        try {
+                                // OpenWeatherMap API 호출
+                                const { lat, lon } = userCoords;
+                                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_KEY}&lang=kr`;
+                                
+                                const weatherRes = await fetch(weatherUrl);
+                                if (!weatherRes.ok) {
+                                    console.error("OpenWeatherMap 호출 실패:", weatherRes.status);
+                                    setVideoInDBList([]);
+                                    setVideoList([]);
+                                    return;
+                                }
 
                 const weatherJson = await weatherRes.json();
                 const weatherMain = weatherJson.weather?.[0]?.main || "";
@@ -81,8 +81,8 @@ function VideoList({ type, userCoords, userId }) {
                     return;
                 }
 
-                // 키워드 결합
-                const keywords = candidates.map(c => `${c} 도서`);
+                                // 키워드 결합
+                                let keywords = candidates.map(c => `${c}`);
 
                 // 키워드별 DB 조회 및 축적
                 const allDB = [];
@@ -95,44 +95,46 @@ function VideoList({ type, userCoords, userId }) {
                         : [];
                     allDB.push(...dbList);
 
-                    // 유튜브 API 조회 (DB에 없는 만큼)
-                    const numInDB = dbList.length;
-                    const ytList = await getNewVideos(
-                        type.typeId,
-                        kw,
-                        dispatch,
-                        numInDB,
-                        dbList,
-                        filters
-                    ) || [];
-                    allYt.push(...ytList);
-                }
+                                    // 유튜브 API 조회 (DB에 없는 만큼)
+                                    const numInDB = dbList.length;
+                                    const ytList = await getNewVideos(
+                                        type.typeId,
+                                        kw + '도서',
+                                        dispatch,
+                                        numInDB,
+                                        dbList,
+                                        filters
+                                    ) || [];
+                                    allYt.push(...ytList);
+                                }
 
-                // 중복 제거
-                const uniqueDB = Array.from(new Map(allDB.map(v => [v.videoId, v])).values());
-                const uniqueYt = Array.from(new Map(allYt.map(v => [v.id.videoId, v])).values());
+                                // 중복 제거
+                                uniqueDB = Array.from(new Map(allDB.map(v => [v.videoId, v])).values());
+                                const uniqueYt = Array.from(new Map(allYt.map(v => [v.id.videoId, v])).values());
 
 
-                try {
-                    uniqueYt.forEach(video => {
-                        dispatch(callVideoInsertAPI({
-                            form: {
-                                videoId: video.id.videoId,
-                                title: video.snippet.title,
-                                description: video.snippet.description,
-                                channelTitle: video.snippet.channelTitle,
-                                thumbnail: video.snippet.thumbnails.high.url,
-                                viewCount: 0,
-                                uploadDate: video.snippet.publishedAt
-                            }
-                        }));
-                    });
-                } catch (e) {
-                    console.warn("YouTube API error, falling back to DB only", e); // 수정됨
-                    setVideoInDBList(uniqueDB);
-                    setVideoList([]); // 수정됨
-                    return;                  // 수정됨
-                }
+                                try {
+                                    uniqueYt.forEach(video => {
+                                        const date = new Date(video.snippet.publishedAt);
+                                        const formattedDate = date.toISOString().slice(0, 10);
+                                        const form = {
+                                            videoId: video.id.videoId,
+                                            title: video.snippet.title,
+                                            description: video.snippet.description,
+                                            channelTitle: video.snippet.channelTitle,
+                                            thumbnail: video.snippet.thumbnails.high.url,
+                                            viewCount: 0,
+                                            uploadDate: formattedDate
+                                        };
+
+                                        dispatch(callVideoInsertAPI({form: form}));
+                                    });
+                                    } catch (e) {
+                                    console.warn("YouTube API error, falling back to DB only", e); // 수정됨
+                                    setVideoInDBList(uniqueDB);
+                                    setVideoList([]); // 수정됨
+                                    return;                  // 수정됨
+                                    }
 
                 // 상태 업데이트
                 setVideoInDBList(uniqueDB);
@@ -210,19 +212,21 @@ function VideoList({ type, userCoords, userId }) {
                     return;                      // 수정됨
                 }
 
-                newVideos.forEach(video => {
-                    dispatch(callVideoInsertAPI({
-                        form: {
-                            videoId: video.id.videoId,
-                            title: video.snippet.title,
-                            description: video.snippet.description,
-                            channelTitle: video.snippet.channelTitle,
-                            thumbnail: video.snippet.thumbnails.high.url,
-                            viewCount: 0,
-                            uploadDate: video.snippet.publishedAt
-                        }
-                    }));
-                });
+                    newVideos.forEach(video => {
+                        const date = new Date(video.snippet.publishedAt);
+                        const formattedDate = date.toISOString().slice(0, 10);
+                        dispatch(callVideoInsertAPI({
+                                form: {
+                                    videoId:      video.id.videoId,
+                                    title:        video.snippet.title,
+                                    description:  video.snippet.description,
+                                    channelTitle: video.snippet.channelTitle,
+                                    thumbnail:    video.snippet.thumbnails.high.url,
+                                    viewCount:    0,
+                                    uploadDate:   formattedDate
+                                }
+                        }));
+                    });
 
                 setVideoList(newVideos);
                 return;

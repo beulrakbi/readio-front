@@ -124,7 +124,6 @@ function UserMain() {
                         당신에게 꼭 맞는 이야기를 전합니다. "</p>
                 </div>
                 <div className={UserMainCSS.videoSection}>
-                    {/* {isTypesLoaded && types?.length > 0 && types.map(type => */}
                     {isTypesLoaded && shuffledTypes.length > 0 && shuffledTypes.map(type =>
                         <VideoList 
                                 type={type} 

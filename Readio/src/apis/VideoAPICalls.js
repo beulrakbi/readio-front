@@ -1,5 +1,13 @@
 import { getVideos, postVideo } from "../modules/video/VideoSlice.js";
 
+const getAuthHeader = () => {
+    const token = sessionStorage.getItem('accessToken'); // Login.jsx에서 저장한 토큰 키 이름과 일치하는지 확인!
+    // console.log("큐레이션 토큰 :",  token);
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
+
+
 export const callVideosAPI = ({type, search}) => {
 
     type = parseInt(type);
@@ -26,7 +34,8 @@ export const callVideosAPI = ({type, search}) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
+                ...getAuthHeader()
             }
         }).then((response) => response.json());
 
@@ -53,7 +62,8 @@ export const callSearchVideosAPI = ({search}) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
+                ...getAuthHeader()
             }
         }).then((response) => response.json());
 
@@ -75,7 +85,8 @@ export const callTopVideosAPI = () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
+                ...getAuthHeader()
             }
         }).then((response) => response.json());
 
@@ -97,7 +108,7 @@ export const callVideoInsertAPI = ({form}) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: '*/*'
+                Accept: '*/*',
             },
             body: JSON.stringify(form)
         }).then((response) => response.json());
@@ -105,7 +116,7 @@ export const callVideoInsertAPI = ({form}) => {
         // console.log('[VideoAPICalls] callVideosAPI RESULT : ', result);
         if (result.status === 200) {
             // console.log('[VideoAPICalls] callVideosAPI SUCCESS');
-            dispatch(postVideo(form));
+            dispatch(postVideo(form.data));
         }
     };
 }
