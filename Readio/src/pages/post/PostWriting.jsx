@@ -13,7 +13,8 @@ function PostWriting() {
     const navigate = useNavigate();
     const { postId } = useParams();
 
-    const { isLogin, userRole } = useSelector(state => state.user);
+    const { isLogin } = useSelector(state => state.user);
+    const userRole = useSelector(state => state.user.userInfo?.userRole);  // 추가
 
     const isEditMode = !!postId;
 
@@ -39,9 +40,9 @@ function PostWriting() {
     // 권한이 없는 경우 접근 불가 페이지로 리다이렉트
     useEffect(() => {
         if (!isLogin) {
-            alert("로그인이 필요합니다.");
+            console.log("[PostWriting] 로그인 상태가 아닙니다. 리다이렉트 실행.");
             navigate('/users/login', { replace: true });
-        } else if (userRole === 'SUSPENDED') {  // SUSPENDED 권한일 때만 접근 제한
+        } else if (userRole && userRole === 'SUSPENDED') {
             alert("접근 권한이 없습니다.");
             navigate('/access-denied', { replace: true });
         }
