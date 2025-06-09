@@ -13,7 +13,7 @@ function PostWriting() {
     const navigate = useNavigate();
     const { postId } = useParams();
 
-    const { isLogin, hasPermission } = useSelector(state => state.user);
+    const { isLogin, userRole } = useSelector(state => state.user);
 
     const isEditMode = !!postId;
 
@@ -41,11 +41,11 @@ function PostWriting() {
         if (!isLogin) {
             alert("로그인이 필요합니다.");
             navigate('/users/login', { replace: true });
-        } else if (!hasPermission) {
+        } else if (userRole === 'SUSPENDED') {  // SUSPENDED 권한일 때만 접근 제한
             alert("접근 권한이 없습니다.");
             navigate('/access-denied', { replace: true });
         }
-    }, [isLogin, hasPermission, navigate]);
+    }, [isLogin, userRole, navigate]);
 
     // --- 수정 모드: 기존 데이터 로드 ---
     useEffect(() => {
