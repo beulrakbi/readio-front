@@ -71,6 +71,15 @@
 }
 
 /* SearchVideoList.module.css 에 추가/수정하세요 */
+
+.thumbnailWrapper img {
+     /* VideoList.module.css 의 .videoThumbnail 을 덮어쓰기 */
+     margin: 0 !important;         /* 기존 margin 제거 */
+     padding-top: 7px !important;  /* 위아래 여백은 padding 으로 */
+     padding-bottom: 7px !important;
+     margin-right: 100px !important;
+}
+
 .thumbnailWrapper {
   width: 350px;       /* 썸네일 가로 크기와 동일하게 */
   height: 210px;      /* 썸네일 높이와 동일하게 */
