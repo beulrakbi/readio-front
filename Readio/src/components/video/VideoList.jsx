@@ -11,7 +11,7 @@ import Video from "./Video";
 import VIdeoInDB from "./VIdeoInDB.jsx";
 import VideoListCSS from "./videoList.module.css";
 
-function VideoList({ type, userCoords, userId }) {
+function VideoList({type, userCoords, userId}) {
 
     const loginRequired = [6, 7, 8, 9];
     if (!userId && loginRequired.includes(type.typeId)) {
@@ -23,36 +23,36 @@ function VideoList({ type, userCoords, userId }) {
     const [videoInDBList, setVideoInDBList] = useState([]);
     const [videoListTitle, setVideoListTitle] = useState('');
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     const OPENWEATHER_KEY = "52003f931a0d81375dba797857ece5da";
 
     const mapWeatherToKeyword = (weatherMain) => {
         switch (weatherMain) {
-            case "Clear":
-                return ["맑은날", "산책", "야외활동", "햇살", "기분좋은", "운동", "드라이브"];
-            case "Clouds":
-                return ["흐린날", "잔잔한", "여유", "차분한"];
-            case "Rain":
-            case "Drizzle":
-            case "Thunderstorm":
-                return ["비오는날", "실내", "감성", "차가운"];
-            case "Snow":
-                return ["눈오는날", "겨울", "포근한", "눈사람", "크리스마스"];
-            case "Mist":
-            case "Fog":
-            case "Haze":
-            case "Smoke":
-            case "Dust":
-                return ["안개낀날", "신비로운", "몽환적", "집중"];
-            default:
-                return [];
-        }
+                case "Clear":
+                    return ["맑은날", "산책", "야외활동", "햇살", "기분좋은", "운동", "드라이브"];
+                case "Clouds":
+                    return ["흐린날", "잔잔한", "여유", "차분한"];
+                case "Rain":
+                case "Drizzle":
+                case "Thunderstorm":
+                    return ["비오는날", "실내", "감성", "차가운"];
+                case "Snow":
+                    return ["눈오는날", "겨울", "포근한", "눈사람", "크리스마스"];
+                case "Mist":
+                case "Fog":
+                case "Haze":
+                case "Smoke":
+                case "Dust":
+                    return ["안개낀날", "신비로운", "몽환적", "집중"];
+                default:
+                    return [];
+            }
     };
 
     const getVideos = async (filters) => {
 
-        if (type.typeId === 5) {
+                if (type.typeId === 5) {
 
                         if (!userCoords) return;
                         let uniqueDB = [];
@@ -69,31 +69,31 @@ function VideoList({ type, userCoords, userId }) {
                                     return;
                                 }
 
-                const weatherJson = await weatherRes.json();
-                const weatherMain = weatherJson.weather?.[0]?.main || "";
-                console.log("현재 날씨 (weatherMain):", weatherMain);
+                                const weatherJson = await weatherRes.json();
+                                const weatherMain = weatherJson.weather?.[0]?.main || "";
+                                console.log("현재 날씨 (weatherMain):", weatherMain);
 
-                // 날씨 메인 코드를 DB에 저장된 후보 키워드 리스트로 매핑
-                const candidates = mapWeatherToKeyword(weatherMain);
-                if (candidates.length === 0) {
-                    setVideoInDBList([]);
-                    setVideoList([]);
-                    return;
-                }
+                                // 날씨 메인 코드를 DB에 저장된 후보 키워드 리스트로 매핑
+                                const candidates = mapWeatherToKeyword(weatherMain); 
+                                if (candidates.length === 0) {
+                                    setVideoInDBList([]);
+                                    setVideoList([]);
+                                    return;
+                                }
 
                                 // 키워드 결합
                                 let keywords = candidates.map(c => `${c}`);
 
-                // 키워드별 DB 조회 및 축적
-                const allDB = [];
-                const allYt = [];
-                for (let kw of keywords) {
-                    // DB에서 조회
-                    const dbRes = await getVideosByKeyword(type.typeId, kw, dispatch);
-                    const dbList = Array.isArray(dbRes?.videoDTOList)
-                        ? dbRes.videoDTOList.filter((v, i, self) => i === self.findIndex(x => x.videoId === v.videoId))
-                        : [];
-                    allDB.push(...dbList);
+                                // 키워드별 DB 조회 및 축적
+                                const allDB = [];
+                                const allYt = [];
+                                for (let kw of keywords) {
+                                    // DB에서 조회
+                                    const dbRes = await getVideosByKeyword(type.typeId, kw, dispatch);
+                                    const dbList = Array.isArray(dbRes?.videoDTOList)
+                                        ? dbRes.videoDTOList.filter((v, i, self) => i === self.findIndex(x => x.videoId === v.videoId))
+                                        : [];
+                                    allDB.push(...dbList);
 
                                     // 유튜브 API 조회 (DB에 없는 만큼)
                                     const numInDB = dbList.length;
@@ -136,18 +136,18 @@ function VideoList({ type, userCoords, userId }) {
                                     return;                  // 수정됨
                                     }
 
-                // 상태 업데이트
-                setVideoInDBList(uniqueDB);
-                setVideoList(uniqueYt);
-                return;
+                                // 상태 업데이트
+                                setVideoInDBList(uniqueDB);
+                                setVideoList(uniqueYt);
+                                return;
 
-            } catch (err) {
-                console.error("프론트엔드 날씨 기반 처리 중 에러:", err);
-                setVideoInDBList(uniqueDB);
-                setVideoList([]);
-                return;
-            }
-        }
+                            } catch (err) {
+                                console.error("프론트엔드 날씨 기반 처리 중 에러:", err);
+                                setVideoInDBList(uniqueDB);
+                                setVideoList([]);
+                                return;
+                            }
+                }
 
         // 감정 기반 추천 처리
         if (type.typeId === 6) {
@@ -173,18 +173,8 @@ function VideoList({ type, userCoords, userId }) {
 
                 const json = await res.json(); // DB
                 const emotionVideos = json.data?.videoDTOList || [];
-                const latestEmotionDate = json.data?.latestEmotionDate; // ← 이 부분이 추가되어야 함
                 console.log("감정 기반 추천 영상 목록 (DB):", emotionVideos);
                 setVideoInDBList(emotionVideos); // DB에서 가져온 감정 추천 영상으로 업데이트
-
-                // ✅ 오늘 감정 등록 여부 확인
-                const today = new Date().toISOString().split("T")[0];
-                if (!latestEmotionDate || latestEmotionDate !== today) {
-                    console.log("오늘 감정 등록 안됨 -> 감정 추천 영상 숨김");
-                    setVideoInDBList([]);
-                    setVideoList([]);
-                    return;
-                }
 
 
                 const numInDB = emotionVideos.length; // DB에 이미 있는 영상
@@ -205,12 +195,12 @@ function VideoList({ type, userCoords, userId }) {
 
 
 
-                if (newVideos.length === 0) {   // 수정됨
-                    console.warn("YouTube API fallback to DB");
-                    setVideoInDBList(emotionVideos);
-                    setVideoList([]);            // 수정됨
-                    return;                      // 수정됨
-                }
+                    if (newVideos.length === 0) {   // 수정됨
+                        console.warn("YouTube API fallback to DB");
+                        setVideoInDBList(emotionVideos);
+                        setVideoList([]);            // 수정됨
+                        return;                      // 수정됨
+                    }
 
                     newVideos.forEach(video => {
                         const date = new Date(video.snippet.publishedAt);
@@ -288,7 +278,7 @@ function VideoList({ type, userCoords, userId }) {
     useEffect(() => {
 
         const fetchAndRun = async () => {
-            const filters = await dispatch(callFiltersByTypeIdAPI({ typeId: type.typeId }));
+            const filters = await dispatch(callFiltersByTypeIdAPI({typeId: type.typeId}));
 
             let text;
             if (type.typeId >= 6 && userId) {
@@ -306,11 +296,11 @@ function VideoList({ type, userCoords, userId }) {
 
     const scrollRef = useRef();
     const leftButtonHandler = () => {
-        scrollRef.current.scrollBy({ left: -800, behavior: 'smooth' });
+        scrollRef.current.scrollBy({left: -800, behavior: 'smooth'});
     }
 
     const rightButtonHandler = () => {
-        scrollRef.current.scrollBy({ left: 800, behavior: 'smooth' });
+        scrollRef.current.scrollBy({left: 800, behavior: 'smooth'});
     }
 
     function getOrCreateAnonymousUserId() {
@@ -339,43 +329,43 @@ function VideoList({ type, userCoords, userId }) {
 
 
     return (videoInDBList && videoList && <>
-        <div className={VideoListCSS.videoContainer}>
-            <button className={VideoListCSS.scrollButton} onClick={leftButtonHandler}><img src={leftButton} />
-            </button>
-            <div className={VideoListCSS.videoInnerContainer}>
-                <p className={VideoListCSS.videoFont}>{videoListTitle}</p>
-                <div className={VideoListCSS.line}></div>
-                <div className={VideoListCSS.videoList} ref={scrollRef}>
+            <div className={VideoListCSS.videoContainer}>
+                <button className={VideoListCSS.scrollButton} onClick={leftButtonHandler}><img src={leftButton}/>
+                </button>
+                <div className={VideoListCSS.videoInnerContainer}>
+                    <p className={VideoListCSS.videoFont}>{videoListTitle}</p>
+                    <div className={VideoListCSS.line}></div>
+                    <div className={VideoListCSS.videoList} ref={scrollRef}>
 
-                    {videoList?.map(video => {
-                        const vid = video.id.videoId;
-                        return (<div
-                            key={vid}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => navigate(`/video/${vid}`)}
-                        >
-                            <Video video={video} />
-                        </div>);
-                    })}
-                    {videoInDBList?.map(video => {
-                        const vid = video.videoId;
-                        return (<div
-                            key={vid}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => navigate(`/video/${vid}`)}
-                        >
-                            <VIdeoInDB videoInDB={video} />
-                        </div>);
-                    })}
+                        {videoList?.map(video => {
+                            const vid = video.id.videoId;
+                            return (<div
+                                    key={vid}
+                                    style={{cursor: "pointer"}}
+                                    onClick={() => navigate(`/video/${vid}`)}
+                                >
+                                    <Video video={video}/>
+                                </div>);
+                        })}
+                        {videoInDBList?.map(video => {
+                            const vid = video.videoId;
+                            return (<div
+                                    key={vid}
+                                    style={{cursor: "pointer"}}
+                                    onClick={() => navigate(`/video/${vid}`)}
+                                >
+                                    <VIdeoInDB videoInDB={video}/>
+                                </div>);
+                        })}
 
 
+                    </div>
+                    <div className={VideoListCSS.line}></div>
                 </div>
-                <div className={VideoListCSS.line}></div>
+                <button className={VideoListCSS.scrollButton} onClick={rightButtonHandler}><img src={rightButton}/>
+                </button>
             </div>
-            <button className={VideoListCSS.scrollButton} onClick={rightButtonHandler}><img src={rightButton} />
-            </button>
-        </div>
-    </>)
+        </>)
 }
 
 export default VideoList;
