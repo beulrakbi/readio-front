@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import UserNavCSS from './navi.module.css';
 
 
@@ -8,16 +8,16 @@ const OPENWEATHER_KEY = "52003f931a0d81375dba797857ece5da";
 
 const mapWeatherToEmoji = (weatherMain) => {
     switch (weatherMain) {
-            case "Clear":        return "☀️";
-            case "Clouds":       return "⛅";
-            case "Rain":
-            case "Drizzle":      return "🌧️";
-            case "Thunderstorm": return "⛈️";
-            case "Snow":         return "☃️";
-            case "Mist":
-            case "Fog":
-            case "Haze":         return "🌫️";
-            default:             return "❓";
+        case "Clear": return "☀️";
+        case "Clouds": return "⛅";
+        case "Rain":
+        case "Drizzle": return "🌧️";
+        case "Thunderstorm": return "⛈️";
+        case "Snow": return "☃️";
+        case "Mist":
+        case "Fog":
+        case "Haze": return "🌫️";
+        default: return "❓";
     }
 };
 
@@ -26,6 +26,23 @@ function UserNav({ isOpen, setIsOpen }) {
 
     const isLogin = useSelector(state => state.user.isLogin);
     const [customerServiceOpen, setCustomerServiceOpen] = useState(false);
+    const userRole = useSelector(state => state.user.userInfo?.userRole);  // 추가
+    const navigate = useNavigate(); // 추가
+
+    console.log("userRole 찾기", useSelector(state => state.user));
+    const goToFeed = () => {
+        console.log("userRole 값:", userRole);  // 이걸 추가
+        if (userRole === "SUSPENDED") {
+            console.warn("현재 userRole:", userRole);
+            alert("정지된 계정은 피드에 접근할 수 없습니다.");
+            return;
+        }
+
+        setIsOpen(false);
+        navigate("/feed");
+    };
+
+
 
     const [weatherData, setWeatherData] = useState(null);
 
@@ -48,35 +65,35 @@ function UserNav({ isOpen, setIsOpen }) {
 
     // 위치 권한 요청
     useEffect(() => {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
-      try {
-            const { latitude: lat, longitude: lon } = coords;
-            // 현재 날씨 조회 (무료 엔드포인트)
-            const curRes = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}` +
-                `&units=metric&lang=kr&appid=${OPENWEATHER_KEY}`
-            );
+        if (!navigator.geolocation) return;
+        navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+            try {
+                const { latitude: lat, longitude: lon } = coords;
+                // 현재 날씨 조회 (무료 엔드포인트)
+                const curRes = await fetch(
+                    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}` +
+                    `&units=metric&lang=kr&appid=${OPENWEATHER_KEY}`
+                );
 
-            if (!curRes.ok) throw new Error(curRes.statusText);
-            const curData = await curRes.json();
-            // 5일 예보 조회 (3시간 단위)
-            const fcRes = await fetch(
-                `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}` +
-                `&units=metric&lang=kr&appid=${OPENWEATHER_KEY}`
-            );
-            if (!fcRes.ok) throw new Error(fcRes.statusText);
-            const fcData = await fcRes.json();
-            // 매일 정오 예보만 추출
-            const daily = fcData.list
-            .filter(item => item.dt_txt.includes("12:00:00"))
-            .map(item => ({ dt: item.dt, temp: item.main.temp, main: item.weather[0].main }));
-            setWeatherData({ current: { temp: curData.main.temp, main: curData.weather[0].main }, daily });
-      } catch (err) {
-            console.error("날씨 API 호출 실패:", err);
-      }
-    }, err => console.warn("위치 권한 오류:", err));
-  }, []);
+                if (!curRes.ok) throw new Error(curRes.statusText);
+                const curData = await curRes.json();
+                // 5일 예보 조회 (3시간 단위)
+                const fcRes = await fetch(
+                    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}` +
+                    `&units=metric&lang=kr&appid=${OPENWEATHER_KEY}`
+                );
+                if (!fcRes.ok) throw new Error(fcRes.statusText);
+                const fcData = await fcRes.json();
+                // 매일 정오 예보만 추출
+                const daily = fcData.list
+                    .filter(item => item.dt_txt.includes("12:00:00"))
+                    .map(item => ({ dt: item.dt, temp: item.main.temp, main: item.weather[0].main }));
+                setWeatherData({ current: { temp: curData.main.temp, main: curData.weather[0].main }, daily });
+            } catch (err) {
+                console.error("날씨 API 호출 실패:", err);
+            }
+        }, err => console.warn("위치 권한 오류:", err));
+    }, []);
 
 
     return (
@@ -105,7 +122,14 @@ function UserNav({ isOpen, setIsOpen }) {
                     <NavLink
                         to="/feed"
                         className={UserNavCSS.naviLinkText}
-                        onClick={() => setIsOpen(false)}
+                        onClick={(e) => {
+                            if (userRole === "SUSPENDED") {
+                                e.preventDefault(); // 링크 이동 막기
+                                alert("정지된 계정은 피드에 접근할 수 없습니다.");
+                                return;
+                            }
+                            setIsOpen(false); // 정상 사용자는 닫기
+                        }}
                     >
                         피드
                     </NavLink>
@@ -155,20 +179,20 @@ function UserNav({ isOpen, setIsOpen }) {
                 <div className={UserNavCSS.weatherSection}>
                     {weatherData ? (
                         <>
-                                <div className={UserNavCSS.today}>
-                                    <p>오늘</p>
-                                    <span>{Math.round(weatherData.current.temp)}°C</span>
-                                    <span>{mapWeatherToEmoji(weatherData.current.main)}</span>
-                                </div>
-                                <div className={UserNavCSS.forecastContainer}>
-                                    {weatherData.daily.slice(0, 5).map((day, idx) => (
-                                        <div key={idx} className={UserNavCSS.forecast}>
-                                            <p>{new Date(day.dt * 1000).toLocaleDateString("ko-KR", { weekday: "short" })}</p>
-                                            <span>{Math.round(day.temp)}°C</span>
-                                            <span>{mapWeatherToEmoji(day.main)}</span>
-                                        </div>
-                                    ))}
-                                </div>
+                            <div className={UserNavCSS.today}>
+                                <p>오늘</p>
+                                <span>{Math.round(weatherData.current.temp)}°C</span>
+                                <span>{mapWeatherToEmoji(weatherData.current.main)}</span>
+                            </div>
+                            <div className={UserNavCSS.forecastContainer}>
+                                {weatherData.daily.slice(0, 5).map((day, idx) => (
+                                    <div key={idx} className={UserNavCSS.forecast}>
+                                        <p>{new Date(day.dt * 1000).toLocaleDateString("ko-KR", { weekday: "short" })}</p>
+                                        <span>{Math.round(day.temp)}°C</span>
+                                        <span>{mapWeatherToEmoji(day.main)}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </>
                     ) : (
                         <p>날씨 정보 불러오는 중…</p>
