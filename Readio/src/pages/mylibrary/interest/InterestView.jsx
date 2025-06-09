@@ -6,9 +6,9 @@ const InterestViewPage = () => {
     const navigate = useNavigate();
 
     const { userId: paramUserId } = useParams();
-    const currentUserId = sessionStorage.getItem("userId");          //5.30 변경_이상있으면 말해주세요
-    // const currentUserId = localStorage.getItem("userId");        
-    const targetUserId = paramUserId || currentUserId;
+    const currentUserId = String(sessionStorage.getItem("userId"));
+    const targetUserId = paramUserId ? String(paramUserId) : currentUserId;
+
 
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedKeywords, setSelectedKeywords] = useState([]);
