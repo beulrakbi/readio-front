@@ -159,14 +159,14 @@ const EditProfilePage = () => {
                     </label>
                 </div>
                 <ul className={styles.helperText}>
-                    <li>공개 여부와 상관 없이 독서 리포트 탭은 다른 회원에게 보이지 않습니다.</li>
-                    <li>서재 비공개 상태에서는 회원님의 모든 콘텐츠가 다른 회원에게 보이지 않습니다.</li>
-                    <li>단, 포스트는 개별 공개/비공개 설정에 따라 노출됩니다.</li>
+                    <li>서재 비공개 상태에서는 회원님의 관심분야(영상, 책)가 다른 회원에게 보이지 않습니다.</li>
+                    <li>단, 포스트와 리뷰는 공개/비공개 설정 상관없이 노출됩니다.</li>
                 </ul>
             </div>
             <div className={styles.saveButtonWrapper}>
                 <button className={styles.saveButton} onClick={handleSave}>
                     저장
+
                 </button>
             </div>
             {showPopup && (
