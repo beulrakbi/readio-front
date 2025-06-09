@@ -17,9 +17,10 @@ function SearchVideoList() {
     const dispatch = useDispatch();
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get('query') || '';
-
     const page = parseInt(queryParams.get('page'), 10) || 1;
-    const size = 10;
+
+    const PAGE_SIZE = 10;
+    const MAX_RESULTS  = 50;
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -68,35 +69,32 @@ function SearchVideoList() {
         fetchVideos();
     }, [searchQuery, dispatch]);
 
-    // 페이지네이션 
+    // 통합 및 제한
     const combined = [...videoInDBList, ...videoList];
-    const totalCount = combined.length;
-    const totalPages = Math.ceil(totalCount / size);
+    // 최대 MAX_RESULTS개로 자르기
+    const limited = combined.slice(0, MAX_RESULTS);
+    const totalCount = limited.length;
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+    const start = (page - 1) * PAGE_SIZE;
+    const currentItems = limited.slice(start, start + PAGE_SIZE);
 
-    const start = (page - 1) * size;
-    const end = start + size;
-    const currentPageItems = combined.slice(start, end);
-
-    // 페이지 버튼 렌더링
+    // 페이지 버튼
     const renderPagination = () => {
         if (totalPages <= 1) return null;
         return (
-            <div className={styles.paginationContainer}>
-                {Array.from({ length: totalPages }, (_, i) => {
-                    const num = i + 1;
-                    return (
-                        <button
-                            key={num}
-                            className={`${styles.pageButton} ${page === num ? styles.activePage : ''}`}
-                            onClick={() =>
-                                navigate(`/search/video?query=${encodeURIComponent(searchQuery)}&page=${num}`)
-                            }
-                        >
-                            {num}
-                        </button>
-                    );
-                })}
-            </div>
+        <div className={styles.paginationContainer}>
+            {Array.from({ length: totalPages }, (_, i) => (
+            <button
+                key={i + 1}
+                className={`${styles.pageButton} ${page === i + 1 ? styles.activePage : ''}`}
+                onClick={() =>
+                navigate(`/search/video?query=${encodeURIComponent(searchQuery)}&page=${i + 1}`)
+                }
+            >
+                {i + 1}
+            </button>
+            ))}
+        </div>
         );
     };
 
@@ -114,8 +112,8 @@ function SearchVideoList() {
             </div>
             <hr className={styles.SearchVideoListHr}/>
             <div className={styles.SearchVideoList}>
-                {currentPageItems.length > 0 ? (  
-                    currentPageItems.map(item => {
+                {currentItems.length > 0 ? (  
+                    currentItems.map(item => {
                         const isDB = !!item.videoId;  
                         const vid = isDB ? item.videoId : item.id.videoId;
                         return (
