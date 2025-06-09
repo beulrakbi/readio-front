@@ -166,6 +166,7 @@ const EditProfilePage = () => {
             <div className={styles.saveButtonWrapper}>
                 <button className={styles.saveButton} onClick={handleSave}>
                     저장
+
                 </button>
             </div>
             {showPopup && (
