@@ -20,7 +20,7 @@ function PostWriting() {
 
     const fileInputRef = useRef(null);
     const textareaRef = useRef(null);
-    const postToEdit = useSelector(state => state.postReducer);
+    const postDetailFromStore = useSelector(state => state.postReducer.postDetail);
 
     const [form, setForm] = useState({
         postTitle:'',
@@ -62,58 +62,42 @@ function PostWriting() {
         }
     }, [dispatch, postId, isEditMode, navigate]);
 
-    // --- Redux 스토어의 postToEdit 변경 시 폼 데이터 채우기 (수정 모드) ---
     useEffect(() => {
-        if (isLoading && isEditMode && postToEdit && postToEdit.postId === parseInt(postId)) {
-            console.log("[PostWriting] postToEdit 변경 감지, 폼 데이터 설정:", postToEdit);
+        if (isEditMode && postDetailFromStore && String(postDetailFromStore.postId) === String(postId)) {
             setForm({
-                postTitle: postToEdit.postTitle || '',
-                postContent: postToEdit.postContent || '',
+                postTitle: postDetailFromStore.postTitle || '',
+                postContent: postDetailFromStore.postContent || '',
             });
 
-            if (postToEdit.bookIsbn) {
-                console.log(`[PostWriting] 저장된 ISBN으로 책 정보 조회 시작: ${postToEdit.bookIsbn}`);
-                const fetchBookInfoFromAladin = async (isbn) => {
-                    try {
-                        const result = await dispatch(searchAladinBooks({ query: isbn, searchType: 'ISBN' })).unwrap();
-
-                        if (result.items && result.items.length > 0) {
-                            const book = result.items[0];
-                            const newSelectedBook = {
-                                isbn: book.isbn,
-                                title: book.title,
-                                author: book.author,
-                                publisher: book.publisher,
-                                coverUrl: book.coverUrl
-                            };
-                            setSelectedBook(newSelectedBook);
-                            console.log("[PostWriting] ISBN으로 책 정보 로드 성공 (Aladin API):", newSelectedBook);
-                        } else {
-                            console.log("[PostWriting] 알라딘 API에서 해당 ISBN으로 책 정보를 찾을 수 없습니다.");
-                            setSelectedBook(null); // 찾지 못하면 책 정보 초기화
-                        }
-                    } catch (error) {
-                        console.error("[PostWriting] ISBN으로 책 정보 로드 실패 (Aladin API):", error);
-                        setSelectedBook(null);
-                    }
-                };
-                if (!selectedBook || selectedBook.isbn !== postToEdit.bookIsbn) {
-                    fetchBookInfoFromAladin(postToEdit.bookIsbn);
-                }
+            if (postDetailFromStore.bookDetails && postDetailFromStore.bookDetails.bookIsbn) {
+                console.log(`[PostWriting] 저장된 책 정보로 selectedBook 설정: ${postDetailFromStore.bookDetails.bookIsbn}`);
+                setSelectedBook({
+                    isbn: postDetailFromStore.bookDetails.bookIsbn,
+                    title: postDetailFromStore.bookDetails.bookTitle,
+                    author: postDetailFromStore.bookDetails.bookAuthor,
+                    publisher: postDetailFromStore.bookDetails.bookPublisher,
+                    coverUrl: postDetailFromStore.bookDetails.bookCover
+                });
             } else {
-                console.log("[PostWriting] 게시물에 저장된 ISBN 정보가 없습니다.");
+                console.log("[PostWriting] 게시물에 저장된 책 정보가 없습니다.");
                 setSelectedBook(null);
             }
-            if (postToEdit.postImg && postToEdit.postImg.saveName && !imageUrl && !isExistingImage) {
-                setCurrentImagePreview(postToEdit.postImg.saveName);
-            } else if (!postToEdit.postImg?.saveName && !imageUrl) {
+
+            if (postDetailFromStore.postImg && postDetailFromStore.postImg.saveName) {
+                const imageUrlFromBackend = `http://localhost:8080/img/post/${postDetailFromStore.postImg.saveName}`;
+                setCurrentImagePreview(imageUrlFromBackend);
+                setIsExistingImage(true);
+                setImageUrl(null);
+            } else {
                 setCurrentImagePreview(null);
+                setIsExistingImage(false);
             }
             setIsLoading(false);
+        } else if (isEditMode && postDetailFromStore === null && !isLoading) {
         } else if (!isEditMode && !isLoading) {
             setIsLoading(false);
         }
-    }, [isLoading, isEditMode, postToEdit, postId, imageUrl, isExistingImage, selectedBook, dispatch]);
+    }, [isLoading, isEditMode, postDetailFromStore, postId, dispatch]);
 
     /* 책 검색 */
     const handleToggleBookSearch = () => {
@@ -156,8 +140,8 @@ function PostWriting() {
             URL.revokeObjectURL(imageUrl.previewUrl);
         }
         setImageUrl(null);
-        if (isEditMode && postToEdit?.postImg?.saveName) {
-            setCurrentImagePreview(postToEdit.postImg.saveName);
+        if (isEditMode && postDetailFromStore?.postImg?.saveName) {
+            setCurrentImagePreview(postDetailFromStore.postImg.saveName);
         }
     };
 
@@ -243,7 +227,7 @@ function PostWriting() {
                 if (newPostId) {
                     navigate(`/mylibrary/post/${newPostId}`);
                 } else {
-                    navigate('/mylibrary/postlist', { replace: true });
+                    navigate('/mylibrary/postAndReview', { replace: true });
                 }
             }
         } catch (error) {
