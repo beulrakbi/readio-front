@@ -1,18 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import book2 from '../../assets/book2.png';
-import feedConImg from '../../assets/feedConImg.png';
-import profileImg2 from '../../assets/profileImg2.png';
-import profileImg3 from '../../assets/profileImg3.png';
 import FeedItemPost from '../../modules/feed/FeedItemPost';
 import FeedItemReview from '../../modules/feed/FeedItemReview';
 import SubTabNavigation from '../../modules/feed/SubTabNavigation';
 import TabNavigation from '../../modules/feed/TabNavigation';
 import { getFeedItemsAPI, setFeedTabs } from '../../modules/feed/feedSlice';
 
-import { apiLikePost, apiUnlikePost } from '../../apis/PostLikeAPICalls';
+import { useNavigate } from 'react-router-dom';
 import { apiFollowUser, apiUnfollowUser } from '../../apis/FollowAPICalls';
-import { apiReportPost } from '../../apis/PostAPICalls';
+import { apiLikePost, apiUnlikePost } from '../../apis/PostLikeAPICalls';
 import FeedCSS from './Feed.module.css';
 
 const getAuthHeader = () => {
@@ -22,6 +18,8 @@ const getAuthHeader = () => {
 
 
 function FeedMain() {
+    const userRole = useSelector(state => state.user.userInfo?.userRole);  // 추가
+    const navigate = useNavigate(); // 추가
     const dispatch = useDispatch();
     const { items, isLoading, error, activeMainTab, activeSubTab, currentPage, isLast } = useSelector(state => state.feed);
     const { isLogin, userInfo } = useSelector(state => state.user);
@@ -35,6 +33,17 @@ function FeedMain() {
     const handleSubTabClick = (tabName) => {
         dispatch(setFeedTabs({ mainTab: activeMainTab, subTab: tabName }));
     };
+
+
+    // 정지 계정 피드 접근 불가
+    useEffect(() => {
+        if (userRole === 'SUSPENDED') {
+            alert("정지된 계정은 피드에 접근할 수 없습니다.");
+            navigate('/access-denied');  // 홈 또는 접근 가능한 다른 경로
+        }
+    }, [userRole, navigate]);
+
+
 
     // 피드 데이터 로드 (탭 변경 또는 페이지 변경 시)
     useEffect(() => {
@@ -62,32 +71,32 @@ function FeedMain() {
     }, [activeMainTab, activeSubTab, isLogin, userEmotion, userInterests, loginUserId, dispatch]);
 
     const handleToggleFollow = async (profileId, isFollowing) => {
-    if (!isLogin) {
-        alert("로그인이 필요한 기능입니다.");
-        return;
-    }
+        if (!isLogin) {
+            alert("로그인이 필요한 기능입니다.");
+            return;
+        }
 
-    const apiToDispatch = isFollowing ? apiUnfollowUser : apiFollowUser;
+        const apiToDispatch = isFollowing ? apiUnfollowUser : apiFollowUser;
 
-    try {
-        // 1. 팔로우/언팔로우 API가 완료될 때까지 기다립니다.
-        await dispatch(apiToDispatch(profileId));
+        try {
+            // 1. 팔로우/언팔로우 API가 완료될 때까지 기다립니다.
+            await dispatch(apiToDispatch(profileId));
 
-        // 2. 성공하면, 피드 목록을 새로고침하여 UI를 업데이트합니다.
-        //    (이 부분이 UI를 즉시 변경시키는 핵심 코드입니다.)
-        console.log('팔로우 상태 변경 성공! 피드를 새로고침합니다.');
-        dispatch(getFeedItemsAPI({ 
-            mainTab: activeMainTab, 
-            subTab: activeSubTab, 
-            page: currentPage, // 현재 페이지를 다시 로드
-            // ...기타 필요한 파라미터
-        }));
+            // 2. 성공하면, 피드 목록을 새로고침하여 UI를 업데이트합니다.
+            //    (이 부분이 UI를 즉시 변경시키는 핵심 코드입니다.)
+            console.log('팔로우 상태 변경 성공! 피드를 새로고침합니다.');
+            dispatch(getFeedItemsAPI({
+                mainTab: activeMainTab,
+                subTab: activeSubTab,
+                page: currentPage, // 현재 페이지를 다시 로드
+                // ...기타 필요한 파라미터
+            }));
 
-    } catch (error) {
-        console.error("팔로우 처리 오류:", error);
-        alert(error.message || "팔로우 처리 중 오류가 발생했습니다.");
-    }
-};
+        } catch (error) {
+            console.error("팔로우 처리 오류:", error);
+            alert(error.message || "팔로우 처리 중 오류가 발생했습니다.");
+        }
+    };
 
     // 좋아요/팔로우 토글 (백엔드 API 호출 필요)
     const handleToggleLike = async (itemId, itemType, isLiked) => {
@@ -101,11 +110,11 @@ function FeedMain() {
             console.log(`게시물 좋아요 토글: id=${itemId}`);
             const apiToDispatch = isLiked ? apiUnlikePost : apiLikePost;
             dispatch(apiToDispatch(itemId));
-        
-        // 2. 리뷰(REVIEW) 좋아요 처리 (BookReview.jsx 로직 참고하여 수정)
+
+            // 2. 리뷰(REVIEW) 좋아요 처리 (BookReview.jsx 로직 참고하여 수정)
         } else if (itemType === 'REVIEW') {
             console.log(`리뷰 좋아요 토글: id=${itemId}`);
-            
+
             try {
                 // BookReviewController의 '/{reviewId}/like-toggle' API 호출
                 const response = await fetch(`http://localhost:8080/bookReview/${itemId}/like-toggle`, {
@@ -121,9 +130,9 @@ function FeedMain() {
                 // 성공 시, 피드 목록을 새로고침하여 UI를 업데이트합니다.
                 // (이것이 Redux 모듈을 새로 만들지 않고 할 수 있는 가장 간단한 방법입니다)
                 console.log('리뷰 좋아요 성공! 피드를 새로고침합니다.');
-                dispatch(getFeedItemsAPI({ 
-                    mainTab: activeMainTab, 
-                    subTab: activeSubTab, 
+                dispatch(getFeedItemsAPI({
+                    mainTab: activeMainTab,
+                    subTab: activeSubTab,
                     page: currentPage, // 현재 페이지를 다시 로드
                     size: 10,
                     loginUserId: loginUserId
@@ -135,15 +144,15 @@ function FeedMain() {
             }
         }
     };
-    
-     const handleReport = async (itemId, itemType) => {
+
+    const handleReport = async (itemId, itemType) => {
         if (!isLogin) {
             alert("로그인이 필요한 기능입니다.");
             return;
         }
 
         if (window.confirm("정말로 이 콘텐츠를 신고하시겠습니까?")) {
-            
+
             let requestURL = '';
             let method = '';
 
@@ -171,7 +180,7 @@ function FeedMain() {
                 if (!response.ok) {
                     throw new Error(responseData.message || '신고 처리에 실패했습니다.');
                 }
-                
+
                 alert("신고가 성공적으로 접수되었습니다.");
 
             } catch (error) {
@@ -181,7 +190,7 @@ function FeedMain() {
             }
         }
     };
-    
+
     const renderFeedItems = () => {
         if (isLoading && items.length === 0) {
             return <div className={FeedCSS.loadingContainer}><p>피드 불러오는 중...</p></div>;
