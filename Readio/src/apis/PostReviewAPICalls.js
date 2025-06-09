@@ -22,7 +22,7 @@ export const callPostReviewAPI = ({ postId, currentPage }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader
+                ...getAuthHeader()
             }
         }).then((response) => response.json());
 
@@ -44,7 +44,7 @@ export const callPostReviewWritingAPI = ({ postId, form }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                ...getAuthHeader
+                ...getAuthHeader()
                 // Authorization:
 					// 'Bearer ' + window.localStorage.getItem('accessToken')
 			},
@@ -67,7 +67,7 @@ export const callPostReviewDeleteAPI = ({ reviewId }) => {
         const result = await fetch(requestURL, {
             method: 'DELETE',
             headers: {
-                ...getAuthHeader
+                ...getAuthHeader()
                 // Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
             }
         }).then(response => {

@@ -81,8 +81,6 @@ function FilteringCreate() {
     const saveAll = async () => {
         try {
             const result = await dispatch(callFilteringGroupCreateAPI({groupForm}));
-            console.log("result", result);
-
             await new Promise(resolve => setTimeout(resolve, 500));
 
             if (result) {

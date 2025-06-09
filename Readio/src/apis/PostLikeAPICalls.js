@@ -17,8 +17,8 @@ const BASE_URL = 'http://localhost:8080';
  * 특정 게시물의 초기 좋아요 상태 및 개수 조회 (Thunk)
  */
 export const apiGetPostLikeInfo = (postId) => {
-    const likeStatusURL = `${BASE_URL}/post/${postId}/like-status`;
-    const likeCountURL = `${BASE_URL}/post/${postId}/likes/count`;
+    const likeStatusURL = `http://localhost:8080/post/${postId}/like-status`;
+    const likeCountURL = `http://localhost:8080/post/${postId}/likes/count`;
 
     return async (dispatch) => {
         console.log(`[LikeAPICalls] apiGetPostLikeInfo THUNK for postId: ${postId}`);
@@ -79,7 +79,7 @@ export const apiGetPostLikeInfo = (postId) => {
  * 게시물 좋아요 요청 (Thunk)
  */
 export const apiLikePost = (postId) => {
-    const requestURL = `${BASE_URL}/post/${postId}/likes`;
+    const requestURL = `http://localhost:8080/post/${postId}/likes`;
 
     return async (dispatch) => {
         console.log(`[LikeAPICalls] apiLikePost THUNK for postId: ${postId}`);
@@ -117,7 +117,7 @@ export const apiLikePost = (postId) => {
  * 게시물 좋아요 취소 요청 (Thunk)
  */
 export const apiUnlikePost = (postId) => {
-    const requestURL = `${BASE_URL}/post/${postId}/likes`;
+    const requestURL = `http://localhost:8080/post/${postId}/likes`;
 
     return async (dispatch) => {
         console.log(`[LikeAPICalls] apiUnlikePost THUNK for postId: ${postId}`);

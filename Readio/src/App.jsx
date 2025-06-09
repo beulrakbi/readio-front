@@ -26,7 +26,7 @@ import AdminQnaAnswer from "./pages/boardManagement/AdminQnaAnswer";
 import AdminQnaDetail from "./pages/boardManagement/AdminQnaDetail";
 import AdminQnaList from "./pages/boardManagement/AdminQnaList";
 import Bookmark from "./pages/bookmark/bookmark";
-import FeedMain from "./pages/feed/FeedMain";
+import FeedMain from "./pages/Feed/FeedMain.jsx";
 import CalendarPage from "./pages/mylibrary/calendar/CalendarPage.jsx";
 import FollowList from "./pages/mylibrary/follow/FollowList";
 import InterestEditPage from "./pages/mylibrary/interest/InterestEdit.jsx";
@@ -139,8 +139,8 @@ function App() {
                         <Route path="mylibrary/post/writing/book" element={<PostWritingBook />} />
                         <Route path="mylibrary/post/:postId" element={<PostDetail />} />
                         <Route path="feed" element={<FeedMain />} />
-                        <Route path="mylibrary/follow" element={<FollowList />} />
-                        <Route path="mylibrary/postlist/:userId" element={<PostList />} />
+                        <Route path="mylibrary/follow/:userId" element={<FollowList />} />
+                        <Route path="mylibrary/postAndReview" element={<PostList/>} />
                         <Route path="/mylibrary/:userId" element={<MyLibraryPage />} />
 
                     </Route>

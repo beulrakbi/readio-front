@@ -5,27 +5,44 @@ import bookMarkX from '../../assets/bookMarkX.png'; // 북마크 안 된 상태 
 import styles from './PlayVideo.module.css';
 import RecommandedVideoList from './RecommandedVideoList';
 
-function PlayVideo() { 
+function PlayVideo() {
     const { videoId } = useParams();
 
     const [error, setError] = useState(null);
     const [isBookmarked, setIsBookmarked] = useState(false); // 초기 상태: 북마크 안 됨
     const [bookmarkCount, setBookmarkCount] = useState(0); // 초기 상태: 0
-    const [videoInfo, setVideoInfo] = useState(null); 
+    const [videoInfo, setVideoInfo] = useState(null);
+    const [userBookmarkId, setUserBookmarkId] = useState(null);
 
-    const [hasPlayed, setHasPlayed] = useState(false);
-    const [userBookmarkId, setUserBookmarkId] = useState(null); 
-    
     const getAuthToken = () => {
-        return sessionStorage.getItem('accessToken'); 
+        return sessionStorage.getItem('accessToken');
     };
-    
+
+    // video => view_count 증가 
+    useEffect(() => {
+        // 페이지 진입 또는 videoId 변경될 때 조회수 1 증가
+        const increaseViewCount = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/video/id/${videoId}`, {
+                    method: 'POST'
+                });
+                if (!res.ok) {
+                    console.error('조회수 증가 실패, status:', res.status);
+                }
+            } catch (err) {
+                console.error('조회수 증가 중 예외', err);
+            }
+        };
+
+        increaseViewCount();
+    }, [videoId]);
+
     useEffect(() => {
         const fetchVideoAndBookmarkStatus = async () => {
             try {
                 // 1. 비디오 기본 정보 가져오기
-                const videoRes = await fetch(`http://localhost:8080/video/id/${videoId}`); 
-                if (!videoRes.ok) throw new Error(`Status ${videoRes.status}`);         
+                const videoRes = await fetch(`http://localhost:8080/video/id/${videoId}`);
+                if (!videoRes.ok) throw new Error(`Status ${videoRes.status}`);
                 const videoResDto = await videoRes.json();
                 setVideoInfo(videoResDto.data);
 
@@ -70,7 +87,7 @@ function PlayVideo() {
     if (error) return <div>오류 발생: {error}</div>;
     if (!videoInfo) return <div>로딩 중…</div>;
 
-    
+
     const handleImageClick = async () => {
         const token = getAuthToken();
         if (!token) {
@@ -128,33 +145,12 @@ function PlayVideo() {
         }
     };
 
-    const handlePlayClick = async () => {
-        try {
-            await fetch(`http://localhost:8080/video/view/${videoId}`, {
-                method : 'POST'
-            });
-        } catch (err) {
-            console.error('조회수 증가 실패', err);
-        }
-        setHasPlayed(true);
-    }
-    
-    return(
+    return (
         <>
             <div className={styles.backgroundTexture}>
                 <div className={styles.container}>
                     <div className={styles.video}>
-                        {!hasPlayed
-                            ? (
-                                <button
-                                    className={styles.playButton}
-                                    onClick={handlePlayClick}
-                                >
-                                ▶ 재생하기
-                                </button>
-                            )
-                        :
-                            (<iframe
+                            <iframe
                                 width="100%"
                                 height="100%"
                                 src={`http://www.youtube.com/embed/${videoId}?autoplay=1`}
@@ -162,21 +158,20 @@ function PlayVideo() {
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                            ></iframe>)
-                        }
-                    </div> 
+                            ></iframe>
+                    </div>
 
                     <div className={styles.videoInfo}>
-                        <div className={styles.videoTitle}> 
+                        <div className={styles.videoTitle}>
                             {videoInfo.title}
-                        </div>
+                        </div> 
                         <div className={styles.channelNameBookMark}>
                             <div className={styles.channelName}>
                                 {videoInfo.channelTitle}
                             </div>
                             <div className={styles.BookMark}>
                                 북마크 {bookmarkCount}
-                                <img 
+                                <img
                                     src={isBookmarked ? bookMarkO : bookMarkX}
                                     alt="BookMark"
                                     onClick={handleImageClick}
@@ -184,16 +179,24 @@ function PlayVideo() {
                                 />
                             </div>
                         </div>
-                    </div>
-                    <div className={styles.videoDetail}> 
+                    </div> 
+                    <div className={styles.videoDetail}>
+
+                        <div className={styles.videoStats}>
+                            <div className={styles.videoViewCount}>조회수: {videoInfo.viewCount.toLocaleString()}회</div>
+                            <div className={styles.videoUploadDate}> {new Date(videoInfo.uploadDate).toLocaleDateString()}</div>
+                        </div>
+
                         {videoInfo.description}
-                    </div>
-                    
-                    <RecommandedVideoList keyword = {videoInfo.title} />
-                </div>
+                    </div> 
+
+                    <RecommandedVideoList keyword={videoInfo.title} />   {/* 현재 영상의 제목을 키워드로 넘김 */}
+
+                </div> 
+
             </div>
         </>
-    );
+    )
 }
 
 export default PlayVideo;

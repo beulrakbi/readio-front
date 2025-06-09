@@ -1,4 +1,4 @@
-import {getVideos, postVideo} from "../modules/video/VideoSlice.js";
+import { getVideos, postVideo } from "../modules/video/VideoSlice.js";
 
 export const callVideosAPI = ({type, search}) => {
 
@@ -19,7 +19,7 @@ export const callVideosAPI = ({type, search}) => {
         }
     }
 
-    let requestURL = `http://localhost:8080/video/${search}`;
+    let requestURL = `http://localhost:8080/video/${search}/${type}`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {

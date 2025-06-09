@@ -22,7 +22,7 @@
     background-color: #AD9286;
     color: #F6EEB6;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     justify-items: center;
     padding:30px;
     display: flex;
@@ -193,5 +193,55 @@
 .customerServiceList .naviLinkText {
     /* 하위 메뉴 텍스트 간격 조정 */
     margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
+
+
+/* navi.module.css */
+
+.weatherSection {
+  margin-top: 7rem;
+  background-color: #ac7e6c6a;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+/* 오늘 날씨 */
+.today {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.today p {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 500;
+}
+.today span {
+  margin-left: 0.5rem;
+  font-size: 20px;
+}
+
+/* 예보 컨테이너: 예보 아이템들을 가로로 나열 */
+.forecastContainer {
+  display: flex;
+  gap: 25px;
+  margin-top: 25px;
+}
+
+/* 개별 예보 카드 */
+.forecast {
+  flex: 1;
+  text-align: center;
+}
+.forecast p {
+  margin: 0;
+  font-size: 16px;
+  margin-bottom: 0.25rem;
+}
+.forecast span {
+  display: block;
+  font-size: 17px;
+}
+

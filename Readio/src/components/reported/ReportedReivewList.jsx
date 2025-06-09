@@ -28,6 +28,7 @@ function ReportedReviewList() {
         setStart((currentPage - 1) * 5);
         dispatch(callReportedReviewsAPI({currentPage: currentPage}));
         console.log("location", location);
+        console.log("reportedReviews", reportedReviews);
     }, [currentPage, location.key]);
 
     const onCheckHandler = (e) => {

@@ -532,6 +532,7 @@
     height: auto;
     white-space: pre-line;
     word-break: break-all;
+    margin-bottom: 30px;
     font-size: 17px;
 }
 

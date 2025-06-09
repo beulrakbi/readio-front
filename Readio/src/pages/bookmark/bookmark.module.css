@@ -3,7 +3,7 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 .bookmarkContainer {
-    width: 60%;
+    width: 60%; /* 기본 너비 */
     height: 85vh;
     display: flex;
     flex-direction: column;
@@ -54,7 +54,6 @@
 .scrollableContent {
   flex-grow: 1;
   overflow-y: auto;
-  /* padding-right: 10px;  필요 시 스크롤바와 내용 간격 조절 */
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
 }
@@ -79,75 +78,59 @@
 
 
 .bookmarkItem {
-    width: 80%;
-    height: 120px; /* 기존 높이 유지 */
+    width: 80%; /* 기본 너비 */
+    height: 120px;
     display: flex;
-    align-items: center; /* 아이템 중앙 정렬 */
+    align-items: center;
     margin: auto;
     margin-top: 30px;
-    /* padding: 10px; */ /* 내부 패딩 추가하면 더 보기 좋음 */
-    /* background-color: #fff; */
-    /* border-radius: 8px; */
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); */
 }
 
-/* 기존 imgbox 스타일 유지 (책 북마크용) */
 .imgbox{
     margin: 20px;
     flex-shrink: 0;
 }
 
-/* 새로 추가: 영상 섬네일 Wrapper */
 .videoThumbnailWrapper {
-    width: 140px; /* 섬네일 너비 지정 (videoBox 기존 200px보다 줄임) */
-    height: 80px; /* bookmarkItem 높이에 맞춤 */
-    margin-right: 20px; /* 정보와의 간격 */
+    width: 140px;
+    height: 80px;
+    margin-right: 20px;
     flex-shrink: 0;
-    overflow: hidden; /* 이미지 잘림 방지 (필요 시) */
-    border-radius: 4px; /* 모서리 둥글게 */
-    display: flex; /* 이미지를 중앙 정렬하기 위해 flexbox 사용 */
+    overflow: hidden;
+    border-radius: 4px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ddd; /* 로딩 중 또는 이미지 없을 때 배경 */
+    background-color: #ddd;
 }
 
-/* 새로 추가: 실제 영상 섬네일 이미지 */
 .videoThumbnail {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 이미지가 잘리지 않고 div에 꽉 차게 */
-    display: block; /* img 태그 아래 여백 제거 */
+    object-fit: cover;
+    display: block;
 }
-
-/* 기존 videoBox는 사용하지 않으므로 삭제해도 무방 */
-/* .videoBox{
-    border: 1px solid black;
-    width: 200px;
-    height: 100px;
-    flex-shrink: 0;
-} */
-
 
 .bookmarkInfo {
     display: flex;
-    align-items: flex-start; /* 텍스트를 위쪽에 정렬 */
+    align-items: flex-start;
     flex-direction: column;
-    margin-left: 0; /* 섬네일 Wrapper에 마진이 있으므로 여기는 0 */
+    margin-left: 0;
     flex-grow: 1;
-    text-align: left; /* 텍스트 왼쪽 정렬 */
+    text-align: left;
 }
 
 .bookmarkTitle {
     font-size: 18px;
-    font-weight: bold; /* 제목을 더 두껍게 */
-    margin-bottom: 5px; /* 제목과 채널명 사이 간격 */
+    font-weight: bold;
+    margin-bottom: 5px;
     list-style: none;
 }
 
 .bookmarkSubtitle {
     font-size: 15px;
     list-style: none;
-    color: #666; /* 채널명 색상 연하게 */
+    color: #666;
 }
 
 .bookmarkActionButton {
@@ -174,4 +157,79 @@
   padding: 30px;
   color: #777;
   font-size: 16px;
+}
+
+/* --- 미디어 쿼리 추가 --- */
+
+/* 태블릿 (768px 이하) */
+@media (max-width: 768px) {
+    .bookmarkContainer {
+        width: 90%; /* 넓이 조정 */
+        height: auto; /* 높이 자동 조정 */
+        margin-bottom: 40px; /* 하단 마진 조정 */
+    }
+
+    .tabButtonWrapper {
+        height: 80px; /* 탭 버튼 높이 줄임 */
+        margin-top: 30px; /* 상단 마진 줄임 */
+    }
+
+    .tabButton {
+        font-size: 20px; /* 탭 버튼 폰트 크기 줄임 */
+    }
+
+    .bookmarkItem {
+        width: 95%; /* 아이템 넓이 조정 */
+        height: auto; /* 높이 자동 조정 */
+        flex-direction: column; /* 세로로 쌓기 */
+        align-items: flex-start; /* 왼쪽 정렬 */
+        margin-top: 20px; /* 상단 마진 줄임 */
+        padding: 10px; /* 내부 패딩 추가 */
+    }
+
+    .imgbox, .videoThumbnailWrapper {
+        width: 100%; /* 이미지/영상 썸네일 넓이 100% */
+        height: auto; /* 높이 자동 */
+        margin: 10px 0; /* 상하 마진 */
+    }
+
+    .bookmarkInfo {
+        margin-left: 0; /* 왼쪽 마진 제거 */
+        margin-top: 10px; /* 상단 마진 추가 */
+    }
+
+    .bookmarkActionButton {
+        margin: 10px auto 0; /* 가운데 정렬 및 상단/하단 마진 */
+    }
+}
+
+/* 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .bookmarkContainer {
+        width: 100%; /* 넓이 100% */
+        margin-bottom: 20px; /* 하단 마진 더 줄임 */
+    }
+
+    .tabButtonWrapper {
+        height: 60px; /* 탭 버튼 높이 더 줄임 */
+        margin-top: 20px; /* 상단 마진 더 줄임 */
+    }
+
+    .tabButton {
+        font-size: 16px; /* 탭 버튼 폰트 크기 더 줄임 */
+    }
+
+    .bookmarkTitle {
+        font-size: 16px; /* 제목 폰트 크기 줄임 */
+    }
+
+    .bookmarkSubtitle {
+        font-size: 14px; /* 부제목 폰트 크기 줄임 */
+    }
+
+    .bookmarkActionButton {
+        font-size: 14px; /* 버튼 폰트 크기 줄임 */
+        width: 70px; /* 버튼 너비 줄임 */
+        height: 30px; /* 버튼 높이 줄임 */
+    }
 }

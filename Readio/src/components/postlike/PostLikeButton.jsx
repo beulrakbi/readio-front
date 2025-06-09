@@ -6,24 +6,33 @@ import PostCSS from '../../pages/post/Post.module.css'; // PostDetail의 CSS 모
 import postLike from '../../assets/postLike.png';         // '좋아요 안 함' 아이콘
 import postBeLike from '../../assets/postBeLike.png';     // '좋아요 함' 아이콘
 
-function PostLikeButton({ postId }) {
+function PostLikeButton({ postId, onLikeDataLoaded }) {
     const dispatch = useDispatch();
 
-    const {
-        isLiked = false,    // 기본값: 좋아요 안 함
-        isLoading = false,
-        // error // 에러 표시는 PostDetail에서 할 수도 있음
-    } = useSelector(state => state.likeReducer.posts[postId]) || { 
-        isLiked: false, isLoading: true // 데이터 없을 시 초기 로딩으로 간주 (useEffect에서 fetch)
-    };
-    
-    const isLoggedIn = !!localStorage.getItem("accessToken");
+    const likeInfo = useSelector(state => state.likeReducer.posts?.[postId]);
+    const isLiked = likeInfo?.isLiked || false;
+    const isLoading = likeInfo?.isLoading || false;
+
+    const isLoggedIn = !!sessionStorage.getItem("accessToken");
         console.log('[LikeButton] handleLikeToggle called!');
         console.log('[LikeButton] isLoggedIn:', isLoggedIn);
         console.log('[LikeButton] isLoading:', isLoading);
         console.log('[LikeButton] postId:', postId);
         console.log('[LikeButton] current isLiked state:', isLiked);
 
+    useEffect(() => {
+        // 로그인 상태이고, 아직 해당 게시물의 좋아요 정보가 없을 때만 서버에 요청
+        if (isLoggedIn && postId && likeInfo === undefined) {
+            dispatch(apiGetPostLikeInfo(postId));
+        }
+    }, [dispatch, postId, isLoggedIn, likeInfo]);
+
+    useEffect(() => {
+        if (typeof onLikeDataLoaded === 'function' && likeInfo) {
+            onLikeDataLoaded(likeInfo); // { isLiked, likeCount } 객체 전체를 전달
+        }
+    }, [likeInfo, onLikeDataLoaded]);
+    
     const handleLikeToggle = () => {
         if (!isLoggedIn) {
             alert("로그인이 필요한 기능입니다.");
