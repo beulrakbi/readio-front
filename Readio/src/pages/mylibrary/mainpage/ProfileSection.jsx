@@ -18,11 +18,6 @@ const ProfileSection = () => {
 
     const userRole = useSelector(state => state.user.userInfo?.userRole);
 
-    useEffect(() => {
-        console.log("currentUserId", currentUserId);
-        console.log("param", paramUserId);
-        console.log("userid", targetUserId);
-    }, [targetUserId, currentUserId, paramUserId])
 
     const [profile, setProfile] = useState({
         profileId: null,
@@ -54,7 +49,7 @@ const ProfileSection = () => {
             try {
                 const token = sessionStorage.getItem("accessToken");
 
-                const res = await axios.get(`/api/user/profile/${targetUserId}`, {
+                const res = await axios.get(`http://localhost:8080/api/user/profile/${targetUserId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -167,7 +162,8 @@ const ProfileSection = () => {
     useEffect(() => {
         console.log("counts", reviewCount);
         console.log("postcounts", postCount);
-    }, [reviewCount, postCount])
+        console.log("profile", profile);
+    }, [reviewCount, postCount, profile])
 
 
 
@@ -226,7 +222,7 @@ const ProfileSection = () => {
                         onClick={() => navigate(`/mylibrary/postAndReview/`, { state: { click: 'post' } })}
                         style={{ cursor: 'pointer' }}
                     >
-                        <strong>{postCount.data}</strong><span>포스트</span>
+                        <strong>{typeof postCount?.data === 'number' ? postCount.data : parseInt(postCount.data)}</strong><span>포스트</span>
                     </div>
                     <div
                         className={styles.statItem}

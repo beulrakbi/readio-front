@@ -28,6 +28,7 @@ function ReportedPostDetail()
             if(confirm('노출처리 하시겠습니까?'))
             {
                 dispatch(callReportedPostUpdateAPI({reportId: param.reportId}));
+                navigate(-1);
             }
         }
         else
@@ -35,6 +36,7 @@ function ReportedPostDetail()
             if(confirm('숨김처리 하시겠습니까?'))
             {
                 dispatch(callReportedPostUpdateAPI({reportId: param.reportId}));
+                navigate(-1);
             }
 
         }

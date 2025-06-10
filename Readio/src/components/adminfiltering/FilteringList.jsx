@@ -1,5 +1,5 @@
 import FListCSS from './Filtering.module.css';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
 import {callFilteringGroupsAPI} from "../../apis/FilteringAPICalls.js";
 import {useEffect, useState} from "react";
@@ -14,6 +14,8 @@ function FilteringList()
     const filteringGroupList = filteringGroups.data;
     const type = useSelector(state => state.curation.type);
     const navigate = useNavigate();
+
+    const location = useLocation();
 
     const pageInfo = filteringGroups.pageInfo;
     const [start, setStart] = useState(0);
@@ -31,6 +33,13 @@ function FilteringList()
         dispatch(callFilteringGroupsAPI({currentPage: currentPage}));
         dispatch(callCurationTypesForAdminAPI());
     }, [currentPage]);
+
+    useEffect(() => {
+        setStart((currentPage - 1) * 5);
+        dispatch(callFilteringGroupsAPI({currentPage: currentPage}));
+        dispatch(callCurationTypesForAdminAPI());
+    }, [location.pathname]);
+
 
     const onClickFilteringGroupHandler = (groupId) => {
         navigate(`/admin/filtering/${groupId}`);

@@ -16,7 +16,7 @@ function ReportedReviewDetail()
     useEffect(() => {
         dispatch(callReportedReviewAPI({reportId: param.reportId}));
         console.log("param", param);
-    }, [])
+    }, [reportedReviewDetail.isHidden])
 
 
     useEffect(() => {
@@ -29,6 +29,7 @@ function ReportedReviewDetail()
             if(confirm('노출처리 하시겠습니까?'))
             {
                 dispatch(callReportedReviewUpdateAPI({reportId: param.reportId}));
+                navigate(-1);
             }
         }
         else
@@ -36,6 +37,7 @@ function ReportedReviewDetail()
             if(confirm('숨김처리 하시겠습니까?'))
             {
                 dispatch(callReportedReviewUpdateAPI({reportId: param.reportId}));
+                navigate(-1);
             }
 
         }

@@ -25,7 +25,7 @@ const EditProfilePage = () => {
 
     const handleImageDelete = async () => {
         try {
-            await axios.delete(`/api/user/profile/image/ ${userId}`, {
+            await axios.delete(`/api/user/profile/image/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
@@ -48,7 +48,7 @@ const EditProfilePage = () => {
         }
 
         try {
-            await axios.post('/api/user/profile', formData, {
+            await axios.post('http://localhost:8080/api/user/profile', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
@@ -69,7 +69,7 @@ const EditProfilePage = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get(`/api/user/profile/${userId}`,{
+                const res = await axios.get(`http://localhost:8080/api/user/profile/${userId}`,{
                     headers:{
                         Authorization: `Bearer ${token}`,
                     }

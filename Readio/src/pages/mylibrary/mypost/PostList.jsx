@@ -69,7 +69,7 @@ function PostList() {
     return (
 
         <div className={PostListCSS.followDiv}>
-            <button className={PostListCSS.followBackBt}>&lt;</button>
+            <button className={PostListCSS.followBackBt} onClick={()=> navigate(-1)}>&lt; 뒤로가기</button>
             <div className={PostListCSS.followDiv2}>
 
                 <div className={PostListCSS.followTapDiv}>

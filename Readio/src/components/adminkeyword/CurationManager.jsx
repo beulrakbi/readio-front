@@ -29,10 +29,8 @@ function CurationManager() {
     const onChangeHandler = (e) => {
         const text = e.target.value;
         setKeywordsType(prev => ({
-            ...prev,
-            type: {
-                ...prev.type,
-                typeText: text
+            ...prev, type: {
+                ...prev.type, typeText: text
             }
         }));
     };
@@ -52,7 +50,7 @@ function CurationManager() {
         dispatch(callAllCurationTypesAndKeywordsAPI());
         setId(0);
         setKeywordsType(curation.type[0]?.type);
-        const savedKeywords = curation.keywords?.map((word,index) => ({
+        const savedKeywords = curation.keywords?.map((word, index) => ({
             orderNum: index, keyword: word.keyword, isUnsaved: false, typeId: word.typeId
         }));
         setKeywords(savedKeywords);
@@ -78,29 +76,32 @@ function CurationManager() {
 
     const save = async () => {
 
-        console.log("keywordsType:", keywordsType);
-        console.log("keywordsType.type:", keywordsType.type);
-        console.log("typeId:", keywordsType.type?.typeId);
-        console.log("typeName:", keywordsType.type?.typeName);
-        console.log("typeText:", keywordsType.type?.typeText);
+        if (confirm('저장하시겠습니까?')) {
+
+            console.log("keywordsType:", keywordsType);
+            console.log("keywordsType.type:", keywordsType.type);
+            console.log("typeId:", keywordsType.type?.typeId);
+            console.log("typeName:", keywordsType.type?.typeName);
+            console.log("typeText:", keywordsType.type?.typeText);
 
 
-        try {
-            const curationDTO = {
+            try {
+                const curationDTO = {
                     curationType: {
                         typeText: keywordsType.type.typeText,
                         typeId: keywordsType.type.typeId,
                         typeName: keywordsType.type.typeName
-                },
-                    curationKeywords: keywords
-            };
+                    }, curationKeywords: keywords
+                };
 
-            console.log('전송할 데이터:', JSON.stringify(curationDTO, null, 2)); // 디버깅용
-            dispatch(callUpdateAllAPI(curationDTO));
-            // navigate(`/admin/curation`);
+                console.log('전송할 데이터:', JSON.stringify(curationDTO, null, 2)); // 디버깅용
+                dispatch(callUpdateAllAPI(curationDTO));
+                navigate(0);
 
-        } catch (error) {
-            console.error("Error in save:", error);
+            } catch (error) {
+                console.error("Error in save:", error);
+            }
+
         }
 
     }
@@ -121,40 +122,37 @@ function CurationManager() {
         </div>
         <hr className={CurationCSS.filteringLine}/>
         <div className={CurationCSS.filteringDetailContent}>
-            {typeId < 0 ? null : (
-                <input
+            {typeId < 0 ? null : (<input
                     className={CurationCSS.curationTypeText}
                     onChange={onChangeHandler}
                     type="text"
                     name="typeText"
                     value={keywordsType?.type?.typeText} // undefined 대신 빈 문자열 사용
-                />
-            )}
+                />)}
             <div className={CurationCSS.filteringKeywords}>
                 {keywords?.map(word => (<div className={CurationCSS.filteringWrapper} key={word.orderNum}>
-                        {!word.isUnsaved ? (<p className={CurationCSS.savedKeyword}>{word.keyword}</p>)
-                            :
-                            (<input className={CurationCSS.filteringInput} type="text"
-                                    placeholder="입력하세요"
-                                    name="keyword"
-                                    onKeyDown={(e) => {
-                                        if (e.key == 'Enter') {
-                                            enterKeyword(e, word.orderNum);
-                                        }
-                                    }}
-                            />)}
-                        <button className={CurationCSS.noneBt} type="button"
-                                onClick={() => deleteKeyword(word.orderNum)}>X
-                        </button>
-                    </div>))}
+                    {!word.isUnsaved ? (<p className={CurationCSS.savedKeyword}>{word.keyword}</p>) : (
+                        <input className={CurationCSS.filteringInput} type="text"
+                               placeholder="입력하세요"
+                               name="keyword"
+                               onKeyDown={(e) => {
+                                   if (e.key == 'Enter') {
+                                       enterKeyword(e, word.orderNum);
+                                   }
+                               }}
+                        />)}
+                    <button className={CurationCSS.noneBt} type="button"
+                            onClick={() => deleteKeyword(word.orderNum)}>X
+                    </button>
+                </div>))}
                 {typeId < 0 ? null : <button className={CurationCSS.redBt} onClick={CreateKeyword}>+</button>}
             </div>
         </div>
         <hr className={CurationCSS.filteringLine}/>
-    <div className={CurationCSS.paging}>
-        <p className={CurationCSS.font2} onClick={save}>저장하기</p>
-    </div>
-</div>)
+        <div className={CurationCSS.paging}>
+            <p className={CurationCSS.font2} onClick={save}>저장하기</p>
+        </div>
+    </div>)
 }
 
 export default CurationManager;

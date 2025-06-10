@@ -4,6 +4,7 @@ import ProfileSection from './ProfileSection.jsx';
 import BookmarkSection from "./BookmarkSection.jsx";
 import CalendarSection from "./CalendarSection.jsx";
 import axios from "axios";
+import {useLocation} from "react-router-dom";
 
 const MyLibraryPage = () => {
     const [isOwner, setIsOwner] = useState(true);
@@ -27,6 +28,8 @@ const MyLibraryPage = () => {
             console.error("서재 공개 여부 조회 실패", err);
         });
     }, []);
+
+
 
     return (
         <div className={styles.profileSectionWrapper}>
