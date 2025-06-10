@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import eraserImg from '../../assets/UserDelete-eraser.png'; // 지우개 이미지 경로
 import styles from './UserDelete.module.css';
-import { useNavigate } from 'react-router-dom';
 
 function UserDelete() {
     const [userId, setUserId] = useState('');
@@ -103,7 +103,7 @@ function UserDelete() {
                         </div>
                         {showError && (
                             <p className={styles.error}>안내 사항에 동의하셔야 탈퇴가 가능합니다.</p>
-                        )};
+                        )}
                     </div>
                 </div>
             </div>
