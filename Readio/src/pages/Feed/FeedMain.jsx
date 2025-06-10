@@ -157,13 +157,11 @@ function FeedMain() {
             let method = '';
 
             if (itemType === 'POST') {
-                // 게시물 신고 API 주소 (실제 주소로 변경 필요)
                 requestURL = `http://localhost:8080/post/report/${itemId}`;
-                method = 'POST'; // 또는 PUT
+                method = 'POST';
             } else if (itemType === 'REVIEW') {
-                // 리뷰 신고 API 주소 (BookReviewController.java 참고)
                 requestURL = `http://localhost:8080/bookReview/${itemId}/report`;
-                method = 'PUT'; // ★★★ BookReviewController는 PUT 방식이었습니다 ★★★
+                method = 'PUT';
             } else {
                 alert("알 수 없는 콘텐츠 타입입니다.");
                 return;
@@ -185,7 +183,6 @@ function FeedMain() {
 
             } catch (error) {
                 console.error("신고 처리 오류:", error);
-                // 백엔드에서 "이미 신고한 리뷰" 등의 메시지를 보내주면 그대로 표시
                 alert(error.message);
             }
         }
