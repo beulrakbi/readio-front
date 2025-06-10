@@ -17,10 +17,17 @@ function TopVideos() {
             const format = (d) => d.toISOString().slice(0, 10);
 
             try {
+                // const rawData = await getClickAnalytics({
+                //     type: 'video',
+                //     sort: 'click',
+                //     startDate: format(oneWeekAgo),
+                //     endDate: format(today),
+                //     limit: 10
+                // });
                 const rawData = await getClickAnalytics({
                     type: 'video',
                     sort: 'click',
-                    startDate: format(oneWeekAgo),
+                    startDate: '2025-05-01',
                     endDate: format(today),
                     limit: 10
                 });

@@ -3,6 +3,7 @@ import { callSearchVideosAPI, callTopVideosAPI, callVideoInsertAPI, callVideosAP
 
 
 export async function getVideosByKeyword(type, keyword, dispatch) {
+    console.log("keyword 잘 오냐:", keyword, "type은뭐냐:", type);
     let result = await dispatch(callVideosAPI({type:type, search: keyword}));
 
     if (result) {
@@ -24,15 +25,17 @@ export async function getTopVideos(dispatch) {
 
 
 export async function getNewVideos(type, keyword, dispatch, num, foundVideos, filtering) {
-
+    console.log("keyword 잘 오냐:", keyword, "type은뭐냐:", type);
     // AIzaSyBmgnlyqWd6hYWztLA-_gM4TgIEx2XGd6s (수민)
     // AIzaSyDhnTEJd1zHHo-o98rsn51pHTYX8mbPI4I (성경님)
 
     // 추가 API 
     // AIzaSyA2Cyb_5A9hMOylg1aAqCBSbsaUfYnHMEA (성경님)
     // AIzaSyBgFSJpcl_vuWe0oHdP-S59-E_zWIbouto (수민)
+    // AIzaSyBGSUwC4IbniXmnHaPJpTRgr4mQ0oWdwbo
+    // AIzaSyACDInlwb5PHS9y-M8hsqv8Pc0WH5hef8Y
 
-    let maxResult = 5;
+    let maxResult = 10;
 
     if (maxResult <= num) {
 
@@ -61,13 +64,13 @@ export async function getNewVideos(type, keyword, dispatch, num, foundVideos, fi
                     keyword += "- " + filtering[i].videoId;
             }
         }
-        // console.log("Filter", filtering);
-        // console.log("최종 쿼리", keyword);
         maxResult = maxResult - num;
 
         try {
             const encodedKeyword = encodeURIComponent(keyword);
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBNV1sIWpZ7v673GAponvUY-3G7cTWIDX8';
+            console.log("최종키워드?", encodedKeyword);
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyACDInlwb5PHS9y-M8hsqv8Pc0WH5hef8Y';
+            console.log("최종url?", baseUrl);
             // const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + keyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyA2Cyb_5A9hMOylg1aAqCBSbsaUfYnHMEA';
             const data = await fetch(baseUrl);
             const json = await data.json();
@@ -139,7 +142,8 @@ export async function searchNewVideos(keyword, dispatch, num, foundVideos, filte
 
         try {
             const encodedKeyword = encodeURIComponent(keyword);
-            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyBNV1sIWpZ7v673GAponvUY-3G7cTWIDX8';
+            console.log("최종키워드?", encodedKeyword);
+            const baseUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + encodedKeyword + '&type=video&maxResults=' + maxResult + '&key=AIzaSyA8b2XYD6ujd4sTES4Ry4_w7Ww-ioxyBds';
             const data = await fetch(baseUrl);
             const json = await data.json();
 

@@ -230,11 +230,6 @@ function VideoList({type, userCoords, userId}) {
                 const allVideos = [];
                 for (let i = 0; i < keywords.length; i++) {
                     let keyword = keywords[i].keyword;
-                    let newKeyword;
-
-                    if (type.typeId === 7 || type.typeId === 9) { // typeId 5,6 은 위의 로직에서 처리 이 로직을 타지 않음.
-                        newKeyword = keyword + " 도서";
-                    }
 
                     let result1; // DB 검색 결과
                     let result2; // API 검색 결과
@@ -248,7 +243,7 @@ function VideoList({type, userCoords, userId}) {
 
                     const numInDB = getVideosAwait?.num || 0;
                     // 각 키워드 및 DB 검색 결과를 바탕으로 YouTube에서 추가 영상 검색
-                    const getNewVideoAwait = await getNewVideos(type.typeId, newKeyword, dispatch, numInDB, result1 || [], filters); // 수정: allVideosInDB 대신 현재 키워드의 DB결과(result1)를 넘겨야 정확한 제외 검색 가능
+                    const getNewVideoAwait = await getNewVideos(type.typeId, keyword, dispatch, numInDB, result1 || [], filters); // 수정: allVideosInDB 대신 현재 키워드의 DB결과(result1)를 넘겨야 정확한 제외 검색 가능
                     if (getNewVideoAwait) {
                         result2 = getNewVideoAwait;
                         allVideos.push(...result2);
@@ -260,6 +255,7 @@ function VideoList({type, userCoords, userId}) {
                 const uniqueVideos = Array.from(new Map(allVideos.map((v) => [v.id.videoId, v])).values());
                 setVideoInDBList(uniqueVideosInDB);
                 setVideoList(uniqueVideos);
+
             }
         }
     }
@@ -351,7 +347,6 @@ function VideoList({type, userCoords, userId}) {
                             <VIdeoInDB videoInDB={video}/>
                         </div>);
                     })}
-
 
                 </div>
                 <div className={VideoListCSS.line}></div>
